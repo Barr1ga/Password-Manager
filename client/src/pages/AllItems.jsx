@@ -12,22 +12,6 @@ const AllItems = () => {
         <PasswordItem></PasswordItem>
         <PasswordItem></PasswordItem>
         <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
-        <PasswordItem></PasswordItem>
       </div>
     </div>
   );

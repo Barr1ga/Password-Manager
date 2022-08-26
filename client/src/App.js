@@ -11,6 +11,7 @@ import WifiPasswords from "./pages/WifiPasswords";
 import SharingCenter from "./pages/SharingCenter";
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
+import OtherLinks from "./components/OtherLinks"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -67,6 +68,7 @@ const App = () => {
         <div className="right-margin standard-stack gap-10">
           <SiteWarning></SiteWarning>
           <VaultMembers></VaultMembers>
+          <OtherLinks></OtherLinks>
         </div>
       </div>
     </BrowserRouter>

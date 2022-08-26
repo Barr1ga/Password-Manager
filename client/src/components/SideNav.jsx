@@ -1,31 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { RiArrowRightSLine } from "react-icons/ri";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
-    HiOutlineSearch,
   HiOutlineViewGrid,
   HiViewGrid,
   HiOutlineStar,
   HiStar,
   HiOutlineTrash,
   HiTrash,
-  HiOutlineGlobe,
-  HiGlobe,
-  HiOutlineCreditCard,
-  HiCreditCard,
-  HiOutlineIdentification,
-  HiIdentification,
-  HiOutlineDocumentText,
-  HiDocumentText,
-  HiOutlineWifi,
-  HiWifi,
-  HiOutlineUsers,
-  HiUsers,
-  HiOutlineFolder,
-  HiFolder,
 } from "react-icons/hi";
+import SideNavTypes from "./SideNavTypes";
+import SideNavFolder from "./SideNavFolder";
 
 const SideNav = () => {
+  const route = useLocation().pathname;
+  const [folders, setFolders] = useState([
+    { folderName: "Folder 1", contents: ["Item 1", "Item 2"] },
+    { folderName: "Folder 2", contents: ["Item 1", "Item 2", "Item 3"] },
+  ]);
+
   return (
     <div className="side-nav standard-stack gap-10">
       <h5>My Vault</h5>
@@ -37,44 +29,53 @@ const SideNav = () => {
         ></input>
       </form>
       <div className="standard-stack">
-        <Link to="/" className="sidenav-button">
-          <HiOutlineViewGrid></HiOutlineViewGrid>All Items
+        <Link
+          to="/"
+          className={
+            route === "/" ? "sidenav-button selected" : "sidenav-button"
+          }
+        >
+          {route === "/" ? (
+            <HiViewGrid></HiViewGrid>
+          ) : (
+            <HiOutlineViewGrid></HiOutlineViewGrid>
+          )}
+          All Items
         </Link>
-        <Link to="/Favorites" className="sidenav-button">
-          <HiOutlineStar></HiOutlineStar>Favorites
+        <Link
+          to="/Favorites"
+          className={
+            route === "/Favorites"
+              ? "sidenav-button selected"
+              : "sidenav-button"
+          }
+        >
+          {route === "/Favorites" ? (
+            <HiStar></HiStar>
+          ) : (
+            <HiOutlineStar></HiOutlineStar>
+          )}
+          Favorites
         </Link>
-        <Link to="/Trash" className="sidenav-button">
-          <HiOutlineTrash></HiOutlineTrash>Trash
+        <Link
+          to="/Trash"
+          className={
+            route === "/Trash" ? "sidenav-button selected" : "sidenav-button"
+          }
+        >
+          {route === "/Trash" ? (
+            <HiTrash></HiTrash>
+          ) : (
+            <HiOutlineTrash></HiOutlineTrash>
+          )}
+          Trash
         </Link>
       </div>
+      <SideNavTypes></SideNavTypes>
 
-      <span className="category-folder-title">
-        types<RiArrowRightSLine></RiArrowRightSLine>
-      </span>
-
-      <div className="standard-stack">
-        <Link to="/Login" className="sidenav-button">
-          <HiOutlineGlobe></HiOutlineGlobe>Login
-        </Link>
-        <Link to="/Card" className="sidenav-button">
-          <HiOutlineCreditCard></HiOutlineCreditCard>Card
-        </Link>
-        <Link to="/Identity" className="sidenav-button">
-          <HiOutlineIdentification></HiOutlineIdentification>Identifications
-        </Link>
-        <Link to="/Secure Note" className="sidenav-button">
-          <HiOutlineDocumentText></HiOutlineDocumentText>Secure Note
-        </Link>
-        <Link to="/Secure Note" className="sidenav-button">
-          <HiOutlineWifi></HiOutlineWifi>Wifi Passwords
-        </Link>
-        <Link to="/Secure Note" className="sidenav-button">
-          <HiOutlineUsers></HiOutlineUsers>Sharing Center
-        </Link>
-      </div>
-      <span className="category-folder-title">
-        folder<RiArrowRightSLine></RiArrowRightSLine>
-      </span>
+      {folders.map((folder) => (
+        <SideNavFolder folder={folder}></SideNavFolder>
+      ))}
     </div>
   );
 };

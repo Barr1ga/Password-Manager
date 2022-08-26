@@ -7,7 +7,7 @@ const Header = () => {
   return (
     <div className="header">
       <div className="margin">
-        <div className="logo gap-20">
+        <div className="logo gap-10">
           <RiShieldFlashFill className="icon"></RiShieldFlashFill>
           <h3>Vaulteer</h3>
         </div>
@@ -20,6 +20,11 @@ const Header = () => {
           <small>
             <Link to="/" className="item btn-link">
               Safety
+            </Link>
+          </small>
+          <small>
+            <Link to="/" className="item btn-link">
+              Privacy
             </Link>
           </small>
           <small>

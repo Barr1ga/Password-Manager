@@ -9,9 +9,13 @@
 html,
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #fff;
   margin: 0;
   padding: 0;
+  min-height: 100%;
+}
+
+#root {
+  height: 100vh;
 }
 
 a {
@@ -148,6 +152,7 @@ input {
   display: flex;
   justify-content: center;
   padding-top: 55px;
+  height: 100%;
 }
 
 .left-margin {
@@ -159,6 +164,7 @@ input {
   flex: 0 1 400px;
   border-left: 1px solid #d3d6db;
   border-right: 1px solid #d3d6db;
+  min-height: 100%;
 }
 
 .right-margin {
@@ -187,8 +193,13 @@ input {
   gap: 5px;
 }
 
+.side-nav .selected {
+  background-color: #d3d7db49;
+  font-weight: 600;
+}
+
 .sidenav-button:hover {
-  background-color: #d3d7db48;
+  background-color: #d3d7db70;
   color: #000;
   transition: 0.2s ease-out 0s;
 }
@@ -242,7 +253,7 @@ input {
 
 .header .icon {
   font-size: 2rem;
-  color: rgb(255, 217, 0);
+  color: rgb(254, 196, 0);
 }
 
 .header h3 {
@@ -265,6 +276,13 @@ input {
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: 0.2s ease-out 0s;
+}
+
+.header .profile:hover {
+background-color: #fff;
+transition: 0.2s ease-out 0s;
+color: #000;
 }
 
 .header .profile .image {
@@ -283,7 +301,7 @@ input {
 }
 
 .password-item:hover {
-  background-color: #d3d7db48;
+  background-color: #d3d7db70;
 }
 
 .password-item .name {
@@ -291,13 +309,13 @@ input {
 }
 
 .password-item .name .siteName {
-  color:#237bff;
+  color: #237bff;
   font-weight: 600;
 }
 
 .password-item .name .siteName .link-icon {
   color: #000;
-  opacity: 50%; 
+  opacity: 50%;
 }
 
 .password-item .icon {
@@ -309,17 +327,22 @@ input {
 
 /* site warning css */
 .site-warning {
-  border: 1px solid #eb9c0b;
+  border: 1px solid #ecb500;
   border-radius: 5px;
 }
 
 .site-warning .title {
-  background-color: #eb9d0b48;
+  background: rgb(254, 196, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(254, 196, 0, 1) 0%,
+    rgba(236, 154, 0, 1) 100%
+  );
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #eb9c0b;
-  color: #000;
+  border-bottom: 1px solid #ecb500;
+  color: #fff;
 }
 
 .site-warning .title h5 {
@@ -357,6 +380,13 @@ input {
   opacity: 50%;
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
+  transition: 0.2s ease-out 0s;
+}
+
+.vault-members .role:hover {
+  opacity: 100%;
+  transition: 0.2s ease-out 0s;
 }
 
 .vault-members .member {
@@ -366,8 +396,12 @@ input {
   padding-bottom: 10px;
 }
 
+.vault-members .member .vault-owner {
+  color: rgb(189, 138, 0); 
+}
+
 .vault-members .member:hover {
-  background-color: #d3d7db48;
+  background-color: #d3d7db70;
   display: flex;
 }
 
@@ -377,7 +411,20 @@ input {
 
 .vault-members .image {
   color: #000;
-  opacity: 50%; 
+  opacity: 50%;
   height: 20px;
   width: 20px;
+}
+
+/* other links css */
+.other-links {
+  display: flex;
+  flex-wrap: wrap;
+  color: #000;
+  opacity: 50%;
+  padding: 0 30px;
+}
+
+.other-links .btn-link:hover {
+  color: #000;
 }
