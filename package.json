@@ -1,0 +1,20 @@
+{
+  "name": "password-manager",
+  "version": "1.0.0",
+  "description": "Password manager created with react node and express",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Barr1ga/Password-Manager.git"
+  },
+  "author": "Horeb Barriga",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Barr1ga/Password-Manager/issues"
+  },
+  "homepage": "https://github.com/Barr1ga/Password-Manager#readme"
+}
