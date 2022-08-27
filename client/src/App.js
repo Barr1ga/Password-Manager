@@ -9,6 +9,9 @@ import Identity from "./pages/Identity";
 import SecureNote from "./pages/SecureNote";
 import WifiPasswords from "./pages/WifiPasswords";
 import SharingCenter from "./pages/SharingCenter";
+import MyAccount from "./pages/MyAccount";
+import MyVault from "./pages/MyVault";
+
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import OtherLinks from "./components/OtherLinks"
@@ -57,10 +60,16 @@ const App = () => {
                 Wifi Passwords
               </Route>
               <Route
-                path="/SharingCenter"
-                element={<SharingCenter></SharingCenter>}
+                path="/MyAccount"
+                element={<MyAccount></MyAccount>}
               >
-                Sharing Center
+                My Account
+              </Route>
+              <Route
+                path="/MyVault"
+                element={<MyVault></MyVault>}
+              >
+                My Vault
               </Route>
             </Routes>
           </div>

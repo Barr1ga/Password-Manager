@@ -15,7 +15,8 @@ body {
 }
 
 #root {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 a {
@@ -82,6 +83,21 @@ input {
 }
 
 /* button css */
+
+.btn-close {
+  border: 1px solid #d3d6db;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  padding: 10px;
+  transition: 0.2s ease-out 0s;
+}
+
+.btn-close:hover {
+  background-color: #d3d7db70;
+  transition: 0.2s ease-out 0s;
+}
+
 .btn-secondary {
   display: flex;
   align-items: center;
@@ -102,6 +118,26 @@ input {
   background-color: #d3d7db70;
   border: 1px solid #d3d6db;
   color: #000;
+}
+
+.btn-dark {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #000;
+  border: 1px solid #000;
+  color: #fff;
+  font-weight: 600;
+}
+
+.danger {
+  color: rgb(255, 28, 28);
+}
+
+.danger:hover {
+  background-color: rgb(255, 28, 28);
+  border: 1px solid rgb(255, 28, 28);
+  color: #fff;
 }
 
 .btn-link {
@@ -130,6 +166,14 @@ input {
 }
 
 /* form css */
+
+.form-group {
+  margin: 15px 0;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
 
 input {
   height: 45px;
@@ -163,6 +207,24 @@ input {
 .padding-side {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+.form-error {
+  border: 1px solid rgb(255, 28, 28);
+}
+
+.form-error:focus::placeholder {
+  color: rgb(255, 28, 28) !important;
+}
+
+.form-error:focus {
+  border: 1px solid rgb(255, 28, 28);
+  outline: 1px solid rgb(255, 28, 28);
+  box-shadow: none;
+}
+
+.error-message {
+  color: rgb(255, 28, 28);
 }
 
 /* sub body css */
@@ -209,6 +271,8 @@ input {
   display: flex;
   align-items: center;
   gap: 5px;
+  border: none;
+  background-color: transparent;
 }
 
 .side-nav .selected {
@@ -477,6 +541,7 @@ input {
 .page-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .page-header div:nth-child(2) {
@@ -491,4 +556,28 @@ input {
 /* password list css */
 .password-list .count {
   margin: 5px 0;
+}
+
+/* alert css */
+.warning-alert {
+  border: 1px solid rgb(189, 138, 0);
+  border-radius: 5px;
+  border-left: 5px solid rgb(189, 138, 0);
+  background-color: rgba(255, 202, 57, 0.055);
+  padding: 15px;
+}
+
+.warning-alert .alert-header {
+  color: rgb(189, 138, 0);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.warning-alert .alert-header .icon {
+  font-size: 1.2rem;
+}
+
+.delete-account {
+  color: rgb(255, 28, 28);
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { BiUserCircle } from "react-icons/bi";
+import { HiOutlineUserCircle } from "react-icons/hi";
 import { RiShieldFlashFill } from "react-icons/ri";
 import Button from "react-bootstrap/Button";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -45,17 +45,19 @@ const Header = () => {
           </small>
         </div>
         <div className="right gap-10">
-          <Link to="/settings" className="settings">
-            {route === "/settings" ? (
+          <Link to="/MyAccount" className="settings">
+            {route === "/MyAccount" ? (
               <RiSettings2Fill></RiSettings2Fill>
             ) : (
               <RiSettings2Line></RiSettings2Line>
             )}
           </Link>
-          <Button className="btn-secondary btn-profile gap-10">
-            <BiUserCircle className="image"></BiUserCircle>
-            <p>Username</p>
-          </Button>
+          <Link to="/MyAccount">
+            <Button className="btn-secondary btn-profile gap-10">
+              <HiOutlineUserCircle className="image"></HiOutlineUserCircle>
+              <p>Username</p>
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
