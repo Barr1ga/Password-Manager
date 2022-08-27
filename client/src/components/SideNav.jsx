@@ -27,7 +27,7 @@ const SideNav = () => {
     <div className="side-nav standard-stack gap-10">
       {route !== "/MyAccount" && route !== "/MyVault" ? (
         <>
-          <h5>Vault Settings</h5>
+          <h5>My Vault</h5>
           <form>
             <input
               type="text"
@@ -104,7 +104,7 @@ const SideNav = () => {
         </>
       ) : (
         <>
-          <h5>My Vault</h5>
+          <h5>Vault Settings</h5>
           <form>
             <input
               type="text"
