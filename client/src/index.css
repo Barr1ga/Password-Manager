@@ -83,7 +83,6 @@ input {
 }
 
 /* button css */
-
 .btn-close {
   border: 1px solid #d3d6db;
   border-radius: 50%;
@@ -166,9 +165,13 @@ input {
 }
 
 /* form css */
+/** FF*/
+
+/* The slider itself */
+
 
 .form-group {
-  margin: 15px 0;
+  margin-bottom: 15px;
 }
 
 .form-group label {
@@ -178,6 +181,12 @@ input {
 input {
   height: 45px;
   border-radius: 8px;
+}
+
+.form-checkbox {
+  border: 1px solid #d3d6db;
+  height: 15px;
+  width: 15px;
 }
 
 .form-control {
@@ -224,7 +233,7 @@ input {
 }
 
 .error-message {
-  color: rgb(255, 28, 28);
+  color: rgb(255, 28, z28);
 }
 
 /* sub body css */
@@ -232,6 +241,7 @@ input {
   display: flex;
   justify-content: center;
   padding-top: 55px;
+  min-height: 100vh;
   height: 100%;
 }
 
@@ -276,7 +286,7 @@ input {
 }
 
 .side-nav .selected {
-  background-color: #d3d7db49;
+  background-color: #d3d7db70;
   font-weight: 600;
 }
 
@@ -468,13 +478,13 @@ input {
 }
 
 /* vault members css */
-.vault-members {
+.right-vault-members {
   border: 1px solid #d3d6db;
   border-radius: 5px;
 }
 
 .vault-members h5 {
-  padding: 15px;
+  padding: 15px 15px 0 15px;
   margin-bottom: 0;
 }
 
@@ -564,7 +574,7 @@ input {
   border-radius: 5px;
   border-left: 5px solid rgb(189, 138, 0);
   background-color: rgba(255, 202, 57, 0.055);
-  padding: 15px;
+  padding: 10px 15px;
 }
 
 .warning-alert .alert-header {
@@ -581,3 +591,56 @@ input {
 .delete-account {
   color: rgb(255, 28, 28);
 }
+
+/* roles css */
+.roles-list-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.role-item {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+}
+
+.role-item:hover {
+  background-color: #d3d7db70;
+}
+
+.role-item .name {
+  text-transform: uppercase;
+  flex-grow: 1;
+}
+
+.role-item .icon {
+  opacity: 50%;
+}
+
+.role-count {
+  margin: 5px 0;
+}
+
+/* filters css */
+.filters-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+/* password generator css */
+
+.password-generator .form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.password-generator .form-group .length {
+  width: 100px;
+}
+
+
+

@@ -10,11 +10,12 @@ import SecureNote from "./pages/SecureNote";
 import WifiPasswords from "./pages/WifiPasswords";
 import SharingCenter from "./pages/SharingCenter";
 import MyAccount from "./pages/MyAccount";
-import MyVault from "./pages/MyVault";
+import Members from "./pages/Members";
+import Roles from "./pages/Roles";
 
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
-import OtherLinks from "./components/OtherLinks"
+import OtherLinks from "./components/OtherLinks";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -59,24 +60,24 @@ const App = () => {
               >
                 Wifi Passwords
               </Route>
-              <Route
-                path="/MyAccount"
-                element={<MyAccount></MyAccount>}
-              >
+              <Route path="/MyAccount" element={<MyAccount></MyAccount>}>
                 My Account
               </Route>
-              <Route
-                path="/MyVault"
-                element={<MyVault></MyVault>}
-              >
-                My Vault
+              <Route path="/Members" element={<Members></Members>}>
+                Members
+              </Route>
+              <Route path="/Roles" element={<Roles></Roles>}>
+                Roles
               </Route>
             </Routes>
           </div>
         </div>
         <div className="right-margin standard-stack gap-10">
           <SiteWarning></SiteWarning>
-          <VaultMembers></VaultMembers>
+
+          <div className="right-vault-members">
+            <VaultMembers></VaultMembers>
+          </div>
           <OtherLinks></OtherLinks>
         </div>
       </div>

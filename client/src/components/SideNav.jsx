@@ -9,8 +9,10 @@ import {
   HiTrash,
   HiOutlineUser,
   HiUser,
-  HiOutlineLockClosed,
-  HiLockClosed,
+  HiOutlineUserGroup,
+  HiUserGroup,
+  HiOutlineShieldCheck,
+  HiShieldCheck
 } from "react-icons/hi";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
@@ -25,7 +27,7 @@ const SideNav = () => {
 
   return (
     <div className="side-nav standard-stack gap-10">
-      {route !== "/MyAccount" && route !== "/MyVault" ? (
+      {route !== "/MyAccount" && route !== "/Members" && route !== "/Roles" ? (
         <>
           <h5>My Vault</h5>
           <form>
@@ -129,19 +131,35 @@ const SideNav = () => {
               My Account
             </Link>
             <Link
-              to="/MyVault"
+              to="/Members"
               className={
-                route === "/MyVault"
+                route === "/Members"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
             >
-              {route === "/MyVault" ? (
-                <HiLockClosed></HiLockClosed>
+              {route === "/Members" ? (
+                <HiUserGroup></HiUserGroup>
               ) : (
-                <HiOutlineLockClosed></HiOutlineLockClosed>
+                <HiOutlineUserGroup></HiOutlineUserGroup>
               )}
-              My Vault
+              Members
+            </Link>
+
+            <Link
+              to="/Roles"
+              className={
+                route === "/Roles"
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
+              }
+            >
+              {route === "/Roles" ? (
+                <HiShieldCheck></HiShieldCheck>
+              ) : (
+                <HiOutlineShieldCheck></HiOutlineShieldCheck>
+              )}
+              Roles
             </Link>
           </div>
         </>

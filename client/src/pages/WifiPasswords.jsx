@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PasswordItem from "../components/PasswordItem";
-import AddItem from "../components/AddItem";
+import AddButton from "../components/AddButton";
 import Filters from "../components/Filters";
 
 const WifiPasswords = () => {
@@ -9,7 +9,7 @@ const WifiPasswords = () => {
       id: 1,
       siteName: "Facebook",
       email: "hor.barr1ga@gmail.com",
-      link: "https://www.facebook.com/",
+      domain: "https://www.facebook.com/",
       password: "hello123",
       type: "login",
       folder: "",
@@ -24,7 +24,7 @@ const WifiPasswords = () => {
       id: 1,
       siteName: "Discord",
       email: "horebbariga@gmail.com",
-      link: "https://www.discord.com/",
+      domain: "https://www.discord.com/",
       password: "hello123",
       type: "login",
       folder: "",
@@ -39,7 +39,7 @@ const WifiPasswords = () => {
       id: 1,
       siteName: "Instagram",
       email: "hor.barr1ga@gmail.com",
-      link: "https://www.instagram.com/",
+      domain: "https://www.instagram.com/",
       password: "hello123",
       type: "login",
       folder: "",
@@ -54,7 +54,7 @@ const WifiPasswords = () => {
       id: 1,
       siteName: "Behance",
       email: "barrigahoreb123@gmail.com",
-      link: "https://www.behance.com/",
+      domain: "https://www.behance.com/",
       password: "hello123",
       type: "login",
       folder: "",
@@ -69,7 +69,7 @@ const WifiPasswords = () => {
       id: 1,
       siteName: "USC_Wifi",
       email: "barrigahoreb123@gmail.com",
-      link: "",
+      domain: "",
       password: "hello123",
       type: "wifiPassword",
       folder: "",
@@ -85,20 +85,20 @@ const WifiPasswords = () => {
   const filteredPasswords = passwords.filter((password) => password.type === "wifiPassword" && password.trash === false);
   const count = filteredPasswords.length;
 
-
   return (
     <div className="margin-content">
       <div className="page-header padding-side">
         <h4>All Items</h4><div>
           <Filters></Filters>
-          <AddItem></AddItem>
+          <AddButton message={"Add Item"}></AddButton>
+
         </div>
       </div>
       <div className="password-list standard-stack"><span className="padding-side count">{count} Items</span>
         {filteredPasswords.map((password, idx) => <PasswordItem key={idx} password={password}></PasswordItem>)}
       </div>
       <div className="page-footer padding-side">
-        <AddItem></AddItem>
+        <AddButton message={"Add Item"}></AddButton>
       </div>
     </div>
   );

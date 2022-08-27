@@ -2,12 +2,12 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import { HiPlus } from "react-icons/hi";
 
-const AddItem = () => {
+const AddButton = ({message}) => {
   return (
     <>
-      <Button className="btn-secondary"><HiPlus></HiPlus>Add Item</Button>
+      <Button className="btn-secondary"><HiPlus></HiPlus>{message}</Button>
     </>
   );
 };
 
-export default AddItem;
+export default AddButton;
