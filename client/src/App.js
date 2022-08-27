@@ -47,17 +47,17 @@ const App = () => {
               <Route path="/Identity" element={<Identity></Identity>}>
                 Identity
               </Route>
-              <Route path="/Secure Note" element={<SecureNote></SecureNote>}>
+              <Route path="/SecureNote" element={<SecureNote></SecureNote>}>
                 Secure Note
               </Route>
               <Route
-                path="/Wifi Passwords"
+                path="/WifiPasswords"
                 element={<WifiPasswords></WifiPasswords>}
               >
                 Wifi Passwords
               </Route>
               <Route
-                path="/Sharing Center"
+                path="/SharingCenter"
                 element={<SharingCenter></SharingCenter>}
               >
                 Sharing Center

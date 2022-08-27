@@ -19,8 +19,8 @@ const SideNavFolders = ({ folder }) => {
         )}
       </span>
       {showNavFolders &&
-        contents.map((content) => (
-          <SideNavFolderContent folderName={folderName} content={content}></SideNavFolderContent>
+        contents.map((content, idx) => (
+          <SideNavFolderContent key={idx} folderName={folderName} content={content}></SideNavFolderContent>
         ))}
     </>
   );

@@ -8,7 +8,7 @@ const VaultMember = ({ member }) => {
     <div className="member padding-side gap-10">
       <BiUserCircle className="image"></BiUserCircle>
       <div className="name">
-        <p className={member.role === "vault owner" && "vault-owner"}>
+        <p className={member.role === "vault owner" ? "vault-owner" : ""}>
           <b>{member.name}</b>
         </p>
         <small>{member.email}</small>

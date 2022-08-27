@@ -41,8 +41,8 @@ const VaultMembers = () => {
     <div className="vault-members standard-stack gap-10">
       <h5>Vault Members</h5>
 
-      {roles.map((role) => (
-        <VaultRoles role={role} members={members}></VaultRoles>
+      {roles.map((role, idx) => (
+        <VaultRoles key={idx} role={role} members={members}></VaultRoles>
       ))}
     </div>
   );

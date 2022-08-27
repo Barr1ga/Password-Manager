@@ -8,6 +8,7 @@ import {
   HiOutlineTrash,
   HiTrash,
 } from "react-icons/hi";
+import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
 import SideNavFolder from "./SideNavFolder";
 
@@ -73,9 +74,21 @@ const SideNav = () => {
       </div>
       <SideNavTypes></SideNavTypes>
 
-      {folders.map((folder) => (
-        <SideNavFolder folder={folder}></SideNavFolder>
+      {folders.map((folder, idx) => (
+        <SideNavFolder key={idx} folder={folder}></SideNavFolder>
       ))}
+
+      <Link
+        to="/settings"
+        className={route === "/settings" ? "sidenav-button selected" : "sidenav-button"}
+      >
+        {route === "/settings" ? (
+          <RiSettings2Fill></RiSettings2Fill>
+        ) : (
+          <RiSettings2Line></RiSettings2Line>
+        )}
+        Vault Settings
+      </Link>
     </div>
   );
 };
