@@ -103,7 +103,7 @@ const VaultSettings = () => {
               </div>
 
               <div className="form-group">
-                <label>Email</label>
+                <label>Email Address</label>
                 <input type="text" className="form-control" disabled />
               </div>
 
@@ -129,12 +129,11 @@ const VaultSettings = () => {
                   </small>
                 )}
                 <small>
-                  All of the fields on this page are optional and can be deleted
-                  at any time, and by filling them out, you're giving us consent
-                  to share this data wherever your user profile appears. Please
-                  see our privacy statement to learn more about how we use this
-                  information.
-                </small>
+                    The master password is the password you use to access your
+                    vault. It is very important that you do not forget your
+                    master password. There is no way to recover the password in
+                    the event that you forget it.
+                  </small>
               </div>
 
               <div className="form-group">
@@ -154,7 +153,15 @@ const VaultSettings = () => {
                   </small>
                 )}
               </div>
-
+              <div className="form-group">
+                <small>
+                  All of the fields on this page are optional and can be deleted
+                  at any time, and by filling them out, you're giving us consent
+                  to share this data wherever your user profile appears. Please
+                  see our privacy statement to learn more about how we use this
+                  information.
+                </small>
+              </div>
               <Button type="submit" className="btn-dark">
                 Save Account
               </Button>

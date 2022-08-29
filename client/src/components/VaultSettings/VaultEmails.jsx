@@ -62,7 +62,7 @@ const VaultEmails = () => {
               ></WarningAlert>
             </div>
             <div className="form-group">
-              <label>Email</label>
+              <label>Email Address</label>
               <input
                 type="text"
                 {...register("email", {

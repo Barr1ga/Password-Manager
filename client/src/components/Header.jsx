@@ -14,7 +14,7 @@ const Header = () => {
         <Link to="/">
           <div className="logo gap-10">
             <RiShieldFlashFill className="icon"></RiShieldFlashFill>
-            <h3>Vaulteer</h3>
+            <h3>Vaulteer <span className="half">| Securities</span></h3>
           </div>
         </Link>
         <div className="nav gap-20">

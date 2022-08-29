@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
-import SideNavFolderContent from "./SideNavFolderContent";
+import React, { useState } from 'react'
+import PasswordItem from "../components/PasswordItem";
+import AddButton from "../components/AddButton";
+import Filters from "../components/Filters";
 
-const SideNavFolders = ({ folder, items }) => {
-  const [showNavFolders, setShowNavFolders] = useState(true);
+const Logins = () => {
   const [passwords, setPasswords] = useState([
     {
       id: 1,
@@ -82,34 +82,26 @@ const SideNavFolders = ({ folder, items }) => {
     },
   ]);
 
-  const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
+  const filteredPasswords = passwords.filter((password) => password.type === "login" && password.trash === false);
+  const count = filteredPasswords.length;
+
 
   return (
-    <>
-      <div className="standard-stack gap-10">
-        <span
-          className="category-folder-title"
-          onClick={() => setShowNavFolders((prev) => !prev)}
-        >
-          folders
-          {showNavFolders ? (
-            <RiArrowDownSLine></RiArrowDownSLine>
-          ) : (
-            <RiArrowRightSLine></RiArrowRightSLine>
-          )}
-        </span>
-        <div className="standard-stack">
-          {showNavFolders &&
-            folders.map((folder, idx) => (
-              <SideNavFolderContent
-                key={idx}
-                folder={folder}
-              ></SideNavFolderContent>
-            ))}
+    <div className="margin-content">
+      <div className="page-header padding-side">
+        <h4>All Items</h4><div>
+          <Filters></Filters>
+          <AddButton message={"Add Item"}></AddButton>
         </div>
       </div>
-    </>
+      <div className="password-list standard-stack"><span className="padding-side count">{count} Items</span>
+        {filteredPasswords.map((password, idx) => <PasswordItem key={idx} password={password}></PasswordItem>)}
+        
+      </div><div className="page-footer padding-side">
+        <AddButton message={"Add Item"}></AddButton>
+      </div>
+    </div>
   );
-};
+}
 
-export default SideNavFolders;
+export default Logins
