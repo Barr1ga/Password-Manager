@@ -7,7 +7,7 @@ const Trash = () => {
     {
       id: 1,
       siteName: "Facebook",
-      email: "hor.barr1ga@gmail.com",
+      userName: "hor.barr1ga@gmail.com",
       domain: "https://www.facebook.com/",
       password: "hello123",
       type: "login",
@@ -22,7 +22,7 @@ const Trash = () => {
     {
       id: 1,
       siteName: "Discord",
-      email: "horebbariga@gmail.com",
+      userName: "horebbariga@gmail.com",
       domain: "https://www.discord.com/",
       password: "hello123",
       type: "login",
@@ -37,7 +37,7 @@ const Trash = () => {
     {
       id: 1,
       siteName: "Instagram",
-      email: "hor.barr1ga@gmail.com",
+      userName: "hor.barr1ga@gmail.com",
       domain: "https://www.instagram.com/",
       password: "hello123",
       type: "login",
@@ -52,7 +52,7 @@ const Trash = () => {
     {
       id: 1,
       siteName: "Behance",
-      email: "barrigahoreb123@gmail.com",
+      userName: "barrigahoreb123@gmail.com",
       domain: "https://www.behance.com/",
       password: "hello123",
       type: "login",
@@ -67,7 +67,7 @@ const Trash = () => {
     {
       id: 1,
       siteName: "USC_Wifi",
-      email: "barrigahoreb123@gmail.com",
+      userName: "barrigahoreb123@gmail.com",
       domain: "",
       password: "hello123",
       type: "wifiPassword",

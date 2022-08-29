@@ -5,7 +5,7 @@ import { HiPlus } from "react-icons/hi";
 const AddButton = ({message}) => {
   return (
     <>
-      <Button className="btn-secondary"><HiPlus></HiPlus>{message}</Button>
+      <Button className="btn-secondary btn-with-icon"><HiPlus></HiPlus>{message}</Button>
     </>
   );
 };

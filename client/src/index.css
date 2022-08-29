@@ -83,6 +83,27 @@ input {
 }
 
 /* button css */
+.back-enabled {
+  display: flex;
+  /* align-items: center; */
+  gap: 15px;
+}
+
+.btn-back {
+  font-size: 1.3rem;
+  /* margin-top: 4px; */
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  padding: 5px;
+  transition: 0.2s ease-out 0s;
+}
+
+.btn-back:hover {
+  background-color: #d3d7db70;
+  transition: 0.2s ease-out 0s;
+}
+
 .btn-close {
   border: 1px solid #d3d6db;
   border-radius: 50%;
@@ -97,10 +118,20 @@ input {
   transition: 0.2s ease-out 0s;
 }
 
+.btn-light-close {
+  height: 37px;
+  width: 37px;
+  padding: 3px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+}
+
+.btn-light-close:hover {
+  background-color: #d3d7db70;
+  transition: 0.2s ease-out 0s;
+}
+
 .btn-secondary {
-  display: flex;
-  align-items: center;
-  gap: 5px;
   background-color: transparent;
   border: 1px solid #d3d6db;
   color: #000;
@@ -141,10 +172,25 @@ input {
 
 .btn-link {
   text-decoration: none;
+  border: none;
+  background-color: transparent;
 }
 
 .btn-link:hover {
   text-decoration: underline;
+}
+
+.btn-long {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-with-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }
 
 /* three dot css */
@@ -166,9 +212,67 @@ input {
 
 /* form css */
 /** FF*/
+.form-select-group .input {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.form-select-group .input .icon {
+  position: absolute;
+  right: 10px;
+}
+
+.form-select-group {
+  position: relative;
+}
+
+.form-select-group input {
+  padding-right: 10px;
+}
+
+.select-options {
+  position: absolute;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #d3d6db;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.select-options .option {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.select-options .option:hover {
+  background-color: #d3d7db70;
+}
 
 /* The slider itself */
+.password-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 
+.password-input input {
+  padding-right: 90px;
+}
+
+.password-input .interactions {
+  display: flex;
+  gap: 5px;
+  position: absolute;
+  right: 10px;
+  font-size: 1.3rem;
+}
+
+.secure {
+  color: rgb(116, 192, 72);
+}
 
 .form-group {
   margin-bottom: 15px;
@@ -233,7 +337,12 @@ input {
 }
 
 .error-message {
-  color: rgb(255, 28, z28);
+  color: rgb(255, 28, 28);
+}
+
+.password-generator-input {
+  text-align: center;
+  padding-right: 38px;
 }
 
 /* sub body css */
@@ -549,6 +658,7 @@ input {
 
 /* page css */
 .page-header {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -632,15 +742,73 @@ input {
 
 /* password generator css */
 
-.password-generator .form-group {
+.form-group-horizontal {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.password-generator .form-group .length {
-  width: 100px;
+.folder-options {
+  text-transform: uppercase;
 }
 
+.password-generator .generator-field {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
 
+.password-generator .length {
+  flex: 0 1 100px;
+}
 
+.password-generator .generator-field input {
+  border-radius: 5px 0 0 5px;
+}
+
+.password-generator .generator-field .secure {
+  font-size: 1.3rem;
+  position: absolute;
+  right: 55px;
+}
+
+.password-generator .generator-field button {
+  height: 45px;
+  width: 45px;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 5px 5px 0;
+}
+
+.generate-use {
+  display: flex;
+  gap: 10px;
+}
+
+.generate-use button {
+  flex-grow: 1;
+}
+
+.generator-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* confirmation modal css */
+.modal-header {
+  background-color: #000;
+  color: #fff;
+  padding-right: 15px;
+}
+
+.confirmation-modal .options {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+  gap: 10px;
+}

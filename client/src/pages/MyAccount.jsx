@@ -81,7 +81,7 @@ const VaultSettings = () => {
                   {...accountField("name", {
                     required: {
                       value: true,
-                      message: "Your name is required",
+                      message: "Name is required",
                     },
                   })}
                   className={
@@ -114,7 +114,7 @@ const VaultSettings = () => {
                   {...accountField("masterPassword", {
                     required: {
                       value: true,
-                      message: "Your master password is required",
+                      message: "Master password is required",
                     },
                   })}
                   className={
@@ -173,7 +173,7 @@ const VaultSettings = () => {
                   {...emailField("email", {
                     required: {
                       value: true,
-                      message: "Your email is required",
+                      message: "Email is required",
                     },
                   })}
                   className={
@@ -195,7 +195,7 @@ const VaultSettings = () => {
                   {...emailField("masterPassword", {
                     required: {
                       value: true,
-                      message: "Your master password is required",
+                      message: "Master password is required",
                     },
                   })}
                   className={
@@ -228,7 +228,7 @@ const VaultSettings = () => {
                   {...masterField("currentMasterPassword", {
                     required: {
                       value: true,
-                      message: "Your current master password is required",
+                      message: "Current master password is required",
                     },
                   })}
                   className={
@@ -250,7 +250,7 @@ const VaultSettings = () => {
                   {...masterField("newMasterPassword", {
                     required: {
                       value: true,
-                      message: "Your new master password is required",
+                      message: "Nnew master password is required",
                     },
                   })}
                   className={
@@ -274,7 +274,7 @@ const VaultSettings = () => {
                     {...masterField("reTypeMasterPassword", {
                       required: {
                         value: true,
-                        message: "Re-typing your master password is required",
+                        message: "Re-typing master password is required",
                       },
                     })}
                     className={
@@ -297,7 +297,7 @@ const VaultSettings = () => {
                     {...masterField("masterPasswordHint", {
                       required: {
                         value: true,
-                        message: "Your master password hint is required",
+                        message: "Master password hint is required",
                       },
                     })}
                     className={

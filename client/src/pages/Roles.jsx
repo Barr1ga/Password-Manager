@@ -1,6 +1,6 @@
 import React from "react";
 import WarningAlert from "../components/WarningAlert";
-import { HiOutlineX } from "react-icons/hi";
+import { HiOutlineX, HiOutlineArrowLeft } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import VaultRoles from "../components/VaultSettings/VaultRoles";

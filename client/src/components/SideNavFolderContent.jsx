@@ -2,19 +2,19 @@ import React from "react";
 import { HiOutlineFolder, HiFolder } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 
-const SideNavFolder = ({ folderName, content }) => {
+const SideNavFolder = ({ folder }) => {
   const route = useLocation().pathname;
   return (
     <Link
-      to={`/${folderName}/${content}`}
-      className={route === "/" ? "sidenav-button selected" : "sidenav-button"}
+      to={`/${folder}`}
+      className={route === `/${folder}` ? "sidenav-button selected" : "sidenav-button"}
     >
-      {route === `/${folderName}/${content}` ? (
+      {route === `/${folder}` ? (
         <HiFolder></HiFolder>
       ) : (
         <HiOutlineFolder></HiOutlineFolder>
       )}
-      {content}
+      {folder}
     </Link>
   );
 };

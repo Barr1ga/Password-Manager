@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import WarningAlert from "../WarningAlert";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
-import Member from "./Member";
 import VaultMembers from "../VaultMembers";
 
 const VaultEmails = () => {

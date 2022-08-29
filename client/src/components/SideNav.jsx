@@ -12,7 +12,7 @@ import {
   HiOutlineUserGroup,
   HiUserGroup,
   HiOutlineShieldCheck,
-  HiShieldCheck
+  HiShieldCheck,
 } from "react-icons/hi";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
@@ -20,10 +20,6 @@ import SideNavFolder from "./SideNavFolder";
 
 const SideNav = () => {
   const route = useLocation().pathname;
-  const [folders, setFolders] = useState([
-    { folderName: "Folder 1", contents: ["Item 1", "Item 2"] },
-    { folderName: "Folder 2", contents: ["Item 1", "Item 2", "Item 3"] },
-  ]);
 
   return (
     <div className="side-nav standard-stack gap-10">
@@ -83,11 +79,7 @@ const SideNav = () => {
             </Link>
           </div>
           <SideNavTypes></SideNavTypes>
-
-          {folders.map((folder, idx) => (
-            <SideNavFolder key={idx} folder={folder}></SideNavFolder>
-          ))}
-
+          <SideNavFolder></SideNavFolder>
           <Link
             to="/MyAccount"
             className={
