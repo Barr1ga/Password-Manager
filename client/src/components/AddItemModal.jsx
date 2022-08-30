@@ -111,7 +111,6 @@ const AddItemModal = () => {
   };
 
   const handleCloseModal = () => {
-    console.log("closed");
     setModalShow(false);
     setShowPasswordGenerator(false);
     if (generatedRef.current) {

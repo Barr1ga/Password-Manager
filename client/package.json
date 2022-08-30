@@ -9,6 +9,7 @@
     "@reduxjs/toolkit": "^1.8.5",
     "bootstrap": "^5.2.0",
     "cra-template-redux": "2.0.0",
+    "dotenv": "^16.0.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
     "react-dom": "^18.2.0",

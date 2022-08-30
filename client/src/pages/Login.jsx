@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { RiShieldFlashFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
-import { HiOutlineLogin, HiOutlineLightBulb } from "react-icons/hi";
+import {
+  HiOutlineLogin,
+  HiOutlineLightBulb,
+  HiOutlineEye,
+  HiOutlineEyeOff,
+} from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
+import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ handleLogin, handleShowRegistration }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
   const {
@@ -39,26 +46,32 @@ const Login = () => {
           </div>
         </Modal.Header>
         <Modal.Body>
-          <div className="margin-content">
+          <div className="standard-stack gap-10">
+            <h5>Login</h5>
+
             <div>
               <form>
                 <div className="form-group">
                   <label>Email Address</label>
                   <input
-                    type="text"
+                    type="email"
                     {...register("email", {
                       required: {
                         value: true,
                         message: "User email is required",
                       },
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Email is badly formatted",
+                      },
                     })}
                     className={
-                      errors.name ? "form-control form-error" : "form-control "
+                      errors.email ? "form-control form-error" : "form-control "
                     }
                   />
-                  {errors.name && (
+                  {errors.email && (
                     <small className="error-message">
-                      ⚠ {errors.name.message}
+                      ⚠ {errors.email.message}
                       <br></br>
                     </small>
                   )}
@@ -66,21 +79,36 @@ const Login = () => {
 
                 <div className="form-group">
                   <label>Master Password</label>
-                  <input
-                    type="text"
-                    {...register("masterPassword", {
-                      required: {
-                        value: true,
-                        message: "Master Password is required",
-                      },
-                    })}
-                    className={
-                      errors.name ? "form-control form-error" : "form-control "
-                    }
-                  />
-                  {errors.name && (
+                  <span className="password-input">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      {...register("masterPassword", {
+                        required: {
+                          value: true,
+                          message: "Master Password is required",
+                        },
+                      })}
+                      className={
+                        errors.masterPassword
+                          ? "form-control form-error"
+                          : "form-control "
+                      }
+                    />
+                    <div className="interactions">
+                      {showPassword ? (
+                        <HiOutlineEye
+                          onClick={() => setShowPassword(false)}
+                        ></HiOutlineEye>
+                      ) : (
+                        <HiOutlineEyeOff
+                          onClick={() => setShowPassword(true)}
+                        ></HiOutlineEyeOff>
+                      )}
+                    </div>
+                  </span>
+                  {errors.masterPassword && (
                     <small className="error-message">
-                      ⚠ {errors.name.message}
+                      ⚠ {errors.masterPassword.message}
                       <br></br>
                     </small>
                   )}
@@ -90,21 +118,27 @@ const Login = () => {
                     className="btn-secondary btn-with-icon btn-long"
                     onClick={() => setShowPasswordHint((prev) => !prev)}
                   >
-                    <HiOutlineLightBulb></HiOutlineLightBulb>{showPasswordHint ? "Get" : "Hide"} master password hint
+                    <HiOutlineLightBulb></HiOutlineLightBulb>
+                    {showPasswordHint ? "Hide" : "Get"} master password hint
                   </Button>
                 </div>
                 {showPasswordHint && (
                   <div className="form-group">
-                    <div className="password-hint"><b>Hint:</b> This is a hint message. A very long one that is</div>
+                    <div className="password-hint">
+                      <b>Hint:</b> This is a hint message. A very long one that
+                      is
+                    </div>
                   </div>
                 )}
-                <small className="form-group">
-                  <Button className="btn-dark btn-with-icon btn-long">
+                <div className="form-group">
+                  <Button className="btn-dark btn-with-icon btn-long" onClick={handleLogin}>
                     <HiOutlineLogin></HiOutlineLogin>Login
                   </Button>
+                </div>
+                <small className="form-group">
                   Dont have an account?{" "}
-                  <a className="btn-link">
-                    <b>Sign in</b>
+                  <a className="btn-link" onClick={handleShowRegistration}>
+                    <b>Sign up</b>
                   </a>
                 </small>
               </form>

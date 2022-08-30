@@ -53,8 +53,8 @@ const Header = () => {
             )}
           </Link>
           <Link to="/MyAccount">
-            <Button className="btn-secondary btn-with-icon btn-profile gap-10">
-              <HiOutlineUserCircle className="image"></HiOutlineUserCircle>
+            <Button className="btn-secondary btn-with-icon gap-10">
+              <small className="image">H</small>
               <p>Username</p>
             </Button>
           </Link>

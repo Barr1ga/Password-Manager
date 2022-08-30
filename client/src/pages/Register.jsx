@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { RiShieldFlashFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
-import { HiOutlineLogin, HiOutlineLightBulb } from "react-icons/hi";
+import {
+  HiOutlinePencilAlt,
+  HiOutlineLogin,
+  HiOutlineLightBulb,
+  HiOutlineEye,
+  HiOutlineEyeOff,
+} from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 
-const Register = () => {
-  const [showPasswordHint, setShowPasswordHint] = useState(false);
+const Register = ({ handleShowLogin }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showReTypePassword, setShowReTypePassword] = useState(false);
+
   const [show, setShow] = useState(true);
   const {
     register,
@@ -20,14 +28,15 @@ const Register = () => {
     },
   });
 
+  const masterPasswordValue = watch("masterPassword");
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
-      <Modal
-        size="md"
-        show={show}
-        backdrop="static"
-        keyboard={false}
-      >
+      <Modal size="md" show={show} backdrop="static" keyboard={false}>
         <Modal.Header>
           <div className="login-register-header padding-side">
             <div className="logo gap-10">
@@ -39,26 +48,31 @@ const Register = () => {
           </div>
         </Modal.Header>
         <Modal.Body>
-          <div className="margin-content">
+          <div className="standard-stack gap-10">
+            <h5>Registration</h5>
             <div>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
                   <label>Email Address</label>
                   <input
-                    type="text"
+                    type="email"
                     {...register("email", {
                       required: {
                         value: true,
                         message: "User email is required",
                       },
+                      pattern: {
+                        value: /\S+@\S+\.\S+/,
+                        message: "Email is badly formatted",
+                      },
                     })}
                     className={
-                      errors.name ? "form-control form-error" : "form-control "
+                      errors.email ? "form-control form-error" : "form-control "
                     }
                   />
-                  {errors.name && (
+                  {errors.email && (
                     <small className="error-message">
-                      ⚠ {errors.name.message}
+                      ⚠ {errors.email.message}
                       <br></br>
                     </small>
                   )}
@@ -68,10 +82,10 @@ const Register = () => {
                   <label>Name</label>
                   <input
                     type="text"
-                    {...register("masterPassword", {
+                    {...register("name", {
                       required: {
                         value: true,
-                        message: "Master Password is required",
+                        message: "Name is required",
                       },
                     })}
                     className={
@@ -89,21 +103,41 @@ const Register = () => {
 
                 <div className="form-group">
                   <label>Master Password</label>
-                  <input
-                    type="text"
-                    {...register("masterPassword", {
-                      required: {
-                        value: true,
-                        message: "Master Password is required",
-                      },
-                    })}
-                    className={
-                      errors.name ? "form-control form-error" : "form-control "
-                    }
-                  />
-                  {errors.name && (
+                  <span className="password-input">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      {...register("masterPassword", {
+                        required: {
+                          value: true,
+                          message: "Master Password is required",
+                        },
+                        minLength: {
+                          value: 8,
+                          message: "Password must be at least 8 characters.",
+                        },
+                      })}
+                      className={
+                        errors.masterPassword
+                          ? "form-control form-error"
+                          : "form-control "
+                      }
+                    />
+                    <div className="interactions">
+                      {showPassword ? (
+                        <HiOutlineEye
+                          onClick={() => setShowPassword(false)}
+                        ></HiOutlineEye>
+                      ) : (
+                        <HiOutlineEyeOff
+                          onClick={() => setShowPassword(true)}
+                        ></HiOutlineEyeOff>
+                      )}
+                    </div>
+                  </span>
+
+                  {errors.masterPassword && (
                     <small className="error-message">
-                      ⚠ {errors.name.message}
+                      ⚠ {errors.masterPassword.message}
                       <br></br>
                     </small>
                   )}
@@ -116,96 +150,98 @@ const Register = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Master Password Hint</label>
-                  <input
-                    type="text"
-                    {...register("masterPasswordHint")}
-                    className={
-                      errors.masterPasswordHint
-                        ? "form-control form-error"
-                        : "form-control "
-                    }
-                  />
-                  {errors.masterPasswordHint && (
-                    <small className="error-message">
-                      ⚠ {errors.masterPasswordHint.message}
+                  <div className="form-group">
+                    <label>Re-type Master Password</label>
+                    <span className="password-input">
+                      <input
+                        type={showReTypePassword ? "text" : "password"}
+                        {...register("reTypeMasterPassword", {
+                          required: {
+                            value: true,
+                            message: "Re-typing master password is required",
+                          },
+                          validate: (value) =>
+                            masterPasswordValue === value ||
+                            "Passwords do not match",
+                        })}
+                        className={
+                          errors.reTypeMasterPassword
+                            ? "form-control form-error"
+                            : "form-control "
+                        }
+                      />
+                      <div className="interactions">
+                        {showReTypePassword ? (
+                          <HiOutlineEye
+                            onClick={() => setShowReTypePassword(false)}
+                          ></HiOutlineEye>
+                        ) : (
+                          <HiOutlineEyeOff
+                            onClick={() => setShowReTypePassword(true)}
+                          ></HiOutlineEyeOff>
+                        )}
+                      </div>
+                    </span>
+
+                    {errors.reTypeMasterPassword && (
+                      <small className="error-message">
+                        ⚠ {errors.reTypeMasterPassword.message}
+                      </small>
+                    )}
+                  </div>
+
+                  <div className="form-group">
+                    <label>Master Password Hint (optional)</label>
+                    <input
+                      type="text"
+                      {...register("masterPasswordHint")}
+                      className="form-control"
+                    />
+                    <small>
+                      A master password hint can help you remember your password
+                      if you forget it.
                     </small>
-                  )}
+                  </div>
                 </div>
 
-                <div className="form-group">
-                <div className="form-group">
-                  <label>Re-type Master Password</label>
+                <div className="form-group form-agree gap-10">
                   <input
-                    type="text"
-                    {...register("reTypeMasterPassword", {
+                    type="checkbox"
+                    {...register("agree", {
                       required: {
                         value: true,
-                        message: "Re-typing master password is required",
+                        message:
+                          "You must read and agree to our Terms of Service and Privacy Policy in order to proceed",
                       },
                     })}
-                    className={
-                      errors.reTypeMasterPassword
-                        ? "form-control form-error"
-                        : "form-control "
-                    }
                   />
-                  {errors.reTypeMasterPassword && (
-                    <small className="error-message">
-                      ⚠ {errors.reTypeMasterPassword.message}
-                    </small>
-                  )}
-                </div>
-
-                <div className="form-group">
-                  <label>Master Password Hint (optional)</label>
-                  <input
-                    type="text"
-                    {...register("masterPasswordHint", {
-                      required: {
-                        value: true,
-                        message: "Master password hint is required",
-                      },
-                    })}
-                    className={
-                      errors.masterPasswordHint
-                        ? "form-control form-error"
-                        : "form-control "
-                    }
-                  />
-                  {errors.masterPasswordHint && (
-                    <small className="error-message">
-                      ⚠ {errors.masterPasswordHint.message}
-                    </small>
-                  )}
                   <small>
-                    A master password hint can help you remember your password
-                    if you forget it.
+                    By checking this box you agree to our{" "}
+                    <b>Terms of Service</b> <br></br>and <b>Privacy Policy</b>
                   </small>
                 </div>
-              </div>
-                {showPasswordHint && (
-                  <div className="form-group">
-                    <div className="password-hint">
-                      <b>Hint:</b> This is a hint message. A very long one that
-                      is
-                    </div>
-                  </div>
-                )}
-                <small className="form-group">
-                  <Button className="btn-dark btn-with-icon btn-long">
-                    <HiOutlineLogin></HiOutlineLogin>Login
+                <div className="form-group">
+                  {errors.agree && (
+                    <small className="error-message">
+                      ⚠ {errors.agree.message}
+                    </small>
+                  )}
+                </div>
+                <div className="form-group">
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-with-icon btn-long"
+                  >
+                    <HiOutlinePencilAlt></HiOutlinePencilAlt>Register
                   </Button>
-                  Dont have an account?
-                  <a className="btn-link">
-                    <b>Sign in</b>
+                </div>
+                <small className="form-group">
+                  Dont have an account?{" "}
+                  <a className="btn-link" onClick={handleShowLogin}>
+                    <b>Log in</b>
                   </a>
                 </small>
               </form>
-              <small>
-                A master password hint can help you remember your password if
-                you forget it.
-              </small>
             </div>
           </div>
         </Modal.Body>

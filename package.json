@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Barr1ga/Password-Manager/issues"
   },
-  "homepage": "https://github.com/Barr1ga/Password-Manager#readme"
+  "homepage": "https://github.com/Barr1ga/Password-Manager#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1"
+  }
 }

@@ -104,7 +104,7 @@ const VaultSettings = () => {
 
               <div className="form-group">
                 <label>Email Address</label>
-                <input type="text" className="form-control" disabled />
+                <input type="email" className="form-control" disabled />
               </div>
 
               <div className="form-group">
@@ -176,7 +176,7 @@ const VaultSettings = () => {
               <div className="form-group">
                 <label>Email</label>
                 <input
-                  type="text"
+                  type="email"
                   {...emailField("email", {
                     required: {
                       value: true,
@@ -247,28 +247,6 @@ const VaultSettings = () => {
                 {errorsMaster.currentMasterPassword && (
                   <small className="error-message">
                     ⚠ {errorsMaster.currentMasterPassword.message}
-                  </small>
-                )}
-              </div>
-              <div className="form-group">
-                <label>New Master Password</label>
-                <input
-                  type="text"
-                  {...masterField("newMasterPassword", {
-                    required: {
-                      value: true,
-                      message: "Nnew master password is required",
-                    },
-                  })}
-                  className={
-                    errorsMaster.newMasterPassword
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                {errorsMaster.newMasterPassword && (
-                  <small className="error-message">
-                    ⚠ {errorsMaster.newMasterPassword.message}
                   </small>
                 )}
               </div>

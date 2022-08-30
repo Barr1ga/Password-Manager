@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
@@ -18,15 +18,29 @@ import Register from "./pages/Register";
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import OtherLinks from "./components/OtherLinks";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
 import VaultMembers from "./components/VaultMembers";
 
 const App = () => {
-  // const user = true;
-  const user = false;
+  const renders = useRef();
+  console.count("count")
+
+  const [showLogin, setShowLogin] = useState(true);
+  const [user, setUser] = useState(false);
+
+  const handleShowRegistration = () => {
+    setShowLogin(false);
+  };
+
+  const handleShowLogin = () => {
+    setShowLogin(true);
+  };
+
+  const handleLogin = () => {
+    setUser(true);
+  }
 
   return (
     <BrowserRouter>
@@ -82,8 +96,11 @@ const App = () => {
       ) : (
         <>
           <div className="sub-body-small">
-            {/* <Login></Login> */}
-            <Register></Register>
+            {showLogin ? (
+              <Login handleLogin={handleLogin} handleShowRegistration={handleShowRegistration}></Login>
+            ) : (
+              <Register handleShowLogin={handleShowLogin}></Register>
+            )}
           </div>
         </>
       )}

@@ -83,6 +83,10 @@ input {
   gap: 20px;
 }
 
+*::-webkit-scrollbar {
+  display: none;
+}
+
 /* button css */
 .back-enabled {
   display: flex;
@@ -512,6 +516,21 @@ input {
   border-radius: 5px;
 }
 
+.header .right .image {
+  display: flex;
+  text-transform: uppercase;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: rgb(254, 196, 0);
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  font-weight: 400;
+  font-size: 10px !important;
+}
+
+
 .header .right .settings:hover {
   background-color: #5c636a;
   transition: 0.2s ease-out 0s;
@@ -559,7 +578,6 @@ input {
 .header .btn-secondary {
   /* border: 1px solid #fff; */
   /* border-radius: 100px; */
-  padding: 6px 12px 6px 8px;
   color: #fff !important;
 }
 
@@ -612,6 +630,19 @@ input {
   border-radius: 10px;
 }
 
+.password-item .empty-icon {
+  text-transform: uppercase;
+  background-color: rgb(254, 196, 0);
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #fff;
+}
+
 /* site warning css */
 .site-warning {
   border: 1px solid #ecb500;
@@ -654,6 +685,7 @@ input {
 .right-vault-members {
   border: 1px solid #d3d6db;
   border-radius: 5px;
+  padding-bottom: 10px;
 }
 
 .vault-members h5 {
@@ -682,6 +714,7 @@ input {
   padding-top: 5px;
   padding-bottom: 5px;
   transition: 0.2s ease-out 0s;
+  align-items: center;
 }
 
 .vault-members .member .vault-owner {
@@ -699,10 +732,19 @@ input {
 }
 
 .vault-members .image {
-  color: #000;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background-color: rgb(254, 196, 0);
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  /* color: #000;
   opacity: 50%;
   height: 20px;
-  width: 20px;
+  width: 20px; */
 }
 
 /* other links css */
@@ -809,6 +851,16 @@ input {
 }
 
 /* password generator css */
+
+.form-agree {
+  display: flex;
+  align-items: flex-start;
+}
+
+.form-agree input {
+  height: auto;
+  margin-top: 3px;
+}
 
 .form-group-horizontal {
   display: flex;

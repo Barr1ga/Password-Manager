@@ -7,7 +7,7 @@ const Favorites = () => {
   const [passwords, setPasswords] = useState([
     {
       id: 1,
-      siteName: "Facebook",
+      name: "Facebook",
       userName: "hor.barr1ga@gmail.com",
       domain: "https://www.facebook.com/",
       password: "hello123",
@@ -22,7 +22,7 @@ const Favorites = () => {
     },
     {
       id: 1,
-      siteName: "Discord",
+      name: "Discord",
       userName: "horebbariga@gmail.com",
       domain: "https://www.discord.com/",
       password: "hello123",
@@ -37,7 +37,7 @@ const Favorites = () => {
     },
     {
       id: 1,
-      siteName: "Instagram",
+      name: "Instagram",
       userName: "hor.barr1ga@gmail.com",
       domain: "https://www.instagram.com/",
       password: "hello123",
@@ -52,7 +52,7 @@ const Favorites = () => {
     },
     {
       id: 1,
-      siteName: "Behance",
+      name: "Behance",
       userName: "barrigahoreb123@gmail.com",
       domain: "https://www.behance.com/",
       password: "hello123",
@@ -67,7 +67,7 @@ const Favorites = () => {
     },
     {
       id: 1,
-      siteName: "USC_Wifi",
+      name: "USC_Wifi",
       userName: "barrigahoreb123@gmail.com",
       domain: "",
       password: "hello123",
