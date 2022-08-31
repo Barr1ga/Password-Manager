@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
 import Trash from "./pages/Trash";
@@ -22,10 +22,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
 import VaultMembers from "./components/VaultMembers";
+import CurrentPasswordItem from "./components/CurrentPasswordItem";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const renders = useRef();
-  console.count("count")
+  const { id } = useParams();
+
+  const { selectedPassword } = useSelector((state) => state.passwords)
 
   const [showLogin, setShowLogin] = useState(true);
   const [user, setUser] = useState(false);
@@ -84,6 +87,8 @@ const App = () => {
               </div>
             </div>
             <div className="right-margin standard-stack gap-10">
+              {selectedPassword && <CurrentPasswordItem></CurrentPasswordItem>}
+              <hr></hr>
               <SiteWarning></SiteWarning>
 
               <div className="right-vault-members">

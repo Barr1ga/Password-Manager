@@ -5,86 +5,12 @@ import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails, resetBrands } from "../features/slice/brandSlice";
+import Test from "../components/Test";
 
 const AllItems = () => {
   const dispatch = useDispatch();
-  const [passwords, setPasswords] = useState([
-    {
-      id: 1,
-      name: "Facebook",
-      userName: "hor.barr1ga@gmail.com",
-      domain: "https://www.facebook.com/",
-      password: "hello123",
-      type: "login",
-      folder: "",
-      favorite: false,
-      trash: false,
-      lastOpened: new Date(),
-      lastOpenedBy: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 1,
-      name: "Discord",
-      userName: "horebbariga@gmail.com",
-      domain: "https://www.discord.com/",
-      password: "hello123",
-      type: "login",
-      folder: "",
-      favorite: true,
-      trash: false,
-      lastOpened: new Date(),
-      lastOpenedBy: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 1,
-      name: "Instagram",
-      userName: "hor.barr1ga@gmail.com",
-      domain: "https://www.instagram.com/",
-      password: "hello123",
-      type: "login",
-      folder: "",
-      favorite: false,
-      trash: false,
-      lastOpened: new Date(),
-      lastOpenedBy: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 1,
-      name: "Behance",
-      userName: "barrigahoreb123@gmail.com",
-      domain: "https://www.behance.com/",
-      password: "hello123",
-      type: "login",
-      folder: "",
-      favorite: false,
-      trash: true,
-      lastOpened: new Date(),
-      lastOpenedBy: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-    {
-      id: 1,
-      name: "USC_Wifi",
-      userName: "barrigahoreb123@gmail.com",
-      domain: "",
-      password: "hello123",
-      type: "wifiPassword",
-      folder: "",
-      favorite: false,
-      trash: true,
-      lastOpened: new Date(),
-      lastOpenedBy: 2,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ]);
+
+  const { passwords } = useSelector((state) => state.passwords)
 
   // useEffect(() => {
   //   passwords.forEach((password) => {
@@ -108,7 +34,7 @@ const AllItems = () => {
         <h4>All Items</h4>{" "}
         <div>
           <Filters></Filters>
-          <AddItemModal></AddItemModal>
+          {/* <AddItemModal></AddItemModal> */}
         </div>
       </div>
       <div className="password-list standard-stack">
@@ -118,7 +44,7 @@ const AllItems = () => {
         ))}
       </div>
       <div className="page-footer padding-side">
-        <AddItemModal></AddItemModal>
+        {/* <AddItemModal></AddItemModal> */}
       </div>
     </div>
   );

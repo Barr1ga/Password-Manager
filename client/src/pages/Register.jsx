@@ -53,7 +53,7 @@ const Register = ({ handleShowLogin }) => {
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
-                  <label>Email Address</label>
+                  <label>Email Address <span className="error-message">*</span></label>
                   <input
                     type="email"
                     {...register("email", {
@@ -79,7 +79,7 @@ const Register = ({ handleShowLogin }) => {
                 </div>
 
                 <div className="form-group">
-                  <label>Name</label>
+                  <label>Name <span className="error-message">*</span></label>
                   <input
                     type="text"
                     {...register("name", {
@@ -102,7 +102,7 @@ const Register = ({ handleShowLogin }) => {
                 </div>
 
                 <div className="form-group">
-                  <label>Master Password</label>
+                  <label>Master Password <span className="error-message">*</span></label>
                   <span className="password-input">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -151,7 +151,7 @@ const Register = ({ handleShowLogin }) => {
 
                 <div className="form-group">
                   <div className="form-group">
-                    <label>Re-type Master Password</label>
+                    <label>Re-type Master Password <span className="error-message">*</span></label>
                     <span className="password-input">
                       <input
                         type={showReTypePassword ? "text" : "password"}

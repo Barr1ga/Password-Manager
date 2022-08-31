@@ -10,7 +10,7 @@ const ConfirmModal = ({ handleProceed, component, headerMessage, bodyMessage, co
 
   return (
     <>
-      <div onClick={handleShow}>{component}</div>
+      <div className="confirm-component" onClick={handleShow}>{component}</div>
       <Modal
         size="sm"
         show={show}
@@ -19,11 +19,11 @@ const ConfirmModal = ({ handleProceed, component, headerMessage, bodyMessage, co
         keyboard={false}
         centered
       >
-        <Modal.Body>
+        <Modal.Body className="confirmation-modal-body">
           <div className="confirmation-modal">
             <h5>{headerMessage}</h5>
             <small>{bodyMessage}</small>
-            <div className="options">
+            <div className="options gap-10">
               <Button type="button" className="btn-secondary btn-long" onClick={handleClose}>
                 Cancel
               </Button>

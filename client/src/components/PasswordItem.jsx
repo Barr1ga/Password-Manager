@@ -1,10 +1,12 @@
 import React from "react";
-import { HiDotsVertical, HiLink, HiStar } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { HiOutlineChevronRight, HiLink, HiStar } from "react-icons/hi";
+import { useSelector, useDispatch } from "react-redux";
+import { selectPasswordItem } from "../features/slice/passwordSlice";
 
 const PasswordItem = ({ password }) => {
+  const dispatch = useDispatch();
   const { brands } = useSelector((state) => state.brands);
-  console.log(brands);
+  const { selectedPassword } = useSelector((state) => state.passwords);
   const itemBrand =
     brands.find((brand) =>
       brand.name.toLowerCase().includes(password.name.toLowerCase())
@@ -13,11 +15,19 @@ const PasswordItem = ({ password }) => {
       password.name.toLowerCase().includes(brand.name.toLowerCase())
     );
 
-  console.log(itemBrand);
-  // src={itemBrand.icon}
+  const handleItemClicked = () => {
+    dispatch(selectPasswordItem(password.id));
+  };
 
   return (
-    <div className="password-item gap-10 padding-side">
+    <div
+      onClick={handleItemClicked}
+      className={
+        selectedPassword === password.id
+          ? "password-item password-item-selected gap-10 padding-side"
+          : "password-item gap-10 padding-side"
+      }
+    >
       {itemBrand ? (
         <img src={itemBrand.icon} alt={password.name} className="icon"></img>
       ) : (
@@ -25,17 +35,22 @@ const PasswordItem = ({ password }) => {
       )}
 
       <div className="name standard-stack">
-        <a
-          className={password.trash ? "trashed btn-link" : "siteName btn-link"}
-          href={password.userName}
-          target="_blank"
-        >
-          {password.name} <HiLink className="link-icon"></HiLink>
+        <span>
+          <a
+            className={
+              password.trash ? "trashed btn-link" : "siteName btn-link"
+            }
+            href={password.userName}
+            target="_blank"
+          >
+            {password.name}
+          </a>{" "}
+          <HiLink className="link-icon"></HiLink>
           {password.favorite && <HiStar className="favorited"></HiStar>}
-        </a>
+        </span>
         <small>{password.userName}</small>
       </div>
-      <HiDotsVertical className="three-dots"></HiDotsVertical>
+      <HiOutlineChevronRight className="three-dots"></HiOutlineChevronRight>
     </div>
   );
 };

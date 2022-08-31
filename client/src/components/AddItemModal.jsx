@@ -30,6 +30,7 @@ const AddItemModal = () => {
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [showToolTip, setShowToolTip] = useState(false);
   const { password, getPassword, resetPassword } = useGeneratePassword();
+  const [generateEmpty, setGenerateEmpty] = useState(false);
 
   const generatedRef = useRef();
   const folderRef = useRef();
@@ -52,10 +53,11 @@ const AddItemModal = () => {
     },
   });
 
+  const watchPasswordValue = watch("password");
+
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
-    // reset,
     formState: { errors: errorsPassword },
   } = useForm({
     mode: "all",
@@ -63,6 +65,7 @@ const AddItemModal = () => {
       length: 10,
     },
   });
+
 
   const onSubmit = (data) => {
     console.log(data);
@@ -75,8 +78,13 @@ const AddItemModal = () => {
   };
 
   const onSubmitGenerate = (data) => {
-    getPassword(data);
     const { lowercase, uppercase, numbers, symbols, length } = data;
+    if (!lowercase && !uppercase && !numbers && !symbols) {
+      setGenerateEmpty(true);
+      return;
+    }
+
+    getPassword(data);
     if (lowercase || uppercase || numbers || symbols) {
       setSecurePassword(true);
     }
@@ -147,7 +155,7 @@ const AddItemModal = () => {
             </div>
             <ConfirmModal
               handleProceed={handleCloseModal}
-              component={<HiOutlineX className="btn-light-close"></HiOutlineX>}
+              component={<HiOutlineX className="btn-close"></HiOutlineX>}
               headerMessage={"Are you sure you want to leave this section?"}
               bodyMessage={
                 "You have unsaved content, and will be lost unless you save it."
@@ -162,7 +170,9 @@ const AddItemModal = () => {
               <h5>Item Information</h5>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
-                  <label>Name</label>
+                  <label>
+                    Name <span className="error-message">*</span>
+                  </label>
                   <input
                     type="text"
                     {...register("name", {
@@ -184,7 +194,9 @@ const AddItemModal = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Username</label>
+                  <label>
+                    Username <span className="error-message">*</span>
+                  </label>
                   <input
                     type="text"
                     {...register("userName", {
@@ -212,7 +224,9 @@ const AddItemModal = () => {
                 </div>
 
                 <div className="form-group">
-                  <label>Password</label>
+                  <label>
+                    Password <span className="error-message">*</span>
+                  </label>
                   <span className="password-input">
                     <input
                       type={showPasswordInput ? "text" : "password"}
@@ -321,7 +335,9 @@ const AddItemModal = () => {
           {showPasswordGenerator && (
             <>
               <div className="generator-header">
-                <h5>Password Generator</h5>
+                <h5>
+                  Password Generator <span className="error-message">*</span>
+                </h5>
               </div>
 
               <div className="password-generator">
@@ -360,7 +376,9 @@ const AddItemModal = () => {
               <form onSubmit={handlePasswordSubmit(onSubmitGenerate)}>
                 <div className="password-generator">
                   <div className="form-group form-group-horizontal">
-                    <label>Password Length</label>
+                    <label>
+                      Password Length <span className="error-message">*</span>
+                    </label>
                     <input
                       type="number"
                       min="10"
@@ -409,17 +427,42 @@ const AddItemModal = () => {
                     }
                   ></WarningAlert>
                 </div>
+                {generateEmpty && <small className="error-message">⚠ Password criterias are required</small>}
                 <div className="generate-use">
                   <Button type="submit" className="btn-dark btn-long">
                     Generate Password
                   </Button>
-                  <Button
-                    type="button"
-                    onClick={handleUsePassword}
-                    className="btn-secondary btn-long"
-                  >
-                    Use Password
-                  </Button>
+                  <div className="btn-long">
+                    {(watchPasswordValue && watchPasswordValue) !== "" ? (
+                      <ConfirmModal
+                        handleProceed={handleCloseModal}
+                        component={
+                          <Button
+                            type="button"
+                            onClick={handleUsePassword}
+                            className="btn-secondary btn-long"
+                          >
+                            Use Password
+                          </Button>
+                        }
+                        headerMessage={
+                          "Are you sure you want to use this password?"
+                        }
+                        bodyMessage={
+                          "You already have a password for this item, do you want to replace it?"
+                        }
+                        continueMessage={"Leave"}
+                      ></ConfirmModal>
+                    ) : (
+                      <Button
+                        type="button"
+                        onClick={handleUsePassword}
+                        className="btn-secondary btn-long"
+                      >
+                        Use Password
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </form>
             </>

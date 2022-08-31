@@ -75,7 +75,7 @@ const VaultSettings = () => {
             <h5>My Account</h5>
             <form onSubmit={handleSubmitAccount(onSubmitAccount)}>
               <div className="form-group">
-                <label>Name</label>
+                <label>Name <span className="error-message">*</span></label>
                 <input
                   type="text"
                   {...accountField("name", {
@@ -103,12 +103,12 @@ const VaultSettings = () => {
               </div>
 
               <div className="form-group">
-                <label>Email Address</label>
+                <label>Email Address <span className="error-message">*</span></label>
                 <input type="email" className="form-control" disabled />
               </div>
 
               <div className="form-group">
-                <label>Master Password</label>
+                <label>Master Password <span className="error-message">*</span></label>
                 <input
                   type="text"
                   {...accountField("masterPassword", {
@@ -126,14 +126,15 @@ const VaultSettings = () => {
                 {errorsAccount.masterPassword && (
                   <small className="error-message">
                     ⚠ {errorsAccount.masterPassword.message}
+                    <br></br>
                   </small>
                 )}
                 <small>
-                    The master password is the password you use to access your
-                    vault. It is very important that you do not forget your
-                    master password. There is no way to recover the password in
-                    the event that you forget it.
-                  </small>
+                  The master password is the password you use to access your
+                  vault. It is very important that you do not forget your master
+                  password. There is no way to recover the password in the event
+                  that you forget it.
+                </small>
               </div>
 
               <div className="form-group">
@@ -174,7 +175,7 @@ const VaultSettings = () => {
             <h5>Change Email</h5>
             <form onSubmit={handleSubmitEmail(onSubmitEmail)}>
               <div className="form-group">
-                <label>Email</label>
+                <label>Email <span className="error-message">*</span></label>
                 <input
                   type="email"
                   {...emailField("email", {
@@ -196,7 +197,7 @@ const VaultSettings = () => {
                 )}
               </div>
               <div className="form-group">
-                <label>Master Password</label>
+                <label>Master Password <span className="error-message">*</span></label>
                 <input
                   type="text"
                   {...emailField("masterPassword", {
@@ -229,7 +230,7 @@ const VaultSettings = () => {
             <h5>Change Master Password</h5>
             <form onSubmit={handleSubmitMaster(onSubmitMaster)}>
               <div className="form-group">
-                <label>Current Master Password</label>
+                <label>Current Master Password <span className="error-message">*</span></label>
                 <input
                   type="text"
                   {...masterField("currentMasterPassword", {
@@ -253,7 +254,7 @@ const VaultSettings = () => {
 
               <div className="form-group">
                 <div className="form-group">
-                  <label>Re-type Master Password</label>
+                  <label>Re-type Master Password <span className="error-message">*</span></label>
                   <input
                     type="text"
                     {...masterField("reTypeMasterPassword", {

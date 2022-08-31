@@ -52,7 +52,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
             <div>
               <form>
                 <div className="form-group">
-                  <label>Email Address</label>
+                  <label>Email Address <span className="error-message">*</span></label>
                   <input
                     type="email"
                     {...register("email", {
@@ -78,7 +78,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                 </div>
 
                 <div className="form-group">
-                  <label>Master Password</label>
+                  <label>Master Password <span className="error-message">*</span></label>
                   <span className="password-input">
                     <input
                       type={showPassword ? "text" : "password"}
