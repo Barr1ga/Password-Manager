@@ -27,12 +27,14 @@ const SideNavTypes = () => {
           className="category-folder-title"
           onClick={() => setShowNavTypes((prev) => !prev)}
         >
-          types{" "}
-          {showNavTypes ? (
-            <RiArrowDownSLine></RiArrowDownSLine>
-          ) : (
-            <RiArrowRightSLine></RiArrowRightSLine>
-          )}
+          <p>types</p>
+          <span className="icon">
+            {showNavTypes ? (
+              <RiArrowDownSLine></RiArrowDownSLine>
+            ) : (
+              <RiArrowRightSLine></RiArrowRightSLine>
+            )}
+          </span>
         </span>
 
         {showNavTypes && (
@@ -50,7 +52,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineGlobe></HiOutlineGlobe>
               )}
-              Login
+              <p>Login</p>
             </Link>
             <Link
               to="/Card"
@@ -63,7 +65,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineCreditCard></HiOutlineCreditCard>
               )}
-              Card
+              <p>Card</p>
             </Link>
             <Link
               to="/Identity"
@@ -78,7 +80,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineIdentification></HiOutlineIdentification>
               )}
-              Identifications
+              <p>Identifications</p>
             </Link>
             <Link
               to="/SecureNote"
@@ -93,7 +95,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineDocumentText></HiOutlineDocumentText>
               )}
-              Secure Note
+              <p>Secure Note</p>
             </Link>
             <Link
               to="/WifiPasswords"
@@ -108,7 +110,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineWifi></HiOutlineWifi>
               )}
-              Wifi Passwords
+              <p>Wifi Passwords</p>
             </Link>
             <Link
               to="/SharingCenter"
@@ -123,7 +125,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineUsers></HiOutlineUsers>
               )}
-              Sharing Center
+              <p>Sharing Center</p>
             </Link>
           </div>
         )}

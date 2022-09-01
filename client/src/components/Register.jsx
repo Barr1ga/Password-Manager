@@ -10,6 +10,7 @@ import {
   HiOutlineEyeOff,
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
+import OtherLinks from "./OtherLinks";
 
 const Register = ({ handleShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +37,13 @@ const Register = ({ handleShowLogin }) => {
 
   return (
     <>
-      <Modal size="md" show={show} backdrop="static" keyboard={false}>
+      <Modal
+        dialogClassName="registration-modal"
+        size="md"
+        show={show}
+        backdrop={false}
+        keyboard={false}
+      >
         <Modal.Header>
           <div className="login-register-header padding-side">
             <div className="logo gap-10">
@@ -49,11 +56,14 @@ const Register = ({ handleShowLogin }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="standard-stack gap-10">
-            <h5>Registration</h5>
+            <h5 className="login-title">Register to Vaulteer</h5>
+
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
-                  <label>Email Address <span className="error-message">*</span></label>
+                  <label>
+                    Email Address <span className="error-message">*</span>
+                  </label>
                   <input
                     type="email"
                     {...register("email", {
@@ -79,7 +89,9 @@ const Register = ({ handleShowLogin }) => {
                 </div>
 
                 <div className="form-group">
-                  <label>Name <span className="error-message">*</span></label>
+                  <label>
+                    Name <span className="error-message">*</span>
+                  </label>
                   <input
                     type="text"
                     {...register("name", {
@@ -102,7 +114,9 @@ const Register = ({ handleShowLogin }) => {
                 </div>
 
                 <div className="form-group">
-                  <label>Master Password <span className="error-message">*</span></label>
+                  <label>
+                    Master Password <span className="error-message">*</span>
+                  </label>
                   <span className="password-input">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -151,7 +165,10 @@ const Register = ({ handleShowLogin }) => {
 
                 <div className="form-group">
                   <div className="form-group">
-                    <label>Re-type Master Password <span className="error-message">*</span></label>
+                    <label>
+                      Re-type Master Password{" "}
+                      <span className="error-message">*</span>
+                    </label>
                     <span className="password-input">
                       <input
                         type={showReTypePassword ? "text" : "password"}
@@ -245,6 +262,9 @@ const Register = ({ handleShowLogin }) => {
             </div>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <OtherLinks></OtherLinks>
+        </Modal.Footer>
       </Modal>
     </>
   );

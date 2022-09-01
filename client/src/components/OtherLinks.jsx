@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const otherLinks = () => {
   return (
-    <div className="other-links padding-side gap-20">
+    <div className="other-links padding-side gap-10">
       <small>
         <Link to="/" className="item btn-link">
           About

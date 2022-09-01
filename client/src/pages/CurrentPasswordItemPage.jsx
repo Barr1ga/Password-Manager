@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PasswordInformation from "./PasswordInformation";
+import PasswordInformation from "../components/PasswordInformation";
+import { useParams } from "react-router-dom";
 
-const CurrentPasswordItem = () => {
+const CurrentPasswordItemPage = () => {
+  const { id } = useParams();
+
+  console.log(id);
   const { passwords, selectedPassword } = useSelector(
     (state) => state.passwords
   );
@@ -23,9 +27,13 @@ const CurrentPasswordItem = () => {
 
   return (
     <>
-      <PasswordInformation currentPassword={currentPassword}></PasswordInformation>
+      <div className="margin-content padding-side">
+        <PasswordInformation
+          currentPassword={currentPassword}
+        ></PasswordInformation>
+      </div>
     </>
   );
 };
 
-export default CurrentPasswordItem;
+export default CurrentPasswordItemPage;

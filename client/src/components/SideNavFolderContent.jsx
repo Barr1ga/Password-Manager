@@ -14,7 +14,7 @@ const SideNavFolder = ({ folder }) => {
       ) : (
         <HiOutlineFolder></HiOutlineFolder>
       )}
-      {folder}
+      <p>{folder}</p>
     </Link>
   );
 };

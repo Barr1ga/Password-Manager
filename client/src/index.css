@@ -32,7 +32,7 @@ a {
 
 a:hover {
   text-decoration: none;
-  color: rgb(99, 40, 207);
+  color: #fff;
 }
 
 p {
@@ -41,6 +41,8 @@ p {
   font-size: 1rem;
   margin: 0 !important;
   color: #fff;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 ul {
@@ -51,6 +53,8 @@ ul {
 small {
   font-size: 0.8rem;
   color: rgb(167, 167, 167);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li {
@@ -101,6 +105,26 @@ input {
 
 *::-webkit-scrollbar {
   display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .screen-version .mobile {
+    display: block !important;
+  }
+
+  .screen-version .non-mobile {
+    display: none !important;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .screen-version .mobile {
+    display: none !important;
+  }
+
+  .screen-version .non-mobile {
+    display: block !important;
+  }
 }
 
 /* button css */
@@ -263,11 +287,13 @@ input {
 .select-options {
   position: absolute;
   width: 100%;
-  background-color: #fff;
+  background-color: rgb(27, 27, 27);
+  box-shadow: 0 0 5px 5px rgba(51, 51, 51, 0.253);
   border: 1px solid #474747;
   border-radius: 5px;
   max-height: 200px;
   overflow-y: scroll;
+  z-index: 1;
 }
 
 .select-options .option {
@@ -298,6 +324,10 @@ input {
   font-size: 1.3rem;
 }
 
+.password-input .interactions .generate-password {
+  color: rgb(157, 104, 255);
+}
+
 .secure {
   color: rgb(119, 226, 77);
 }
@@ -316,7 +346,6 @@ input {
 }
 
 .form-checkbox {
-  
   border: 1px solid #474747;
   height: 15px;
   width: 15px;
@@ -327,6 +356,12 @@ input {
   color: #fff;
   border: 1px solid #474747;
   background-color: transparent;
+}
+
+input:placeholder-shown {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .form-control:disabled {
@@ -396,16 +431,17 @@ input {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  color: #fff;
 }
 
 .login-register-header .logo h3 {
   margin-bottom: 0;
+  color: #9c9aff;
 }
 
 .login-register-header .logo .half {
   font-family: "Work Sans", sans-serif;
   font-weight: 200;
+  color: #fff;
 }
 
 .login-register-header .icon {
@@ -428,6 +464,7 @@ input {
   padding-top: 55px;
   min-height: 100vh;
   height: 100%;
+  margin: 0 15px;
 }
 
 .sub-body-small {
@@ -439,6 +476,9 @@ input {
 }
 
 .left-margin {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   flex: 0 1 200px;
   margin-top: 20px;
 }
@@ -456,6 +496,19 @@ input {
   padding-left: 15px;
 }
 
+@media only screen and (max-width: 768px) {
+  .right-margin {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .left-margin {
+    /* background-color: red; */
+    flex: 0 1 50px;
+  }
+}
+
 .sub-body .margin {
   display: flex;
 }
@@ -468,6 +521,10 @@ input {
 }
 
 .sidenav-hr {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   margin: 0px 12px;
 }
 
@@ -481,17 +538,48 @@ input {
   border: none;
   background-color: transparent;
   cursor: pointer;
+  font-size: 1rem !important;
 }
 
+.sidenav-button svg {
+  min-height: 16px !important;
+  min-width: 16px !important;
+}
+
+.sidenav-button p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 480px) {
+  .sidenav-button {
+    display: flex;
+    justify-content: center;
+  }
+
+  .sidenav-button p {
+    display: none;
+  }
+
+  .side-nav h5,
+  .side-nav form {
+    display: none;
+  }
+}
+
+.side-nav .selected p,
 .side-nav .selected {
-  background-color: #44444470;
   color: #9c9aff;
   font-weight: 600;
 }
 
+.side-nav .selected {
+  background-color: #44444470;
+}
+
 .sidenav-button:hover {
   background-color: #44444470;
-  color: #fff;
   transition: 0.2s ease-out 0s;
 }
 
@@ -513,6 +601,41 @@ input {
 .side-nav .category-folder-title:hover {
   opacity: 100%;
   transition: 0.2s ease-out 0s;
+}
+
+.side-nav .category-folder-title p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media only screen and (max-width: 768px) {
+  .side-nav {
+    justify-content: center;
+  }
+
+  .sidenav-hr {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .side-nav .category-folder-title .icon {
+    display: none;
+  }
+
+  .side-nav .category-folder-title {
+    display: flex;
+    justify-content: center;
+  }
+
+  .side-nav .socials {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 10px;
+  }
 }
 
 .side-nav .socials {
@@ -576,17 +699,44 @@ input {
   justify-content: space-between;
 }
 
+@media only screen and (max-width: 768px) {
+  .header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .header .margin {
+    flex: 0 1 600px;
+  }
+}
+
 .header .logo {
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  color: #fff;
+}
+
+.header .logo h3 {
+  color: #9c9aff;
 }
 
 .header .logo .half {
   font-family: "Work Sans", sans-serif;
   font-weight: 200;
+  color: #fff;
+}
+
+@media only screen and (max-width: 480px) {
+  .header .logo h3 {
+    font-size: 1.2rem;
+  }
+
+  .header .logo .half {
+    display: none;
+  }
 }
 
 .header .icon {
@@ -595,7 +745,7 @@ input {
 }
 
 .header h3 {
-  margin-bottom: 0px !important;
+  margin-bottom: 0px;
 }
 
 .header .nav {
@@ -603,14 +753,26 @@ input {
   align-items: center;
 }
 
+@media only screen and (max-width: 840px) {
+  .header .nav {
+    gap: 8px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header .nav {
+    display: none;
+  }
+}
+
 .header .nav .item {
-  color: #fff !important;
+  color: #fff;
 }
 
 .header .btn-secondary {
   /* border: 1px solid #fff; */
   /* border-radius: 100px; */
-  color: #fff !important;
+  color: #fff;
 }
 
 .header .btn-secondary .image {
@@ -633,7 +795,7 @@ input {
   color: #9c9aff !important;
 }
 
-.password-item-selected, 
+.password-item-selected,
 .password-item:hover {
   background-color: #44444470;
 }
@@ -670,7 +832,7 @@ input {
 
 .password-item .empty-icon {
   text-transform: uppercase;
-  background-color: rgb(99, 40, 207);
+  /* background-color: rgb(99, 40, 207); */
   height: 45px;
   width: 45px;
   border-radius: 10px;
@@ -691,7 +853,7 @@ input {
   background: linear-gradient(
     90deg,
     rgb(99, 40, 207) 0%,
-    rgb(120, 27, 163) 100%
+    rgb(99, 40, 207) 100%
   );
   display: flex;
   align-items: center;
@@ -788,22 +950,26 @@ input {
 .other-links {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   color: #fff;
   opacity: 50%;
   padding: 0 30px;
   transition: 0.2s ease-out 0s;
+  width: 100%;
 }
 
 .btn-link {
   cursor: pointer;
 }
 
-.other-links .btn-link:hover {
+.other-links .btn-link:hover,
+.other-links .btn-link:focus {
   color: #fff;
   transition: 0.2s ease-out 0s;
 }
 
 /* page css */
+.page-header-with-close,
 .page-header {
   width: 100%;
   display: flex;
@@ -811,19 +977,47 @@ input {
   align-items: center;
 }
 
+@media only screen and (min-width: 769px) and (max-width: 850px) {
+  .page-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 10px;
+  }
+}
+
+@media only screen and (max-width: 368px) {
+  .page-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 10px;
+  }
+}
+
+.page-header-with-close .back-enabled ~ .confirm-component,
 .page-header .back-enabled ~ .confirm-component {
   width: auto;
 }
 
+.page-header-with-close .back-enabled,
 .page-header .back-enabled {
   flex-grow: 3;
 }
 
+.page-header-with-close div:nth-child(1),
 .page-header div:nth-child(1) {
   display: flex;
   width: 100%;
 }
 
+.page-header-with-close div:nth-child(2),
 .page-header div:nth-child(2) {
   display: flex;
   gap: 5px;
@@ -923,14 +1117,24 @@ input {
   text-transform: uppercase;
 }
 
+.password-generator-form {
+  padding: 15px;
+  border: 1px solid #474747;
+  border-radius: 5px;
+}
+
 .password-generator .generator-field {
   display: flex;
   align-items: center;
   position: relative;
 }
 
+.password-generator hr {
+  margin-bottom: 20px;
+}
+
 .password-generator .length {
-  flex: 0 1 100px;
+  flex: 0 1 70px;
 }
 
 .password-generator .generator-field input {
@@ -969,9 +1173,56 @@ input {
   width: 100%;
 }
 
-/* modal css */
-.modal-smmd {
-  width: 350px;
+.modal-footer {
+  width: 100%;
+  position: absolute;
+  bottom: -50px;
+  border: none;
+  background-color: transparent;
+}
+
+@media only screen and (min-width: 576px) {
+  .login-modal {
+    width: 350px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .login-modal,
+  .registration-modal {
+    width: auto;
+  }
+
+  .login-title {
+    text-align: center;
+  }
+
+  .login-modal .modal-body,
+  .registration-modal .modal-body {
+    /* margin-top: 50px; */
+    border: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login-modal .modal-content,
+  .registration-modal .modal-content {
+    box-shadow: none;
+  }
+
+  .login-modal .modal-header,
+  .sregistration-modal .modal-header {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    padding-right: 23px;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+  }
+
+  .modal-footer {
+    bottom: -80px;
+  }
 }
 
 .modal-content {
@@ -982,7 +1233,7 @@ input {
 
 .modal-body {
   border: 1px solid #474747;
-  background-color: rgb(17, 17, 17);
+  background-color: rgb(27, 27, 27);
   border-radius: 0 0 5px 5px;
   border-top: none;
 }

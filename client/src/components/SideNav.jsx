@@ -19,7 +19,7 @@ import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
 import SideNavFolder from "./SideNavFolder";
-import ConfirmModal from "./ConfirmModal";
+import ConfirmModal from "./Helpers/ConfirmModal";
 
 const SideNav = () => {
   const route = useLocation().pathname;
@@ -33,7 +33,7 @@ const SideNav = () => {
       {route !== "/MyAccount" && route !== "/Members" && route !== "/Roles" ? (
         <>
           <h5>My Vault</h5>
-          <form>
+          <form className="search">
             <input
               type="text"
               className="form-control"
@@ -42,17 +42,17 @@ const SideNav = () => {
           </form>
           <div className="standard-stack">
             <Link
-              to="/"
+              to="/All"
               className={
-                route === "/" ? "sidenav-button selected" : "sidenav-button"
+                route === "/All" ? "sidenav-button selected" : "sidenav-button"
               }
             >
-              {route === "/" ? (
+              {route === "/All" ? (
                 <HiViewGrid></HiViewGrid>
               ) : (
                 <HiOutlineViewGrid></HiOutlineViewGrid>
               )}
-              All Items
+              <p>All Items</p>
             </Link>
             <Link
               to="/Favorites"
@@ -67,7 +67,7 @@ const SideNav = () => {
               ) : (
                 <HiOutlineStar></HiOutlineStar>
               )}
-              Favorites
+              <p>Favorites</p>
             </Link>
             <Link
               to="/Trash"
@@ -82,7 +82,7 @@ const SideNav = () => {
               ) : (
                 <HiOutlineTrash></HiOutlineTrash>
               )}
-              Trash
+              <p>Trash</p>
             </Link>
           </div>
           <div className="standard-stack">
@@ -105,7 +105,7 @@ const SideNav = () => {
             ) : (
               <RiSettings2Line></RiSettings2Line>
             )}
-            Vault Settings
+            <p>Vault Settings</p>
           </Link>
         </>
       ) : (
@@ -132,7 +132,7 @@ const SideNav = () => {
               ) : (
                 <HiOutlineUser></HiOutlineUser>
               )}
-              My Account
+              <p>My Account</p>
             </Link>
             <Link
               to="/Members"
@@ -147,7 +147,7 @@ const SideNav = () => {
               ) : (
                 <HiOutlineUserGroup></HiOutlineUserGroup>
               )}
-              Members
+              <p>Members</p>
             </Link>
 
             <Link
@@ -163,14 +163,14 @@ const SideNav = () => {
               ) : (
                 <HiOutlineShieldCheck></HiOutlineShieldCheck>
               )}
-              Roles
+              <p>Roles</p>
             </Link>
           </div>
           <div>
             <hr className="sidenav-hr padding-side"></hr>
           </div>
             <ConfirmModal handleProceed={handleLogout} component={<div className="sidenav-button">
-            <HiOutlineLogout></HiOutlineLogout> Logout
+            <HiOutlineLogout></HiOutlineLogout> <p>Logout</p>
           </div>} headerMessage={"Log out"} bodyMessage={"Are you sure you want to logout"} continueMessage={"Logout"}></ConfirmModal>
           
           <div>

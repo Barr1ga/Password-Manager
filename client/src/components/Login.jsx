@@ -10,11 +10,16 @@ import {
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/slice/userSlice";
+import OtherLinks from "./OtherLinks";
 
 const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -27,12 +32,18 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     },
   });
 
+  const onSubmit = (data) => {
+    console.log(data);
+    dispatch(setUser());
+  };
+
   return (
     <>
       <Modal
-        dialogClassName="modal-smmd"
+        dialogClassName="login-modal"
+        size="md"
         show={show}
-        backdrop="static"
+        backdrop={false}
         keyboard={false}
       >
         <Modal.Header>
@@ -47,12 +58,14 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
         </Modal.Header>
         <Modal.Body>
           <div className="standard-stack gap-10">
-            <h5>Login</h5>
+            <h5 className="login-title">Login to Vaulteer</h5>
 
             <div>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
-                  <label>Email Address <span className="error-message">*</span></label>
+                  <label>
+                    Email Address <span className="error-message">*</span>
+                  </label>
                   <input
                     type="email"
                     {...register("email", {
@@ -78,7 +91,9 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                 </div>
 
                 <div className="form-group">
-                  <label>Master Password <span className="error-message">*</span></label>
+                  <label>
+                    Master Password <span className="error-message">*</span>
+                  </label>
                   <span className="password-input">
                     <input
                       type={showPassword ? "text" : "password"}
@@ -131,7 +146,10 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   </div>
                 )}
                 <div className="form-group">
-                  <Button className="btn-dark btn-with-icon btn-long" onClick={handleLogin}>
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-with-icon btn-long"
+                  >
                     <HiOutlineLogin></HiOutlineLogin>Login
                   </Button>
                 </div>
@@ -145,6 +163,9 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
             </div>
           </div>
         </Modal.Body>
+        <Modal.Footer>
+          <OtherLinks></OtherLinks>
+        </Modal.Footer>
       </Modal>
     </>
   );

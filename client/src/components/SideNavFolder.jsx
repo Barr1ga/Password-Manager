@@ -91,12 +91,14 @@ const SideNavFolders = ({ folder, items }) => {
           className="category-folder-title"
           onClick={() => setShowNavFolders((prev) => !prev)}
         >
-          folders
-          {showNavFolders ? (
-            <RiArrowDownSLine></RiArrowDownSLine>
-          ) : (
-            <RiArrowRightSLine></RiArrowRightSLine>
-          )}
+          <p>folders</p>
+          <span className="icon">
+            {showNavFolders ? (
+              <RiArrowDownSLine></RiArrowDownSLine>
+            ) : (
+              <RiArrowRightSLine></RiArrowRightSLine>
+            )}
+          </span>
         </span>
         <div className="standard-stack">
           {showNavFolders &&

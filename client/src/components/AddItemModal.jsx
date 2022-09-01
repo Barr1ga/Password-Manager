@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import AddButton from "./AddButton";
+import AddButton from "./Helpers/AddButton";
 import { useForm } from "react-hook-form";
 import {
   HiOutlineEye,
@@ -14,27 +14,18 @@ import {
   HiOutlineArrowLeft,
 } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
-import useGeneratePassword from "../hooks/useGeneratePassword";
-import Tooltip from "react-bootstrap/Tooltip";
-import Overlay from "react-bootstrap/Overlay";
-import WarningAlert from "./WarningAlert";
-import ConfirmModal from "./ConfirmModal";
+import ConfirmModal from "./Helpers/ConfirmModal";
+import PasswordGenerator from "./PasswordGenerator";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [securePassword, setSecurePassword] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
-  const [showToolTip, setShowToolTip] = useState(false);
-  const { password, getPassword, resetPassword } = useGeneratePassword();
-  const [generateEmpty, setGenerateEmpty] = useState(false);
 
-  const generatedRef = useRef();
   const folderRef = useRef();
-  const clipBoard = useRef(null);
 
   const {
     register,
@@ -53,19 +44,7 @@ const AddItemModal = () => {
     },
   });
 
-  const watchPasswordValue = watch("password");
-
-  const {
-    register: registerPassword,
-    handleSubmit: handlePasswordSubmit,
-    formState: { errors: errorsPassword },
-  } = useForm({
-    mode: "all",
-    defaultValues: {
-      length: 10,
-    },
-  });
-
+  const watchPassword = watch("password");
 
   const onSubmit = (data) => {
     console.log(data);
@@ -77,55 +56,19 @@ const AddItemModal = () => {
     }
   };
 
-  const onSubmitGenerate = (data) => {
-    const { lowercase, uppercase, numbers, symbols, length } = data;
-    if (!lowercase && !uppercase && !numbers && !symbols) {
-      setGenerateEmpty(true);
-      return;
-    }
-
-    getPassword(data);
-    if (lowercase || uppercase || numbers || symbols) {
-      setSecurePassword(true);
-    }
-  };
-
-  const handlePasswordCopied = () => {
-    setShowToolTip(true);
-    navigator.clipboard.writeText(password);
-  };
-
-  if (password !== "" && generatedRef.current) {
-    generatedRef.current.value = password;
-  }
-
-  const handleGeneratorChange = () => {
-    setSecurePassword(false);
-  };
-
   const handleBack = () => {
     setShowPasswordGenerator(false);
-    generatedRef.current.value = "";
-    resetPassword();
   };
 
-  const handleUsePassword = () => {
-    if (password !== "") {
-      setShowPasswordGenerator(false);
-      setValue("password", password);
-      generatedRef.current.value = "";
-      resetPassword();
-    }
+  const handleUsePassword = (password) => {
+    setShowPasswordGenerator(false);
+    setValue("password", password);
   };
 
   const handleCloseModal = () => {
     setModalShow(false);
-    setShowPasswordGenerator(false);
-    if (generatedRef.current) {
-      generatedRef.current.value = "";
-    }
-    resetPassword();
     reset();
+    setShowPasswordGenerator(false);
   };
 
   return (
@@ -143,7 +86,7 @@ const AddItemModal = () => {
       >
         <Modal.Header>
           {/* <Modal.Title>Modal heading</Modal.Title> */}
-          <div className="page-header">
+          <div className="page-header-with-close">
             <div className="back-enabled">
               {showPasswordGenerator && (
                 <HiOutlineArrowLeft
@@ -243,9 +186,6 @@ const AddItemModal = () => {
                       }
                     />
                     <div className="interactions">
-                      {securePassword && (
-                        <HiCheckCircle className="secure"></HiCheckCircle>
-                      )}
                       {showPasswordInput ? (
                         <HiOutlineEye
                           onClick={() => setShowPasswordInput(false)}
@@ -255,7 +195,7 @@ const AddItemModal = () => {
                           onClick={() => setShowPasswordInput(true)}
                         ></HiOutlineEyeOff>
                       )}
-                      <HiOutlineRefresh
+                      <HiOutlineRefresh className="generate-password"
                         onClick={() => setShowPasswordGenerator(true)}
                       ></HiOutlineRefresh>
                     </div>
@@ -333,139 +273,10 @@ const AddItemModal = () => {
           )}
 
           {showPasswordGenerator && (
-            <>
-              <div className="generator-header">
-                <h5>
-                  Password Generator <span className="error-message">*</span>
-                </h5>
-              </div>
-
-              <div className="password-generator">
-                <div className="form-group generator-field">
-                  <input
-                    type="text"
-                    ref={generatedRef}
-                    onChange={handleGeneratorChange}
-                    className="form-control password-generator-input"
-                  ></input>
-                  {securePassword && (
-                    <HiCheckCircle className="secure"></HiCheckCircle>
-                  )}
-                  <Button
-                    ref={clipBoard}
-                    onClick={handlePasswordCopied}
-                    onBlur={() => setShowToolTip(false)}
-                    className="btn-secondary copy-to-clipboard"
-                  >
-                    <HiOutlineDuplicate></HiOutlineDuplicate>
-                  </Button>
-                  <Overlay
-                    target={clipBoard.current}
-                    show={showToolTip}
-                    placement="top"
-                  >
-                    {(props) => (
-                      <Tooltip id="top" {...props}>
-                        Copied!
-                      </Tooltip>
-                    )}
-                  </Overlay>
-                </div>
-              </div>
-
-              <form onSubmit={handlePasswordSubmit(onSubmitGenerate)}>
-                <div className="password-generator">
-                  <div className="form-group form-group-horizontal">
-                    <label>
-                      Password Length <span className="error-message">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      min="10"
-                      max="30"
-                      {...registerPassword("length")}
-                      className="form-control length"
-                    ></input>
-                  </div>
-                  <div className="form-group form-group-horizontal">
-                    <label>Include Uppercase Letters</label>
-                    <input
-                      type="checkbox"
-                      {...registerPassword("uppercase")}
-                      className="form-checkbox"
-                    />
-                  </div>
-                  <div className="form-group form-group-horizontal">
-                    <label>Include Lowercase Letters</label>
-                    <input
-                      type="checkbox"
-                      {...registerPassword("lowercase")}
-                      className="form-checkbox"
-                    />
-                  </div>
-                  <div className="form-group form-group-horizontal">
-                    <label>Include Numbers</label>
-                    <input
-                      type="checkbox"
-                      {...registerPassword("numbers")}
-                      className="form-checkbox"
-                    />
-                  </div>
-                  <div className="form-group form-group-horizontal">
-                    <label>Include Symbols</label>
-                    <input
-                      type="checkbox"
-                      {...registerPassword("symbols")}
-                      className="form-checkbox"
-                    />
-                  </div>
-                </div>
-                <div className="form-group">
-                  <WarningAlert
-                    message={
-                      "Do not share your password to unauthorized users."
-                    }
-                  ></WarningAlert>
-                </div>
-                {generateEmpty && <small className="error-message">⚠ Password criterias are required</small>}
-                <div className="generate-use">
-                  <Button type="submit" className="btn-dark btn-long">
-                    Generate Password
-                  </Button>
-                  <div className="btn-long">
-                    {(watchPasswordValue && watchPasswordValue) !== "" ? (
-                      <ConfirmModal
-                        handleProceed={handleCloseModal}
-                        component={
-                          <Button
-                            type="button"
-                            onClick={handleUsePassword}
-                            className="btn-secondary btn-long"
-                          >
-                            Use Password
-                          </Button>
-                        }
-                        headerMessage={
-                          "Are you sure you want to use this password?"
-                        }
-                        bodyMessage={
-                          "You already have a password for this item, do you want to replace it?"
-                        }
-                        continueMessage={"Leave"}
-                      ></ConfirmModal>
-                    ) : (
-                      <Button
-                        type="button"
-                        onClick={handleUsePassword}
-                        className="btn-secondary btn-long"
-                      >
-                        Use Password
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              </form>
-            </>
+            <PasswordGenerator
+              watchPassword={watchPassword}
+              handleUsePassword={handleUsePassword}
+            ></PasswordGenerator>
           )}
         </Modal.Body>
       </Modal>

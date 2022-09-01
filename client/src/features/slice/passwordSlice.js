@@ -90,12 +90,15 @@ const passwordSlice = createSlice({
   initialState,
   reducers: {
     resetPasswords: (state) => initialState,
-    resetSelectedPasswordItem: (state) => state.selectedPassword = null,
+    resetSelectedPasswordItem: (state) => {
+      state.selectedPassword = null;
+    },
     selectPasswordItem: (state, action) => {
       state.selectedPassword = action.payload;
     },
   },
 });
 
-export const { resetPasswords, resetSelectedPasswordItem, selectPasswordItem } = passwordSlice.actions;
+export const { resetPasswords, resetSelectedPasswordItem, selectPasswordItem } =
+  passwordSlice.actions;
 export default passwordSlice.reducer;

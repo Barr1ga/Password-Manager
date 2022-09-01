@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
@@ -12,8 +12,8 @@ import SharingCenter from "./pages/SharingCenter";
 import MyAccount from "./pages/MyAccount";
 import Members from "./pages/Members";
 import Roles from "./pages/Roles";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import LoginRegistration from "./pages/LoginRegistration";
+import CurrentPasswordItemPage from "./pages/CurrentPasswordItemPage";
 
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
@@ -23,27 +23,22 @@ import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
 import VaultMembers from "./components/VaultMembers";
 import CurrentPasswordItem from "./components/CurrentPasswordItem";
-import { useSelector } from "react-redux";
+import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
+import { useDispatch, useSelector } from "react-redux";
+import { getBrandDetails } from "./features/slice/brandSlice";
 
 const App = () => {
-  const { id } = useParams();
+  const { selectedPassword } = useSelector((state) => state.passwords);
+  const { user } = useSelector((state) => state.auth);
 
-  const { selectedPassword } = useSelector((state) => state.passwords)
+  const dispatch = useDispatch();
+  const { passwords } = useSelector((state) => state.passwords);
 
-  const [showLogin, setShowLogin] = useState(true);
-  const [user, setUser] = useState(false);
-
-  const handleShowRegistration = () => {
-    setShowLogin(false);
-  };
-
-  const handleShowLogin = () => {
-    setShowLogin(true);
-  };
-
-  const handleLogin = () => {
-    setUser(true);
-  }
+  // useEffect(() => {
+  //   passwords.forEach((password) => {
+  //     dispatch(getBrandDetails(password.name));
+  //   });
+  // }, [passwords]);
 
   return (
     <BrowserRouter>
@@ -57,32 +52,131 @@ const App = () => {
             <div className="center-margin">
               <div className="scroll-view">
                 <Routes>
-                  <Route path="/" element={<AllItems></AllItems>}></Route>
+                  <Route path="/All" element={<AllItems></AllItems>}></Route>
+                  <Route
+                    path="/All/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<AllItems />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route
                     path="/Favorites"
                     element={<Favorites></Favorites>}
                   ></Route>
+                  <Route
+                    path="/Favorites/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Favorites />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route path="/Trash" element={<Trash></Trash>}></Route>
+                  <Route
+                    path="/Trash/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Trash />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route path="/Logins" element={<Logins></Logins>}></Route>
+                  <Route
+                    path="/Logins/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Logins />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route path="/Card" element={<Card></Card>}></Route>
+                  <Route
+                    path="/Card/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Card />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route
                     path="/Identity"
                     element={<Identity></Identity>}
+                  ></Route>
+                  <Route
+                    path="/Identity/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Identity />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
                   ></Route>
                   <Route
                     path="/SecureNote"
                     element={<SecureNote></SecureNote>}
                   ></Route>
                   <Route
+                    path="/SecureNote/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<SecureNote />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
+                  <Route
                     path="/WifiPasswords"
                     element={<WifiPasswords></WifiPasswords>}
+                  ></Route>
+                  <Route
+                    path="/WifiPasswords/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<WifiPasswords />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
                   ></Route>
                   <Route
                     path="/MyAccount"
                     element={<MyAccount></MyAccount>}
                   ></Route>
+                  <Route
+                    path="/MyAccount/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<MyAccount />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route path="/Members" element={<Members></Members>}></Route>
+                  <Route
+                    path="/Members/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Members />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                   <Route path="/Roles" element={<Roles></Roles>}></Route>
+                  <Route
+                    path="/Roles/:id"
+                    element={
+                      <ResponsiveDisplay
+                        nonMobile={<Roles />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    }
+                  ></Route>
                 </Routes>
               </div>
             </div>
@@ -101,11 +195,7 @@ const App = () => {
       ) : (
         <>
           <div className="sub-body-small">
-            {showLogin ? (
-              <Login handleLogin={handleLogin} handleShowRegistration={handleShowRegistration}></Login>
-            ) : (
-              <Register handleShowLogin={handleShowLogin}></Register>
-            )}
+            <LoginRegistration></LoginRegistration>
           </div>
         </>
       )}

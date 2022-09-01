@@ -5,10 +5,10 @@ import { HiCheckCircle, HiOutlineDuplicate } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
 import WarningAlert from "./WarningAlert";
-import ConfirmModal from "./ConfirmModal";
+import ConfirmModal from "./Helpers/ConfirmModal";
 import useGeneratePassword from "../hooks/useGeneratePassword";
 
-const PasswordGenerator = ({ watchPassword }) => {
+const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const [securePassword, setSecurePassword] = useState(false);
   const [showToolTip, setShowToolTip] = useState(false);
   const [generateEmptyCriteria, setGenerateEmptyCriteria] = useState(false);
@@ -105,10 +105,10 @@ const PasswordGenerator = ({ watchPassword }) => {
         </div>
       </div>
 
-      <form onSubmit={handlePasswordSubmit(onSubmitGenerate)}>
+      <form className="password-generator-form" onSubmit={handlePasswordSubmit(onSubmitGenerate)}>
         <div className="password-generator">
           <div className="form-group form-group-horizontal">
-            <label>Password Length</label>
+            <p>Password Length</p>
             <input
               type="number"
               min="10"
@@ -117,6 +117,7 @@ const PasswordGenerator = ({ watchPassword }) => {
               className="form-control length"
             ></input>
           </div>
+          <hr></hr>
           <div className="form-group form-group-horizontal">
             <label>Include Uppercase Letters</label>
             <input
@@ -172,7 +173,7 @@ const PasswordGenerator = ({ watchPassword }) => {
         </div>
         <div className="generate-use">
           <Button type="submit" className="btn-dark btn-long">
-            Generate Password
+            Generate
           </Button>
           <div className="btn-long">
             {/* {console.log(generatedRef.current.value !== "" ? true : false)} */}
@@ -188,7 +189,7 @@ const PasswordGenerator = ({ watchPassword }) => {
               generatedRef.current.value !== "" &&
               (watchPassword && watchPassword) !== "" ? (
               <ConfirmModal
-                // handleProceed={handleUsePassword(password)}
+                handleProceed={() => handleUsePassword(password)}
                 component={
                   <Button type="button" className="btn-secondary btn-long">
                     Use Password
@@ -203,7 +204,7 @@ const PasswordGenerator = ({ watchPassword }) => {
             ) : (
               <Button
                 type="button"
-                // onClick={handleUsePassword(password)}
+                onClick={() => handleUsePassword(password)}
                 className="btn-secondary btn-long"
               >
                 Use Password
