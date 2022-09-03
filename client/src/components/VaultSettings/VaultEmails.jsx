@@ -3,35 +3,10 @@ import WarningAlert from "../WarningAlert";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import VaultMembers from "../VaultMembers";
+import { useSelector } from "react-redux";
 
 const VaultEmails = () => {
-  const [members, setMembers] = useState([
-    {
-      id: 1,
-      name: "horebBarriga",
-      email: "hor.barr1ga@gmail.com",
-      role: "vault owner",
-    },
-    {
-      id: 1,
-      name: "DainSiao",
-      email: "dainalou@gmail.com",
-      role: "vault owner",
-    },
-    {
-      id: 1,
-      name: "CJCaburnay",
-      email: "caburnaycj@gmail.com",
-      role: "employee",
-    },
-    { id: 1, name: "Bryll", email: "bryllandales@gmail.com", role: "family" },
-    {
-      id: 1,
-      name: "JemseyAmonsot",
-      email: "jemseyamonsot@gmail.com",
-      role: "family",
-    },
-  ]);
+  const { members } = useSelector((state) => state.members);
 
   const {
     register,

@@ -14,6 +14,7 @@ import Members from "./pages/Members";
 import Roles from "./pages/Roles";
 import LoginRegistration from "./pages/LoginRegistration";
 import CurrentPasswordItemPage from "./pages/CurrentPasswordItemPage";
+import AuditLog from "./pages/AuditLog";
 
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
@@ -177,12 +178,30 @@ const App = () => {
                       ></ResponsiveDisplay>
                     }
                   ></Route>
+                  <Route
+                    path="/AuditLog"
+                    element={<AuditLog></AuditLog>}
+                  ></Route>
+                  <Route
+                    path="/AuditLog/:id"
+                    element={
+                      <AuditLog
+                        nonMobile={<Roles />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></AuditLog>
+                    }
+                  ></Route>
                 </Routes>
               </div>
             </div>
             <div className="right-margin standard-stack gap-10">
-              {selectedPassword && <CurrentPasswordItem></CurrentPasswordItem>}
-              <hr></hr>
+              {selectedPassword && (
+                <>
+                  <CurrentPasswordItem></CurrentPasswordItem>
+                  <hr></hr>
+                </>
+              )}
+
               <SiteWarning></SiteWarning>
 
               <div className="right-vault-members">

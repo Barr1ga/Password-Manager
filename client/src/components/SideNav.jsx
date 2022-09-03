@@ -14,6 +14,8 @@ import {
   HiOutlineShieldCheck,
   HiShieldCheck,
   HiOutlineLogout,
+  HiOutlineClipboardList,
+  HiClipboardList,
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -25,12 +27,15 @@ const SideNav = () => {
   const route = useLocation().pathname;
 
   const handleLogout = () => {
-    console.log("logout")
-  }
+    console.log("logout");
+  };
 
   return (
     <div className="side-nav standard-stack gap-10">
-      {route !== "/MyAccount" && route !== "/Members" && route !== "/Roles" ? (
+      {route !== "/MyAccount" &&
+      route !== "/Members" &&
+      route !== "/Roles" &&
+      route !== "/AuditLog" ? (
         <>
           <h5>My Vault</h5>
           <form className="search">
@@ -165,14 +170,38 @@ const SideNav = () => {
               )}
               <p>Roles</p>
             </Link>
+
+            <Link
+              to="/AuditLog"
+              className={
+                route === "/AuditLog"
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
+              }
+            >
+              {route === "/Roles" ? (
+                <HiClipboardList></HiClipboardList>
+              ) : (
+                <HiOutlineClipboardList></HiOutlineClipboardList>
+              )}
+              <p>Audit Log</p>
+            </Link>
           </div>
           <div>
             <hr className="sidenav-hr padding-side"></hr>
           </div>
-            <ConfirmModal handleProceed={handleLogout} component={<div className="sidenav-button">
-            <HiOutlineLogout></HiOutlineLogout> <p>Logout</p>
-          </div>} headerMessage={"Log out"} bodyMessage={"Are you sure you want to logout"} continueMessage={"Logout"}></ConfirmModal>
-          
+          <ConfirmModal
+            handleProceed={handleLogout}
+            component={
+              <div className="sidenav-button">
+                <HiOutlineLogout></HiOutlineLogout> <p>Logout</p>
+              </div>
+            }
+            headerMessage={"Log out"}
+            bodyMessage={"Are you sure you want to logout"}
+            continueMessage={"Logout"}
+          ></ConfirmModal>
+
           <div>
             <hr className="sidenav-hr padding-side"></hr>
           </div>

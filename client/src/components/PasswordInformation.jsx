@@ -310,6 +310,7 @@ const PasswordInformation = ({ currentPassword }) => {
                   <HiOutlineTrash></HiOutlineTrash>Delete Item
                 </Button>
               </div>
+              <small>Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard Time)</small>
             </form>
           </>
         )}

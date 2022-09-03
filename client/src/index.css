@@ -193,7 +193,7 @@ input {
   display: flex;
   align-items: center;
   gap: 5px;
-  background-color: rgb(99, 40, 207);
+  background-color: rgb(124, 55, 252);
   border: 1px solid rgb(59, 30, 112);
   color: #fff;
   font-weight: 600;
@@ -245,6 +245,93 @@ input {
   gap: 5px;
 }
 
+/* loader css */
+.bar-loader { 
+  background-color: rgb(41, 41, 41);
+  height: 1px;
+  width: 100%; 
+  margin:0 auto;
+  border-radius:10px;
+  position:relative;
+  padding:1px;
+}
+
+.bar-loader:before {
+  border:1px solid ; 
+  position:absolute;
+}
+
+.bar-loader .loaderBar { 
+  position:absolute;
+  border-radius:10px;
+  top:0;
+  right:100%;
+  bottom:0;
+  left:0;
+  background:rgb(124, 55, 252); 
+  width:0;
+  animation: borealisBar 2s linear infinite;
+}
+
+@keyframes borealisBar {
+  0% {
+    left:0%;
+    right:100%;
+    width:0%;
+  }
+  10% {
+    left:0%;
+    right:75%;
+    width:25%;
+  }
+  90% {
+    right:0%;
+    left:75%;
+    width:25%;
+  }
+  100% {
+    left:100%;
+    right:0%;
+    width:0%;
+  }
+}
+
+.round-loader {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px 5px rgb(51 51 51 / 25%);
+  background-color: rgb(56, 56, 56);
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 70px;
+  right: 50%;
+  left: 50%;
+}
+
+.round-loader .loader {
+  width: 25px;
+  height: 25px;
+  border: 3px solid rgb(124, 55, 252);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  }
+
+  @keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+  } 
+
 /* three dot css */
 
 .three-dots {
@@ -260,6 +347,12 @@ input {
 .three-dots:hover {
   background-color: #44444470;
   transition: 0.2s ease-out 0s;
+}
+
+@media only screen and (max-width: 360px) {
+  .three-dots {
+    display: none;
+  }
 }
 
 /* form css */
@@ -365,7 +458,7 @@ input:placeholder-shown {
 }
 
 .form-control:disabled {
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(39, 39, 39);
   border: 1px solid #474747;
 }
 
@@ -461,7 +554,7 @@ input:placeholder-shown {
 .sub-body {
   display: flex;
   justify-content: center;
-  padding-top: 55px;
+  /* padding-top: 55px; */
   min-height: 100vh;
   height: 100%;
   margin: 0 15px;
@@ -484,6 +577,9 @@ input:placeholder-shown {
 }
 
 .center-margin {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   flex: 0 1 400px;
   border-left: 1px solid #474747;
   border-right: 1px solid #474747;
@@ -491,6 +587,9 @@ input:placeholder-shown {
 }
 
 .right-margin {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
   flex: 0 1 400px;
   margin-top: 20px;
   padding-left: 15px;
@@ -499,6 +598,14 @@ input:placeholder-shown {
 @media only screen and (max-width: 768px) {
   .right-margin {
     display: none;
+  }
+
+  .center-margin {
+    border-right: none;
+  }
+
+  .center-margin .scroll-view .screen-version .mobile .padding-side {
+    padding-right: 0;
   }
 }
 
@@ -654,6 +761,7 @@ input:placeholder-shown {
   width: 100%;
   position: fixed;
   z-index: 1000;
+  position: relative;
 }
 
 .header .right {
@@ -678,7 +786,7 @@ input:placeholder-shown {
   justify-content: center;
   align-items: center;
   color: #fff;
-  background-color: rgb(99, 40, 207);
+  background-color: rgb(124, 55, 252);
   height: 20px;
   width: 20px;
   border-radius: 50%;
@@ -730,8 +838,9 @@ input:placeholder-shown {
 }
 
 @media only screen and (max-width: 480px) {
+  .login-register-header .logo h3,
   .header .logo h3 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   .header .logo .half {
@@ -781,84 +890,22 @@ input:placeholder-shown {
 
 /* password css */
 
-/* password item css */
-.password-item {
-  display: flex;
-  align-items: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  cursor: pointer;
-}
-
-.password-item-selected .name small,
-.password-item-selected {
-  color: #9c9aff !important;
-}
-
-.password-item-selected,
-.password-item:hover {
-  background-color: #44444470;
-}
-
-.password-item .name {
-  flex-grow: 1;
-}
-
-.password-item .name .siteName {
-  color: rgb(49, 138, 255);
-  font-weight: 600;
-}
-
-.password-item .name .trashed {
-  color: #f34343;
-  font-weight: 600;
-}
-
-.password-item .name .link-icon {
-  color: #fff;
-  opacity: 50%;
-}
-
-.password-item .name .favorited {
-  color: rgb(255, 170, 42);
-}
-
-.password-item .icon {
-  background-color: transparent;
-  height: 45px;
-  width: 45px;
-  border-radius: 10px;
-}
-
-.password-item .empty-icon {
-  text-transform: uppercase;
-  /* background-color: rgb(99, 40, 207); */
-  height: 45px;
-  width: 45px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.3rem;
-  color: #fff;
-}
-
 /* site warning css */
 .site-warning {
-  border: 2px solid rgb(99, 40, 207);
+  border: 2px solid rgb(124, 55, 252);
   border-radius: 5px;
 }
 
 .site-warning .title {
   background: linear-gradient(
     90deg,
-    rgb(99, 40, 207) 0%,
-    rgb(99, 40, 207) 100%
+    rgb(124, 55, 252) 0%,
+    rgb(124, 55, 252) 100%
   );
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid rgb(99, 40, 207);
+  border-bottom: 1px solid rgb(124, 55, 252);
   color: #fff;
 }
 
@@ -936,7 +983,7 @@ input:placeholder-shown {
   justify-content: center;
   align-items: center;
   color: #fff;
-  background-color: rgb(99, 40, 207);
+  background-color: rgb(124, 55, 252);
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -978,10 +1025,46 @@ input:placeholder-shown {
 }
 
 @media only screen and (min-width: 769px) and (max-width: 850px) {
-  .page-header {
+  .page-header:not(.page-header-long) {
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 10px;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 925px) {
+  .page-header-long {
+    width: 100%;
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 10px;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 555px) {
+  .page-header-long {
+    width: 100%;
+    display: flex;
+    flex-direction: column !important;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 10px;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .page-header-long {
+    width: 100%;
+    display: flex;
+    flex-direction: column !important;
     justify-content: center;
     align-items: flex-start;
     margin-bottom: 8px;
@@ -1028,8 +1111,207 @@ input:placeholder-shown {
 }
 
 /* password list css */
-.password-list .count {
+
+.password-list .count,
+.password-grid .count {
   margin: 5px 0;
+}
+
+/* password grid css */
+.password-grid .contents {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  /* margin: 10px 0; */
+}
+
+.password-grid .contents>* {
+  flex: 0 0 49%;
+}
+
+@media only screen and (max-width: 370px) {
+  .password-grid .contents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    /* margin: 10px 0; */
+  }
+  
+  .password-grid .contents>* {
+    flex: 0 0 100%;
+  }
+}
+.password-card {
+  padding: 15px;
+  border: 1px solid #474747;
+  border-radius: 5px;
+  min-width: 0;
+  overflow: hidden;
+  box-shadow: 0 0 5px 5px rgba(51, 51, 51, 0.253);
+  /* flex: 0 0 50%; */
+}
+
+.password-card>* {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.password-card .head {
+  display: flex;
+  justify-content: space-between;
+}
+
+.password-card-selected .name small,
+.password-card-selected {
+  color: #9c9aff !important;
+}
+
+.password-card-selected,
+.password-card:hover {
+  background-color: #44444470;
+}
+
+.password-card .label {
+  display: flex;
+  align-items: flex-end;
+}
+
+.password-card .name {
+  flex-grow: 1;
+}
+
+.password-card .name .siteName {
+  color: rgb(49, 138, 255);
+  font-weight: 600;
+}
+
+.password-card .name .trashed {
+  color: #f34343;
+  font-weight: 600;
+}
+
+.password-card .name .link-icon {
+  color: #fff;
+  opacity: 50%;
+}
+
+.password-card .name .favorited {
+  color: rgb(255, 170, 42);
+}
+
+.password-card .icon {
+  background-color: transparent;
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.password-card .empty-icon {
+  text-transform: uppercase;
+  /* background-color: rgb(124, 55, 252); */
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* password item css */
+.list-view-btn {
+  font-size: 1.3rem;
+  line-height: 0;
+  padding: 5px 8px;
+}
+
+.list-view-btn:nth-child(2) {
+  transform: scaleX(-1);
+}
+
+.password-item {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 768px) {
+  .password-item {
+    border-radius: 0 5px 5px 0;
+  }
+}
+
+.password-item-selected .name small,
+.password-item-selected {
+  color: #9c9aff !important;
+}
+
+.password-item-selected,
+.password-item:hover {
+  background-color: #44444470;
+}
+
+.password-item .name {
+  flex-grow: 1;
+}
+
+.password-item .name a,
+.password-item .name span,
+.password-item .name small {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.password-item .name .siteName {
+  color: rgb(49, 138, 255);
+  font-weight: 600;
+}
+
+.password-item .name .trashed {
+  color: #f34343;
+  font-weight: 600;
+}
+
+.password-item .name .link-icon {
+  color: #fff;
+  opacity: 50%;
+}
+
+.password-item .name .favorited {
+  color: rgb(255, 170, 42);
+}
+
+.password-item .icon {
+  background-color: transparent;
+  height: 45px;
+  width: 45px;
+  border-radius: 10px;
+}
+
+.password-item .empty-icon {
+  text-transform: uppercase;
+  /* background-color: rgb(124, 55, 252); */
+  height: 45px;
+  min-height: 45px;
+  width: 45px;
+  min-width: 45px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.3rem;
+  color: #fff;
 }
 
 /* alert css */
@@ -1261,4 +1543,36 @@ input:placeholder-shown {
 
 .confirm-component {
   width: 100%;
+}
+
+/* audit log css */
+.audit-log-item {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s ease-out 0s;
+  display: flex;
+  align-items: flex-start;
+}
+
+.audit-log-item .image {
+  background-color: red;
+  border-radius: 50%;
+  min-height: 40px;
+  min-width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.audit-log-item p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.audit-log-item span {
+  opacity: 50%;
 }

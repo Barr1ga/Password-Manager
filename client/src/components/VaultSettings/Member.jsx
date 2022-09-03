@@ -1,6 +1,5 @@
 import React from "react";
 import { HiOutlineUserCircle, HiDotsVertical } from "react-icons/hi";
-import useGenerateRandomColor from "../../hooks/useGenerateRandomColor";
 
 const Member = ({ member }) => {
   
