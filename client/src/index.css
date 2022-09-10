@@ -587,6 +587,7 @@ input:placeholder-shown {
   min-height: 0;
   overflow: hidden;
   flex: 0 1 400px;
+  /* background-color: rgb(34, 34, 34); */
   border-left: 1px solid #474747;
   border-right: 1px solid #474747;
   min-height: 100%;
@@ -1031,6 +1032,7 @@ font-weight: 100;
 
 /* vault members css */
 .right-vault-members {
+  background-color: rgb(34, 34, 34);
   border: 1px solid #474747;
   border-radius: 5px;
   padding-bottom: 10px;
@@ -1410,7 +1412,7 @@ font-weight: 100;
   min-height: 60px;
   width: 60px;
   min-width: 60px;
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .password-item .empty-icon {
@@ -1420,7 +1422,7 @@ font-weight: 100;
   min-height: 60px;
   width: 60px;
   min-width: 60px;
-  border-radius: 15px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;

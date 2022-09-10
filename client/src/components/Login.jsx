@@ -7,6 +7,7 @@ import {
   HiOutlineLightBulb,
   HiOutlineEye,
   HiOutlineEyeOff,
+  HiLightBulb,
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
@@ -133,7 +134,11 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     className="btn-secondary btn-with-icon btn-long"
                     onClick={() => setShowPasswordHint((prev) => !prev)}
                   >
-                    <HiOutlineLightBulb></HiOutlineLightBulb>
+                    {showPasswordHint ? (
+                      <HiOutlineLightBulb></HiOutlineLightBulb>
+                    ) : (
+                      <HiLightBulb></HiLightBulb>
+                    )}
                     {showPasswordHint ? "Hide" : "Get"} master password hint
                   </Button>
                 </div>
@@ -153,7 +158,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     <HiOutlineLogin></HiOutlineLogin>Login
                   </Button>
                 </div>
-                <small className="form-group">
+                <small>
                   Dont have an account?{" "}
                   <a className="btn-link" onClick={handleShowRegistration}>
                     <b>Sign up</b>

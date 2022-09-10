@@ -16,6 +16,8 @@ import {
   HiOutlineLogout,
   HiOutlineClipboardList,
   HiClipboardList,
+  HiOutlineLockClosed,
+  HiLockClosed
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -29,6 +31,10 @@ const SideNav = () => {
   const handleLogout = () => {
     console.log("logout");
   };
+
+  const handleChangeVault = () => {
+    console.log("changeVault")
+  }
 
   return (
     <div className="side-nav standard-stack gap-10">
@@ -190,18 +196,31 @@ const SideNav = () => {
           <div>
             <hr className="sidenav-hr padding-side"></hr>
           </div>
+          <div>
           <ConfirmModal
-            handleProceed={handleLogout}
-            component={
-              <div className="sidenav-button">
-                <HiOutlineLogout></HiOutlineLogout> <p>Logout</p>
-              </div>
-            }
-            headerMessage={"Log out"}
-            bodyMessage={"Are you sure you want to logout"}
-            continueMessage={"Logout"}
-          ></ConfirmModal>
-
+              handleProceed={handleChangeVault}
+              component={
+                <div className="sidenav-button">
+                  <HiOutlineLockClosed></HiOutlineLockClosed> <p>Change Vault</p>
+                </div>
+              }
+              headerMessage={"Log out"}
+              bodyMessage={"Are you sure you want to logout"}
+              continueMessage={"Logout"}
+            ></ConfirmModal>
+            <ConfirmModal
+              handleProceed={handleLogout}
+              component={
+                <div className="sidenav-button">
+                  <HiOutlineLogout></HiOutlineLogout> <p>Logout</p>
+                </div>
+              }
+              headerMessage={"Log out"}
+              bodyMessage={"Are you sure you want to logout"}
+              continueMessage={"Logout"}
+            ></ConfirmModal>
+            
+          </div>
           <div>
             <hr className="sidenav-hr padding-side"></hr>
           </div>

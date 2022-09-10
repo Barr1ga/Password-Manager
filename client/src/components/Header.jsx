@@ -67,10 +67,10 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <ResponsiveDisplay
+      {/* <ResponsiveDisplay
         mobile={<RoundLoader></RoundLoader>}
         nonMobile={<BarLoader></BarLoader>}
-      ></ResponsiveDisplay>
+      ></ResponsiveDisplay> */}
     </>
   );
 };
