@@ -7,10 +7,14 @@ import WarningAlert from "../components/WarningAlert";
 import MyAccount from "../components/MyAccount/MyAccount";
 import ChangeEmail from "../components/MyAccount/ChangeEmail";
 import ChangePassword from "../components/MyAccount/ChangePassword";
+import ConfirmModal from "../components/Helpers/ConfirmModal";
 
 const VaultSettings = () => {
   const onDeleteAccount = () => {
     console.log("deleteAccount");
+  };
+
+  const handleDeleteAccount = () => {
   };
 
   return (
@@ -27,7 +31,7 @@ const VaultSettings = () => {
         <ChangePassword></ChangePassword>
 
         <div className="form-group">
-          <h5 className="delete-account">Delete Account</h5>
+          <h5 className="delete-account">Account Removal</h5>
           <div className="form-group">
             <WarningAlert
               message={
@@ -35,13 +39,23 @@ const VaultSettings = () => {
               }
             ></WarningAlert>
           </div>
-          <Button
-            onClick={onDeleteAccount}
-            type="button"
-            className="btn-secondary danger"
-          >
-            Delete
-          </Button>
+          <ConfirmModal
+            handleProceed={handleDeleteAccount}
+            component={
+              <Button
+                onClick={onDeleteAccount}
+                type="button"
+                className="btn-secondary danger"
+              >
+                Delete Account
+              </Button>
+            }
+            headerMessage={"Are you sure you want to delete this account?"}
+            bodyMessage={
+              "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
+            }
+            continueMessage={"Delete"}
+          ></ConfirmModal>
         </div>
       </div>
     </div>

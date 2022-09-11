@@ -64,7 +64,7 @@ const VaultEmails = () => {
             </div>
             <div className="form-group">
               <Button type="submit" className="btn-dark">
-                Add Email
+                Invite Email
               </Button>
             </div>
           </form>

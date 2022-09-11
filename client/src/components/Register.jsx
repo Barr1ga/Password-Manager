@@ -232,9 +232,9 @@ const Register = ({ handleShowLogin }) => {
                       },
                     })}
                   />
-                  <small>
+                  <small className="registration-agree-note">
                     By checking this box you agree to our{" "}
-                    <b>Terms of Service</b> <br></br>and <b>Privacy Policy</b>
+                    <a className="btn-link"><b>Terms of Service</b></a> <br></br>and <a className="btn-link"><b>Privacy Policy</b></a>
                   </small>
                 </div>
                 <div className="form-group">

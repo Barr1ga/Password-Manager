@@ -72,7 +72,7 @@ const AuditLog = () => {
     },
     {
       actorID: 2,
-      action: "user/loggedOut",
+      action: "user/kicked",
       description: "kicked hor.barr1ga@gmail.com",
       date: new Date().toString(),
     },

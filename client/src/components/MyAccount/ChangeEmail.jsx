@@ -22,7 +22,7 @@ const ChangeEmail = () => {
             <h5>Change Email</h5>
             <form onSubmit={handleSubmitEmail(onSubmitEmail)}>
               <div className="form-group">
-                <label>Email <span className="error-message">*</span></label>
+                <label>Email Address<span className="error-message">*</span></label>
                 <input
                   type="email"
                   {...emailField("email", {
