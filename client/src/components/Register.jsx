@@ -4,13 +4,12 @@ import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import {
   HiOutlinePencilAlt,
-  HiOutlineLogin,
-  HiOutlineLightBulb,
   HiOutlineEye,
   HiOutlineEyeOff,
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
+import { Link } from "react-router-dom";
 
 const Register = ({ handleShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -234,7 +233,7 @@ const Register = ({ handleShowLogin }) => {
                   />
                   <small className="registration-agree-note">
                     By checking this box you agree to our{" "}
-                    <a className="btn-link"><b>Terms of Service</b></a> <br></br>and <a className="btn-link"><b>Privacy Policy</b></a>
+                    <Link className="btn-link"><b>Terms of Service</b></Link> <br></br>and <Link className="btn-link"><b>Privacy Policy</b></Link>
                   </small>
                 </div>
                 <div className="form-group">
@@ -254,9 +253,9 @@ const Register = ({ handleShowLogin }) => {
                 </div>
                 <small className="form-group">
                   Dont have an account?{" "}
-                  <a className="btn-link" onClick={handleShowLogin}>
+                  <Link className="btn-link" onClick={handleShowLogin}>
                     <b>Log in</b>
-                  </a>
+                  </Link>
                 </small>
               </form>
             </div>
