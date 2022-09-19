@@ -17,7 +17,7 @@ body {
 }
 
 body {
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(29, 29, 29);
 }
 
 #root {
@@ -83,6 +83,7 @@ h5 {
 }
 
 hr {
+  opacity: .1;
   margin: 5px 0;
 }
 
@@ -140,27 +141,30 @@ input {
 }
 
 .btn-back {
+  background-color: rgb(46, 46, 46);
+  border: 1px solid transparent;
   font-size: 1.3rem;
-  /* margin-top: 4px; */
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
   padding: 5px;
   transition: 0.2s ease-out 0s;
 }
 
 .btn-back:hover {
-  background-color: #44444470;
+  background-color: rgb(53, 53, 53);
+  border: 1px solid transparent;
   transition: 0.2s ease-out 0s;
 }
 
 .modal-header .btn-close,
 .btn-close {
   background: none;
-  border: 1px solid #474747;
+  background-color: rgb(46, 46, 46);
+  border: 1px solid transparent;
   border-radius: 50%;
-  height: 25px !important;
-  width: 25px !important;
+  height: 23px;
+  width: 23px;
   padding: 5px;
   font-size: 1.3rem;
   transition: 0.2s ease-out 0s;
@@ -169,27 +173,28 @@ input {
 }
 
 .btn-close:hover {
-  background-color: #44444470;
+  background-color: rgb(53, 53, 53);
+  border: 1px solid transparent;
   transition: 0.2s ease-out 0s;
   color: #fff;
 }
 
 .btn-secondary {
-  background-color: transparent;
-  border: 1px solid #474747;
+  background-color: rgb(46, 46, 46);
+  border: 1px solid transparent;
   color: #fff;
   font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background-color: #44444470;
-  border: 1px solid #474747;
+  background-color: rgb(53, 53, 53);
+  border: 1px solid transparent;
   color: #fff;
 }
 
 .btn-secondary:focus {
-  background-color: #44444470;
-  border: 1px solid #474747;
+  background-color: rgb(46, 46, 46);
+  border: 1px solid transparent;
   color: #fff;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.144) !important;
 }
@@ -207,7 +212,7 @@ input {
 .btn-dark:active,
 .btn-dark:focus {
   background-color: rgb(102, 50, 197);
-  box-shadow: 0 0 0 4px #44444470 !important;
+  box-shadow: 0 0 0 4px rgb(41, 41, 41) !important;
 }
 
 .btn-dark:hover {
@@ -256,53 +261,53 @@ input {
 }
 
 /* loader css */
-.bar-loader { 
-  background-color: rgb(41, 41, 41);
+.bar-loader {
+  background-color: rgb(46, 46, 46);
   height: 1px;
-  width: 100%; 
-  margin:0 auto;
-  border-radius:10px;
-  position:relative;
-  padding:1px;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 10px;
+  position: relative;
+  padding: 1px;
 }
 
 .bar-loader:before {
-  border:1px solid ; 
-  position:absolute;
+  border: 1px solid;
+  position: absolute;
 }
 
-.bar-loader .loaderBar { 
-  position:absolute;
-  border-radius:10px;
-  top:0;
-  right:100%;
-  bottom:0;
-  left:0;
-  background:rgb(124, 55, 252); 
-  width:0;
+.bar-loader .loaderBar {
+  position: absolute;
+  border-radius: 10px;
+  top: 0;
+  right: 100%;
+  bottom: 0;
+  left: 0;
+  background: rgb(124, 55, 252);
+  width: 0;
   animation: borealisBar 2s linear infinite;
 }
 
 @keyframes borealisBar {
   0% {
-    left:0%;
-    right:100%;
-    width:0%;
+    left: 0%;
+    right: 100%;
+    width: 0%;
   }
   10% {
-    left:0%;
-    right:75%;
-    width:25%;
+    left: 0%;
+    right: 75%;
+    width: 25%;
   }
   90% {
-    right:0%;
-    left:75%;
-    width:25%;
+    right: 0%;
+    left: 75%;
+    width: 25%;
   }
   100% {
-    left:100%;
-    right:0%;
-    width:0%;
+    left: 100%;
+    right: 0%;
+    width: 0%;
   }
 }
 
@@ -331,16 +336,16 @@ input {
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-  }
+}
 
-  @keyframes rotation {
+@keyframes rotation {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   100% {
-      transform: rotate(360deg);
+    transform: rotate(360deg);
   }
-  } 
+}
 
 /* three dot css */
 
@@ -355,7 +360,7 @@ input {
 }
 
 .three-dots:hover {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
   transition: 0.2s ease-out 0s;
 }
 
@@ -391,8 +396,8 @@ input {
   position: absolute;
   width: 100%;
   background-color: rgb(27, 27, 27);
-  box-shadow: 0 0 5px 5px rgba(51, 51, 51, 0.253);
-  border: 1px solid #474747;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253);
+  /* border: 1px solid #474747; */
   border-radius: 5px;
   max-height: 200px;
   overflow-y: scroll;
@@ -405,7 +410,7 @@ input {
 }
 
 .select-options .option:hover {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
 }
 
 /* The slider itself */
@@ -449,16 +454,17 @@ input {
 }
 
 .form-checkbox {
-  border: 1px solid #474747;
+  border: 1px solid transparent;
   height: 15px;
   width: 15px;
-  background-color: rgb(157, 104, 255);
+  background-color: #161616;
+
 }
 
 .form-control {
   color: #fff;
-  border: 1px solid #474747;
-  background-color: transparent;
+  border: 1px solid transparent;
+  background-color: #161616;
 }
 
 input:placeholder-shown {
@@ -468,8 +474,9 @@ input:placeholder-shown {
 }
 
 .form-control:disabled {
-  background-color: rgb(39, 39, 39);
-  border: 1px solid #474747;
+  background-color: rgb(25, 25, 25);
+  border: 1px solid transparent;
+
 }
 
 .form-control:focus {
@@ -589,6 +596,7 @@ input:placeholder-shown {
   flex: 0 1 200px;
   padding-top: 40px;
   padding-bottom: 40px;
+  padding-left: 2px;
 }
 
 .center-margin {
@@ -596,9 +604,9 @@ input:placeholder-shown {
   min-height: 0;
   overflow: hidden;
   flex: 0 1 400px;
-  /* background-color: rgb(34, 34, 34); */
-  border-left: 1px solid #474747;
-  border-right: 1px solid #474747;
+  /* background-color: rgb(46, 46, 46); */
+  border-left: 10px solid #161616;
+  border-right: 10px solid #161616;
   min-height: 100%;
   padding-top: 20px;
   padding-bottom: 40px;
@@ -612,6 +620,7 @@ input:placeholder-shown {
   margin-bottom: 40px;
   padding-left: 15px;
   padding-top: 40px;
+  padding-right: 2px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -668,14 +677,18 @@ input:placeholder-shown {
 }
 
 .sidenav-button svg {
+  color: rgba(255, 255, 255, 0.5);
   min-height: 16px !important;
   min-width: 16px !important;
+  transition: 0.2s ease-out 0s;
 }
 
 .sidenav-button p {
+  color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: 0.2s ease-out 0s;
 }
 
 @media only screen and (max-width: 480px) {
@@ -701,11 +714,17 @@ input:placeholder-shown {
 }
 
 .side-nav .selected {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
+}
+
+.sidenav-button:hover p {
+  transition: 0.2s ease-out 0s;
+  color: rgba(255, 255, 255);
 }
 
 .sidenav-button:hover {
-  background-color: #44444470;
+  color: rgba(255, 255, 255);
+  background-color: rgb(46, 46, 46);
   transition: 0.2s ease-out 0s;
 }
 
@@ -765,13 +784,14 @@ input:placeholder-shown {
 }
 
 .side-nav .socials {
+  opacity: .5;
   display: flex;
   padding: 8px 10px;
 }
 
 /* header css */
 .header {
-  background-color: rgb(41, 41, 41);
+  background-color: rgb(46, 46, 46);
   padding: 10px 0;
   display: flex;
   align-items: center;
@@ -846,7 +866,7 @@ input:placeholder-shown {
   cursor: pointer;
 }
 
-  .header .logo h3 {
+.header .logo h3 {
   color: #9c9aff;
 }
 
@@ -906,7 +926,7 @@ input:placeholder-shown {
 
 .footer {
   /* background-color: #000; */
-  background-color: rgb(17, 17, 17);
+  background-color: #161616;
   padding: 20px 0px;
   display: flex;
   align-items: center;
@@ -940,10 +960,9 @@ input:placeholder-shown {
 }
 
 .footer .copyright {
-opacity: 50%;
-font-weight: 100;
+  opacity: 50%;
+  font-weight: 100;
 }
-
 
 .footer .logo {
   display: flex;
@@ -1041,8 +1060,8 @@ font-weight: 100;
 
 /* vault members css */
 .right-vault-members {
-  background-color: rgb(34, 34, 34);
-  border: 1px solid #474747;
+  background-color: rgb(37, 37, 37);
+  /* border: 1px solid #474747; */
   border-radius: 5px;
   padding-bottom: 10px;
 }
@@ -1068,7 +1087,7 @@ font-weight: 100;
 }
 
 .offline-members .member {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .offline-members .member:hover {
@@ -1089,7 +1108,7 @@ font-weight: 100;
 }
 
 .vault-members .member:hover {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
   display: flex;
   transition: 0.2s ease-out 0s;
 }
@@ -1118,9 +1137,9 @@ font-weight: 100;
 .vault-members .image .online {
   height: 10px;
   width: 10px;
-  background:rgb(104, 221, 58);
+  background: rgb(104, 221, 58);
   border-radius: 50%;
-  outline: 3px solid rgb(34, 34, 34);
+  outline: 3px solid rgb(46, 46, 46);
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -1259,7 +1278,7 @@ font-weight: 100;
   /* margin: 10px 0; */
 }
 
-.password-grid .contents>* {
+.password-grid .contents > * {
   flex: 0 0 49%;
 }
 
@@ -1270,22 +1289,23 @@ font-weight: 100;
     gap: 5px;
     /* margin: 10px 0; */
   }
-  
-  .password-grid .contents>* {
+
+  .password-grid .contents > * {
     flex: 0 0 100%;
   }
 }
 .password-card {
   padding: 15px;
-  border: 1px solid #474747;
+  /* border: 1px solid #474747; */
   border-radius: 5px;
   min-width: 0;
   overflow: hidden;
-  box-shadow: 0 0 5px 5px rgba(51, 51, 51, 0.253);
+  background-color: rgb(46, 46, 46);
+  /* box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253); */
   /* flex: 0 0 50%; */
 }
 
-.password-card>* {
+.password-card > * {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
@@ -1303,7 +1323,7 @@ font-weight: 100;
 
 .password-card-selected,
 .password-card:hover {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
 }
 
 .password-card .label {
@@ -1395,7 +1415,7 @@ font-weight: 100;
 
 .password-item-selected,
 .password-item:hover {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
 }
 
 .password-item .name {
@@ -1493,7 +1513,7 @@ font-weight: 100;
 }
 
 .role-item:hover {
-  background-color: #44444470;
+  background-color: rgb(46, 46, 46);
 }
 
 .role-item .name {
@@ -1540,8 +1560,9 @@ font-weight: 100;
 }
 
 .password-generator-form {
+  background-color: rgb(37, 37, 37);
   padding: 15px;
-  border: 1px solid #474747;
+  border: 1px solid transparent;
   border-radius: 5px;
 }
 
@@ -1650,24 +1671,24 @@ font-weight: 100;
 .modal-content {
   background-color: transparent;
   border: none;
-  box-shadow: 0 0 5px 5px rgba(51, 51, 51, 0.253);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253);
 }
 
 .modal-body {
-  border: 1px solid #474747;
+  /* border: 1px solid #474747; */
   background-color: rgb(27, 27, 27);
   border-radius: 0 0 5px 5px;
   border-top: none;
 }
 
 .confirmation-modal-body {
-  border: 1px solid #474747;
+  /* border: 1px solid #474747; */
   border-radius: 5px !important;
 }
 
 .modal-header {
-  border: 1px solid #474747;
-  background-color: rgb(34, 34, 34);
+  /* border: 1px solid #474747; */
+  background-color: rgb(46, 46, 46);
   color: #fff;
   padding-right: 23px;
   border-bottom: none;
