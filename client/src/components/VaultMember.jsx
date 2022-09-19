@@ -10,14 +10,17 @@ const VaultMember = ({ member }) => {
 
   return (
     <div className="member padding-side gap-10">
-      <div className="image" style={{ backgroundColor: "#" + color }}>{member.name.charAt(0)}</div>
+      <div className="image" style={{ backgroundColor: "#" + color }}>
+        {member.name.charAt(0)}
+        <div className="online"></div>
+      </div>
       <div className="name">
         <p className={member.role === "vault owner" ? "vault-owner" : ""}>
           <b>{member.name}</b>
         </p>
         <small>{member.email}</small>
       </div>
-      <HiDotsVertical className="three-dots"></HiDotsVertical>
+      {/* <HiDotsVertical className="three-dots"></HiDotsVertical> */}
     </div>
   );
 };

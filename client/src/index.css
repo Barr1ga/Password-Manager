@@ -1067,6 +1067,14 @@ font-weight: 100;
   transition: 0.2s ease-out 0s;
 }
 
+.offline-members .member {
+  opacity: .3;
+}
+
+.offline-members .member:hover {
+  opacity: 1;
+}
+
 .vault-members .member {
   display: flex;
   cursor: pointer;
@@ -1104,6 +1112,18 @@ font-weight: 100;
   opacity: 50%;
   height: 20px;
   width: 20px; */
+  position: relative;
+}
+
+.vault-members .image .online {
+  height: 10px;
+  width: 10px;
+  background:rgb(104, 221, 58);
+  border-radius: 50%;
+  outline: 3px solid rgb(34, 34, 34);
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
 }
 
 /* other links css */

@@ -4,16 +4,39 @@ import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
 
 const VaultRoles = ({ role, members }) => {
   const [showMembers, setShowMembers] = useState(true);
-  const count = members.filter((member) => member.role === role).length;
+  let count;
+
+  if (role === "offline") {
+    count = members.length;
+  } else {
+    count = members.filter((member) => member.role === role).length;
+  }
+
+  console.log(members);
+
   return (
     <>
       <span
         className="role padding-side"
         onClick={() => setShowMembers((prev) => !prev)}
       >
-        {role} — {count} {showMembers ? <RiArrowDownSLine></RiArrowDownSLine> : <RiArrowRightSLine></RiArrowRightSLine>}
+        {role} — {count}{" "}
+        {showMembers ? (
+          <RiArrowDownSLine></RiArrowDownSLine>
+        ) : (
+          <RiArrowRightSLine></RiArrowRightSLine>
+        )}
       </span>
-      {showMembers && (
+
+      {count > 1 && role === "offline" && showMembers && (
+        <div className="members-list offline-members">
+          {members.map((member, idx) => (
+            <VaultMember key={idx} member={member}></VaultMember>
+          ))}
+        </div>
+      )}
+
+      {count > 1 && role !== "offline" && showMembers && (
         <div className="members-list">
           {members
             .filter((member) => member.role === role)
