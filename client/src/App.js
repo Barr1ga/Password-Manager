@@ -36,11 +36,11 @@ const App = () => {
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
 
-  // useEffect(() => {
-  //   passwords.forEach((password) => {
-  //     dispatch(getBrandDetails(password.name));
-  //   });
-  // }, [passwords]);
+  useEffect(() => {
+    passwords.forEach((password) => {
+      dispatch(getBrandDetails(password.name));
+    });
+  }, [passwords]);
 
   return (
     <BrowserRouter>
