@@ -52,7 +52,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineGlobe></HiOutlineGlobe>
               )}
-              <p>Login</p>
+              <p>Logins</p>
             </Link>
             <Link
               to="/Card"
@@ -65,7 +65,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineCreditCard></HiOutlineCreditCard>
               )}
-              <p>Card</p>
+              <p>Cards</p>
             </Link>
             <Link
               to="/Identity"
@@ -95,7 +95,7 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineDocumentText></HiOutlineDocumentText>
               )}
-              <p>Secure Note</p>
+              <p>Secure Notes</p>
             </Link>
             <Link
               to="/WifiPasswords"

@@ -19,6 +19,7 @@ const ChangePassword = () => {
     <div className="standard-stack">
       <div className="form-group">
         <h5>Change Master Password</h5>
+        
         <form onSubmit={handleSubmitMaster(onSubmitMaster)}>
           <div className="form-group">
             <label>
@@ -41,8 +42,15 @@ const ChangePassword = () => {
             {errorsMaster.currentMasterPassword && (
               <small className="error-message">
                 ⚠ {errorsMaster.currentMasterPassword.message}
+                <br></br>
               </small>
             )}
+            <small>
+              The master password is the password you use to access your vault.
+              It is very important that you do not forget your master password.
+              There is no way to recover the password in the event that you
+              forget it.
+            </small>
           </div>
 
           <div className="form-group">
@@ -54,7 +62,7 @@ const ChangePassword = () => {
               {...masterField("newCurrentMasterPassword", {
                 required: {
                   value: true,
-                  message: "Current master password is required",
+                  message: "New master password is required",
                 },
               })}
               className={
@@ -101,10 +109,6 @@ const ChangePassword = () => {
               <input
                 type="text"
                 {...masterField("masterPasswordHint", {
-                  required: {
-                    value: true,
-                    message: "Master password hint is required",
-                  },
                 })}
                 className={
                   errorsMaster.masterPasswordHint

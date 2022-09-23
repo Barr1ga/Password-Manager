@@ -279,7 +279,7 @@ const PasswordInformation = ({ currentPassword }) => {
                           folderRef.current.value = folder;
                           setShowFolder(false);
                           setHovering(false);
-                        }}
+                        }} 
                       >
                         {folder}
                       </div>
