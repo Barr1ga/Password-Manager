@@ -13,7 +13,7 @@ const initialState = {
       id: 2,
       name: "DainSiao",
       email: "dainalou@gmail.com",
-      role: "vaultOwner",
+      role: "employee",
       status: "offline",
     },
     {
@@ -28,7 +28,7 @@ const initialState = {
       name: "Bryll",
       email: "bryllandales@gmail.com",
       role: "family",
-      status: "online",
+      status: "idle",
     },
     {
       id: 5,

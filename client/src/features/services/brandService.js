@@ -13,6 +13,7 @@ const getBrandDetails = async (brand) => {
   const response = await axios.get(
     "https://api.brandfetch.io/v2/search/" + brand, config
   );
+  
   return response.data;
 };
 
