@@ -56,38 +56,6 @@ const MyAccount = () => {
           </div>
 
           <div className="form-group">
-            <label>
-              Master Password <span className="error-message">*</span>
-            </label>
-            <input
-              type="text"
-              {...accountField("masterPassword", {
-                required: {
-                  value: true,
-                  message: "Master password is required",
-                },
-              })}
-              className={
-                errorsAccount.masterPassword
-                  ? "form-control form-error"
-                  : "form-control "
-              }
-            />
-            {errorsAccount.masterPassword && (
-              <small className="error-message">
-                ⚠ {errorsAccount.masterPassword.message}
-                <br></br>
-              </small>
-            )}
-            <small>
-              The master password is the password you use to access your vault.
-              It is very important that you do not forget your master password.
-              There is no way to recover the password in the event that you
-              forget it.
-            </small>
-          </div>
-
-          <div className="form-group">
             <label>Master Password Hint</label>
             <input
               type="text"
