@@ -26,6 +26,7 @@ const PasswordInformation = ({ currentPassword }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const folderRef = useRef();
+  console.log(currentPassword);
 
   const {
     register,
@@ -89,6 +90,14 @@ const PasswordInformation = ({ currentPassword }) => {
       setShowPasswordGenerator(false);
     }
     dispatch(resetSelectedPasswordItem());
+  };
+
+  const handleDeletePassword = (passwordID) => {
+    console.log(passwordID);
+  };
+
+  const handleUpdatePassword = (passwordID) => {
+    console.log(passwordID);
   };
 
   return (
@@ -295,22 +304,49 @@ const PasswordInformation = ({ currentPassword }) => {
               </div>
 
               <div className="form-group">
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                >
-                  <HiPencil></HiPencil>Update Item
-                </Button>
+                <ConfirmModal
+                  handleProceed={() => handleUpdatePassword(currentPassword.id)}
+                  component={
+                    <Button
+                      type="submit"
+                      className="btn-dark btn-long btn-with-icon"
+                    >
+                      <HiPencil></HiPencil>Update Item
+                    </Button>
+                  }
+                  headerMessage={
+                    "Are you sure you want to update this item?"
+                  }
+                  bodyMessage={
+                    "You already have information for this item, do you want to replace it?"
+                  }
+                  continueMessage={"Update"}
+                ></ConfirmModal>
               </div>
               <div className="form-group">
-                <Button
-                  type="submit"
-                  className="btn-secondary danger btn-long btn-with-icon"
-                >
-                  <HiOutlineTrash></HiOutlineTrash>Delete Item
-                </Button>
+                <ConfirmModal
+                  handleProceed={() => handleDeletePassword(currentPassword.id)}
+                  component={
+                    <Button
+                      type="submit"
+                      className="btn-secondary danger btn-long btn-with-icon"
+                    >
+                      <HiOutlineTrash></HiOutlineTrash>Delete Item
+                    </Button>
+                  }
+                  headerMessage={
+                    "Are you sure you want to delete this item?"
+                  }
+                  bodyMessage={
+                    "Once you delete this item, there is no going back. Please be certain."
+                  }
+                  continueMessage={"Delete"}
+                ></ConfirmModal>
               </div>
-              <small>Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard Time)</small>
+              <small>
+                Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine
+                Standard Time)
+              </small>
             </form>
           </>
         )}

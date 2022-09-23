@@ -12,7 +12,8 @@ const VaultMember = ({ member }) => {
     <div className="member padding-side gap-10">
       <div className="image" style={{ backgroundColor: "#" + color }}>
         {member.name.charAt(0)}
-        <div className="online"></div>
+        {member.status === "online" && <div className="online"></div>}
+        {member.status === "idle" && <div className="idle"></div>}
       </div>
       <div className="name">
         <p className={member.role === "vault owner" ? "vault-owner" : ""}>

@@ -12,21 +12,32 @@ const VaultMembers = () => {
   const [offlineMembers, setOfflineMembers] = useState(
     members.filter((member) => member.status === "offline")
   );
-  
-  const roles = [...new Set(onlineMembers.map((member) => member.role))];
-  const idx = roles.indexOf("vault owner");
+
+  const roles = [...new Set(members.map((member) => member.role))];
+  const idx = roles.indexOf("vaultOwner");
   //   swap index
   [roles[0], roles[idx]] = [roles[idx], roles[0]];
-
-  console.log(offlineMembers);
+  console.log(members);
+  console.log(roles);
 
   return (
     <div className="vault-members standard-stack gap-10">
       <h5>Vault Members</h5>
 
-      {roles.map((role, idx) => (
-        <VaultRoles key={idx} role={role} members={onlineMembers}></VaultRoles>
-      ))}
+      {roles.map((role, idx) => {
+        const filteredOnlineMembers = onlineMembers.filter(
+          (member) => member.role === role
+        );
+        if (filteredOnlineMembers.length !== 0) {
+          return (
+            <VaultRoles
+              key={idx}
+              role={role}
+              members={filteredOnlineMembers}
+            ></VaultRoles>
+          );
+        }
+      })}
 
       <VaultRoles role={"offline"} members={offlineMembers}></VaultRoles>
     </div>

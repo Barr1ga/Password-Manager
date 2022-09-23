@@ -28,7 +28,7 @@ const VaultRoles = ({ role, members }) => {
         )}
       </span>
 
-      {count > 1 && role === "offline" && showMembers && (
+      {role === "offline" && showMembers && (
         <div className="members-list offline-members">
           {members.map((member, idx) => (
             <VaultMember key={idx} member={member}></VaultMember>
@@ -36,10 +36,9 @@ const VaultRoles = ({ role, members }) => {
         </div>
       )}
 
-      {count > 1 && role !== "offline" && showMembers && (
+      {role !== "offline" && showMembers && (
         <div className="members-list">
           {members
-            .filter((member) => member.role === role)
             .map((member, idx) => (
               <VaultMember key={idx} member={member}></VaultMember>
             ))}

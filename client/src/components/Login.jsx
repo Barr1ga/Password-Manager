@@ -14,6 +14,8 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/slice/userSlice";
 import OtherLinks from "./OtherLinks";
+import GoogleIcon from "../assets/icons8-google.svg";
+import FacebookIcon from "../assets/icons8-facebook.svg";
 
 const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -155,14 +157,35 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     type="submit"
                     className="btn-dark btn-with-icon btn-long"
                   >
-                    <HiOutlineLogin></HiOutlineLogin>Login
+                    <HiOutlineLogin></HiOutlineLogin>Log in
+                  </Button>
+                </div>
+                <div className="form-group">
+                  <small className="login-registration-options-separator">
+                    OR
+                  </small>
+                </div>
+                <div className="form-group">
+                  <Button
+                    type="button"
+                    className="btn-secondary btn-with-icon btn-long"
+                  >
+                    <img src={GoogleIcon} alt="google.svg" className="custom-small-icons"></img>Log in with Google
+                  </Button>
+                </div>
+                <div className="form-group">
+                  <Button
+                    type="button"
+                    className="btn-secondary btn-with-icon btn-long"
+                  >
+                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Log in with Facebook
                   </Button>
                 </div>
                 <small>
                   Dont have an account?{" "}
-                  <a className="btn-link" onClick={handleShowRegistration}>
+                  <button className="btn-link" onClick={handleShowRegistration}>
                     <b>Sign up</b>
-                  </a>
+                  </button>
                 </small>
               </form>
             </div>
