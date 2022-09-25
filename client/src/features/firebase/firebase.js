@@ -2,9 +2,12 @@
 //  TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-const firebase = require("firebase");
+// const firebase = require("firebase");
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
 
-const firebaseConfig = {
+const app = firebase.initializeApp({
   apiKey: "AIzaSyAslCHm2Db3tjaXG_06-aen0Nk1g9WfAxo",
   authDomain: "vaulteer-password-manager.firebaseapp.com",
   projectId: "vaulteer-password-manager",
@@ -12,7 +15,6 @@ const firebaseConfig = {
   messagingSenderId: "443375059351",
   appId: "1:443375059351:web:efcd1598a4fbef583084d2",
   measurementId: "G-6BQ79DXW0R",
-};
+}); //initialize firebase app
 
-firebase.initializeApp(firebaseConfig); //initialize firebase app
-module.exports = { firebase }; //export the app
+export const auth = app.auth();

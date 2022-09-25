@@ -12,6 +12,8 @@ import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import FacebookIcon from "../assets/icons8-facebook.svg";
+import { registerUser } from "../features/slice/userSlice";
+import { useDispatch } from "react-redux";
 
 const Register = ({ handleShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +21,8 @@ const Register = ({ handleShowLogin }) => {
   const [showRegistrationForms, setShowRegistrationForms] = useState(false);
   const [show, setShow] = useState(true);
   const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
 
   const {
     register: registerEmail,
@@ -35,7 +39,6 @@ const Register = ({ handleShowLogin }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {},
   });
 
   const masterPasswordValue = watch("masterPassword");
@@ -49,6 +52,11 @@ const Register = ({ handleShowLogin }) => {
 
   const onSubmit = (data) => {
     console.log(data);
+
+    const { name, masterPassword } = data;
+    const registerData = { email, password: masterPassword };
+
+    dispatch(registerUser(registerData));
   };
 
   const handleBack = () => {
@@ -154,7 +162,7 @@ const Register = ({ handleShowLogin }) => {
               ) : (
                 <>
                   <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                       <label>Email Address</label>
                       <input
                         value={email}
@@ -162,7 +170,7 @@ const Register = ({ handleShowLogin }) => {
                         className="form-control"
                         disabled
                       />
-                    </div>
+                    </div> */}
 
                     <div className="form-group">
                       <label>

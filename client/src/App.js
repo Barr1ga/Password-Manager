@@ -27,7 +27,9 @@ import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
+import { auth } from "./features/firebase/firebase";
 import Footer from "./components/Footer";
+import { setUser } from "./features/slice/userSlice";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
@@ -37,10 +39,22 @@ const App = () => {
   const { passwords } = useSelector((state) => state.passwords);
 
   useEffect(() => {
+    document.title = "Vaulteer"
+  }, [])
+
+  useEffect(() => {
     passwords.forEach((password) => {
       dispatch(getBrandDetails(password.name));
     });
   }, [passwords]);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      dispatch(setUser(user));
+    });
+
+    return unsubscribe;
+  }, []);
 
   return (
     <BrowserRouter>

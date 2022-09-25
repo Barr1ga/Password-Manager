@@ -3,7 +3,6 @@ import axios from "axios";
 const key = process.env.REACT_APP_BRANDFETCH_API_KEY;
 
 const getBrandDetails = async (brand) => {
-  console.log("tests");
   const config = {
     headers: {
       Authorization: `Bearer ${key}`,
