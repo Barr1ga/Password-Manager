@@ -27,9 +27,9 @@ import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
-import Footer from "./components/Footer";
 import { auth } from "./features/firebase/firebase";
-
+import Footer from "./components/Footer";
+import { setUser } from "./features/slice/authSlice";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
@@ -55,7 +55,6 @@ const App = () => {
 
     return unsubscribe;
   }, []);
-  
 
   return (
     <BrowserRouter>
