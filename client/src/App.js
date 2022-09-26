@@ -28,7 +28,7 @@ import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
 import Footer from "./components/Footer";
-import { setUser } from "./features/slice/authSlice";
+import { auth } from "firebase-admin";
 
 
 const App = () => {
@@ -39,10 +39,23 @@ const App = () => {
   const { passwords } = useSelector((state) => state.passwords);
 
   useEffect(() => {
+    document.title = "Vaulteer"
+  }, [])
+
+  useEffect(() => {
     passwords.forEach((password) => {
       dispatch(getBrandDetails(password.name));
     });
   }, [passwords]);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      dispatch(setUser(user));
+    });
+
+    return unsubscribe;
+  }, []);
+  
 
   return (
     <BrowserRouter>
