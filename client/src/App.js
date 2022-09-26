@@ -28,7 +28,7 @@ import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
 import Footer from "./components/Footer";
-import { auth } from "firebase-admin";
+import { auth } from "./features/firebase/firebase";
 
 
 const App = () => {
