@@ -1,9 +1,16 @@
 import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
   GoogleAuthProvider,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+
+const logInWithEmailAndPassword = async (data) => {
+  const { email, password } = data;
+  return auth.signInWithEmailAndPassword(email, password);
+};
 
 const registerWithEmailAndPassword = async (data) => {
   const { email, password } = data;
@@ -20,6 +27,7 @@ const logOut = async () => {
 };
 
 const userService = {
+  logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   continueWithGoogle,
   logOut,

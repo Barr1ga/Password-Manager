@@ -12,7 +12,7 @@ import {
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/slice/authSlice";
+import { continueWithGoogle, logInWithEmailAndPassword, setUser } from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import FacebookIcon from "../assets/icons8-facebook.svg";
@@ -36,9 +36,22 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(setUser());
+    const {email, masterPassword} = data;
+    const loginData = {
+      email,
+      password: masterPassword,
+    }
+    dispatch(logInWithEmailAndPassword(loginData));
   };
+
+  const handleContinueWithGoogle = () => {
+    dispatch(continueWithGoogle());
+  }
+
+  const handleContinueWithMicrosoft = () => {
+    console.log("microsoft")
+    // dispatch(continueWithGoogle());
+  }
 
   return (
     <>
@@ -169,6 +182,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
+                    onClick={handleContinueWithGoogle}
                   >
                     <img src={GoogleIcon} alt="google.svg" className="custom-small-icons"></img>Continue with Google
                   </Button>
@@ -177,8 +191,9 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
+                    onClick={handleContinueWithMicrosoft}
                   >
-                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Continue with Facebook
+                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Continue with Microsoft
                   </Button>
                 </div>
                 <small>
