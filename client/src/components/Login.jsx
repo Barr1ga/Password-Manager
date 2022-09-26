@@ -29,8 +29,8 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   const dispatch = useDispatch();
 
   const {
-    authError,
-    authMessage,
+    authErrorCode,
+    authErrorMessage,
     authEmailAndPasswordLoading,
     authGoogleLoading,
   } = useSelector((state) => state.auth);
@@ -107,9 +107,9 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     })}
                     className={
                       errors.email ||
-                      (authError &&
-                        authMessage ===
-                          "auth/user-not-found")
+                      (authErrorCode &&
+                        (authErrorCode === "auth/user-not-found" ||
+                          authErrorCode === "auth/too-many-requests"))
                         ? "form-control form-error"
                         : "form-control "
                     }
@@ -137,9 +137,10 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                       })}
                       className={
                         errors.masterPassword ||
-                        (authError &&
-                          authMessage?.code ===
-                            "There isn't an account for the information you entered.")
+                        (authErrorCode !== "" &&
+                          (authErrorCode === "auth/user-not-found" ||
+                            authErrorCode === "auth/too-many-requests" ||
+                            authErrorCode === "auth/wrong-password"))
                           ? "form-control form-error"
                           : "form-control "
                       }
@@ -185,11 +186,11 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   </div>
                 )}
 
-                <div className="form-group">
-                  {authError && (
-                    <small className="error-message">{authMessage}</small>
-                  )}
-                </div>
+                {authErrorMessage !== "" && (
+                  <div className="form-group">
+                    <small className="error-message">{authErrorMessage}</small>
+                  </div>
+                )}
                 <div className="form-group">
                   <Button
                     type="submit"

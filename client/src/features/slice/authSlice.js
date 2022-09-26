@@ -1,8 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
+import authErrorMessage from "../utils/authErrorMessage";
+
+const authUser = JSON.parse(localStorage.getItem("authUser"));
 
 const initialState = {
-  authUser: null,
+  authUser: authUser ? authUser : null,
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
   authMicrosoftLoading: false,
@@ -10,6 +13,8 @@ const initialState = {
   authFulfilled: false,
   authError: false,
   authMessage: "",
+  authErrorMessage: "",
+  authErrorCode: "",
 };
 
 export const logInWithEmailAndPassword = createAsyncThunk(
@@ -18,21 +23,8 @@ export const logInWithEmailAndPassword = createAsyncThunk(
     try {
       return await authService.logInWithEmailAndPassword(data);
     } catch (error) {
-      const {code, message} = error;
-
-      if (error.code === "auth/user-not-found") {
-        return ThunkAPI.rejectWithValue("There isn't an account for the information you entered. Please try again.");
-      }
-
-      if (error.code === "auth/too-many-requests") {
-        return ThunkAPI.rejectWithValue("Access to this account has been temporarily disabled due to many failed login attempts. Please try again later.");
-      }
-
-      if (error.code === "auth/wrong-password") {
-        return ThunkAPI.rejectWithValue("The password you entered is incorrect. Please try again.");
-      }
-
-      return ThunkAPI.rejectWithValue({code, message});
+      const { code, message } = error;
+      return ThunkAPI.rejectWithValue({ code, message });
     }
   }
 );
@@ -43,8 +35,8 @@ export const registerWithEmailAndPassword = createAsyncThunk(
     try {
       return await authService.registerWithEmailAndPassword(data);
     } catch (error) {
-      const authMessage = error.message.toString();
-      return ThunkAPI.rejectWithValue(authMessage);
+      const { code, message } = error;
+      return ThunkAPI.rejectWithValue({ code, message });
     }
   }
 );
@@ -55,8 +47,8 @@ export const continueWithGoogle = createAsyncThunk(
     try {
       return await authService.continueWithGoogle(data);
     } catch (error) {
-      const authMessage = error.message.toString();
-      return ThunkAPI.rejectWithValue(authMessage);
+      const { code, message } = error;
+      return ThunkAPI.rejectWithValue({ code, message });
     }
   }
 );
@@ -67,8 +59,8 @@ export const logOut = createAsyncThunk(
     try {
       return await authService.logOut();
     } catch (error) {
-      const authMessage = error.message.toString();
-      return ThunkAPI.rejectWithValue(authMessage);
+      const { code, message } = error;
+      return ThunkAPI.rejectWithValue({ code, message });
     }
   }
 );
@@ -85,57 +77,67 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-    .addCase(logInWithEmailAndPassword.pending, (state) => {
-      state.authEmailAndPasswordLoading = true;
-    })
-    .addCase(logInWithEmailAndPassword.fulfilled, (state) => {
-      state.authEmailAndPasswordLoading = false;
-      state.authFulfilled = true;
-    })
-    .addCase(logInWithEmailAndPassword.rejected, (state, action) => {
-      state.authEmailAndPasswordLoading = false;
-      state.authError = true;
-      state.authMessage = action.payload;
-    })
+      .addCase(logInWithEmailAndPassword.pending, (state) => {
+        state.authEmailAndPasswordLoading = true;
+      })
+      .addCase(logInWithEmailAndPassword.fulfilled, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authFulfilled = true;
+        localStorage.setItem("authUser", JSON.stringify(action.payload));
+      })
+      .addCase(logInWithEmailAndPassword.rejected, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authError = true;
+        state.authMessage = action.payload.message;
+        state.authErrorCode = action.payload.code;
+        state.authErrorMessage = authErrorMessage(action.payload.code);
+      })
 
-    .addCase(registerWithEmailAndPassword.pending, (state) => {
-      state.authEmailAndPasswordLoading = true;
-    })
-    .addCase(registerWithEmailAndPassword.fulfilled, (state) => {
-      state.authEmailAndPasswordLoading = false;
-      state.authFulfilled = true;
-    })
-    .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
-      state.authEmailAndPasswordLoading = false;
-      state.authError = true;
-      state.authMessage = action.payload;
-    })
+      .addCase(registerWithEmailAndPassword.pending, (state) => {
+        state.authEmailAndPasswordLoading = true;
+      })
+      .addCase(registerWithEmailAndPassword.fulfilled, (state) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authFulfilled = true;
+      })
+      .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authError = true;
+        state.authMessage = action.payload.message;
+        state.authErrorCode = action.payload.code;
+        state.authErrorMessage = authErrorMessage(action.payload.code);
+      })
 
-    .addCase(continueWithGoogle.pending, (state) => {
-      state.authGoogleLoading = true;
-    })
-    .addCase(continueWithGoogle.fulfilled, (state) => {
-      state.authGoogleLoading = false;
-      state.authFulfilled = true;
-    })
-    .addCase(continueWithGoogle.rejected, (state, action) => {
-      state.authGoogleLoading = false;
-      state.authError = true;
-      state.authMessage = action.payload;
-    })
+      .addCase(continueWithGoogle.pending, (state) => {
+        state.authGoogleLoading = true;
+      })
+      .addCase(continueWithGoogle.fulfilled, (state) => {
+        state.authGoogleLoading = false;
+        state.authFulfilled = true;
+      })
+      .addCase(continueWithGoogle.rejected, (state, action) => {
+        state.authGoogleLoading = false;
+        state.authError = true;
+        state.authMessage = action.payload.message;
+        state.authErrorCode = action.payload.code;
+        state.authErrorMessage = authErrorMessage(action.payload.code);
+      })
 
-    .addCase(logOut.pending, (state) => {
-      state.authLoading = true;
-    })
-    .addCase(logOut.fulfilled, (state) => {
-      state.authLoading = false;
-      state.authFulfilled = true;
-    })
-    .addCase(logOut.rejected, (state, action) => {
-      state.authLoading = false;
-      state.authError = true;
-      state.authMessage = action.payload;
-    })
+      .addCase(logOut.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.authLoading = false;
+        state.authFulfilled = true;
+        localStorage.removeItem("authUser");
+      })
+      .addCase(logOut.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
+        state.authMessage = action.payload.message;
+        state.authErrorCode = action.payload.code;
+        state.authErrorMessage = authErrorMessage(action.payload.code);
+      });
   },
 });
 
