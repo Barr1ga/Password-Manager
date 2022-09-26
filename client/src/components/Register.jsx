@@ -11,8 +11,8 @@ import { HiOutlineArrowLeft } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
-import FacebookIcon from "../assets/icons8-facebook.svg";
-import { registerUser } from "../features/slice/authSlice";
+import MicrosoftIcon from "../assets/icons8-microsoft.svg";
+import { registerWithEmailAndPassword } from "../features/slice/authSlice";
 import { useDispatch } from "react-redux";
 
 const Register = ({ handleShowLogin }) => {
@@ -21,6 +21,8 @@ const Register = ({ handleShowLogin }) => {
   const [showRegistrationForms, setShowRegistrationForms] = useState(false);
   const [show, setShow] = useState(true);
   const [email, setEmail] = useState("");
+
+  const dispatch = useDispatch();
 
   const {
     register: registerEmail,
@@ -55,7 +57,7 @@ const Register = ({ handleShowLogin }) => {
     const { name, masterPassword } = data;
     const registerData = { email, password: masterPassword };
 
-    dispatch(registerUser(registerData));
+    dispatch(registerWithEmailAndPassword(registerData));
   };
 
   const handleBack = () => {
@@ -163,12 +165,9 @@ const Register = ({ handleShowLogin }) => {
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="form-group">
                       <label>Email Address</label>
-                      <input
-                        value={email}
-                        type="email"
-                        className="form-control"
-                        disabled
-                      />
+                      <div
+                        className="form-control-disabled"
+                      >{email}</div>
                     </div>
 
                     <div className="form-group">
@@ -345,11 +344,11 @@ const Register = ({ handleShowLogin }) => {
                       className="btn-secondary btn-with-icon btn-long"
                     >
                       <img
-                        src={FacebookIcon}
-                        alt="facebook.svg"
+                        src={MicrosoftIcon}
+                        alt="microsoft.svg"
                         className="custom-small-icons"
                       ></img>
-                      Continue with Facebook
+                      Continue with Microsoft
                     </Button>
                   </div>
                 </>

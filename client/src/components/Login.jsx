@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { continueWithGoogle, logInWithEmailAndPassword, setUser } from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
-import FacebookIcon from "../assets/icons8-facebook.svg";
+import MicrosoftIcon from "../assets/icons8-microsoft.svg";
 
 const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -193,7 +193,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     className="btn-secondary btn-with-icon btn-long"
                     onClick={handleContinueWithMicrosoft}
                   >
-                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Continue with Microsoft
+                    <img src={MicrosoftIcon} alt="microsoft.svg" className="custom-small-icons"></img>Continue with Microsoft
                   </Button>
                 </div>
                 <small>

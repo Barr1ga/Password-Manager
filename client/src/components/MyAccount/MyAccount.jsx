@@ -50,9 +50,9 @@ const MyAccount = () => {
 
           <div className="form-group">
             <label>
-              Email Address <span className="error-message">*</span>
+              Email Address
             </label>
-            <input type="email" className="form-control" disabled />
+            <div className="form-control-disabled">hor.barr1ga@gmail.com</div>
           </div>
 
           <div className="form-group">
