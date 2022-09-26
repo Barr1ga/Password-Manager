@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 const Logins = () => {
   const route = "/Logins";
 
-  const { passwords } = useSelector((state) => state.passwords)
+  const { passwords } = useSelector((state) => state.passwords);
 
   const filteredPasswords = passwords.filter((password) => password.type === "login" && password.trash === false);
   const count = filteredPasswords.length;

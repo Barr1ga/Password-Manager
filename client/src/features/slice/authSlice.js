@@ -1,68 +1,84 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import userService from "../services/authService";
+import authService from "../services/authService";
 
 const initialState = {
-  user: null,
-  loading: false,
-  fulfilled: false,
-  error: false,
-  message: "",
+  authUser: null,
+  authEmailAndPasswordLoading: false,
+  authGoogleLoading: false,
+  authMicrosoftLoading: false,
+  authLoading: false,
+  authFulfilled: false,
+  authError: false,
+  authMessage: "",
 };
 
 export const logInWithEmailAndPassword = createAsyncThunk(
-  "user/logInWithEmailAndPassword",
+  "auth/logInWithEmailAndPassword",
   async (data, ThunkAPI) => {
     try {
-      return await userService.logInWithEmailAndPassword(data);
+      return await authService.logInWithEmailAndPassword(data);
     } catch (error) {
-      const message = error.toString();
-      return ThunkAPI.rejectWithValue(message);
+      const {code, message} = error;
+
+      if (error.code === "auth/user-not-found") {
+        return ThunkAPI.rejectWithValue("There isn't an account for the information you entered. Please try again.");
+      }
+
+      if (error.code === "auth/too-many-requests") {
+        return ThunkAPI.rejectWithValue("Access to this account has been temporarily disabled due to many failed login attempts. Please try again later.");
+      }
+
+      if (error.code === "auth/wrong-password") {
+        return ThunkAPI.rejectWithValue("The password you entered is incorrect. Please try again.");
+      }
+
+      return ThunkAPI.rejectWithValue({code, message});
     }
   }
 );
 
 export const registerWithEmailAndPassword = createAsyncThunk(
-  "user/registerWithEmailAndPassword",
+  "auth/registerWithEmailAndPassword",
   async (data, ThunkAPI) => {
     try {
-      return await userService.registerWithEmailAndPassword(data);
+      return await authService.registerWithEmailAndPassword(data);
     } catch (error) {
-      const message = error.toString();
-      return ThunkAPI.rejectWithValue(message);
+      const authMessage = error.message.toString();
+      return ThunkAPI.rejectWithValue(authMessage);
     }
   }
 );
 
 export const continueWithGoogle = createAsyncThunk(
-  "user/continueWithGoogle",
+  "auth/continueWithGoogle",
   async (data, ThunkAPI) => {
     try {
-      return await userService.continueWithGoogle(data);
+      return await authService.continueWithGoogle(data);
     } catch (error) {
-      const message = error.toString();
-      return ThunkAPI.rejectWithValue(message);
+      const authMessage = error.message.toString();
+      return ThunkAPI.rejectWithValue(authMessage);
     }
   }
 );
 
 export const logOut = createAsyncThunk(
-  "user/logOut",
+  "auth/logOut",
   async (data, ThunkAPI) => {
     try {
-      return await userService.logOut();
+      return await authService.logOut();
     } catch (error) {
-      const message = error.toString();
-      return ThunkAPI.rejectWithValue(message);
+      const authMessage = error.message.toString();
+      return ThunkAPI.rejectWithValue(authMessage);
     }
   }
 );
 
 const userSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload;
+      state.authUser = action.payload;
     },
     resetUser: (state) => initialState,
   },
@@ -70,55 +86,55 @@ const userSlice = createSlice({
     builder
 
     .addCase(logInWithEmailAndPassword.pending, (state) => {
-      state.loading = true;
+      state.authEmailAndPasswordLoading = true;
     })
     .addCase(logInWithEmailAndPassword.fulfilled, (state) => {
-      state.loading = false;
-      state.fulfilled = true;
+      state.authEmailAndPasswordLoading = false;
+      state.authFulfilled = true;
     })
     .addCase(logInWithEmailAndPassword.rejected, (state, action) => {
-      state.loading = false;
-      state.error = true;
-      state.message = action.payload;
+      state.authEmailAndPasswordLoading = false;
+      state.authError = true;
+      state.authMessage = action.payload;
     })
 
     .addCase(registerWithEmailAndPassword.pending, (state) => {
-      state.loading = true;
+      state.authEmailAndPasswordLoading = true;
     })
     .addCase(registerWithEmailAndPassword.fulfilled, (state) => {
-      state.loading = false;
-      state.fulfilled = true;
+      state.authEmailAndPasswordLoading = false;
+      state.authFulfilled = true;
     })
     .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
-      state.loading = false;
-      state.error = true;
-      state.message = action.payload;
+      state.authEmailAndPasswordLoading = false;
+      state.authError = true;
+      state.authMessage = action.payload;
     })
 
     .addCase(continueWithGoogle.pending, (state) => {
-      state.loading = true;
+      state.authGoogleLoading = true;
     })
     .addCase(continueWithGoogle.fulfilled, (state) => {
-      state.loading = false;
-      state.fulfilled = true;
+      state.authGoogleLoading = false;
+      state.authFulfilled = true;
     })
     .addCase(continueWithGoogle.rejected, (state, action) => {
-      state.loading = false;
-      state.error = true;
-      state.message = action.payload;
+      state.authGoogleLoading = false;
+      state.authError = true;
+      state.authMessage = action.payload;
     })
 
     .addCase(logOut.pending, (state) => {
-      state.loading = true;
+      state.authLoading = true;
     })
     .addCase(logOut.fulfilled, (state) => {
-      state.loading = false;
-      state.fulfilled = true;
+      state.authLoading = false;
+      state.authFulfilled = true;
     })
     .addCase(logOut.rejected, (state, action) => {
-      state.loading = false;
-      state.error = true;
-      state.message = action.payload;
+      state.authLoading = false;
+      state.authError = true;
+      state.authMessage = action.payload;
     })
   },
 });
