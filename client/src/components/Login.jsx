@@ -12,7 +12,7 @@ import {
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/slice/userSlice";
+import { setUser } from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import FacebookIcon from "../assets/icons8-facebook.svg";
@@ -170,7 +170,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
                   >
-                    <img src={GoogleIcon} alt="google.svg" className="custom-small-icons"></img>Log in with Google
+                    <img src={GoogleIcon} alt="google.svg" className="custom-small-icons"></img>Continue with Google
                   </Button>
                 </div>
                 <div className="form-group">
@@ -178,7 +178,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
                   >
-                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Log in with Facebook
+                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Continue with Facebook
                   </Button>
                 </div>
                 <small>

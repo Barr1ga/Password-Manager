@@ -12,6 +12,8 @@ import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import FacebookIcon from "../assets/icons8-facebook.svg";
+import { registerUser } from "../features/slice/authSlice";
+import { useDispatch } from "react-redux";
 
 const Register = ({ handleShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -329,7 +331,7 @@ const Register = ({ handleShowLogin }) => {
                         alt="google.svg"
                         className="custom-small-icons"
                       ></img>
-                      Log in with Google
+                      Continue with Google
                     </Button>
                   </div>
                   <div className="form-group">
@@ -342,7 +344,7 @@ const Register = ({ handleShowLogin }) => {
                         alt="facebook.svg"
                         className="custom-small-icons"
                       ></img>
-                      Log in with Facebook
+                      Continue with Facebook
                     </Button>
                   </div>
                 </>

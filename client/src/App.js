@@ -28,6 +28,8 @@ import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
 import Footer from "./components/Footer";
+import { setUser } from "./features/slice/authSlice";
+
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
