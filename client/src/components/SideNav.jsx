@@ -24,12 +24,15 @@ import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
 import SideNavFolder from "./SideNavFolder";
 import ConfirmModal from "./Helpers/ConfirmModal";
+import { useDispatch } from "react-redux";
+import { logOut } from "../features/slice/authSlice";
 
 const SideNav = () => {
+  const dispatch = useDispatch();
   const route = useLocation().pathname;
 
   const handleLogout = () => {
-    console.log("logout");
+    dispatch(logOut());
   };
 
   const handleChangeVault = () => {

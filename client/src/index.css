@@ -17,7 +17,7 @@ body {
 }
 
 body {
-  background-color: rgb(29, 29, 29);
+  background-color: rgb(34, 34, 34);
 }
 
 #root {
@@ -343,6 +343,23 @@ input {
   animation: rotation 1s linear infinite;
 }
 
+.spinner-loader {
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.spinner-loader .loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgb(255, 255, 255);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
 @keyframes rotation {
   0% {
     transform: rotate(0deg);
@@ -400,7 +417,7 @@ input {
 .select-options {
   position: absolute;
   width: 100%;
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(34, 34, 34);
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253);
   /* border: 1px solid #474747; */
   border-radius: 5px;
@@ -462,13 +479,13 @@ input {
   border: 1px solid transparent;
   height: 15px;
   width: 15px;
-  background-color: #161616;
+  background-color: #1a1a1a;
 }
 
 .form-control {
   color: #fff;
   border: 1px solid transparent;
-  background-color: #161616;
+  background-color: #1a1a1a;
 }
 
 input:placeholder-shown {
@@ -477,10 +494,15 @@ input:placeholder-shown {
   text-overflow: ellipsis;
 }
 
-.form-control:disabled {
-  background-color: #161616;
+.form-control-disabled {
+  display: flex;
+  align-items: center;
+  border-radius: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background-color: rgb(46, 46, 46);
+  height: 45px;
   color: #fff;
-  opacity: 0.5;
+  opacity: .5;
   border: 1px solid transparent;
 }
 
@@ -616,8 +638,8 @@ input:placeholder-shown {
   overflow: hidden;
   flex: 0 1 400px;
   /* background-color: rgb(46, 46, 46); */
-  border-left: 10px solid #161616;
-  border-right: 10px solid #161616;
+  border-left: 10px solid #1a1a1a;
+  border-right: 10px solid #1a1a1a;
   min-height: 100%;
   padding-top: 20px;
   padding-bottom: 40px;
@@ -735,7 +757,7 @@ input:placeholder-shown {
 
 .sidenav-button:hover {
   color: rgba(255, 255, 255);
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(255, 255, 255, 0.05);
   transition: 0.2s ease-out 0s;
 }
 
@@ -937,7 +959,7 @@ input:placeholder-shown {
 
 .footer {
   /* background-color: #000; */
-  background-color: #161616;
+  background-color: #1a1a1a;
   padding: 20px 0px;
   display: flex;
   align-items: center;
@@ -1071,7 +1093,7 @@ input:placeholder-shown {
 
 /* vault members css */
 .right-vault-members {
-  background-color: rgb(37, 37, 37);
+  background-color: rgb(46, 46, 46);
   /* border: 1px solid #474747; */
   border-radius: 5px;
   padding-bottom: 10px;
@@ -1119,7 +1141,7 @@ input:placeholder-shown {
 }
 
 .vault-members .member:hover {
-  background-color: rgb(46, 46, 46);
+  background-color: rgba(255, 255, 255, 0.05);
   display: flex;
   transition: 0.2s ease-out 0s;
 }
@@ -1447,7 +1469,7 @@ input:placeholder-shown {
 
 .password-item-selected,
 .password-item:hover {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(255, 255, 255, 0.05);
 }
 
 .password-item .name {
@@ -1708,7 +1730,7 @@ input:placeholder-shown {
 
 .modal-body {
   /* border: 1px solid #474747; */
-  background-color: rgb(27, 27, 27);
+  background-color: rgb(34, 34, 34);
   border-radius: 0 0 5px 5px;
   border-top: none;
 }

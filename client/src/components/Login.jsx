@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiShieldFlashFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
@@ -11,17 +11,29 @@ import {
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../features/slice/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  continueWithGoogle,
+  logInWithEmailAndPassword,
+  setUser,
+} from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
-import FacebookIcon from "../assets/icons8-facebook.svg";
+import MicrosoftIcon from "../assets/icons8-microsoft.svg";
+import SpinnerLoader from "./SpinnerLoader";
 
 const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
   const dispatch = useDispatch();
+
+  const {
+    authErrorCode,
+    authErrorMessage,
+    authEmailAndPasswordLoading,
+    authGoogleLoading,
+  } = useSelector((state) => state.auth);
 
   const {
     register,
@@ -36,8 +48,20 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   });
 
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(setUser());
+    const { email, masterPassword } = data;
+    const loginData = {
+      email,
+      password: masterPassword,
+    };
+    dispatch(logInWithEmailAndPassword(loginData));
+  };
+
+  const handleContinueWithGoogle = () => {
+    dispatch(continueWithGoogle());
+  };
+
+  const handleContinueWithMicrosoft = () => {
+    console.log("microsoft");
   };
 
   return (
@@ -82,7 +106,12 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                       },
                     })}
                     className={
-                      errors.email ? "form-control form-error" : "form-control "
+                      errors.email ||
+                      (authErrorCode &&
+                        (authErrorCode === "auth/user-not-found" ||
+                          authErrorCode === "auth/too-many-requests"))
+                        ? "form-control form-error"
+                        : "form-control "
                     }
                   />
                   {errors.email && (
@@ -107,7 +136,11 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                         },
                       })}
                       className={
-                        errors.masterPassword
+                        errors.masterPassword ||
+                        (authErrorCode !== "" &&
+                          (authErrorCode === "auth/user-not-found" ||
+                            authErrorCode === "auth/too-many-requests" ||
+                            authErrorCode === "auth/wrong-password"))
                           ? "form-control form-error"
                           : "form-control "
                       }
@@ -152,12 +185,24 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     </div>
                   </div>
                 )}
+
+                {authErrorMessage !== "" && (
+                  <div className="form-group">
+                    <small className="error-message">{authErrorMessage}</small>
+                  </div>
+                )}
                 <div className="form-group">
                   <Button
                     type="submit"
                     className="btn-dark btn-with-icon btn-long"
                   >
-                    <HiOutlineLogin></HiOutlineLogin>Log in
+                    {authEmailAndPasswordLoading ? (
+                      <SpinnerLoader></SpinnerLoader>
+                    ) : (
+                      <>
+                        <HiOutlineLogin></HiOutlineLogin>Log in
+                      </>
+                    )}
                   </Button>
                 </div>
                 <div className="form-group">
@@ -169,16 +214,34 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
+                    onClick={handleContinueWithGoogle}
                   >
-                    <img src={GoogleIcon} alt="google.svg" className="custom-small-icons"></img>Log in with Google
+                    {authGoogleLoading ? (
+                      <SpinnerLoader></SpinnerLoader>
+                    ) : (
+                      <>
+                        <img
+                          src={GoogleIcon}
+                          alt="google.svg"
+                          className="custom-small-icons"
+                        ></img>
+                        Continue with Google
+                      </>
+                    )}
                   </Button>
                 </div>
                 <div className="form-group">
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
+                    onClick={handleContinueWithMicrosoft}
                   >
-                    <img src={FacebookIcon} alt="facebook.svg" className="custom-small-icons"></img>Log in with Facebook
+                    <img
+                      src={MicrosoftIcon}
+                      alt="microsoft.svg"
+                      className="custom-small-icons"
+                    ></img>
+                    Continue with Microsoft
                   </Button>
                 </div>
                 <small>

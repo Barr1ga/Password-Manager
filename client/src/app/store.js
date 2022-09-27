@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import brandReducer from "../features/slice/brandSlice";
 import passwordReducer from "../features/slice/passwordSlice";
-import userReducer from "../features/slice/userSlice";
+import authReducer from "../features/slice/authSlice";
 import memberReducer from "../features/slice/memberSlice";
 
 export const store = configureStore({
   reducer: {
     brands: brandReducer,
     passwords: passwordReducer,
-    auth: userReducer,
+    auth: authReducer,
     members: memberReducer,
   },
 });

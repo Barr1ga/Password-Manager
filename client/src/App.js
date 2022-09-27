@@ -29,11 +29,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
 import { auth } from "./features/firebase/firebase";
 import Footer from "./components/Footer";
-import { setUser } from "./features/slice/userSlice";
+import { setUser } from "./features/slice/authSlice";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
-  const { user } = useSelector((state) => state.auth);
+  const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
@@ -58,7 +58,7 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {user ? (
+      {authUser ? (
         <>
           <Header></Header>
           <div className="sub-body">
