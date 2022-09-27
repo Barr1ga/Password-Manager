@@ -42,6 +42,18 @@ export const registerWithEmailAndPassword = createAsyncThunk(
   }
 );
 
+export const changeEmail = createAsyncThunk(
+  "auth/changeEmail",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.changeEmail(data);
+    } catch (error) {
+      const { code, message } = error;
+      return ThunkAPI.rejectWithValue({ code, message });
+    }
+  }
+);
+
 export const continueWithGoogle = createAsyncThunk(
   "auth/continueWithGoogle",
   async (data, ThunkAPI) => {
@@ -103,6 +115,22 @@ const userSlice = createSlice({
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
+        state.authError = true;
+        state.authMessage = action.payload.message;
+        state.authErrorCode = action.payload.code;
+        state.authErrorMessage = authErrorMessage(action.payload.code);
+      })
+
+      .addCase(changeEmail.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(changeEmail.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.authFulfilled = true;
+        localStorage.setItem("authUser", JSON.stringify(action.payload));
+      })
+      .addCase(changeEmail.rejected, (state, action) => {
+        state.authLoading = false;
         state.authError = true;
         state.authMessage = action.payload.message;
         state.authErrorCode = action.payload.code;

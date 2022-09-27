@@ -1,5 +1,6 @@
 import {
   signInWithEmailAndPassword,
+  updateEmail,
   createUserWithEmailAndPassword,
   signInWithRedirect,
   GoogleAuthProvider,
@@ -17,6 +18,11 @@ const registerWithEmailAndPassword = async (data) => {
   return auth.createUserWithEmailAndPassword(email, password);
 };
 
+
+const changeEmail = async (data) => {
+  return updateEmail(data);
+}
+
 const continueWithGoogle = async (data) => {
   const provider = new GoogleAuthProvider();
   return signInWithRedirect(auth, provider);
@@ -29,6 +35,7 @@ const logOut = async () => {
 const userService = {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
+  changeEmail,
   continueWithGoogle,
   logOut,
 };
