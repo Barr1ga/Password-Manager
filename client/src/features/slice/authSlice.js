@@ -23,6 +23,7 @@ export const logInWithEmailAndPassword = createAsyncThunk(
     try {
       return await authService.logInWithEmailAndPassword(data);
     } catch (error) {
+      console.log(error)
       const { code, message } = error;
       return ThunkAPI.rejectWithValue({ code, message });
     }
