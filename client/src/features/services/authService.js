@@ -10,7 +10,7 @@ import { auth } from "../firebase/firebase";
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
   return auth.signInWithEmailAndPassword(email, password);
-};
+}; 
 
 const registerWithEmailAndPassword = async (data) => {
   const { email, password } = data;
