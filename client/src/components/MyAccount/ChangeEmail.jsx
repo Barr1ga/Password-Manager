@@ -1,28 +1,64 @@
-import React from 'react'
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
+import PrimaryAlertInteractive from "../alerts/PrimaryAlertInteractive";
 
 const ChangeEmail = () => {
-    const {
-        register: emailField,
-        handleSubmit: handleSubmitEmail,
-        formState: { errors: errorsEmail },
-      } = useForm({
-        mode: "all",
-        defaultValues: {
-        },
-      });
+  const [verificationSent, setVerificationSent] = useState(false);
+  const [email, setEmail] = useState("");
+  const {
+    register: emailField,
+    handleSubmit: handleSubmitEmail,
+    formState: { errors: errorsEmail },
+  } = useForm({
+    mode: "all",
+    defaultValues: {},
+  });
 
-      const onSubmitEmail = (data) => {
-        console.log(data);
-      };
+  const onSubmitEmail = (data) => {
+    console.log(data);
+    const { email, masterPassword } = data;
+    setEmail(email);
+    setVerificationSent(true);
+  };
+
+  const handleResendEmail = () => {
+    console.log("test")
+  }
+
+  const handleUndoEmailChange = () => {
+    console.log("test")
+
+  }
+
   return (
     <div className="standard-stack">
-          <div className="form-group">
-            <h5>Change Email</h5>
+      <div className="form-group">
+        <h5>Change Email</h5>
+        {verificationSent ? (
+          <>
+            <PrimaryAlertInteractive
+              title={"Update pending verification"}
+              message={`We just need you to check your email ${email} and to verify it's you and complete the update.`}
+              interactions={
+                <>
+                  <button className="btn-link" type="button" onClick={handleResendEmail}>
+                    <small>Resend Email</small>
+                  </button>
+                  <button className="btn-link" type="button" onClick={handleUndoEmailChange}>
+                    <small>Undo Email Change</small>
+                  </button>
+                </>
+              }
+            ></PrimaryAlertInteractive>
+          </>
+        ) : (
+          <>
             <form onSubmit={handleSubmitEmail(onSubmitEmail)}>
               <div className="form-group">
-                <label>Email Address<span className="error-message">*</span></label>
+                <label>
+                  New Email Address<span className="error-message">*</span>
+                </label>
                 <input
                   type="email"
                   {...emailField("email", {
@@ -44,7 +80,9 @@ const ChangeEmail = () => {
                 )}
               </div>
               <div className="form-group">
-                <label>Master Password <span className="error-message">*</span></label>
+                <label>
+                  Master Password <span className="error-message">*</span>
+                </label>
                 <input
                   type="text"
                   {...emailField("masterPassword", {
@@ -69,9 +107,11 @@ const ChangeEmail = () => {
                 Change Email
               </Button>
             </form>
-          </div>
-        </div>
-  )
-}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
 
-export default ChangeEmail
+export default ChangeEmail;

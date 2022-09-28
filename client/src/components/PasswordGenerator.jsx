@@ -4,22 +4,33 @@ import { useForm } from "react-hook-form";
 import { HiCheckCircle, HiOutlineDuplicate } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
-import WarningAlert from "./WarningAlert";
+import WarningAlert from "./alerts/WarningAlert";
 import ConfirmModal from "./Helpers/ConfirmModal";
-import useGeneratePassword from "../hooks/useGeneratePassword";
+import getPassword from "../features/utils/getPassword";
 
 const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
-  const [securePassword, setSecurePassword] = useState(false);
   const [showToolTip, setShowToolTip] = useState(false);
   const [generateEmptyCriteria, setGenerateEmptyCriteria] = useState(false);
   const [generatedEmpty, setGeneratedEmpty] = useState(false);
-  const { password, getPassword, resetPassword } = useGeneratePassword();
+  const [password, setPassword] = useState("");
   const generatedRef = useRef();
   const clipBoard = useRef(null);
 
-  useEffect(() => {
-    return resetPassword();
-  }, [watchPassword]);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      password: watchPassword,
+    },
+  });
+
+  const generatedPassword = watch("password");
+  console.log(generatedPassword);
 
   const {
     register: registerPassword,
@@ -33,7 +44,6 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   });
 
   const onSubmitGenerate = (data) => {
-    console.log("generatre");
     const { lowercase, uppercase, numbers, symbols, length } = data;
     if (!lowercase && !uppercase && !numbers && !symbols) {
       setGenerateEmptyCriteria(true);
@@ -44,14 +54,8 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
       setGenerateEmptyCriteria(false);
     }
 
-    console.log("test1")
-    getPassword(data);
-    console.log("test2")
-    console.log(password)
-
-    if (lowercase || uppercase || numbers || symbols) {
-      setSecurePassword(true);
-    }
+    const returnValue = getPassword(data);
+    setValue("password", returnValue);
   };
 
   const handlePasswordCopied = () => {
@@ -59,12 +63,9 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
     navigator.clipboard.writeText(password);
   };
 
-  if (password !== "" && generatedRef.current) {
-    generatedRef.current.value = password;
-  }
-
-  const handleGeneratorChange = () => {
-    setSecurePassword(false);
+  const onSubmit = () => {
+    console.log(generatedPassword);
+    handleUsePassword(generatedPassword);
   };
 
   return (
@@ -74,38 +75,75 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
       </div>
 
       <div className="password-generator">
-        <div className="form-group generator-field">
-          <input
-            type="text"
-            ref={generatedRef}
-            defaultValue={watchPassword}
-            onChange={handleGeneratorChange}
-            className="form-control password-generator-input"
-          ></input>
-          {securePassword && <HiCheckCircle className="secure"></HiCheckCircle>}
-          <Button
-            ref={clipBoard}
-            onClick={handlePasswordCopied}
-            onBlur={() => setShowToolTip(false)}
-            className="btn-secondary copy-to-clipboard"
-          >
-            <HiOutlineDuplicate></HiOutlineDuplicate>
-          </Button>
-          <Overlay
-            target={clipBoard.current}
-            show={showToolTip}
-            placement="top"
-          >
-            {(props) => (
-              <Tooltip id="top" {...props}>
-                Copied!
-              </Tooltip>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="form-group generator-field">
+            <input
+              type="text"
+              {...register("password", {
+                required: {
+                  value: true,
+                  message: "Password is required",
+                },
+              })}
+              className="form-control password-generator-input"
+            ></input>
+            <Button
+              ref={clipBoard}
+              onClick={handlePasswordCopied}
+              onBlur={() => setShowToolTip(false)}
+              className="btn-secondary copy-to-clipboard"
+            >
+              <HiOutlineDuplicate></HiOutlineDuplicate>
+            </Button>
+            <Overlay
+              target={clipBoard.current}
+              show={showToolTip}
+              placement="top"
+            >
+              {(props) => (
+                <Tooltip id="top" {...props}>
+                  Copied!
+                </Tooltip>
+              )}
+            </Overlay>
+          </div>
+          <div className="form-group">
+            {watchPassword === "" ? (
+              <Button type="button" className="btn-secondary btn-long" onClick={onSubmit}>
+                Use Password
+              </Button>
+            ) : (
+              <>
+                <ConfirmModal
+                  proceedInteraction={
+                    <Button
+                      type="button"
+                      className="btn-dark btn-long"
+                      onClick={onSubmit}
+                    >
+                      Yes
+                    </Button>
+                  }
+                  component={
+                    <Button type="button" className="btn-secondary btn-long">
+                      Use Password
+                    </Button>
+                  }
+                  headerMessage={"Are you sure you want to use this password?"}
+                  bodyMessage={
+                    "You already have a password for this item, do you want to replace it?"
+                  }
+                ></ConfirmModal>
+              </>
             )}
-          </Overlay>
-        </div>
+          </div>
+        </form>
       </div>
 
-      <form className="password-generator-form" onSubmit={handlePasswordSubmit(onSubmitGenerate)}>
+      <form
+        className="password-generator-form"
+        onSubmit={handlePasswordSubmit(onSubmitGenerate)}
+      >
         <div className="password-generator">
           <div className="form-group form-group-horizontal">
             <p>Password Length</p>
@@ -175,42 +213,6 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
           <Button type="submit" className="btn-dark btn-long">
             Generate
           </Button>
-          <div className="btn-long">
-            {/* {console.log(generatedRef.current.value !== "" ? true : false)} */}
-            {!generatedRef.current || generatedRef.current.value === "" ? (
-              <Button
-                type="button"
-                onClick={() => setGeneratedEmpty(true)}
-                className="btn-secondary btn-long"
-              >
-                Use Password
-              </Button>
-            ) : generatedRef.current &&
-              generatedRef.current.value !== "" &&
-              (watchPassword && watchPassword) !== "" ? (
-              <ConfirmModal
-                handleProceed={() => handleUsePassword(password)}
-                component={
-                  <Button type="button" className="btn-secondary btn-long">
-                    Use Password
-                  </Button>
-                }
-                headerMessage={"Are you sure you want to use this password?"}
-                bodyMessage={
-                  "You already have a password for this item, do you want to replace it?"
-                }
-                continueMessage={"Yes"}
-              ></ConfirmModal>
-            ) : (
-              <Button
-                type="button"
-                onClick={() => handleUsePassword(password)}
-                className="btn-secondary btn-long"
-              >
-                Use Password
-              </Button>
-            )}
-          </div>
         </div>
       </form>
     </>

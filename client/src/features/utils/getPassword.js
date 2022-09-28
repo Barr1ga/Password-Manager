@@ -25,12 +25,15 @@ const randomFunc = {
 };
 
 let generatePassword = (data) => {
-  const {lowercase, uppercase, numbers, symbols, length} = data;
+  const { lowercase, uppercase, numbers, symbols, length } = data;
   let generatedPassword = "";
   let typesCount = lowercase + uppercase + numbers + symbols;
-  let typesArr = [{ lowercase }, { uppercase }, { numbers }, { symbols }].filter(
-    (item) => Object.values(item)[0]
-  );
+  let typesArr = [
+    { lowercase },
+    { uppercase },
+    { numbers },
+    { symbols },
+  ].filter((item) => Object.values(item)[0]);
 
   // Doesn't have a selected type
   if (typesCount === 0) {
@@ -50,19 +53,9 @@ let generatePassword = (data) => {
   return finalPassword;
 };
 
-const useGeneratePassword = () => {
-  const [password, setPassword] = useState("");
-
-  const getPassword = (data) => {
-    console.log(data);
-    setPassword(generatePassword(data));
-  };
-  
-  const resetPassword = () => {
-    setPassword("");
-  }
-
-  return { password, getPassword, resetPassword };
+const getPassword = (data) => {
+  const returnValue = generatePassword(data);
+  return returnValue;
 };
 
-export default useGeneratePassword;
+export default getPassword;

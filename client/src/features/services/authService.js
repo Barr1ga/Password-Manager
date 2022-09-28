@@ -10,17 +10,18 @@ import { auth } from "../firebase/firebase";
 
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
-  return auth.signInWithEmailAndPassword(email, password);
+  return signInWithEmailAndPassword(auth, email, password);
 }; 
 
 const registerWithEmailAndPassword = async (data) => {
   const { email, password } = data;
-  return auth.createUserWithEmailAndPassword(email, password);
+  return createUserWithEmailAndPassword(auth, email, password);
 };
 
 
 const changeEmail = async (data) => {
-  return updateEmail(data);
+  console.log(auth.currentUser)
+  return updateEmail(auth.currentUser, data);
 }
 
 const continueWithGoogle = async (data) => {

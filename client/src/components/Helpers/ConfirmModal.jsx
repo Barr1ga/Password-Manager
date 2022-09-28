@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-const ConfirmModal = ({ handleProceed, component, headerMessage, bodyMessage, continueMessage }) => {
+const ConfirmModal = ({ proceedInteraction, component, headerMessage, bodyMessage }) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -27,7 +27,7 @@ const ConfirmModal = ({ handleProceed, component, headerMessage, bodyMessage, co
               <Button type="button" className="btn-secondary btn-long" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button type="button" onClick={handleProceed} className="btn-dark btn-long">{continueMessage}</Button>
+              {proceedInteraction}
             </div>
           </div>
         </Modal.Body>

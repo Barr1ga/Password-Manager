@@ -7,9 +7,7 @@ import {
   HiOutlineEye,
   HiOutlineEyeOff,
   HiOutlineRefresh,
-  HiCheckCircle,
   HiPlus,
-  HiOutlineDuplicate,
   HiOutlineX,
   HiOutlineArrowLeft,
 } from "react-icons/hi";
@@ -61,6 +59,7 @@ const AddItemModal = () => {
   };
 
   const handleUsePassword = (password) => {
+    console.log(password);
     setShowPasswordGenerator(false);
     setValue("password", password);
   };
@@ -97,13 +96,20 @@ const AddItemModal = () => {
               <h4>Create Password</h4>
             </div>
             <ConfirmModal
-              handleProceed={handleCloseModal}
+              proceedInteraction={
+                <Button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="btn-dark btn-long"
+                >
+                  Leave
+                </Button>
+              }
               component={<HiOutlineX className="btn-close"></HiOutlineX>}
               headerMessage={"Are you sure you want to leave this section?"}
               bodyMessage={
                 "You have unsaved content, and will be lost unless you save it."
               }
-              continueMessage={"Leave"}
             ></ConfirmModal>
           </div>
         </Modal.Header>
@@ -195,7 +201,8 @@ const AddItemModal = () => {
                           onClick={() => setShowPasswordInput(true)}
                         ></HiOutlineEyeOff>
                       )}
-                      <HiOutlineRefresh className="generate-password"
+                      <HiOutlineRefresh
+                        className="generate-password"
                         onClick={() => setShowPasswordGenerator(true)}
                       ></HiOutlineRefresh>
                     </div>

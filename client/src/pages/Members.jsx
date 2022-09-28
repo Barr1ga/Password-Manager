@@ -1,5 +1,5 @@
 import React from "react";
-import WarningAlert from "../components/WarningAlert";
+import WarningAlert from "../components/alerts/WarningAlert";
 import { HiOutlineX } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";

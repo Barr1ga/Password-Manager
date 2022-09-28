@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
 import { auth } from "./features/firebase/firebase";
 import Footer from "./components/Footer";
-import { changeEmail, setUser } from "./features/slice/authSlice";
+import { setUser } from "./features/slice/authSlice";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
@@ -38,6 +38,7 @@ const App = () => {
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
 
+  
   useEffect(() => {
     document.title = "Vaulteer"
   }, [])
@@ -55,11 +56,6 @@ const App = () => {
 
     return unsubscribe;
   }, []);
-
-  if (auth !== null) 
-  {
-    dispatch(changeEmail("1000@email.com"));
-  }
 
   return (
     <BrowserRouter>

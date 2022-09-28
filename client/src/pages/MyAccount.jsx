@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import { HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import WarningAlert from "../components/WarningAlert";
+import WarningAlert from "../components/alerts/WarningAlert";
 import MyAccount from "../components/MyAccount/MyAccount";
 import ChangeEmail from "../components/MyAccount/ChangeEmail";
 import ChangePassword from "../components/MyAccount/ChangePassword";

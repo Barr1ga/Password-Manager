@@ -307,13 +307,18 @@ const Register = ({ handleShowLogin }) => {
                       </div>
                     </div>
                     <div className="form-group">
-                      {authEmailAndPasswordLoading ? (
-                        <SpinnerLoader></SpinnerLoader>
-                      ) : (
-                        <>
-                          <HiOutlinePencilAlt></HiOutlinePencilAlt>Register
-                        </>
-                      )}
+                      <Button
+                        type="submit"
+                        className="btn-dark btn-with-icon btn-long"
+                      >
+                        {authEmailAndPasswordLoading ? (
+                          <SpinnerLoader></SpinnerLoader>
+                        ) : (
+                          <>
+                            <HiOutlinePencilAlt></HiOutlinePencilAlt>Register
+                          </>
+                        )}
+                      </Button>
                     </div>
                   </form>
                 </>

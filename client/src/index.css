@@ -231,7 +231,7 @@ input {
 }
 
 .btn-link {
-  /* font-weight: 600; */
+  font-weight: 600;
   text-decoration: none;
   border: none;
   background-color: transparent;
@@ -502,7 +502,7 @@ input:placeholder-shown {
   background-color: rgb(46, 46, 46);
   height: 45px;
   color: #fff;
-  opacity: .5;
+  opacity: 0.5;
   border: 1px solid transparent;
 }
 
@@ -1169,7 +1169,7 @@ input:placeholder-shown {
 
 .vault-members .image .online,
 .vault-members .image .offline,
-  .vault-members .image .idle {
+.vault-members .image .idle {
   height: 10px;
   width: 10px;
   border-radius: 50%;
@@ -1182,7 +1182,7 @@ input:placeholder-shown {
 
 .vault-members .member:hover .online,
 .vault-members .member:hover .offline,
-  .vault-members .member:hover .idle {
+.vault-members .member:hover .idle {
   outline-color: rgb(46, 46, 46);
   transition: 0.2s ease-out 0s;
 }
@@ -1214,6 +1214,7 @@ input:placeholder-shown {
 .other-links .btn-link {
   color: #fff;
   cursor: pointer;
+  font-weight: 100;
 }
 
 .other-links .btn-link:hover,
@@ -1530,7 +1531,6 @@ input:placeholder-shown {
 
 /* alert css */
 .warning-alert {
-  border: 1px solid rgb(189, 138, 0);
   border-radius: 5px;
   border-left: 5px solid rgb(189, 138, 0);
   background-color: rgba(255, 202, 57, 0.055);
@@ -1546,6 +1546,34 @@ input:placeholder-shown {
 
 .warning-alert .alert-header .icon {
   font-size: 1.2rem;
+}
+
+.primary-alert {
+  border-radius: 5px;
+  border-left: 5px solid rgb(60, 151, 255);
+  background-color: rgba(57, 110, 255, 0.055);
+  padding: 10px 15px;
+}
+
+.primary-alert .alert-header {
+  color: rgb(60, 151, 255);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.primary-alert .alert-header .icon {
+  font-size: 1.2rem;
+}
+
+.interactive-alert .interaction {
+  display: flex;
+  gap: 20px;
+}
+
+.interactive-alert .interaction .btn-link,
+.interactive-alert .interaction .btn-link small {
+  color: rgb(60, 151, 255);
 }
 
 .delete-account {

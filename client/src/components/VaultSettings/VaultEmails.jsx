@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WarningAlert from "../WarningAlert";
+import WarningAlert from "../alerts/WarningAlert";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import VaultMembers from "../VaultMembers";
