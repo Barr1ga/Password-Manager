@@ -20,6 +20,7 @@ const VaultSettings = () => {
     <div className="margin-content">
       <div className="page-header-with-close padding-side">
         <h4>Vault Settings</h4>
+        
         <Link to="/">
           <HiOutlineX className="btn-close"></HiOutlineX>
         </Link>

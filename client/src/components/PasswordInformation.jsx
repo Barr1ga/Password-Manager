@@ -113,23 +113,26 @@ const PasswordInformation = ({ currentPassword }) => {
             )}
             <h4>Update Password</h4>
           </div>
-
           <ConfirmModal
-            handleProceed={handleCloseMobile}
-            component={
-              <div className="screen-version">
-                <div className="mobile">
-                  <HiOutlineX className="btn-close"></HiOutlineX>
-                </div>
+              proceedInteraction={
+                <Button
+                  type="button"
+                  onClick={handleCloseMobile}
+                  className="btn-dark btn-long"
+                >
+                  Leave
+                </Button>
+              }
+              component={<div className="screen-version">
+              <div className="mobile">
+                <HiOutlineX className="btn-close"></HiOutlineX>
               </div>
-            }
-            headerMessage={"Are you sure you want to leave this section?"}
-            bodyMessage={
-              "You have unsaved content, and will be lost unless you save it."
-            }
-            continueMessage={"Leave"}
-          ></ConfirmModal>
-
+            </div>}
+              headerMessage={"Are you sure you want to leave this section?"}
+              bodyMessage={
+                "You have unsaved content, and will be lost unless you save it."
+              }
+            ></ConfirmModal>
           <ConfirmModal
             handleProceed={handleClose}
             component={
