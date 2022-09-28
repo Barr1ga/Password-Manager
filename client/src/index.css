@@ -1539,6 +1539,7 @@ input:placeholder-shown {
   font-weight: 600;
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 .warning-alert .alert-header .icon {
@@ -1557,6 +1558,7 @@ input:placeholder-shown {
   font-weight: 600;
   display: flex;
   align-items: center;
+  gap: 5px;
 }
 
 .primary-alert .alert-header .icon {

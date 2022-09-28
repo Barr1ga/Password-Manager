@@ -23,13 +23,12 @@ const ChangeEmail = () => {
   };
 
   const handleResendEmail = () => {
-    console.log("test")
-  }
+    
+  };
 
   const handleUndoEmailChange = () => {
-    console.log("test")
-
-  }
+    setVerificationSent(false);
+  };
 
   return (
     <div className="standard-stack">
@@ -42,10 +41,18 @@ const ChangeEmail = () => {
               message={`We just need you to check your email ${email} and to verify it's you and complete the update.`}
               interactions={
                 <>
-                  <button className="btn-link" type="button" onClick={handleResendEmail}>
+                  <button
+                    className="btn-link"
+                    type="button"
+                    onClick={handleResendEmail}
+                  >
                     <small>Resend Email</small>
                   </button>
-                  <button className="btn-link" type="button" onClick={handleUndoEmailChange}>
+                  <button
+                    className="btn-link"
+                    type="button"
+                    onClick={handleUndoEmailChange}
+                  >
                     <small>Undo Email Change</small>
                   </button>
                 </>
