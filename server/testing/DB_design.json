@@ -1,0 +1,131 @@
+{
+    "user": {
+        "vault": {
+            "hintNote": "...",
+            "items": {
+                "login": [
+                    {
+                        "name": "...",
+                        "username": "...",
+                        "password": "...",
+                        "domains": [],
+                        "folders": [],
+                        "notes": "...",
+                        "favorite": false,
+                        "trashed": false,
+                        "lastUpdatedBy": "...",
+                        "updatedDate": "...",
+                        "createdDate": "...",
+                        "status": "..."
+                    }
+                ],
+                "cards": [
+                    {
+                        "name": "...",
+                        "cardHolderName": "...",
+                        "brand": "...",
+                        "number": "...",
+                        "expirationMonth": "...",
+                        "expirationYear": "...",
+                        "securityCode": "...",
+                        "domains": [],
+                        "folders": [],
+                        "notes": "...",
+                        "favorite": false,
+                        "trashed": false,
+                        "lastUpdatedBy": "...",
+                        "updatedDate": "...",
+                        "createdDate": "...",
+                        "status": "..."
+                    }
+                ],
+                "identifications": [
+                    {
+                        "name": "...",
+                        "title": "...",
+                        "firstName": "...",
+                        "middleName": "...",
+                        "lastName": "...",
+                        "userName": "...",
+                        "company": "...",
+                        "socialSecurityNumber": "...",
+                        "passportNumber": "...",
+                        "licenseNumber": "...",
+                        "email": "...",
+                        "phone": "...",
+                        "address1": "...",
+                        "address2": "...",
+                        "address3": "...",
+                        "cityOrTown": "...",
+                        "stateOrProvince": "...",
+                        "zipOrPostalCode": "...",
+                        "country": "...",
+                        "folders": [],
+                        "notes": "...",
+                        "favorite": false,
+                        "trashed": false,
+                        "UpdatedBy": "...",
+                        "updatedDate": "...",
+                        "createdDate": "...",
+                        "status": "..."
+                    }
+                ],
+                "secureNotes": [
+                    {
+                        "name": "...",
+                        "notes": "...",
+                        "folders": [],
+                        "favorite": false,
+                        "trashed": false,
+                        "UpdatedBy": "...",
+                        "updatedDate": "...",
+                        "createdDate": "...",
+                        "status": "..."
+                    }
+                ],
+                "wifiPasswords": [
+                    {
+                        "name": "...",
+                        "password": "...",
+                        "folders": [],
+                        "favorite": false,
+                        "trashed": false,
+                        "notes": "...",
+                        "UpdatedBy": "...",
+                        "updatedDate": "...",
+                        "createdDate": "...",
+                        "status": "..."
+                    }
+                ]
+            },
+            "auditLog": [
+                {
+                    "actorID": "...",
+                    "action": "...",
+                    "benefactor": "...",
+                    "description": "...",
+                    "createdDate": "...",
+                    "status": "..."
+                }
+            ],
+            "roles": [
+                {
+                    "name": "...",
+                    "admin": false,
+                    "folders": [],
+                    "status": "..."
+                }
+            ],
+            "members": [
+                {
+                    "uid": "...",
+                    "roles": [],
+                    "joinedDate": "...",
+                    "currentFolderAccessing": "...",
+                    "currentItemAccessing": "...",
+                    "status": "..."
+                }   
+            ]
+        }
+    }
+}

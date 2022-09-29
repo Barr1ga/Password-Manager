@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import PrimaryAlertInteractive from "../alerts/PrimaryAlertInteractive";
+import { changeEmail, sendVerification } from "../../features/slice/authSlice";
+import { useDispatch } from "react-redux";
 
 const ChangeEmail = () => {
   const [verificationSent, setVerificationSent] = useState(false);
   const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+
   const {
     register: emailField,
     handleSubmit: handleSubmitEmail,
@@ -19,11 +23,13 @@ const ChangeEmail = () => {
     console.log(data);
     const { email, masterPassword } = data;
     setEmail(email);
-    setVerificationSent(true);
+    dispatch(changeEmail(email));
+    // dispatch(sendVerification());
+    // setVerificationSent(true);
   };
 
   const handleResendEmail = () => {
-    
+    dispatch(sendVerification());
   };
 
   const handleUndoEmailChange = () => {

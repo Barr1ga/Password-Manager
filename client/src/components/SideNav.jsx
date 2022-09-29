@@ -17,7 +17,7 @@ import {
   HiOutlineClipboardList,
   HiClipboardList,
   HiOutlineLockClosed,
-  HiLockClosed
+  HiLockClosed,
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -26,18 +26,20 @@ import SideNavFolder from "./SideNavFolder";
 import ConfirmModal from "./Helpers/ConfirmModal";
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/slice/authSlice";
+import Button from "react-bootstrap/Button";
 
 const SideNav = () => {
   const dispatch = useDispatch();
   const route = useLocation().pathname;
 
   const handleLogout = () => {
+    console.log("logouit")
     dispatch(logOut());
   };
 
   const handleChangeVault = () => {
-    console.log("changeVault")
-  }
+    console.log("changeVault");
+  };
 
   return (
     <div className="side-nav standard-stack gap-10">
@@ -200,29 +202,42 @@ const SideNav = () => {
             <hr className="sidenav-hr padding-side"></hr>
           </div>
           <div>
-          <ConfirmModal
-              handleProceed={handleChangeVault}
+            <ConfirmModal
+              proceedInteraction={
+                <Button
+                  type="button"
+                  className="btn-dark btn-long"
+                  onClick={handleChangeVault}
+                >
+                  Change
+                </Button>
+              }
               component={
                 <div className="sidenav-button">
                   <HiOutlineLockClosed></HiOutlineLockClosed> <p>Change Vault</p>
                 </div>
               }
-              headerMessage={"Log out"}
-              bodyMessage={"Are you sure you want to logout"}
-              continueMessage={"Logout"}
+              headerMessage={"Change Vault"}
+              bodyMessage={"Are you sure you want to change vault?"}
             ></ConfirmModal>
             <ConfirmModal
-              handleProceed={handleLogout}
+              proceedInteraction={
+                <Button
+                  type="button"
+                  className="btn-dark btn-long"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </Button>
+              }
               component={
                 <div className="sidenav-button">
-                  <HiOutlineLogout></HiOutlineLogout> <p>Logout</p>
+                  <HiOutlineLogout></HiOutlineLogout> <p>Log Out</p>
                 </div>
               }
               headerMessage={"Log out"}
-              bodyMessage={"Are you sure you want to logout"}
-              continueMessage={"Logout"}
+              bodyMessage={"Are you sure you want to logout?"}
             ></ConfirmModal>
-            
           </div>
           <div>
             <hr className="sidenav-hr padding-side"></hr>

@@ -1,7 +1,8 @@
 import {
   signInWithEmailAndPassword,
-  updateEmail,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateEmail,
   signInWithRedirect,
   GoogleAuthProvider,
   signOut,
@@ -18,9 +19,11 @@ const registerWithEmailAndPassword = async (data) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
+const sendVerification = async () => {
+  return sendEmailVerification(auth.currentUser);
+}
 
 const changeEmail = async (data) => {
-  console.log(auth.currentUser)
   return updateEmail(auth.currentUser, data);
 }
 
@@ -36,6 +39,7 @@ const logOut = async () => {
 const userService = {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
+  sendVerification,
   changeEmail,
   continueWithGoogle,
   logOut,

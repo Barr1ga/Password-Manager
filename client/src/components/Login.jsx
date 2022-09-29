@@ -60,9 +60,6 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     dispatch(continueWithGoogle());
   };
 
-  const handleContinueWithMicrosoft = () => {
-    console.log("microsoft");
-  };
 
   return (
     <>
@@ -228,20 +225,6 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                         Continue with Google
                       </>
                     )}
-                  </Button>
-                </div>
-                <div className="form-group">
-                  <Button
-                    type="button"
-                    className="btn-secondary btn-with-icon btn-long"
-                    onClick={handleContinueWithMicrosoft}
-                  >
-                    <img
-                      src={MicrosoftIcon}
-                      alt="microsoft.svg"
-                      className="custom-small-icons"
-                    ></img>
-                    Continue with Microsoft
                   </Button>
                 </div>
                 <small>

@@ -12,7 +12,7 @@ import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import MicrosoftIcon from "../assets/icons8-microsoft.svg";
-import { registerWithEmailAndPassword } from "../features/slice/authSlice";
+import { continueWithGoogle, registerWithEmailAndPassword } from "../features/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "./SpinnerLoader";
 
@@ -23,11 +23,11 @@ const Register = ({ handleShowLogin }) => {
   const [show, setShow] = useState(true);
   const [email, setEmail] = useState("");
 
+  const dispatch = useDispatch();
+
   const { authEmailAndPasswordLoading, authGoogleLoading } = useSelector(
     (state) => state.auth
   );
-
-  const dispatch = useDispatch();
 
   const {
     register: registerEmail,
@@ -64,6 +64,10 @@ const Register = ({ handleShowLogin }) => {
 
   const handleBack = () => {
     setShowRegistrationForms(false);
+  };
+
+  const handleContinueWithGoogle = () => {
+    dispatch(continueWithGoogle());
   };
 
   return (
@@ -335,6 +339,7 @@ const Register = ({ handleShowLogin }) => {
                     <Button
                       type="button"
                       className="btn-secondary btn-with-icon btn-long"
+                      onClick={handleContinueWithGoogle}
                     >
                       {authGoogleLoading ? (
                         <SpinnerLoader></SpinnerLoader>
@@ -348,19 +353,6 @@ const Register = ({ handleShowLogin }) => {
                           Continue with Google
                         </>
                       )}
-                    </Button>
-                  </div>
-                  <div className="form-group">
-                    <Button
-                      type="button"
-                      className="btn-secondary btn-with-icon btn-long"
-                    >
-                      <img
-                        src={MicrosoftIcon}
-                        alt="microsoft.svg"
-                        className="custom-small-icons"
-                      ></img>
-                      Continue with Microsoft
                     </Button>
                   </div>
                 </>

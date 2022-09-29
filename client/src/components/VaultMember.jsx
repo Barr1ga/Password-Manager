@@ -3,14 +3,9 @@ import { HiDotsVertical, } from "react-icons/hi";
 import useGenerateRandomColor from "../hooks/useGenerateRandomColor";
 
 const VaultMember = ({ member }) => {
-  const { color, generateColor } = useGenerateRandomColor();
-  useEffect(() => {
-    generateColor();
-  }, []);
-
   return (
     <div className="member padding-side gap-10">
-      <div className="image" style={{ backgroundColor: "#" + color }}>
+      <div className="image">
         {member.name.charAt(0)}
         {member.status === "online" && <div className="online"></div>}
         {member.status === "idle" && <div className="idle"></div>}
