@@ -15,6 +15,7 @@ import MicrosoftIcon from "../assets/icons8-microsoft.svg";
 import { continueWithGoogle, registerWithEmailAndPassword } from "../features/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "./SpinnerLoader";
+import Logo from "../assets/vaulteer_logo.svg";
 
 const Register = ({ handleShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -84,7 +85,7 @@ const Register = ({ handleShowLogin }) => {
         <Modal.Header>
           <div className="login-register-header padding-side">
             <div className="logo gap-10">
-              <RiShieldFlashFill className="icon"></RiShieldFlashFill>
+              <img src={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>

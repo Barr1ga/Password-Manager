@@ -21,6 +21,7 @@ import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import MicrosoftIcon from "../assets/icons8-microsoft.svg";
 import SpinnerLoader from "./SpinnerLoader";
+import Logo from "../assets/vaulteer_logo.svg";
 
 const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -73,7 +74,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
         <Modal.Header>
           <div className="login-register-header padding-side">
             <div className="logo gap-10">
-              <RiShieldFlashFill className="icon"></RiShieldFlashFill>
+              <img src={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>

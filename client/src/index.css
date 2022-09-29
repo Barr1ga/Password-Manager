@@ -142,7 +142,7 @@ input {
 }
 
 .btn-back {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
   border: 1px solid transparent;
   font-size: 1.3rem;
   height: 35px;
@@ -161,7 +161,7 @@ input {
 .modal-header .btn-close,
 .btn-close {
   background: none;
-  background-color: rgb(255, 255, 255, 0.055);
+  background-color: rgb(125, 125, 125, 0.2);
   border: 1px solid transparent;
   border-radius: 50%;
   height: 23px;
@@ -174,27 +174,27 @@ input {
 }
 
 .btn-close:hover {
-  background-color: rgb(255, 255, 255, 0.055);
+  background-color: rgb(125, 125, 125, 0.4);
   border: 1px solid transparent;
   transition: 0.2s ease-out 0s;
   color: #fff;
 }
 
 .btn-secondary {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
   border: 1px solid transparent;
   color: #fff;
   font-weight: 600;
 }
 
 .btn-secondary:hover {
-  background-color: rgb(53, 53, 53);
+  background-color: rgb(125, 125, 125, 0.4);
   border: 1px solid transparent;
   color: #fff;
 }
 
 .btn-secondary:focus {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
   border: 1px solid transparent;
   color: #fff;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.144) !important;
@@ -204,7 +204,7 @@ input {
   display: flex;
   align-items: center;
   gap: 5px;
-  background-color: rgb(124, 55, 252);
+  background-color: #9e58e0;
   border: 1px solid rgb(59, 30, 112);
   color: #fff;
   font-weight: 600;
@@ -212,12 +212,12 @@ input {
 
 .btn-dark:active,
 .btn-dark:focus {
-  background-color: rgb(102, 50, 197);
+  background-color: #B970FF;
   box-shadow: 0 0 0 4px rgb(41, 41, 41) !important;
 }
 
 .btn-dark:hover {
-  background-color: rgb(133, 88, 218);
+  background-color: #B970FF;
   border: 1px solid rgb(59, 30, 112);
 }
 
@@ -244,7 +244,7 @@ input {
 
 .btn-link:hover,
 .btn-link {
-  color: #9c9aff;
+  color: #B970FF;
   cursor: pointer;
 }
 
@@ -269,7 +269,7 @@ input {
 
 /* loader css */
 .bar-loader {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
   height: 1px;
   width: 100%;
   margin: 0 auto;
@@ -290,7 +290,7 @@ input {
   right: 100%;
   bottom: 0;
   left: 0;
-  background: rgb(124, 55, 252);
+  background: #B970FF;
   width: 0;
   animation: borealisBar 2s linear infinite;
 }
@@ -337,7 +337,7 @@ input {
 .round-loader .loader {
   width: 25px;
   height: 25px;
-  border: 3px solid rgb(124, 55, 252);
+  border: 3px solid #B970FF;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -384,7 +384,7 @@ input {
 }
 
 .three-dots:hover {
-  background-color: rgb(255, 255, 255, 0.055);
+  background-color: rgb(125, 125, 125, 0.2);
   transition: 0.2s ease-out 0s;
 }
 
@@ -434,7 +434,7 @@ input {
 }
 
 .select-options .option:hover {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
 }
 
 /* The slider itself */
@@ -501,7 +501,7 @@ input:placeholder-shown {
   align-items: center;
   border-radius: 0.375rem;
   padding: 0.375rem 0.75rem;
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
   height: 45px;
   color: #fff;
   opacity: 0.5;
@@ -574,7 +574,8 @@ input:placeholder-shown {
 
 .login-register-header .logo h3 {
   margin-bottom: 0;
-  color: #9c9aff;
+  font-weight: 400;
+  color: #ffffff;
 }
 
 .login-register-header .logo .half {
@@ -584,8 +585,8 @@ input:placeholder-shown {
 }
 
 .login-register-header .icon {
-  font-size: 2rem;
-  color: #9c9aff;
+  height: 30px;
+  width: 30px;
 }
 
 .login-registration-options-separator {
@@ -603,7 +604,7 @@ input:placeholder-shown {
 }
 
 .registration-agree-note .btn-link {
-  color: #9c9aff;
+  color: #B970FF;
 }
 
 /* sub body css */
@@ -639,7 +640,7 @@ input:placeholder-shown {
   min-height: 0;
   overflow: hidden;
   flex: 0 1 400px;
-  /* background-color: rgb(46, 46, 46); */
+  /* background-color: rgb(125, 125, 125, 0.2); */
   border-left: 10px solid #1a1a1a;
   border-right: 10px solid #1a1a1a;
   min-height: 100%;
@@ -713,8 +714,8 @@ input:placeholder-shown {
 
 .sidenav-button svg {
   color: rgba(255, 255, 255, 0.5);
-  min-height: 16px !important;
-  min-width: 16px !important;
+  min-height: 18px !important;
+  min-width: 18px !important;
   transition: 0.2s ease-out 0s;
 }
 
@@ -744,12 +745,12 @@ input:placeholder-shown {
 
 .side-nav .selected p,
 .side-nav .selected {
-  color: #9c9aff;
+  color: #B970FF;
   font-weight: 600;
 }
 
 .side-nav .selected {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
 }
 
 .sidenav-button:hover p {
@@ -759,7 +760,7 @@ input:placeholder-shown {
 
 .sidenav-button:hover {
   color: rgba(255, 255, 255);
-  background-color: rgb(255, 255, 255, 0.05);
+  background-color: rgb(125, 125, 125, 0.2);
   transition: 0.2s ease-out 0s;
 }
 
@@ -860,7 +861,7 @@ input:placeholder-shown {
   justify-content: center;
   align-items: center;
   color: #fff;
-  background-color: rgb(124, 55, 252);
+  background-color: #B970FF;
   height: 20px;
   width: 20px;
   border-radius: 50%;
@@ -869,7 +870,12 @@ input:placeholder-shown {
 }
 
 .header .right .settings:hover {
-  background-color: #5c636a;
+  background-color: rgb(125, 125, 125, 0.2);
+  transition: 0.2s ease-out 0s;
+}
+
+.header .right .selected {
+  background-color: rgb(125, 125, 125, 0.2);
   transition: 0.2s ease-out 0s;
 }
 
@@ -902,7 +908,8 @@ input:placeholder-shown {
 }
 
 .header .logo h3 {
-  color: #9c9aff;
+  font-weight: 400;
+  color: #fefdff;
 }
 
 .header .logo .half {
@@ -925,10 +932,11 @@ input:placeholder-shown {
 .header .icon {
   height: 30px;
   width: 30px;
-  color: #9c9aff;
+  color: #B970FF;
 }
 
 .header h3 {
+  font-weight: 400;
   margin-bottom: 0px;
 }
 
@@ -1058,20 +1066,20 @@ input:placeholder-shown {
 
 /* site warning css */
 .site-warning {
-  border: 2px solid rgb(124, 55, 252);
+  border: 2px solid #B970FF;
   border-radius: 5px;
 }
 
 .site-warning .title {
   background: linear-gradient(
     90deg,
-    rgb(124, 55, 252) 0%,
-    rgb(124, 55, 252) 100%
+    #B970FF 0%,
+    #B970FF 100%
   );
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid rgb(124, 55, 252);
+  border-bottom: 1px solid #B970FF;
   color: #fff;
 }
 
@@ -1095,7 +1103,7 @@ input:placeholder-shown {
 
 /* vault members css */
 .right-vault-members {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
   /* border: 1px solid #474747; */
   border-radius: 5px;
   padding-bottom: 10px;
@@ -1139,7 +1147,7 @@ input:placeholder-shown {
 }
 
 .vault-members .member .vault-owner {
-  color: #9c9aff;
+  color: #B970FF;
 }
 
 .vault-members .member:hover {
@@ -1185,7 +1193,7 @@ input:placeholder-shown {
 .vault-members .member:hover .online,
 .vault-members .member:hover .offline,
 .vault-members .member:hover .idle {
-  outline-color: rgb(46, 46, 46);
+  outline-color: rgb(125, 125, 125, 0.2);
   transition: 0.2s ease-out 0s;
 }
 
@@ -1356,7 +1364,7 @@ input:placeholder-shown {
   border-radius: 5px;
   min-width: 0;
   overflow: hidden;
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
 }
 
 .password-card > * {
@@ -1372,12 +1380,12 @@ input:placeholder-shown {
 
 .password-card-selected .name small,
 .password-card-selected {
-  color: #9c9aff !important;
+  color: #B970FF !important;
 }
 
 .password-card-selected,
 .password-card:hover {
-  background-color: rgb(65, 65, 65);
+  background-color: rgb(125, 125, 125, 0.4);
 }
 
 .password-card .label {
@@ -1420,7 +1428,7 @@ input:placeholder-shown {
 
 .password-card .empty-icon {
   text-transform: uppercase;
-  /* background-color: rgb(124, 55, 252); */
+  /* background-color: #B970FF; */
   height: 60px;
   min-height: 60px;
   width: 60px;
@@ -1464,7 +1472,7 @@ input:placeholder-shown {
 
 .password-item-selected .name small,
 .password-item-selected {
-  color: #9c9aff !important;
+  color: #B970FF !important;
 }
 
 .password-item-selected,
@@ -1515,7 +1523,7 @@ input:placeholder-shown {
 
 .password-item .empty-icon {
   text-transform: uppercase;
-  /* background-color: rgb(124, 55, 252); */
+  /* background-color: #B970FF; */
   height: 60px;
   min-height: 60px;
   width: 60px;
@@ -1596,7 +1604,7 @@ input:placeholder-shown {
 }
 
 .role-item:hover {
-  background-color: rgb(46, 46, 46);
+  background-color: rgb(125, 125, 125, 0.2);
 }
 
 .role-item .name {

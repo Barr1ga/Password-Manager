@@ -7,6 +7,7 @@ import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import RoundLoader from "./RoundLoader";
 import BarLoader from "./BarLoader";
 import ResponsiveDisplay from "./Helpers/ResponsiveDisplay";
+import Logo from "../assets/vaulteer_logo.svg";
 
 const Header = () => {
   const route = useLocation().pathname;
@@ -17,7 +18,7 @@ const Header = () => {
         <div className="margin">
           <Link to="/All">
             <div className="logo gap-10">
-              <RiShieldFlashFill className="icon"></RiShieldFlashFill>
+              <img src={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>
@@ -51,7 +52,7 @@ const Header = () => {
             </small>
           </div>
           <div className="right gap-10">
-            <Link to="/MyAccount" className="settings">
+            <Link to="/MyAccount" className={route === "/MyAccount" ? "settings selected" : "settings"}>
               {route === "/MyAccount" ? (
                 <RiSettings2Fill></RiSettings2Fill>
               ) : (
