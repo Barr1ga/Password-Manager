@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import WarningAlert from "../alerts/WarningAlert";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
-import AddButton from "../Helpers/AddButton";
+import AddButton from "../helpers/AddButton";
 import Role from "./Role";
 
 const VaultRoles = () => {

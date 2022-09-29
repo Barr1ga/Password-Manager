@@ -1,75 +1,49 @@
-import React, { useState, useRef, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import AddButton from "./Helpers/AddButton";
-import { useForm } from "react-hook-form";
+import AddButton from "./helpers/AddButton";
+import Button from "react-bootstrap/Button";
 import {
-  HiOutlineEye,
-  HiOutlineEyeOff,
-  HiOutlineRefresh,
-  HiPlus,
-  HiOutlineX,
   HiOutlineArrowLeft,
+  HiOutlineX,
+  HiOutlineGlobe,
+  HiGlobe,
+  HiOutlineCreditCard,
+  HiCreditCard,
+  HiOutlineIdentification,
+  HiIdentification,
+  HiOutlineDocumentText,
+  HiDocumentText,
+  HiOutlineWifi,
+  HiWifi,
+  HiOutlineUsers,
+  HiUsers,
 } from "react-icons/hi";
-import { RiArrowDownSLine } from "react-icons/ri";
-import ConfirmModal from "./Helpers/ConfirmModal";
-import PasswordGenerator from "./PasswordGenerator";
+import ConfirmModal from "./helpers/ConfirmModal";
+import Card from "./addItem/Card";
+import Login from "./addItem/Login";
+import SecureNote from "./addItem/SecureNote";
+import WifiPassword from "./addItem/WifiPassword";
+import Identification from "./addItem/Identification";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [showFolder, setShowFolder] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
-
-  const folderRef = useRef();
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
-  });
-
-  const watchPassword = watch("password");
-
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
-  const handleOnBlurFolder = () => {
-    if (!hovering) {
-      setShowFolder(false);
-    }
-  };
-
+  const [selectedType, setSelectedType] = useState("");
+  const [showTypeOptions, setShowTypeOptions] = useState(true);
   const handleBack = () => {
     setShowPasswordGenerator(false);
   };
 
-  const handleUsePassword = (password) => {
-    console.log(password);
-    setShowPasswordGenerator(false);
-    setValue("password", password);
-  };
-
   const handleCloseModal = () => {
     setModalShow(false);
-    reset();
-    setShowPasswordGenerator(false);
   };
 
+  const handleTypeClicked = (value) => {
+    setSelectedType(value);
+    setShowTypeOptions(false);
+  };
+
+  console.log(selectedType)
   return (
     <>
       <div onClick={() => setModalShow(true)}>
@@ -114,176 +88,97 @@ const AddItemModal = () => {
           </div>
         </Modal.Header>
         <Modal.Body className="add-item-modal standard-stack gap-10">
-          {!showPasswordGenerator && (
-            <>
-              <h5>Item Information</h5>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-group">
-                  <label>
-                    Name <span className="error-message">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    {...register("name", {
-                      required: {
-                        value: true,
-                        message: "Name is required",
-                      },
-                    })}
-                    className={
-                      errors.name ? "form-control form-error" : "form-control "
-                    }
-                  />
-                  {errors.name && (
-                    <small className="error-message">
-                      ⚠ {errors.name.message}
-                      <br></br>
-                    </small>
-                  )}
-                </div>
+          <h5>Item Information</h5>
 
-                <div className="form-group">
-                  <label>
-                    Username <span className="error-message">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    {...register("userName", {
-                      required: {
-                        value: true,
-                        message: "Username is required",
-                      },
-                    })}
-                    className={
-                      errors.userName
-                        ? "form-control form-error"
-                        : "form-control "
-                    }
-                  />
-                  {errors.userName && (
-                    <small className="error-message">
-                      ⚠ {errors.userName.message}
-                      <br></br>
-                    </small>
-                  )}
-                  <small>
-                    Username can be your email or username depending on the
-                    login requirements of the website.
-                  </small>
-                </div>
+          <div className="item-type">
+            <label>
+              Item Type <span className="error-message">*</span>
+            </label>
 
-                <div className="form-group">
-                  <label>
-                    Password <span className="error-message">*</span>
-                  </label>
-                  <span className="password-input">
-                    <input
-                      type={showPasswordInput ? "text" : "password"}
-                      {...register("password", {
-                        required: {
-                          value: true,
-                          message: "Password is required",
-                        },
-                      })}
-                      className={
-                        errors.password
-                          ? "form-control form-error"
-                          : "form-control "
-                      }
-                    />
-                    <div className="interactions">
-                      {showPasswordInput ? (
-                        <HiOutlineEye
-                          onClick={() => setShowPasswordInput(false)}
-                        ></HiOutlineEye>
-                      ) : (
-                        <HiOutlineEyeOff
-                          onClick={() => setShowPasswordInput(true)}
-                        ></HiOutlineEyeOff>
-                      )}
-                      <HiOutlineRefresh
-                        className="generate-password"
-                        onClick={() => setShowPasswordGenerator(true)}
-                      ></HiOutlineRefresh>
-                    </div>
-                  </span>
-                  {errors.password && (
-                    <small className="error-message">
-                      ⚠ {errors.password.message}
-                      <br></br>
-                    </small>
-                  )}
+            {showTypeOptions ? (
+              <div className="types standard-stack gap-10">
+                <div className="options">
+                  <Button
+                    className="btn-secondary btn-with-icon"
+                    onClick={() => handleTypeClicked("Logins")}
+                  >
+                    <HiOutlineGlobe></HiOutlineGlobe>Logins
+                  </Button>
+                  <Button
+                    className="btn-secondary btn-with-icon"
+                    onClick={() => handleTypeClicked("Cards")}
+                  >
+                    <HiOutlineCreditCard></HiOutlineCreditCard>Card
+                  </Button>
                 </div>
-
-                <div className="form-group form-select-group">
-                  <label>Folder</label>
-                  <div className="input">
-                    <input
-                      type="text"
-                      readOnly
-                      {...register("folder")}
-                      ref={folderRef}
-                      className={
-                        errors.userName
-                          ? "form-control form-error"
-                          : "form-control "
-                      }
-                      onFocus={() => setShowFolder(true)}
-                      onBlur={handleOnBlurFolder}
-                    />
-                    <RiArrowDownSLine className="icon"></RiArrowDownSLine>
-                  </div>
-                  {showFolder && (
-                    <div className="select-options folder-options">
-                      {folders.map((folder, idx) => (
-                        <div
-                          key={idx}
-                          className="option padding-side "
-                          onMouseEnter={() => setHovering(true)}
-                          onMouseLeave={() => setHovering(false)}
-                          onClick={() => {
-                            folderRef.current.value = folder;
-                            setShowFolder(false);
-                            setHovering(false);
-                          }}
-                        >
-                          {folder}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {errors.folder && (
-                    <small className="error-message">
-                      ⚠ {errors.folder.message}
-                      <br></br>
-                    </small>
-                  )}
+                <div className="options">
+                  <Button
+                    className="btn-secondary btn-with-icon"
+                    onClick={() => handleTypeClicked("Identifications")}
+                  >
+                    <HiOutlineIdentification></HiOutlineIdentification>
+                    Identification
+                  </Button>
+                  <Button
+                    className="btn-secondary btn-with-icon"
+                    onClick={() => handleTypeClicked("Secure Notes")}
+                  >
+                    <HiOutlineDocumentText></HiOutlineDocumentText>Secure Note
+                  </Button>
                 </div>
-
-                <div className="form-group form-group-horizontal">
-                  <label>Mark this password as favorite</label>
-                  <input
-                    type="checkbox"
-                    {...register("favorite")}
-                    className="form-checkbox"
-                  />
+                <div className="options">
+                  <Button
+                    className="btn-secondary btn-with-icon"
+                    onClick={() => handleTypeClicked("Wifi Passwords")}
+                  >
+                    <HiOutlineWifi></HiOutlineWifi>Wifi Password
+                  </Button>
                 </div>
+              </div>
+            ) : (
+              <Button
+                className="btn-secondary btn-with-icon btn-long"
+                onClick={() => setShowTypeOptions(true)}
+              >
+                {selectedType === "Logins" && <HiOutlineGlobe></HiOutlineGlobe>}
+                {selectedType === "Cards" && (
+                  <HiOutlineCreditCard></HiOutlineCreditCard>
+                )}
+                {selectedType === "Identifications" && (
+                  <HiOutlineIdentification></HiOutlineIdentification>
+                )}
+                {selectedType === "Secure Notes" && (
+                  <HiOutlineDocumentText></HiOutlineDocumentText>
+                )}
+                {selectedType === "Wifi Passwords" && (
+                  <HiOutlineWifi></HiOutlineWifi>
+                )}
+                {selectedType}
+              </Button>
+            )}
+          </div>
 
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                >
-                  <HiPlus></HiPlus>Add Item
-                </Button>
-              </form>
-            </>
+          {selectedType === "Logins" && (
+            <Login
+              showPasswordGenerator={showPasswordGenerator}
+              setShowPasswordGenerator={setShowPasswordGenerator}
+            ></Login>
           )}
 
-          {showPasswordGenerator && (
-            <PasswordGenerator
-              watchPassword={watchPassword}
-              handleUsePassword={handleUsePassword}
-            ></PasswordGenerator>
+          {selectedType === "Cards" && (
+            <Card></Card>
+          )}
+
+          {selectedType === "Identifications" && (
+            <Identification></Identification>
+          )}
+
+          {selectedType === "Secure Notes" && (
+            <SecureNote></SecureNote>
+          )}
+
+          {selectedType === "Wifi Passwords" && (
+            <WifiPassword></WifiPassword>
           )}
         </Modal.Body>
       </Modal>

@@ -5,15 +5,15 @@ import { HiCheckCircle, HiOutlineDuplicate } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
 import WarningAlert from "./alerts/WarningAlert";
-import ConfirmModal from "./Helpers/ConfirmModal";
+import ConfirmModal from "./helpers/ConfirmModal";
 import getPassword from "../features/utils/getPassword";
+import PasswordHistory from "./PasswordHistory";
 
 const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const [showToolTip, setShowToolTip] = useState(false);
   const [generateEmptyCriteria, setGenerateEmptyCriteria] = useState(false);
   const [generatedEmpty, setGeneratedEmpty] = useState(false);
   const [password, setPassword] = useState("");
-  const generatedRef = useRef();
   const clipBoard = useRef(null);
 
   const {
@@ -109,7 +109,11 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
           </div>
           <div className="form-group">
             {watchPassword === "" ? (
-              <Button type="button" className="btn-secondary btn-long" onClick={onSubmit}>
+              <Button
+                type="button"
+                className="btn-secondary btn-long"
+                onClick={onSubmit}
+              >
                 Use Password
               </Button>
             ) : (

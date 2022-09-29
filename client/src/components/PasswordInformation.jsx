@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   HiOutlineEye,
@@ -9,9 +10,10 @@ import {
   HiOutlineX,
   HiOutlineArrowLeft,
   HiOutlineTrash,
+  HiOutlineClipboardList,
 } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
-import ConfirmModal from "./Helpers/ConfirmModal";
+import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch } from "react-redux";
 import { resetSelectedPasswordItem } from "../features/slice/passwordSlice";
 import PasswordGenerator from "./PasswordGenerator";
@@ -26,7 +28,6 @@ const PasswordInformation = ({ currentPassword }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const folderRef = useRef();
-  console.log(currentPassword);
 
   const {
     register,
@@ -114,25 +115,27 @@ const PasswordInformation = ({ currentPassword }) => {
             <h4>Update Password</h4>
           </div>
           <ConfirmModal
-              proceedInteraction={
-                <Button
-                  type="button"
-                  onClick={handleCloseMobile}
-                  className="btn-dark btn-long"
-                >
-                  Leave
-                </Button>
-              }
-              component={<div className="screen-version">
-              <div className="mobile">
-                <HiOutlineX className="btn-close"></HiOutlineX>
+            proceedInteraction={
+              <Button
+                type="button"
+                onClick={handleCloseMobile}
+                className="btn-dark btn-long"
+              >
+                Leave
+              </Button>
+            }
+            component={
+              <div className="screen-version">
+                <div className="mobile">
+                  <HiOutlineX className="btn-close"></HiOutlineX>
+                </div>
               </div>
-            </div>}
-              headerMessage={"Are you sure you want to leave this section?"}
-              bodyMessage={
-                "You have unsaved content, and will be lost unless you save it."
-              }
-            ></ConfirmModal>
+            }
+            headerMessage={"Are you sure you want to leave this section?"}
+            bodyMessage={
+              "You have unsaved content, and will be lost unless you save it."
+            }
+          ></ConfirmModal>
           <ConfirmModal
             handleProceed={handleClose}
             component={
@@ -282,7 +285,7 @@ const PasswordInformation = ({ currentPassword }) => {
                           folderRef.current.value = folder;
                           setShowFolder(false);
                           setHovering(false);
-                        }} 
+                        }}
                       >
                         {folder}
                       </div>
@@ -317,9 +320,7 @@ const PasswordInformation = ({ currentPassword }) => {
                       <HiPencil></HiPencil>Update Item
                     </Button>
                   }
-                  headerMessage={
-                    "Are you sure you want to update this item?"
-                  }
+                  headerMessage={"Are you sure you want to update this item?"}
                   bodyMessage={
                     "You already have information for this item, do you want to replace it?"
                   }
@@ -337,19 +338,24 @@ const PasswordInformation = ({ currentPassword }) => {
                       <HiOutlineTrash></HiOutlineTrash>Delete Item
                     </Button>
                   }
-                  headerMessage={
-                    "Are you sure you want to delete this item?"
-                  }
+                  headerMessage={"Are you sure you want to delete this item?"}
                   bodyMessage={
                     "Once you delete this item, there is no going back. Please be certain."
                   }
                   continueMessage={"Delete"}
                 ></ConfirmModal>
               </div>
-              <small>
-                Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine
-                Standard Time)
-              </small>
+              <div className="last-updated">
+                <div>
+                  <Link to="/AuditLog" type="button">
+                    <HiOutlineClipboardList></HiOutlineClipboardList>
+                  </Link>
+                </div>
+                <small>
+                  Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine
+                  Standard Time)
+                </small>
+              </div>
             </form>
           </>
         )}

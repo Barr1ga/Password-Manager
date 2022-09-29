@@ -23,7 +23,7 @@ import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
 import SideNavFolder from "./SideNavFolder";
-import ConfirmModal from "./Helpers/ConfirmModal";
+import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch } from "react-redux";
 import { logOut } from "../features/slice/authSlice";
 import Button from "react-bootstrap/Button";

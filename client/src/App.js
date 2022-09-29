@@ -24,7 +24,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
 import VaultMembers from "./components/VaultMembers";
 import CurrentPasswordItem from "./components/CurrentPasswordItem";
-import ResponsiveDisplay from "./components/Helpers/ResponsiveDisplay";
+import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/brandSlice";
 import { auth } from "./features/firebase/firebase";

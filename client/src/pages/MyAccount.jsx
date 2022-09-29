@@ -3,10 +3,10 @@ import Button from "react-bootstrap/Button";
 import { HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import WarningAlert from "../components/alerts/WarningAlert";
-import MyAccount from "../components/MyAccount/MyAccount";
-import ChangeEmail from "../components/MyAccount/ChangeEmail";
-import ChangePassword from "../components/MyAccount/ChangePassword";
-import ConfirmModal from "../components/Helpers/ConfirmModal";
+import MyAccount from "../components/myAccount/MyAccount";
+import ChangeEmail from "../components/myAccount/ChangeEmail";
+import ChangePassword from "../components/myAccount/ChangePassword";
+import ConfirmModal from "../components/helpers/ConfirmModal";
 
 const VaultSettings = () => {
   const onDeleteAccount = () => {

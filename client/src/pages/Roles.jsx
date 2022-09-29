@@ -3,7 +3,7 @@ import WarningAlert from "../components/alerts/WarningAlert";
 import { HiOutlineX, HiOutlineArrowLeft } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import VaultRoles from "../components/VaultSettings/VaultRoles";
+import VaultRoles from "../components/vaultSettings/VaultRoles";
 
 const Roles = () => {
   return (

@@ -3,7 +3,7 @@ import WarningAlert from "../components/alerts/WarningAlert";
 import { HiOutlineX } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import VaultEmails from "../components/VaultSettings/VaultEmails";
+import VaultEmails from "../components/vaultSettings/VaultEmails";
 
 const Members = () => {
   return (

@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import RoundLoader from "./RoundLoader";
 import BarLoader from "./BarLoader";
-import ResponsiveDisplay from "./Helpers/ResponsiveDisplay";
+import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
 
 const Footer = () => {
   const route = useLocation().pathname;
