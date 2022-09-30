@@ -68,23 +68,23 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                SSID<span className="error-message">*</span>
               </label>
               <input
                 type="text"
-                {...register("name", {
+                {...register("ssid", {
                   required: {
                     value: true,
-                    message: "Name is required",
+                    message: "SSID is required",
                   },
                 })}
                 className={
-                  errors.name ? "form-control form-error" : "form-control "
+                  errors.ssid ? "form-control form-error" : "form-control "
                 }
               />
-              {errors.name && (
+              {errors.ssid && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  ⚠ {errors.ssid.message}
                   <br></br>
                 </small>
               )}

@@ -8,7 +8,7 @@ import {
   HiPlus,
   HiOutlineX,
 } from "react-icons/hi";
-import { RiArrowDownSLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
@@ -68,7 +68,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item<span className="error-message">*</span>
               </label>
               <input
                 type="text"
@@ -169,33 +169,37 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   readOnly
                   {...register("folder")}
                   ref={folderRef}
-                  className={
-                    errors.userName
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
+                  className="form-control"
                   onFocus={() => setShowFolder(true)}
                   onBlur={handleOnBlurFolder}
                 />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                {showFolder ? (
+                  <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                ) : (
+                  <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                )}
               </div>
               {showFolder && (
                 <div className="select-options folder-options">
-                  {folders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        folderRef.current.value = folder;
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {folder}
-                    </div>
-                  ))}
+                  {folders.length === 0 && (
+                    <div className="option disabled">No folders found</div>
+                  )}
+                  {folders.length !== 0 &&
+                    folders.map((folder, idx) => (
+                      <div
+                        key={idx}
+                        className="option padding-side "
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                        onClick={() => {
+                          folderRef.current.value = folder;
+                          setShowFolder(false);
+                          setHovering(false);
+                        }}
+                      >
+                        {folder}
+                      </div>
+                    ))}
                 </div>
               )}
               {errors.folder && (

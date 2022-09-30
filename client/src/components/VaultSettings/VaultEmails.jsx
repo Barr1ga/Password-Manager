@@ -21,8 +21,6 @@ const VaultEmails = () => {
     },
   });
 
-  console.log(members);
-
   return (
     <div className="standard-stack">
       <div className="form-group">
@@ -71,9 +69,6 @@ const VaultEmails = () => {
         </div>
 
         <VaultMembers></VaultMembers>
-        {/* {members.map((member, idx) => (
-          <Member key={idx} member={member}></Member>
-        ))} */}
       </div>
     </div>
   );

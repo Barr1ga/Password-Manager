@@ -24,15 +24,14 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [brandError, setBrandError] = useState(false);
   const [monthError, setMonthError] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [folders, setFolders] = useState([
-  ]);
+  const [folders, setFolders] = useState([]);
   const [brands, setBrands] = useState([
     "Visa",
     "Master Card",
     "American Express",
     "Discover",
     "JCB",
-    "Maestry", 
+    "Maestry",
     "UnionPay",
     "RuPay",
     "Other",
@@ -126,7 +125,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item<span className="error-message">*</span>
               </label>
               <input
                 type="text"
@@ -273,7 +272,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                     onFocus={() => setShowMonth(true)}
                     onBlur={handleOnBlurMonth}
                   />
-                  {showBrand ? (
+                  {showMonth ? (
                     <RiArrowUpSLine className="icon"></RiArrowUpSLine>
                   ) : (
                     <RiArrowDownSLine className="icon"></RiArrowDownSLine>
@@ -381,7 +380,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   onFocus={() => setShowFolder(true)}
                   onBlur={handleOnBlurFolder}
                 />
-                {showBrand ? (
+                {showFolder ? (
                   <RiArrowUpSLine className="icon"></RiArrowUpSLine>
                 ) : (
                   <RiArrowDownSLine className="icon"></RiArrowDownSLine>
@@ -392,21 +391,22 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   {folders.length === 0 && (
                     <div className="option disabled">No folders found</div>
                   )}
-                  {folders.length !== 0 && folders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        folderRef.current.value = folder;
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {folder}
-                    </div>
-                  ))}
+                  {folders.length !== 0 &&
+                    folders.map((folder, idx) => (
+                      <div
+                        key={idx}
+                        className="option padding-side "
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                        onClick={() => {
+                          folderRef.current.value = folder;
+                          setShowFolder(false);
+                          setHovering(false);
+                        }}
+                      >
+                        {folder}
+                      </div>
+                    ))}
                 </div>
               )}
               {errors.folder && (

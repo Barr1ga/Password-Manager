@@ -68,7 +68,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item<span className="error-message">*</span>
               </label>
               <input
                 type="text"
@@ -85,77 +85,6 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               {errors.name && (
                 <small className="error-message">
                   ⚠ {errors.name.message}
-                  <br></br>
-                </small>
-              )}
-            </div>
-
-            <div className="form-group">
-              <label>
-                Username <span className="error-message">*</span>
-              </label>
-              <input
-                type="text"
-                {...register("userName", {
-                  required: {
-                    value: true,
-                    message: "Username is required",
-                  },
-                })}
-                className={
-                  errors.userName ? "form-control form-error" : "form-control "
-                }
-              />
-              {errors.userName && (
-                <small className="error-message">
-                  ⚠ {errors.userName.message}
-                  <br></br>
-                </small>
-              )}
-              <small>
-                Username can be your email or username depending on the login
-                requirements of the website.
-              </small>
-            </div>
-
-            <div className="form-group">
-              <label>
-                Password <span className="error-message">*</span>
-              </label>
-              <span className="password-input">
-                <input
-                  type={showPasswordInput ? "text" : "password"}
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "Password is required",
-                    },
-                  })}
-                  className={
-                    errors.password
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                <div className="interactions">
-                  {showPasswordInput ? (
-                    <HiOutlineEye
-                      onClick={() => setShowPasswordInput(false)}
-                    ></HiOutlineEye>
-                  ) : (
-                    <HiOutlineEyeOff
-                      onClick={() => setShowPasswordInput(true)}
-                    ></HiOutlineEyeOff>
-                  )}
-                  <HiOutlineRefresh
-                    className="generate-password"
-                    onClick={() => setShowPasswordGenerator(true)}
-                  ></HiOutlineRefresh>
-                </div>
-              </span>
-              {errors.password && (
-                <small className="error-message">
-                  ⚠ {errors.password.message}
                   <br></br>
                 </small>
               )}

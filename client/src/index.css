@@ -274,12 +274,20 @@ input {
 
 /* scroll css */
 .scroll-view {
-  height: calc(100vh - 130px);
+  height: calc(100vh - 129px);
   overflow: scroll;
   overflow-y: auto;
   overflow-x: hidden;
   /* margin-right: 5px; */
-  padding-right: 5px;
+}
+
+.scroll-view-long {
+  height: calc(100vh - 58px);
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: 5px;
+  /* padding-right: 5px; */
 }
 
 .right-margin .scroll-view {
@@ -464,6 +472,7 @@ input {
 
 .select-options {
   position: absolute;
+  top: calc(100% + 10px);
   width: 100%;
   background: #1a1a1a;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253);
@@ -699,6 +708,7 @@ input:placeholder-shown {
   min-width: 0;
   min-height: 0;
   /* overflow: hidden; */
+  min-width: 70px;
   flex: 0 1 200px;
   padding-top: 80px;
   padding-bottom: 40px;
@@ -754,6 +764,7 @@ input:placeholder-shown {
 /* sidenav css */
 .side-nav {
   /* border: 1px solid #474747; */
+  min-width: 50px;
   padding-right: 15px;
   border-radius: 3px;
 }
@@ -781,8 +792,8 @@ input:placeholder-shown {
 
 .sidenav-button svg {
   color: rgba(255, 255, 255, 0.5);
-  min-height: 18px !important;
-  min-width: 18px !important;
+  min-height: 20px !important;
+  min-width: 20px !important;
   transition: 0.2s ease-out 0s;
 }
 
@@ -1308,10 +1319,17 @@ input:placeholder-shown {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 3px 3px -2px rgb(0, 0, 0, 0.2);
+  padding-top: 22px;
 }
 
 .modal-header .page-header-with-close, .page-header {
   box-shadow: none;
+  /* padding-top: 0px; */
+}
+
+.modal-header .page-header-with-close {
+  box-shadow: none;
+  padding-top: 0px;
 }
 
 @media only screen and (min-width: 769px) and (max-width: 850px) {
@@ -1398,7 +1416,6 @@ input:placeholder-shown {
 
 .page-header-fixed {
   background: rgb(125, 125, 125, 0.08);
-  padding-top: 22px;
   padding-bottom: 10px;
 }
 
@@ -1744,6 +1761,7 @@ input:placeholder-shown {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 10px;
 }
 
 /* add item */
