@@ -32,7 +32,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     "American Express",
     "Discover",
     "JCB",
-    "Maestry",
+    "Maestry", 
     "UnionPay",
     "RuPay",
     "Other",
