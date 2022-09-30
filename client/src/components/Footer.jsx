@@ -7,6 +7,7 @@ import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import RoundLoader from "./RoundLoader";
 import BarLoader from "./BarLoader";
 import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
+import Logo from "../assets/vaulteer_logo.svg";
 
 const Footer = () => {
   const route = useLocation().pathname;
@@ -17,13 +18,15 @@ const Footer = () => {
         <div className="margin">
           <Link to="/All">
             <div className="logo gap-10">
-              <RiShieldFlashFill className="icon"></RiShieldFlashFill>
+              <img src={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>
             </div>
           </Link>
-          <small className="copyright">© 2022 Vaulteer. All Rights Reserved.</small>
+          <small className="copyright">
+            © 2022 Vaulteer. All Rights Reserved.
+          </small>
           <div className="nav gap-20">
             <small>
               <Link to="/All" className="item btn-link">

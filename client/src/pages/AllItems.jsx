@@ -41,34 +41,35 @@ const AllItems = () => {
           <AddItemModal></AddItemModal>
         </div>
       </div>
-
-      {listView ? (
-        <div className="password-list standard-stack">
-          <span className="padding-side count">{count} Items</span>
-          {filteredPasswords.map((password, idx) => (
-            <PasswordItem
-              key={idx}
-              route={route}
-              password={password}
-            ></PasswordItem>
-          ))}
-        </div>
-      ) : (
-        <div className="password-grid padding-side standard-stack">
-          <span className="count">{count} Items</span>
-          <div className="contents">
+      <div className="scroll-view">
+        {listView ? (
+          <div className="password-list standard-stack">
+            <span className="padding-side count">{count} Items</span>
             {filteredPasswords.map((password, idx) => (
-              <PasswordCard
+              <PasswordItem
                 key={idx}
                 route={route}
                 password={password}
-              ></PasswordCard>
+              ></PasswordItem>
             ))}
           </div>
+        ) : (
+          <div className="password-grid padding-side standard-stack">
+            <span className="count">{count} Items</span>
+            <div className="contents">
+              {filteredPasswords.map((password, idx) => (
+                <PasswordCard
+                  key={idx}
+                  route={route}
+                  password={password}
+                ></PasswordCard>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="page-footer padding-side">
+          <AddItemModal></AddItemModal>
         </div>
-      )}
-      <div className="page-footer padding-side">
-        <AddItemModal></AddItemModal>
       </div>
     </div>
   );

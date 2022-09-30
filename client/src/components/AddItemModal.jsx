@@ -28,7 +28,7 @@ import Identification from "./addItem/Identification";
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [selectedType, setSelectedType] = useState("");
+  const [selectedType, setSelectedType] = useState("Logins");
   const [showTypeOptions, setShowTypeOptions] = useState(true);
   const handleBack = () => {
     setShowPasswordGenerator(false);
@@ -43,13 +43,14 @@ const AddItemModal = () => {
     setShowTypeOptions(false);
   };
 
-  console.log(selectedType)
+  console.log(selectedType);
   return (
     <>
       <div onClick={() => setModalShow(true)}>
         <AddButton message={"Add Item"}></AddButton>
       </div>
       <Modal
+        scrollable
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -165,21 +166,15 @@ const AddItemModal = () => {
             ></Login>
           )}
 
-          {selectedType === "Cards" && (
-            <Card></Card>
-          )}
+          {selectedType === "Cards" && <Card></Card>}
 
           {selectedType === "Identifications" && (
             <Identification></Identification>
           )}
 
-          {selectedType === "Secure Notes" && (
-            <SecureNote></SecureNote>
-          )}
+          {selectedType === "Secure Notes" && <SecureNote></SecureNote>}
 
-          {selectedType === "Wifi Passwords" && (
-            <WifiPassword></WifiPassword>
-          )}
+          {selectedType === "Wifi Passwords" && <WifiPassword></WifiPassword>}
         </Modal.Body>
       </Modal>
     </>

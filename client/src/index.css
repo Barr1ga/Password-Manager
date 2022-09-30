@@ -108,10 +108,10 @@ input {
 .gap-20 {
   gap: 20px;
 }
-
+/* 
 *::-webkit-scrollbar {
   display: none;
-}
+} */
 
 @media only screen and (max-width: 768px) {
   .screen-version .mobile {
@@ -271,11 +271,33 @@ input {
   width: 15px;
 }
 
+/* scroll css */
+.scroll-view {
+  margin-top: 10px;
+  max-height: 100%;
+  overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-right: 5px;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  padding-right: 5px;
+  background-color: rgb(125, 125, 125, 0.08);
+}
+ 
+*::-webkit-scrollbar-thumb {
+  background-color: #1a1a1a;
+  width: 50px;
+  border-radius: 3px;
+}
+
 /* loader css */
 .bar-loader {
   background-color: rgb(125, 125, 125, 0.2);
   height: 1px;
-  width: 100%;
+  width: 50%;
   margin: 0 auto;
   border-radius: 3px;
   position: relative;
@@ -531,7 +553,8 @@ input:placeholder-shown {
 }
 
 .margin-content {
-  padding-top: 20px;
+  /* height: 100%; */
+  overflow: hidden;
 }
 
 .padding-side {
@@ -633,34 +656,33 @@ input:placeholder-shown {
 .left-margin {
   min-width: 0;
   min-height: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   flex: 0 1 200px;
-  padding-top: 40px;
+  padding-top: 80px;
   padding-bottom: 40px;
   padding-left: 2px;
+  padding: 80px 0 40px 2px;
 }
 
 .center-margin {
   min-width: 0;
   min-height: 0;
-  overflow: hidden;
   flex: 0 1 400px;
-  /* background-color: rgb(125, 125, 125, 0.2); */
+  max-height: 100vh;
   border-left: 10px solid #1a1a1a;
   border-right: 10px solid #1a1a1a;
   min-height: 100%;
-  padding-top: 20px;
-  padding-bottom: 40px;
+  padding: 58px 0 40px 0;
 }
 
 .right-margin {
   min-width: 0;
   min-height: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   flex: 0 1 400px;
   margin-bottom: 40px;
   padding-left: 15px;
-  padding-top: 40px;
+  padding-top: 80px;
   padding-right: 2px;
 }
 
@@ -841,7 +863,8 @@ input:placeholder-shown {
   width: 100%;
   position: fixed;
   z-index: 1000;
-  position: relative;
+  position: fixed;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
 }
 
 .header .right {
@@ -1038,7 +1061,7 @@ input:placeholder-shown {
   }
 }
 
-.footer svg {
+.footer .logo .icon {
   height: 25px;
   width: 25px;
   color: #fff;
@@ -1521,7 +1544,7 @@ input:placeholder-shown {
   min-height: 60px;
   width: 60px;
   min-width: 60px;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 
 .password-item .empty-icon {

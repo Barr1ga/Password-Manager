@@ -38,10 +38,9 @@ const App = () => {
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
 
-  
   useEffect(() => {
-    document.title = "Vaulteer"
-  }, [])
+    document.title = "Vaulteer";
+  }, []);
 
   useEffect(() => {
     passwords.forEach((password) => {
@@ -67,148 +66,140 @@ const App = () => {
               <SideNav></SideNav>
             </div>
             <div className="center-margin">
-              <div className="scroll-view">
-                <Routes>
-                  <Route path="/All" element={<AllItems></AllItems>}></Route>
-                  <Route
-                    path="/All/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<AllItems />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route
-                    path="/Favorites"
-                    element={<Favorites></Favorites>}
-                  ></Route>
-                  <Route
-                    path="/Favorites/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Favorites />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route path="/Trash" element={<Trash></Trash>}></Route>
-                  <Route
-                    path="/Trash/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Trash />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route path="/Logins" element={<Logins></Logins>}></Route>
-                  <Route
-                    path="/Logins/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Logins />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route path="/Card" element={<Card></Card>}></Route>
-                  <Route
-                    path="/Card/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Card />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route
-                    path="/Identity"
-                    element={<Identity></Identity>}
-                  ></Route>
-                  <Route
-                    path="/Identity/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Identity />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route
-                    path="/SecureNote"
-                    element={<SecureNote></SecureNote>}
-                  ></Route>
-                  <Route
-                    path="/SecureNote/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<SecureNote />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route
-                    path="/WifiPasswords"
-                    element={<WifiPasswords></WifiPasswords>}
-                  ></Route>
-                  <Route
-                    path="/WifiPasswords/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<WifiPasswords />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route
-                    path="/MyAccount"
-                    element={<MyAccount></MyAccount>}
-                  ></Route>
-                  <Route
-                    path="/MyAccount/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<MyAccount />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route path="/Members" element={<Members></Members>}></Route>
-                  <Route
-                    path="/Members/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Members />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route path="/Roles" element={<Roles></Roles>}></Route>
-                  <Route
-                    path="/Roles/:id"
-                    element={
-                      <ResponsiveDisplay
-                        nonMobile={<Roles />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></ResponsiveDisplay>
-                    }
-                  ></Route>
-                  <Route
-                    path="/AuditLog"
-                    element={<AuditLog></AuditLog>}
-                  ></Route>
-                  <Route
-                    path="/AuditLog/:id"
-                    element={
-                      <AuditLog
-                        nonMobile={<Roles />}
-                        mobile={<CurrentPasswordItemPage />}
-                      ></AuditLog>
-                    }
-                  ></Route>
-                </Routes>
-              </div>
+              <Routes>
+                <Route path="/All" element={<AllItems></AllItems>}></Route>
+                <Route
+                  path="/All/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<AllItems />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route
+                  path="/Favorites"
+                  element={<Favorites></Favorites>}
+                ></Route>
+                <Route
+                  path="/Favorites/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Favorites />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/Trash" element={<Trash></Trash>}></Route>
+                <Route
+                  path="/Trash/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Trash />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/Logins" element={<Logins></Logins>}></Route>
+                <Route
+                  path="/Logins/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Logins />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/Card" element={<Card></Card>}></Route>
+                <Route
+                  path="/Card/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Card />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/Identity" element={<Identity></Identity>}></Route>
+                <Route
+                  path="/Identity/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Identity />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route
+                  path="/SecureNote"
+                  element={<SecureNote></SecureNote>}
+                ></Route>
+                <Route
+                  path="/SecureNote/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<SecureNote />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route
+                  path="/WifiPasswords"
+                  element={<WifiPasswords></WifiPasswords>}
+                ></Route>
+                <Route
+                  path="/WifiPasswords/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<WifiPasswords />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route
+                  path="/MyAccount"
+                  element={<MyAccount></MyAccount>}
+                ></Route>
+                <Route
+                  path="/MyAccount/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<MyAccount />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/Members" element={<Members></Members>}></Route>
+                <Route
+                  path="/Members/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Members />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/Roles" element={<Roles></Roles>}></Route>
+                <Route
+                  path="/Roles/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<Roles />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/AuditLog" element={<AuditLog></AuditLog>}></Route>
+                <Route
+                  path="/AuditLog/:id"
+                  element={
+                    <AuditLog
+                      nonMobile={<Roles />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></AuditLog>
+                  }
+                ></Route>
+              </Routes>
             </div>
             <div className="right-margin standard-stack gap-10">
               {selectedPassword && (
