@@ -201,23 +201,25 @@ const App = () => {
                 ></Route>
               </Routes>
             </div>
-            <div className="right-margin standard-stack gap-10">
-              {selectedPassword && (
-                <>
-                  <CurrentPasswordItem></CurrentPasswordItem>
-                  <hr></hr>
-                </>
-              )}
+            <div className="right-margin">
+              <div className="scroll-view standard-stack gap-10">
+                {selectedPassword && (
+                  <>
+                    <CurrentPasswordItem></CurrentPasswordItem>
+                    <hr></hr>
+                  </>
+                )}
 
-              <SiteWarning></SiteWarning>
+                <SiteWarning></SiteWarning>
 
-              <div className="right-vault-members">
-                <VaultMembers></VaultMembers>
+                <div className="right-vault-members">
+                  <VaultMembers></VaultMembers>
+                </div>
               </div>
-              <OtherLinks></OtherLinks>
+              {/* <OtherLinks></OtherLinks> */}
             </div>
           </div>
-          <Footer></Footer>
+          {/* <Footer></Footer> */}
         </>
       ) : (
         <>
