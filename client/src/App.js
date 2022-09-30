@@ -67,9 +67,9 @@ const App = () => {
             </div>
             <div className="center-margin">
               <Routes>
-                <Route path="/All" element={<AllItems></AllItems>}></Route>
+                <Route path="/" element={<AllItems></AllItems>}></Route>
                 <Route
-                  path="/All/:id"
+                  path="/:id"
                   element={
                     <ResponsiveDisplay
                       nonMobile={<AllItems />}

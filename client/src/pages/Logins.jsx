@@ -6,6 +6,7 @@ import PasswordCard from "../components/PasswordCard";
 import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineViewGrid, HiOutlineServer } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
+import EmptyList from "../assets/empty-list.svg";
 
 const Logins = () => {
   const route = "/Logins";
@@ -38,9 +39,17 @@ const Logins = () => {
         </div>
       </div>
       <div className="scroll-view">
-        {listView ? (
+        {filteredPasswords.length > 0 && listView ? (
           <div className="password-list standard-stack">
             <span className="padding-side count">{count} Items</span>
+            {filteredPasswords.length === 0 && (
+              <div className="empty-list">
+                <img src={EmptyList}></img>
+                <p>
+                  You havent added<br></br>any item yet
+                </p>
+              </div>
+            )}
             {filteredPasswords.map((password, idx) => (
               <PasswordItem
                 key={idx}
@@ -53,6 +62,14 @@ const Logins = () => {
           <div className="password-grid padding-side standard-stack">
             <span className="count">{count} Items</span>
             <div className="contents">
+              {filteredPasswords.length === 0 && (
+                <div className="empty-list">
+                  <img src={EmptyList}></img>
+                  <p>
+                    You havent added<br></br>any item yet
+                  </p>
+                </div>
+              )}
               {filteredPasswords.map((password, idx) => (
                 <PasswordCard
                   key={idx}

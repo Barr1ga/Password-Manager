@@ -111,21 +111,7 @@ const SideNavTypes = () => {
               )}
               <p>Wifi Passwords</p>
             </Link>
-            <Link
-              to="/SharingCenter"
-              className={
-                route === "/SharingCenter"
-                  ? "sidenav-button selected"
-                  : "sidenav-button"
-              }
-            >
-              {route === "/SharingCenter" ? (
-                <HiUsers></HiUsers>
-              ) : (
-                <HiOutlineUsers></HiOutlineUsers>
-              )}
-              <p>Sharing Center</p>
-            </Link>
+            
           </div>
         )}
       </div>

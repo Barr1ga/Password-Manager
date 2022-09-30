@@ -19,7 +19,7 @@ const SharingCenter = () => {
   return (
     <div className="margin-content">
       <div className="page-header padding-side">
-        <h4>All Items</h4><div>
+        <h4>Sharing Center</h4><div>
           <Filters></Filters>
           <AddItemButton></AddItemButton>
         </div>

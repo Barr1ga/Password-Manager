@@ -5,6 +5,8 @@ import {
   HiViewGrid,
   HiOutlineStar,
   HiStar,
+  HiUsers,
+  HiOutlineUsers,
   HiOutlineTrash,
   HiTrash,
   HiOutlineUser,
@@ -33,7 +35,7 @@ const SideNav = () => {
   const route = useLocation().pathname;
 
   const handleLogout = () => {
-    console.log("logouit")
+    console.log("logouit");
     dispatch(logOut());
   };
 
@@ -58,12 +60,12 @@ const SideNav = () => {
           </form>
           <div className="standard-stack">
             <Link
-              to="/All"
+              to="/"
               className={
-                route === "/All" ? "sidenav-button selected" : "sidenav-button"
+                route === "/" ? "sidenav-button selected" : "sidenav-button"
               }
             >
-              {route === "/All" ? (
+              {route === "/" ? (
                 <HiViewGrid></HiViewGrid>
               ) : (
                 <HiOutlineViewGrid></HiOutlineViewGrid>
@@ -99,6 +101,21 @@ const SideNav = () => {
                 <HiOutlineTrash></HiOutlineTrash>
               )}
               <p>Trash</p>
+            </Link>
+            <Link
+              to="/SharingCenter"
+              className={
+                route === "/SharingCenter"
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
+              }
+            >
+              {route === "/SharingCenter" ? (
+                <HiUsers></HiUsers>
+              ) : (
+                <HiOutlineUsers></HiOutlineUsers>
+              )}
+              <p>Sharing Center</p>
             </Link>
           </div>
           <div className="standard-stack">
@@ -214,7 +231,8 @@ const SideNav = () => {
               }
               component={
                 <div className="sidenav-button">
-                  <HiOutlineLockClosed></HiOutlineLockClosed> <p>Change Vault</p>
+                  <HiOutlineLockClosed></HiOutlineLockClosed>{" "}
+                  <p>Change Vault</p>
                 </div>
               }
               headerMessage={"Change Vault"}

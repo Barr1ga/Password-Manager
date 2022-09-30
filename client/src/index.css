@@ -239,12 +239,12 @@ input {
 }
 
 .danger {
-  color: #f34343;
+  color: #e93535;
 }
 
 .danger:hover {
-  background-color: #f34343;
-  border: 1px solid #f34343;
+  background-color: #e93535;
+  border: 1px solid #e93535;
   color: #fff;
 }
 
@@ -329,6 +329,27 @@ input {
   overflow-y: auto;
   overflow-x: hidden;
   /* margin-right: 5px; */
+}
+
+.scroll-view .empty-list {
+  height: calc(100% - 107px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: rgb(125, 125, 125);
+}
+
+.scroll-view .empty-list img {
+  height: 180px;
+  width: 180px;
+  opacity: 0.3;
+}
+
+.scroll-view .empty-list p {
+  opacity: 0.3;
+  text-align: center;
 }
 
 .scroll-view-long {
@@ -703,21 +724,21 @@ input[type="number"] {
 }
 
 .form-error {
-  border: 1px solid #f34343;
+  border: 1px solid #e93535;
 }
 
 .form-error:focus::placeholder {
-  color: #f34343 !important;
+  color: #e93535 !important;
 }
 
 .form-error:focus {
-  border: 1px solid #f34343;
-  outline: 1px solid #f34343;
+  border: 1px solid #e93535;
+  outline: 1px solid #e93535;
   box-shadow: none;
 }
 
 .error-message {
-  color: #f34343;
+  color: #e93535;
 }
 
 .password-generator-input {
@@ -793,10 +814,9 @@ input[type="number"] {
 }
 
 .left-margin {
-  min-width: 0;
   min-height: 0;
   /* overflow: hidden; */
-  min-width: 70px;
+  min-width: 50px;
   flex: 0 1 200px;
   padding-top: 80px;
   padding-bottom: 40px;
@@ -911,16 +931,18 @@ input[type="number"] {
 
 .side-nav .selected p,
 .side-nav .selected {
+  /* color: #b970ff; */
   color: #b970ff;
   font-weight: 600;
 }
 
 .side-nav .selected {
   background-color: rgb(125, 125, 125, 0.2);
+
 }
 
 .sidenav-button:hover p {
-  transition: 0.2s ease-out 0s;
+  /* transition: 0.2s ease-out 0s; */
   color: rgba(255, 255, 255);
 }
 
@@ -1329,6 +1351,11 @@ input[type="number"] {
   transition: 0.2s ease-out 0s;
 }
 
+.vault-members .member svg {
+  height: 15px;
+  width: 15px;
+}
+
 .vault-members .member .name {
   flex-grow: 1;
 }
@@ -1465,6 +1492,10 @@ input[type="number"] {
 }
 
 /* password list css */
+.password-list,
+.password-grid {
+  height: calc(100% - 63px);
+}
 
 .password-list .count,
 .password-grid .count {
@@ -1476,6 +1507,10 @@ input[type="number"] {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   /* margin: 10px 0; */
 }
 
@@ -1539,7 +1574,7 @@ input[type="number"] {
 }
 
 .password-card .name .trashed {
-  color: #f34343;
+  color: #e93535;
   font-weight: 600;
 }
 
@@ -1635,7 +1670,7 @@ input[type="number"] {
 }
 
 .password-item .name .trashed {
-  color: #f34343;
+  color: #e93535;
   font-weight: 600;
 }
 
@@ -1745,7 +1780,7 @@ input[type="number"] {
 }
 
 .delete-account {
-  color: #f34343;
+  color: #e93535;
 }
 
 /* roles css */
@@ -1846,7 +1881,7 @@ input[type="number"] {
 .form-unfavorited {
   height: 30px;
   width: 30px;
-  color: rgb(125, 125, 125, 0.2);
+  color: rgb(125, 125, 125, 0.4);
   transition: 0.2s ease-out 0s;
 }
 
