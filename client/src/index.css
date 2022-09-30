@@ -171,6 +171,7 @@ input {
   transition: 0.2s ease-out 0s;
   color: #fff;
   opacity: 100%;
+  cursor: pointer;
 }
 
 .btn-close:hover {
@@ -285,6 +286,16 @@ input {
   height: calc(100vh - 58px);
   padding-right: 15px;
   padding: 20px 15px 0 0;
+}
+
+.center-margin .scroll-view {
+  margin-right: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+  .center-margin .scroll-view {
+    margin-right: 0px;
+  }
 }
 
 *::-webkit-scrollbar {
@@ -430,7 +441,7 @@ input {
 }
 
 /* form css */
-/** FF*/
+/* form selec */
 .form-select-group .input {
   display: flex;
   align-items: center;
@@ -465,11 +476,24 @@ input {
 
 .select-options .option {
   padding: 10px 15px;
+  color: rgb(255, 255, 255, 0.5);
   cursor: pointer;
 }
 
 .select-options .option:hover {
   background-color: rgb(125, 125, 125, 0.2);
+}
+
+.select-options .disabled {
+  display: flex;
+  justify-content: center;
+  background: transparent;
+  color: rgb(255, 255, 255, 0.2);
+  cursor: default;
+}
+
+.select-options .disabled:hover {
+  background: transparent;
 }
 
 /* The slider itself */
@@ -567,8 +591,12 @@ input:placeholder-shown {
   /* overflow: hidden; */
 }
 
+.center-margin .screen-version .mobile .margin-content {
+  margin: 20px 0 0 15px;
+}
+
 .center-margin .margin-content {
-  padding: 0 5px 0 0;
+  padding: 0 0 0 0;
 }
 
 .padding-side {
@@ -876,7 +904,7 @@ input:placeholder-shown {
   position: fixed;
   z-index: 1000;
   position: fixed;
-  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 3px -2px rgb(0, 0, 0, 0.2);
 }
 
 .header .right {
@@ -1279,6 +1307,11 @@ input:placeholder-shown {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 3px 3px -2px rgb(0, 0, 0, 0.2);
+}
+
+.modal-header .page-header-with-close, .page-header {
+  box-shadow: none;
 }
 
 @media only screen and (min-width: 769px) and (max-width: 850px) {
@@ -1710,11 +1743,7 @@ input:placeholder-shown {
 .form-group-horizontal {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-}
-
-.folder-options {
-  text-transform: uppercase;
+  align-items: flex-start;
 }
 
 /* add item */
@@ -1762,6 +1791,11 @@ input:placeholder-shown {
   padding: 15px;
   border: 1px solid transparent;
   border-radius: 3px;
+}
+
+.password-generator-form .form-group-horizontal {
+  display: flex;
+  align-items: center;
 }
 
 .password-generator .generator-field {

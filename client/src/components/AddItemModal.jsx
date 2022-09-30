@@ -29,7 +29,7 @@ const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Logins");
-  const [showTypeOptions, setShowTypeOptions] = useState(true);
+  const [showTypeOptions, setShowTypeOptions] = useState(false);
   const handleBack = () => {
     setShowPasswordGenerator(false);
   };
@@ -98,6 +98,7 @@ const AddItemModal = () => {
 
             {showTypeOptions ? (
               <div className="types standard-stack gap-10">
+                <small>Select the type of this item.</small>
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
