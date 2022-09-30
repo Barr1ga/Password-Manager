@@ -1,8 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../../features/slice/authSlice";
 
 const ChangePassword = () => {
+  const dispatch = useDispatch();
   const {
     register: masterField,
     handleSubmit: handleSubmitMaster,
@@ -13,6 +16,7 @@ const ChangePassword = () => {
   });
 
   const onSubmitMaster = (data) => {
+    dispatch(changePassword(data));  
     console.log(data);
   };
   return (
@@ -59,21 +63,21 @@ const ChangePassword = () => {
             </label>
             <input
               type="text"
-              {...masterField("newCurrentMasterPassword", {
+              {...masterField("newMasterPassword", {
                 required: {
                   value: true,
                   message: "New master password is required",
                 },
               })}
               className={
-                errorsMaster.currentMasterPassword
+                errorsMaster.newMasterPassword
                   ? "form-control form-error"
                   : "form-control "
               }
             />
-            {errorsMaster.currentMasterPassword && (
+            {errorsMaster.newMasterPassword && (
               <small className="error-message">
-                ⚠ {errorsMaster.currentMasterPassword.message}
+                ⚠ {errorsMaster.newMasterPassword.message}
               </small>
             )}
           </div>

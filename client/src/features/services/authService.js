@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateEmail,
+  updatePassword,
   signInWithRedirect,
   GoogleAuthProvider,
   signOut,
@@ -12,7 +13,7 @@ import { auth } from "../firebase/firebase";
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
   return signInWithEmailAndPassword(auth, email, password);
-}; 
+};
 
 const registerWithEmailAndPassword = async (data) => {
   const { email, password } = data;
@@ -28,7 +29,8 @@ const changeEmail = async (data) => {
 }
 
 const changePassword = async (data) => {
-  return updatePassword(auth.currentUser, data)
+  const { currentMasterPassword, newMasterPassword, retypeMasterPassword, masterPasswordHint } = data;
+  return updatePassword(auth.currentUser, newMasterPassword);
 };
 
 const continueWithGoogle = async (data) => {
@@ -40,11 +42,14 @@ const logOut = async () => {
   return signOut(auth);
 };
 
+
+
 const userService = {
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   sendVerification,
   changeEmail,
+  changePassword,
   continueWithGoogle,
   logOut,
 };
