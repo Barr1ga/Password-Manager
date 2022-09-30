@@ -15,6 +15,7 @@ import {
   HiUsers,
 } from "react-icons/hi";
 import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
+import AddItemButtonSm from "./AddItemButtonSm";
 
 const SideNavTypes = () => {
   const [showNavTypes, setShowNavTypes] = useState(true);
@@ -23,18 +24,16 @@ const SideNavTypes = () => {
   return (
     <>
       <div className="standard-stack gap-10">
-        <span
-          className="category-folder-title"
-          onClick={() => setShowNavTypes((prev) => !prev)}
-        >
-          <p>types</p>
-          <span className="icon">
+        <span className="category-folder-title">
+          <p onClick={() => setShowNavTypes((prev) => !prev)}>
             {showNavTypes ? (
               <RiArrowDownSLine></RiArrowDownSLine>
             ) : (
               <RiArrowRightSLine></RiArrowRightSLine>
             )}
-          </span>
+            types
+          </p>
+          <AddItemButtonSm></AddItemButtonSm>
         </span>
 
         {showNavTypes && (

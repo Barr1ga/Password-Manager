@@ -145,7 +145,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
             </div>
 
             <div className="form-group form-select-group">
-              <label>Title</label>
+              <label>Title <span className="error-message">*</span></label>
               <div className="input">
                 <input
                   type="text"
@@ -190,84 +190,78 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               )}
             </div>
 
-            <div className="form-group-horizontal">
-              <div className="form-group">
-                <label>
-                  First Name <span className="error-message">*</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("firstName", {
-                    required: {
-                      value: true,
-                      message: "First Name is required",
-                    },
-                  })}
-                  className={
-                    errors.firstName
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                {errors.firstName && (
-                  <small className="error-message">
-                    ⚠ {errors.firstName.message}
-                    <br></br>
-                  </small>
-                )}
-              </div>
+            <div className="form-group">
+              <label>
+                First Name <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("firstName", {
+                  required: {
+                    value: true,
+                    message: "First Name is required",
+                  },
+                })}
+                className={
+                  errors.firstName ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.firstName && (
+                <small className="error-message">
+                  ⚠ {errors.firstName.message}
+                  <br></br>
+                </small>
+              )}
+            </div>
 
-              <div className="form-group">
-                <label>
-                  Middle Name <span className="error-message">*</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("middleName", {
-                    required: {
-                      value: true,
-                      message: "Middle Name is required",
-                    },
-                  })}
-                  className={
-                    errors.middleName
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                {errors.middleName && (
-                  <small className="error-message">
-                    ⚠ {errors.middleName.message}
-                    <br></br>
-                  </small>
-                )}
-              </div>
+            <div className="form-group">
+              <label>
+                Middle Name <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("middleName", {
+                  required: {
+                    value: true,
+                    message: "Middle Name is required",
+                  },
+                })}
+                className={
+                  errors.middleName
+                    ? "form-control form-error"
+                    : "form-control "
+                }
+              />
+              {errors.middleName && (
+                <small className="error-message">
+                  ⚠ {errors.middleName.message}
+                  <br></br>
+                </small>
+              )}
+            </div>
 
-              <div className="form-group">
-                <label>
-                  Last Name <span className="error-message">*</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("lastName", {
-                    required: {
-                      value: true,
-                      message: "Last Name is required",
-                    },
-                  })}
-                  className={
-                    errors.lastName
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                {errors.lastName && (
-                  <small className="error-message">
-                    ⚠ {errors.lastName.message}
-                    <br></br>
-                  </small>
-                )}
-              </div>
+            <div className="form-group">
+              <label>
+                Last Name <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("lastName", {
+                  required: {
+                    value: true,
+                    message: "Last Name is required",
+                  },
+                })}
+                className={
+                  errors.lastName ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.lastName && (
+                <small className="error-message">
+                  ⚠ {errors.lastName.message}
+                  <br></br>
+                </small>
+              )}
             </div>
 
             <div className="form-group-horizontal">
@@ -490,7 +484,9 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                     },
                   })}
                   className={
-                    errors.address2 ? "form-control form-error" : "form-control "
+                    errors.address2
+                      ? "form-control form-error"
+                      : "form-control "
                   }
                 />
                 {errors.address2 && (
@@ -542,7 +538,9 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                     },
                   })}
                   className={
-                    errors.cityOrTown ? "form-control form-error" : "form-control "
+                    errors.cityOrTown
+                      ? "form-control form-error"
+                      : "form-control "
                   }
                 />
                 {errors.cityOrTown && (
@@ -555,28 +553,28 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
             </div>
 
             <div className="form-group">
-                <label>
-                  Country <span className="error-message">*</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("country", {
-                    required: {
-                      value: true,
-                      message: "Country is required",
-                    },
-                  })}
-                  className={
-                    errors.country ? "form-control form-error" : "form-control "
-                  }
-                />
-                {errors.country && (
-                  <small className="error-message">
-                    ⚠ {errors.country.message}
-                    <br></br>
-                  </small>
-                )}
-              </div>
+              <label>
+                Country <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("country", {
+                  required: {
+                    value: true,
+                    message: "Country is required",
+                  },
+                })}
+                className={
+                  errors.country ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.country && (
+                <small className="error-message">
+                  ⚠ {errors.country.message}
+                  <br></br>
+                </small>
+              )}
+            </div>
 
             <div className="form-group form-select-group">
               <label>Folder</label>

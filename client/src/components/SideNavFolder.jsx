@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
+import { HiPlusSm } from "react-icons/hi";
 import SideNavFolderContent from "./SideNavFolderContent";
+import AddFolderModal from "./folders/AddFolderModal";
 
 const SideNavFolders = ({ folder, items }) => {
   const [showNavFolders, setShowNavFolders] = useState(true);
@@ -87,18 +89,16 @@ const SideNavFolders = ({ folder, items }) => {
   return (
     <>
       <div className="standard-stack gap-10">
-        <span
-          className="category-folder-title"
-          onClick={() => setShowNavFolders((prev) => !prev)}
-        >
-          <p>folders</p>
-          <span className="icon">
+        <span className="category-folder-title">
+          <p onClick={() => setShowNavFolders((prev) => !prev)}>
             {showNavFolders ? (
               <RiArrowDownSLine></RiArrowDownSLine>
             ) : (
               <RiArrowRightSLine></RiArrowRightSLine>
             )}
-          </span>
+            folders
+          </p>
+          <AddFolderModal></AddFolderModal>
         </span>
         <div className="standard-stack">
           {showNavFolders &&

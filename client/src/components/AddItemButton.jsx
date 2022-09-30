@@ -68,7 +68,7 @@ const AddItemModal = () => {
                   onClick={handleBack}
                 ></HiOutlineArrowLeft>
               )}
-              <h4>Create Password</h4>
+              <h4>Add Item</h4>
             </div>
             <ConfirmModal
               proceedInteraction={

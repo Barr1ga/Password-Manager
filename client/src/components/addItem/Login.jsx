@@ -13,6 +13,8 @@ import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -147,6 +149,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                       onClick={() => setShowPasswordInput(true)}
                     ></HiOutlineEyeOff>
                   )}
+
                   <HiOutlineRefresh
                     className="generate-password"
                     onClick={() => setShowPasswordGenerator(true)}

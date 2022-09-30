@@ -1,30 +1,76 @@
-import React from 'react'
-import PasswordItem from "../components/PasswordItem";
+import React, { useState } from "react";
+import AddItemButton from "../components/AddItemButton";
 import Filters from "../components/Filters";
-import { useSelector } from "react-redux";
+import PasswordItem from "../components/PasswordItem";
+import PasswordCard from "../components/PasswordCard";
+import { useDispatch, useSelector } from "react-redux";
+import { HiOutlineViewGrid, HiOutlineServer } from "react-icons/hi";
+import Button from "react-bootstrap/Button";
 
 const Trash = () => {
   const route = "/Trash";
+  const [listView, setListView] = useState(true);
+  const dispatch = useDispatch();
+  const { passwords } = useSelector((state) => state.passwords);
 
-  const { passwords } = useSelector((state) => state.passwords)
-
-  const filteredPasswords = passwords.filter((password) => password.trash === true);
+  const filteredPasswords = passwords.filter(
+    (password) => password.trash === true
+  );
   const count = filteredPasswords.length;
-
 
   return (
     <div className="margin-content">
-      <div className="page-header padding-side">
-        <h4>All Items</h4><div>
-          <Filters></Filters>
+      <div className="page-header page-header-long page-header-fixed padding-side">
+        <h4>Trash</h4>{" "}
+        <div>
+          {/* <Filters></Filters> */}
+          <Button
+            onClick={() => setListView(false)}
+            className="btn-secondary list-view-btn"
+          >
+            <HiOutlineViewGrid></HiOutlineViewGrid>
+          </Button>
+          <Button
+            onClick={() => setListView(true)}
+            className="btn-secondary list-view-btn"
+          >
+            <HiOutlineServer></HiOutlineServer>
+          </Button>
+          <AddItemButton></AddItemButton>
         </div>
       </div>
-      <div className="password-list standard-stack"><span className="padding-side count">{count} Items</span>
-        {filteredPasswords.map((password, idx) => <PasswordItem key={idx} route={route} password={password}></PasswordItem>)}
-        
+      <div className="scroll-view">
+        {listView ? (
+          <div className="password-list standard-stack">
+            <span className="padding-side count">{count} Items</span>
+            {filteredPasswords.map((password, idx) => (
+              <PasswordItem
+                key={idx}
+                route={route}
+                password={password}
+              ></PasswordItem>
+            ))}
+          </div>
+        ) : (
+          <div className="password-grid padding-side standard-stack">
+            <span className="count">{count} Items</span>
+            <div className="contents">
+              {filteredPasswords.map((password, idx) => (
+                <PasswordCard
+                  key={idx}
+                  route={route}
+                  password={password}
+                ></PasswordCard>
+              ))}
+            </div>
+          </div>
+        )}
+        <div className="page-footer padding-side">
+          <AddItemButton></AddItemButton>
+        </div>
       </div>
     </div>
   );
-}
+};
 
-export default Trash
+export default Trash;

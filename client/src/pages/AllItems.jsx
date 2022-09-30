@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AddItemModal from "../components/AddItemModal";
+import AddItemButton from "../components/AddItemButton";
 import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import PasswordCard from "../components/PasswordCard";
@@ -38,7 +38,7 @@ const AllItems = () => {
           >
             <HiOutlineServer></HiOutlineServer>
           </Button>
-          <AddItemModal></AddItemModal>
+          <AddItemButton></AddItemButton>
         </div>
       </div>
       <div className="scroll-view">
@@ -68,7 +68,7 @@ const AllItems = () => {
           </div>
         )}
         <div className="page-footer padding-side">
-          <AddItemModal></AddItemModal>
+          <AddItemButton></AddItemButton>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ const initialState = {
       name: "horebBarriga",
       email: "hor.barr1ga@gmail.com",
       role: "vaultOwner",
+      viewing: "folder1/1",
       status: "online",
     },
     {

@@ -3,13 +3,20 @@ import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
-  HiOutlineEye,
-  HiOutlineEyeOff,
-  HiOutlineRefresh,
-  HiPencil,
-  HiOutlineX,
   HiOutlineArrowLeft,
-  HiOutlineTrash,
+  HiOutlineX,
+  HiOutlineGlobe,
+  HiGlobe,
+  HiOutlineCreditCard,
+  HiCreditCard,
+  HiOutlineIdentification,
+  HiIdentification,
+  HiOutlineDocumentText,
+  HiDocumentText,
+  HiOutlineWifi,
+  HiWifi,
+  HiOutlineUsers,
+  HiUsers,
   HiOutlineClipboardList,
 } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
@@ -19,64 +26,76 @@ import { resetSelectedPasswordItem } from "../features/slice/passwordSlice";
 import PasswordGenerator from "./PasswordGenerator";
 import { useNavigate } from "react-router-dom";
 
+import Card from "./addItem/Card";
+import Login from "./addItem/Login";
+import SecureNote from "./addItem/SecureNote";
+import WifiPassword from "./addItem/WifiPassword";
+import Identification from "./addItem/Identification";
+
 const PasswordInformation = ({ currentPassword }) => {
-  const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [showFolder, setShowFolder] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
+  // const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
+  // const [showPasswordInput, setShowPasswordInput] = useState(false);
+  // const [showFolder, setShowFolder] = useState(false);
+  // const [hovering, setHovering] = useState(false);
+  // const [favorite, setFavorite] = useState(false);
+  // const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const folderRef = useRef();
+  // const folderRef = useRef();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    mode: "all",
-    defaultValues: {
-      name: currentPassword.name,
-      userName: currentPassword.domain,
-      password: currentPassword.password,
-      folder: currentPassword.folder,
-    },
-  });
+  const [modalShow, setModalShow] = useState(false);
+  const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
+  const [selectedType, setSelectedType] = useState("Logins");
+  const [showTypeOptions, setShowTypeOptions] = useState(false);
 
-  useEffect(() => {
-    if (showPasswordGenerator) {
-      setShowPasswordGenerator(false);
-    }
-    reset(currentPassword);
-  }, [currentPassword]);
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   watch,
+  //   reset,
+  //   setValue,
+  //   formState: { errors },
+  // } = useForm({
+  //   mode: "all",
+  //   defaultValues: {
+  //     name: currentPassword.name,
+  //     userName: currentPassword.domain,
+  //     password: currentPassword.password,
+  //     folder: currentPassword.folder,
+  //   },
+  // });
 
-  const watchPassword = watch("password");
+  // useEffect(() => {
+  //   if (showPasswordGenerator) {
+  //     setShowPasswordGenerator(false);
+  //   }
+  //   reset(currentPassword);
+  // }, [currentPassword]);
 
-  if (!currentPassword) {
-    return <></>;
-  }
+  // const watchPassword = watch("password");
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  // if (!currentPassword) {
+  //   return <></>;
+  // }
 
-  const handleOnBlurFolder = () => {
-    if (!hovering) {
-      setShowFolder(false);
-    }
-  };
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  // };
 
-  const handleBack = () => {
-    setShowPasswordGenerator(false);
-  };
+  // const handleOnBlurFolder = () => {
+  //   if (!hovering) {
+  //     setShowFolder(false);
+  //   }
+  // };
 
-  const handleUsePassword = (password) => {
-    setShowPasswordGenerator(false);
-    setValue("password", password);
-  };
+  // const handleBack = () => {
+  //   setShowPasswordGenerator(false);
+  // };
+
+  // const handleUsePassword = (password) => {
+  //   setShowPasswordGenerator(false);
+  //   setValue("password", password);
+  // };
 
   const handleCloseMobile = () => {
     if (showPasswordGenerator) {
@@ -93,12 +112,25 @@ const PasswordInformation = ({ currentPassword }) => {
     dispatch(resetSelectedPasswordItem());
   };
 
-  const handleDeletePassword = (passwordID) => {
-    console.log(passwordID);
+  // const handleDeletePassword = (passwordID) => {
+  //   console.log(passwordID);
+  // };
+
+  // const handleUpdatePassword = (passwordID) => {
+  //   console.log(passwordID);
+  // };
+
+  // const handleFavorite = () => {
+  //   setFavorite((prev) => !prev);
+  // };
+
+  const handleBack = () => {
+    setShowPasswordGenerator(false);
   };
 
-  const handleUpdatePassword = (passwordID) => {
-    console.log(passwordID);
+  const handleTypeClicked = (value) => {
+    setSelectedType(value);
+    setShowTypeOptions(false);
   };
 
   return (
@@ -137,7 +169,15 @@ const PasswordInformation = ({ currentPassword }) => {
             }
           ></ConfirmModal>
           <ConfirmModal
-            handleProceed={handleClose}
+            proceedInteraction={
+              <Button
+                type="button"
+                onClick={handleClose}
+                className="btn-dark btn-long"
+              >
+                Leave
+              </Button>
+            }
             component={
               <div className="screen-version">
                 <div className="non-mobile">
@@ -154,9 +194,98 @@ const PasswordInformation = ({ currentPassword }) => {
         </div>
       </div>
       <div className="add-item-modal standard-stack gap-10">
-        {!showPasswordGenerator && (
+        <h5>Item Information</h5>
+
+        <div className="item-type">
+          <label>
+            Item Type <span className="error-message">*</span>
+          </label>
+
+          {showTypeOptions ? (
+            <div className="types standard-stack gap-10">
+              <small>Select the type of this item.</small>
+              <div className="options">
+                <Button
+                  className="btn-secondary btn-with-icon"
+                  onClick={() => handleTypeClicked("Logins")}
+                >
+                  <HiOutlineGlobe></HiOutlineGlobe>Logins
+                </Button>
+                <Button
+                  className="btn-secondary btn-with-icon"
+                  onClick={() => handleTypeClicked("Cards")}
+                >
+                  <HiOutlineCreditCard></HiOutlineCreditCard>Card
+                </Button>
+              </div>
+              <div className="options">
+                <Button
+                  className="btn-secondary btn-with-icon"
+                  onClick={() => handleTypeClicked("Identifications")}
+                >
+                  <HiOutlineIdentification></HiOutlineIdentification>
+                  Identification
+                </Button>
+                <Button
+                  className="btn-secondary btn-with-icon"
+                  onClick={() => handleTypeClicked("Secure Notes")}
+                >
+                  <HiOutlineDocumentText></HiOutlineDocumentText>Secure Note
+                </Button>
+              </div>
+              <div className="options">
+                <Button
+                  className="btn-secondary btn-with-icon"
+                  onClick={() => handleTypeClicked("Wifi Passwords")}
+                >
+                  <HiOutlineWifi></HiOutlineWifi>Wifi Password
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Button
+              className="btn-secondary btn-with-icon btn-long"
+              onClick={() => setShowTypeOptions(true)}
+            >
+              {selectedType === "Logins" && <HiOutlineGlobe></HiOutlineGlobe>}
+              {selectedType === "Cards" && (
+                <HiOutlineCreditCard></HiOutlineCreditCard>
+              )}
+              {selectedType === "Identifications" && (
+                <HiOutlineIdentification></HiOutlineIdentification>
+              )}
+              {selectedType === "Secure Notes" && (
+                <HiOutlineDocumentText></HiOutlineDocumentText>
+              )}
+              {selectedType === "Wifi Passwords" && (
+                <HiOutlineWifi></HiOutlineWifi>
+              )}
+              {selectedType}
+            </Button>
+          )}
+        </div>
+
+        {selectedType === "Logins" && (
+          <Login
+            showPasswordGenerator={showPasswordGenerator}
+            setShowPasswordGenerator={setShowPasswordGenerator}
+          ></Login>
+        )}
+
+        {selectedType === "Cards" && <Card></Card>}
+
+        {selectedType === "Identifications" && (
+          <Identification></Identification>
+        )}
+
+        {selectedType === "Secure Notes" && <SecureNote></SecureNote>}
+
+        {selectedType === "Wifi Passwords" && <WifiPassword></WifiPassword>}
+
+        {/* {!showPasswordGenerator && (
           <>
             <h5>Item Information</h5>
+            
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
                 <label>
@@ -302,11 +431,13 @@ const PasswordInformation = ({ currentPassword }) => {
 
               <div className="form-group form-group-horizontal">
                 <label>Mark this password as favorite</label>
-                <input
-                  type="checkbox"
-                  {...register("favorite")}
-                  className="form-checkbox"
-                />
+                <div type="button" onClick={handleFavorite}>
+                  {favorite ? (
+                    <HiStar className="form-favorited"></HiStar>
+                  ) : (
+                    <HiStar className="form-unfavorited"></HiStar>
+                  )}
+                </div>
               </div>
 
               <div className="form-group">
@@ -345,17 +476,6 @@ const PasswordInformation = ({ currentPassword }) => {
                   continueMessage={"Delete"}
                 ></ConfirmModal>
               </div>
-              <div className="last-updated">
-                <div>
-                  <Link to="/AuditLog" type="button">
-                    <HiOutlineClipboardList></HiOutlineClipboardList>
-                  </Link>
-                </div>
-                <small>
-                  Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine
-                  Standard Time)
-                </small>
-              </div>
             </form>
           </>
         )}
@@ -365,7 +485,19 @@ const PasswordInformation = ({ currentPassword }) => {
             watchPassword={watchPassword}
             handleUsePassword={handleUsePassword}
           ></PasswordGenerator>
-        )}
+        )} */}
+
+        <div className="last-updated">
+          <div>
+            <Link to="/AuditLog" type="button">
+              <HiOutlineClipboardList></HiOutlineClipboardList>
+            </Link>
+          </div>
+          <small>
+            Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard
+            Time)
+          </small>
+        </div>
       </div>
     </>
   );

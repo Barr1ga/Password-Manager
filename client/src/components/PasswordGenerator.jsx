@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
-import { HiCheckCircle, HiOutlineDuplicate } from "react-icons/hi";
+import {
+  HiCheckCircle,
+  HiOutlineDuplicate,
+  HiMinusSm,
+  HiPlusSm,
+} from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
 import WarningAlert from "./alerts/WarningAlert";
@@ -20,8 +25,8 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
     register,
     handleSubmit,
     setValue,
-    watch,
     formState: { errors },
+    watch,
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -30,18 +35,21 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   });
 
   const generatedPassword = watch("password");
-  console.log(generatedPassword);
 
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
     formState: { errors: errorsPassword },
+    setValue: setValuePassword,
+    watch: watchPass,
   } = useForm({
     mode: "all",
     defaultValues: {
       length: 10,
     },
   });
+
+  const length = watchPass("length");
 
   const onSubmitGenerate = (data) => {
     const { lowercase, uppercase, numbers, symbols, length } = data;
@@ -66,6 +74,19 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const onSubmit = () => {
     console.log(generatedPassword);
     handleUsePassword(generatedPassword);
+  };
+
+  const incrementBy = 5;
+  const increment = () => {
+    if (length + incrementBy <= 30) {
+      setValuePassword("length", length + incrementBy);
+    }
+  };
+
+  const decrement = () => {
+    if (length - incrementBy >= 10) {
+      setValuePassword("length", length - incrementBy);
+    }
   };
 
   return (
@@ -149,48 +170,78 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
         onSubmit={handlePasswordSubmit(onSubmitGenerate)}
       >
         <div className="password-generator">
-          <div className="form-group form-group-horizontal">
-            <p>Password Length</p>
-            <input
-              type="number"
-              min="10"
-              max="30"
-              {...registerPassword("length")}
-              className="form-control length"
-            ></input>
+          <div className="form-group">
+            <label>
+              Password Length <span className="error-message">*</span>
+            </label>
+            <div className="form-number">
+              <button type="button" onClick={decrement}>
+                <HiMinusSm></HiMinusSm>
+              </button>
+              <input
+                type="number"
+                min="10"
+                max="30"
+                {...registerPassword("length")}
+                className="form-control length"
+              ></input>
+              <button type="button" onClick={increment}>
+                <HiPlusSm></HiPlusSm>
+              </button>
+            </div>
           </div>
           <hr></hr>
           <div className="form-group form-group-horizontal">
-            <label>Include Uppercase Letters</label>
-            <input
-              type="checkbox"
-              {...registerPassword("uppercase")}
-              className="form-checkbox"
-            />
+            <label>
+              Include Uppercase Letters <span className="error-message">*</span>
+            </label>
+            <div class="toggle-pill-color">
+              <input
+                type="checkbox"
+                {...registerPassword("uppercase")}
+                id="uppercase"
+              ></input>
+              <label for="uppercase"></label>
+            </div>
           </div>
           <div className="form-group form-group-horizontal">
-            <label>Include Lowercase Letters</label>
-            <input
-              type="checkbox"
-              {...registerPassword("lowercase")}
-              className="form-checkbox"
-            />
+            <label>
+              Include Lowercase Letters <span className="error-message">*</span>
+            </label>
+            <div class="toggle-pill-color">
+              <input
+                type="checkbox"
+                {...registerPassword("lowercase")}
+                id="lowercase"
+              ></input>
+              <label for="lowercase"></label>
+            </div>
           </div>
           <div className="form-group form-group-horizontal">
-            <label>Include Numbers</label>
-            <input
-              type="checkbox"
-              {...registerPassword("numbers")}
-              className="form-checkbox"
-            />
+            <label>
+              Include Numbers <span className="error-message">*</span>
+            </label>
+            <div class="toggle-pill-color">
+              <input
+                type="checkbox"
+                {...registerPassword("numbers")}
+                id="numbers"
+              ></input>
+              <label for="numbers"></label>
+            </div>
           </div>
           <div className="form-group form-group-horizontal">
-            <label>Include Symbols</label>
-            <input
-              type="checkbox"
-              {...registerPassword("symbols")}
-              className="form-checkbox"
-            />
+            <label>
+              Include Symbols <span className="error-message">*</span>
+            </label>
+            <div class="toggle-pill-color">
+              <input
+                type="checkbox"
+                {...registerPassword("symbols")}
+                id="symbols"
+              ></input>
+              <label for="symbols"></label>
+            </div>
           </div>
         </div>
         <div className="form-group">
