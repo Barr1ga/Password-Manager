@@ -27,6 +27,10 @@ const changeEmail = async (data) => {
   return updateEmail(auth.currentUser, data);
 }
 
+const changePassword = async (data) => {
+  return updatePassword(auth.currentUser, data)
+};
+
 const continueWithGoogle = async (data) => {
   const provider = new GoogleAuthProvider();
   return signInWithRedirect(auth, provider);
