@@ -5,7 +5,7 @@ import authErrorMessage from "../utils/authErrorMessage";
 const authUser = JSON.parse(localStorage.getItem("authUser"));
 
 const initialState = {
-  authUser: authUser ? authUser : null,
+  authUser: authUser && typeof authUser !== "undefined" ? authUser : null,
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
   authMicrosoftLoading: false,

@@ -43,7 +43,6 @@ const AddItemModal = () => {
     setShowTypeOptions(false);
   };
 
-  console.log(selectedType);
   return (
     <>
       <div onClick={() => setModalShow(true)}>

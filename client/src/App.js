@@ -13,7 +13,7 @@ import MyAccount from "./pages/MyAccount";
 import Members from "./pages/Members";
 import Roles from "./pages/Roles";
 import LoginRegistration from "./pages/LoginRegistration";
-import CurrentPasswordItemPage from "./pages/CurrentPasswordItemPage";
+import CurrentPasswordItemPage from "./pages/CurrentPasswordItem";
 import AuditLog from "./pages/AuditLog";
 
 import Header from "./components/Header";
@@ -55,6 +55,8 @@ const App = () => {
 
     return unsubscribe;
   }, []);
+
+  console.log(selectedPassword)
 
   return (
     <BrowserRouter>
@@ -100,16 +102,25 @@ const App = () => {
                     ></ResponsiveDisplay>
                   }
                 ></Route>
-                <Route path="/Logins" element={<Logins></Logins>}></Route>
                 <Route
-                  path="/Logins/:id"
+                  path="/SharingCenter"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<SharingCenter />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route>
+                <Route path="/SharingCenter" element={<SharingCenter></SharingCenter>}></Route>
+                {/* <Route
+                  path="/SharingCenter/:id"
                   element={
                     <ResponsiveDisplay
                       nonMobile={<Logins />}
                       mobile={<CurrentPasswordItemPage />}
                     ></ResponsiveDisplay>
                   }
-                ></Route>
+                ></Route> */}
                 <Route path="/Card" element={<Card></Card>}></Route>
                 <Route
                   path="/Card/:id"

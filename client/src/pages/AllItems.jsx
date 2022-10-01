@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 import EmptyList from "../assets/empty-list.svg";
 
 const AllItems = () => {
-  const route = "/All";
+  const route = "";
   const [listView, setListView] = useState(true);
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
@@ -19,11 +19,11 @@ const AllItems = () => {
   );
 
   const count = filteredPasswords.length;
-  console.log(listView);
 
   return (
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">
+        {/* TODO: add icon here */}
         <h4>All Items</h4>{" "}
         <div>
           {/* <Filters></Filters> */}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
@@ -6,28 +6,21 @@ import {
   HiOutlineEyeOff,
   HiOutlineRefresh,
   HiPlus,
-  HiOutlineX,
 } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
-import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
-import { HiStar, HiOutlineStar } from "react-icons/hi";
-import Tooltip from "react-bootstrap/Tooltip";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { HiStar } from "react-icons/hi";
 import { createPasswordItem } from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
-
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator, defaultValues }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
-
-  const dispatch = useDispatch()
-
+  
   const {
     register,
     handleSubmit,
@@ -37,13 +30,14 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    defaultValues: defaultValues,
   });
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues]);
 
   const watchPassword = watch("password");
 
@@ -99,6 +93,30 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
 
             <div className="form-group">
               <label>
+                Domain / Link <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("domain", {
+                  required: {
+                    value: true,
+                    message: "Domain is required",
+                  },
+                })}
+                className={
+                  errors.domain ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.domain && (
+                <small className="error-message">
+                  ⚠ {errors.domain.message}
+                  <br></br>
+                </small>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>
                 Username <span className="error-message">*</span>
               </label>
               <input
@@ -121,7 +139,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               )}
               <small>
                 Username can be your email or username depending on the login
-                requirements of the website.
+                requirements of the item.
               </small>
             </div>
 
