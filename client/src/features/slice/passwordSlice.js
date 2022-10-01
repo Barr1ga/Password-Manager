@@ -245,6 +245,15 @@ const passwordSlice = createSlice({
     createCardItem: (state, action) => {
       state.passwords = [...state.passwords, action.payload];
     },
+    createIdentificationItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    createSecureNoteItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    createWifiPasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
     resetSelectedPasswordItem: (state) => {
       state.selectedPassword = null;
     },
@@ -254,6 +263,6 @@ const passwordSlice = createSlice({
   },
 });
 
-export const { resetPasswords, createPasswordItem, createCardItem, resetSelectedPasswordItem, selectPasswordItem } =
+export const { resetPasswords, createPasswordItem, createCardItem, createIdentificationItem, createSecureNoteItem, createWifiPasswordItem, resetSelectedPasswordItem, selectPasswordItem } =
   passwordSlice.actions;
 export default passwordSlice.reducer;

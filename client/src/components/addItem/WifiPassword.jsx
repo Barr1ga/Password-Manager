@@ -13,6 +13,8 @@ import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import { createWifiPasswordItem } from "../../features/slice/passwordSlice";
+import { useDispatch } from "react-redux";
 
 const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -21,6 +23,8 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
+
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -31,17 +35,15 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    
   });
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    console.log(data);
+    data.folder = folderRef.current.value;
+    dispatch(createWifiPasswordItem(data))
     console.log(data);
   };
 
