@@ -12,8 +12,10 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { createPasswordItem } from "../../features/slice/passwordSlice";
+import { updatePasswordItem }  from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator, defaultValues }) => {
+
+const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator, defaultValues }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -43,6 +45,9 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator, default
 
   const onSubmit = (data) => {
     dispatch(createPasswordItem(data))
+    if(method === "update"){
+      dispatch(updatePasswordItem(data))
+    }
     console.log(data);
   };
 

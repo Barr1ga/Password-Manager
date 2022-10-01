@@ -78,7 +78,6 @@ const initialState = {
       updatedAt: new Date().toString(),
     },
 
-
     {
       id: 6,
       name: "Discord",
@@ -93,7 +92,8 @@ const initialState = {
       lastOpenedBy: 2,
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
-    },{
+    },
+    {
       id: 7,
       name: "Youtube",
       userName: "horebbariga@gmail.com",
@@ -107,7 +107,8 @@ const initialState = {
       lastOpenedBy: 2,
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
-    },{
+    },
+    {
       id: 8,
       name: "Twitter",
       userName: "horebbariga@gmail.com",
@@ -121,7 +122,8 @@ const initialState = {
       lastOpenedBy: 2,
       createdAt: new Date().toString(),
       updatedAt: new Date().toString(),
-    },{
+    },
+    {
       id: 9,
       name: "LinkedIn",
       userName: "horebbariga@gmail.com",
@@ -254,6 +256,26 @@ const passwordSlice = createSlice({
     createWifiPasswordItem: (state, action) => {
       state.passwords = [...state.passwords, action.payload];
     },
+    updatePasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateCardItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateIdentificationItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateSecureNoteItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateWifiPasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    handleDeletePasswordItem: (state, action) => {
+      state.passwords = state.passwords.filter(
+        (password) => password.id !== action.payload
+      );
+    },
     resetSelectedPasswordItem: (state) => {
       state.selectedPassword = null;
     },
@@ -263,6 +285,20 @@ const passwordSlice = createSlice({
   },
 });
 
-export const { resetPasswords, createPasswordItem, createCardItem, createIdentificationItem, createSecureNoteItem, createWifiPasswordItem, resetSelectedPasswordItem, selectPasswordItem } =
-  passwordSlice.actions;
+export const {
+  resetPasswords,
+  createPasswordItem,
+  createCardItem,
+  createIdentificationItem,
+  createSecureNoteItem,
+  createWifiPasswordItem,
+  updateCardItem,
+  updatePasswordItem,
+  updateSecureNoteItem,
+  updateWifiPasswordItem,
+  updateIdentificationItem,
+  handleDeletePasswordItem,
+  resetSelectedPasswordItem,
+  selectPasswordItem,
+} = passwordSlice.actions;
 export default passwordSlice.reducer;

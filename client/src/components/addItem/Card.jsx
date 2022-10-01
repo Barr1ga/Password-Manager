@@ -15,9 +15,11 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import Select from "react-select";
 import { createCardItem } from "../../features/slice/passwordSlice";
+import { updateCardItem } from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator, defaultValues}) => {
+
+const AddItemModal = ({method, showPasswordGenerator, setShowPasswordGenerator, defaultValues}) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
@@ -75,6 +77,9 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator, default
 
   const onSubmit = (data) => {
     dispatch(createCardItem(data))
+    if(method === "update"){
+      dispatch(updateCardItem(data))
+    }
     console.log(data);
   };
 
