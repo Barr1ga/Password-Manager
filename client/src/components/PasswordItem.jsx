@@ -27,6 +27,11 @@ const PasswordItem = ({ route, password }) => {
     dispatch(selectPasswordItem(password.id));
   };
 
+  const handleLinkClicked = () => {
+    window.open(
+      password.domain, "_blank");
+  }
+
   return (
     <>
       <Link
@@ -54,6 +59,7 @@ const PasswordItem = ({ route, password }) => {
               }
               href={password.domain}
               target="_blank"
+              onClick={handleLinkClicked}
             >
               {password.name}
             </a>{" "}

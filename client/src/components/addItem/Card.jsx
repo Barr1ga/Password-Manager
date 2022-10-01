@@ -15,7 +15,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import Select from "react-select";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator, defaultValues}) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
@@ -64,12 +64,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    defaultValues: defaultValues,
   });
 
   const watchPassword = watch("password");

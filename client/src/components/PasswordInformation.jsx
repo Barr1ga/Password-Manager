@@ -33,69 +33,13 @@ import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
 
 const PasswordInformation = ({ currentPassword }) => {
-  // const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  // const [showPasswordInput, setShowPasswordInput] = useState(false);
-  // const [showFolder, setShowFolder] = useState(false);
-  // const [hovering, setHovering] = useState(false);
-  // const [favorite, setFavorite] = useState(false);
-  // const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const folderRef = useRef();
 
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Logins");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
-
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   watch,
-  //   reset,
-  //   setValue,
-  //   formState: { errors },
-  // } = useForm({
-  //   mode: "all",
-  //   defaultValues: {
-  //     name: currentPassword.name,
-  //     userName: currentPassword.domain,
-  //     password: currentPassword.password,
-  //     folder: currentPassword.folder,
-  //   },
-  // });
-
-  // useEffect(() => {
-  //   if (showPasswordGenerator) {
-  //     setShowPasswordGenerator(false);
-  //   }
-  //   reset(currentPassword);
-  // }, [currentPassword]);
-
-  // const watchPassword = watch("password");
-
-  // if (!currentPassword) {
-  //   return <></>;
-  // }
-
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  // };
-
-  // const handleOnBlurFolder = () => {
-  //   if (!hovering) {
-  //     setShowFolder(false);
-  //   }
-  // };
-
-  // const handleBack = () => {
-  //   setShowPasswordGenerator(false);
-  // };
-
-  // const handleUsePassword = (password) => {
-  //   setShowPasswordGenerator(false);
-  //   setValue("password", password);
-  // };
 
   const handleCloseMobile = () => {
     if (showPasswordGenerator) {
@@ -111,18 +55,6 @@ const PasswordInformation = ({ currentPassword }) => {
     }
     dispatch(resetSelectedPasswordItem());
   };
-
-  // const handleDeletePassword = (passwordID) => {
-  //   console.log(passwordID);
-  // };
-
-  // const handleUpdatePassword = (passwordID) => {
-  //   console.log(passwordID);
-  // };
-
-  // const handleFavorite = () => {
-  //   setFavorite((prev) => !prev);
-  // };
 
   const handleBack = () => {
     setShowPasswordGenerator(false);
@@ -269,18 +201,25 @@ const PasswordInformation = ({ currentPassword }) => {
           <Login
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
+            defaultValues={currentPassword}
           ></Login>
         )}
 
-        {selectedType === "Cards" && <Card></Card>}
+        {selectedType === "Cards" && (
+          <Card defaultValues={currentPassword}></Card>
+        )}
 
         {selectedType === "Identifications" && (
           <Identification></Identification>
         )}
 
-        {selectedType === "Secure Notes" && <SecureNote></SecureNote>}
+        {selectedType === "Secure Notes" && (
+          <SecureNote defaultValues={currentPassword}></SecureNote>
+        )}
 
-        {selectedType === "Wifi Passwords" && <WifiPassword></WifiPassword>}
+        {selectedType === "Wifi Passwords" && (
+          <WifiPassword defaultValues={currentPassword}></WifiPassword>
+        )}
 
         {/* {!showPasswordGenerator && (
           <>

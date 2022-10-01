@@ -1,38 +1,61 @@
-import React, { useState } from "react";
-import AddItemButton from "../components/AddItemButton";
-import Filters from "../components/Filters";
-import PasswordItem from "../components/PasswordItem";
-import PasswordCard from "../components/PasswordCard";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HiOutlineViewGrid, HiOutlineServer } from "react-icons/hi";
-import Button from "react-bootstrap/Button";
+import Message from "../components/sharingCenter/Message";
+import formatDate from "../features/utils/formatToMonthDayYearDate";
+import EnterMessage from "../components/sharingCenter/EnterMessage";
 
 const SharingCenter = () => {
   const route = "/SharingCenter";
-  const [listView, setListView] = useState(true);
   const dispatch = useDispatch();
-  const { passwords } = useSelector((state) => state.passwords)
-
-  const filteredPasswords = passwords.filter((password) => password.type === "sharingCenter" && password.trash === false);
-  const count = filteredPasswords.length;
-
+  const { conversations } = useSelector((state) => state.sharing);
+  console.log(conversations);
   return (
     <div className="margin-content">
-      <div className="page-header padding-side">
-        <h4>Sharing Center</h4><div>
-          <Filters></Filters>
-          <AddItemButton></AddItemButton>
+      <div className="page-header page-header-long page-header-fixed padding-side">
+        <h4>Sharing Center</h4>{" "}
+      </div>
+      <div className="conversation-list">
+        <div className="scroll-view standard-stack">
+          {conversations.map((message, idx) => {
+            let sameSender = false;
+            if (conversations[idx - 1]?.senderID === message.senderID) {
+              sameSender = true;
+            }
+            return (
+              <>
+                {true && (
+                  <div className="date-separator">
+                    <hr></hr>
+                    <small>
+                      <b>{formatDate(message.createdAt)}</b>
+                    </small>
+                    <hr></hr>
+                  </div>
+                )}
+
+                <Message
+                  key={idx}
+                  sameSender={sameSender}
+                  message={message}
+                ></Message>
+                <Message
+                  key={idx}
+                  sameSender={true}
+                  message={message}
+                ></Message>
+                <Message
+                  key={idx}
+                  sameSender={true}
+                  message={message}
+                ></Message>
+              </>
+            );
+          })}
         </div>
       </div>
-      <div className="password-list standard-stack"><span className="padding-side count">{count} Items</span>
-        {filteredPasswords.map((password, idx) => <PasswordItem key={idx} route={route} password={password}></PasswordItem>)}
-        
-      </div>
-      <div className="page-footer padding-side">
-        <AddItemButton></AddItemButton>
-      </div>
+      <EnterMessage></EnterMessage>
     </div>
   );
-}
+};
 
-export default SharingCenter
+export default SharingCenter;
