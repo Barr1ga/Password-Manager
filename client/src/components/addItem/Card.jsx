@@ -14,6 +14,8 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import Select from "react-select";
+import { createCardItem } from "../../features/slice/passwordSlice";
+import { useDispatch } from "react-redux";
 
 const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
@@ -55,6 +57,8 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const brandRef = useRef();
   const monthRef = useRef();
 
+  const dispatch = useDispatch()
+
   const {
     register,
     handleSubmit,
@@ -64,17 +68,12 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
   });
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    dispatch(createCardItem(data))
     console.log(data);
   };
 

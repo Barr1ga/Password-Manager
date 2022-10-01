@@ -15,6 +15,8 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { createPasswordItem } from "../../features/slice/passwordSlice";
+import { useDispatch } from "react-redux";
 
 const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
@@ -23,6 +25,8 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
+
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -44,6 +48,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    dispatch(createPasswordItem(data))
     console.log(data);
   };
 
