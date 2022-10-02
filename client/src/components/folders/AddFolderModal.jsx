@@ -95,24 +95,6 @@ const AddItemModal = () => {
                 </small>
               )}
             </div>
-            <div className="form-group">
-              <div className="form-group-horizontal">
-                <div className="form-group">
-                  <label><HiOutlineLockClosed></HiOutlineLockClosed>Private Channel</label>
-                  <br></br>
-                  <small>
-                    Only selected members and roles will be able to view this
-                    folder.
-                  </small>
-                </div>
-                <div className="form-group">
-                  <div class="toggle-pill-color">
-                    <input type="checkbox" id="pill3" name="check"></input>
-                    <label for="pill3"></label>
-                  </div>
-                </div>
-              </div>
-            </div>
             <Button type="submit" className="btn-dark btn-long btn-with-icon">
               <HiPlus></HiPlus>Add Item
             </Button>
