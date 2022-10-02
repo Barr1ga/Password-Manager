@@ -31,6 +31,7 @@ import Login from "./addItem/Login";
 import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
+import CurrentPasswordItem from "./CurrentPasswordItem";
 
 const PasswordInformation = ({ currentPassword }) => {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const PasswordInformation = ({ currentPassword }) => {
     setShowTypeOptions(false);
   };
 
+  console.log(currentPassword);
   return (
     <>
       <div>
@@ -127,7 +129,13 @@ const PasswordInformation = ({ currentPassword }) => {
       </div>
       <div className="add-item-modal standard-stack gap-10">
         <h5>Item Information</h5>
-
+        <div className="item-image">
+          {currentPassword.image !== "" ? (
+            <img src={currentPassword.image} alt={currentPassword.name}></img>
+          ) : (
+            <div>{currentPassword.name.charAt(0)}</div>
+          )}
+        </div>
         <div className="item-type">
           <label>
             Item Type <span className="error-message">*</span>

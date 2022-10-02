@@ -26,7 +26,7 @@ import VaultMembers from "./components/VaultMembers";
 import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrandDetails } from "./features/slice/brandSlice";
+import { getBrandDetails } from "./features/slice/passwordSlice";
 import { auth } from "./features/firebase/firebase";
 import Footer from "./components/Footer";
 import { setUser } from "./features/slice/authSlice";
@@ -44,9 +44,9 @@ const App = () => {
 
   useEffect(() => {
     passwords.forEach((password) => {
-      dispatch(getBrandDetails(password.name));
+      dispatch(getBrandDetails({ brand: password.name, id: password.id }));
     });
-  }, [passwords]);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,8 +55,6 @@ const App = () => {
 
     return unsubscribe;
   }, []);
-
-  console.log(selectedPassword)
 
   return (
     <BrowserRouter>
@@ -102,7 +100,7 @@ const App = () => {
                     ></ResponsiveDisplay>
                   }
                 ></Route>
-                <Route
+                {/* <Route
                   path="/SharingCenter"
                   element={
                     <ResponsiveDisplay
@@ -110,17 +108,20 @@ const App = () => {
                       mobile={<CurrentPasswordItemPage />}
                     ></ResponsiveDisplay>
                   }
+                ></Route> */}
+                <Route
+                  path="/SharingCenter"
+                  element={<SharingCenter></SharingCenter>}
                 ></Route>
-                <Route path="/SharingCenter" element={<SharingCenter></SharingCenter>}></Route>
-                {/* <Route
+                <Route
                   path="/SharingCenter/:id"
                   element={
                     <ResponsiveDisplay
-                      nonMobile={<Logins />}
+                      nonMobile={<SharingCenter />}
                       mobile={<CurrentPasswordItemPage />}
                     ></ResponsiveDisplay>
                   }
-                ></Route> */}
+                ></Route>
                 <Route path="/Card" element={<Card></Card>}></Route>
                 <Route
                   path="/Card/:id"

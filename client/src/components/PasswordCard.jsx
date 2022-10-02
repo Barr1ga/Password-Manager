@@ -3,25 +3,10 @@ import { HiOutlineChevronRight, HiLink, HiStar } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { selectPasswordItem } from "../features/slice/passwordSlice";
 import { Link, useLocation } from "react-router-dom";
-import useGenerateRandomColor from "../hooks/useGenerateRandomColor";
 
 const PasswordCard = ({ route, password }) => {
   const dispatch = useDispatch();
-  const { brands } = useSelector((state) => state.brands);
   const { selectedPassword } = useSelector((state) => state.passwords);
-  const { color, generateColor } = useGenerateRandomColor();
-
-  useEffect(() => {
-    generateColor();
-  }, []);
-
-  const itemBrand =
-    brands.find((brand) =>
-      brand.name.toLowerCase().includes(password.name.toLowerCase())
-    ) ||
-    brands.find((brand) =>
-      password.name.toLowerCase().includes(brand.name.toLowerCase())
-    );
 
   const handleItemClicked = () => {
     dispatch(selectPasswordItem(password.id));
@@ -38,10 +23,10 @@ const PasswordCard = ({ route, password }) => {
       }
     >
       <div className="head">
-        {itemBrand ? (
-          <img src={itemBrand.icon} alt={password.name} className="icon"></img>
+        {password.image !== "" ? (
+          <img src={password.image} alt={password.name} className="icon"></img>
         ) : (
-          <div className="empty-icon" style={{ backgroundColor: "#" + color }}>
+          <div className="empty-icon">
             {password.name.charAt(0)}
           </div>
         )}

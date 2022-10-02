@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharingCenter/Message";
 import formatDate from "../features/utils/formatToMonthDayYearDate";
@@ -8,7 +8,13 @@ const SharingCenter = () => {
   const route = "/SharingCenter";
   const dispatch = useDispatch();
   const { conversations } = useSelector((state) => state.sharing);
-  console.log(conversations);
+
+  const scrollRef = useRef();
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [scrollRef]);
+
   return (
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">
@@ -51,6 +57,7 @@ const SharingCenter = () => {
               </>
             );
           })}
+          <div ref={scrollRef}></div>
         </div>
       </div>
       <EnterMessage></EnterMessage>
