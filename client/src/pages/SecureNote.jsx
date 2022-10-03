@@ -12,18 +12,18 @@ const SecureNote = () => {
   const route = "/SecureNote";
   const [listView, setListView] = useState(true);
   const dispatch = useDispatch();
-  const { passwords } = useSelector((state) => state.passwords)
+  const { passwords } = useSelector((state) => state.passwords);
 
-  const filteredPasswords = passwords.filter((password) => password.type === "sercureNote" && password.trash === false);
+  const filteredPasswords = passwords.filter(
+    (password) => password.type === "sercureNote" && password.trash === false
+  );
   const count = filteredPasswords.length;
-
 
   return (
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>Sharing Center</h4>{" "}
+        <h4>All Items</h4>{" "}
         <div>
-          {/* <Filters></Filters> */}
           <Button
             onClick={() => setListView(false)}
             className="btn-secondary list-view-btn"
@@ -39,54 +39,65 @@ const SecureNote = () => {
           <AddItemButton></AddItemButton>
         </div>
       </div>
-      <div className="scroll-view">
-        {filteredPasswords.length > 0 && listView ? (
+      {filteredPasswords.length > 0 && listView ? (
+        <>
           <div className="password-list standard-stack">
-            <span className="padding-side count">{count} Items</span>
-            {filteredPasswords.length === 0 && (
-              <div className="empty-list">
-                <img src={EmptyList}></img>
-                <p>
-                  You havent added<br></br>any item yet
-                </p>
+            <div className="scroll-view">
+              <span className="padding-side count">{count} Items</span>
+              <div>
+                {filteredPasswords.length === 0 && (
+                  <div className="empty-list">
+                    <img src={EmptyList}></img>
+                    <p>
+                      You havent added<br></br>any item yet
+                    </p>
+                  </div>
+                )}
+                {filteredPasswords.map((password, idx) => (
+                  <PasswordItem
+                    key={idx}
+                    route={route}
+                    password={password}
+                  ></PasswordItem>
+                ))}
               </div>
-            )}
-            {filteredPasswords.map((password, idx) => (
-              <PasswordItem
-                key={idx}
-                route={route}
-                password={password}
-              ></PasswordItem>
-            ))}
-          </div>
-        ) : (
-          <div className="password-grid padding-side standard-stack">
-            <span className="count">{count} Items</span>
-            <div className="contents">
-              {filteredPasswords.length === 0 && (
-                <div className="empty-list">
-                  <img src={EmptyList}></img>
-                  <p>
-                    You havent added<br></br>any item yet
-                  </p>
-                </div>
-              )}
-              {filteredPasswords.map((password, idx) => (
-                <PasswordCard
-                  key={idx}
-                  route={route}
-                  password={password}
-                ></PasswordCard>
-              ))}
+              <div className="page-footer padding-side">
+                <AddItemButton></AddItemButton>
+              </div>
             </div>
           </div>
-        )}
-        <div className="page-footer padding-side">
-          <AddItemButton></AddItemButton>
-        </div>
-      </div>
+        </>
+      ) : (
+        <>
+          <div className="password-grid padding-side standard-stack">
+            <div className="scroll-view">
+              <span className="count">{count} Items</span>
+              <div className="contents">
+                {filteredPasswords.length === 0 && (
+                  <div className="empty-list">
+                    <img src={EmptyList}></img>
+                    <p>
+                      You havent added<br></br>any item yet
+                    </p>
+                  </div>
+                )}
+                {filteredPasswords.map((password, idx) => (
+                  <PasswordCard
+                    key={idx}
+                    route={route}
+                    password={password}
+                  ></PasswordCard>
+                ))}
+              </div>
+            </div>
+            <div className="page-footer padding-side">
+              <AddItemButton></AddItemButton>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
-}
+};
 
-export default SecureNote
+export default SecureNote;

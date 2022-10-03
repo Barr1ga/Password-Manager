@@ -1574,6 +1574,8 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
+  height: 100%;
   /* margin: 10px 0; */
 }
 

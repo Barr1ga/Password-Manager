@@ -73,24 +73,22 @@ const AllItems = () => {
           <div className="password-grid padding-side standard-stack">
             <div className="scroll-view">
               <span className="count">{count} Items</span>
-              <div>
-                <div className="contents">
-                  {filteredPasswords.length === 0 && (
-                    <div className="empty-list">
-                      <img src={EmptyList}></img>
-                      <p>
-                        You havent added<br></br>any item yet
-                      </p>
-                    </div>
-                  )}
-                  {filteredPasswords.map((password, idx) => (
-                    <PasswordCard
-                      key={idx}
-                      route={route}
-                      password={password}
-                    ></PasswordCard>
-                  ))}
-                </div>
+              <div className="contents">
+                {filteredPasswords.length === 0 && (
+                  <div className="empty-list">
+                    <img src={EmptyList}></img>
+                    <p>
+                      You havent added<br></br>any item yet
+                    </p>
+                  </div>
+                )}
+                {filteredPasswords.map((password, idx) => (
+                  <PasswordCard
+                    key={idx}
+                    route={route}
+                    password={password}
+                  ></PasswordCard>
+                ))}
               </div>
             </div>
             <div className="page-footer padding-side">
