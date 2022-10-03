@@ -15,12 +15,12 @@ const API_URL = "/api/auth/";
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
   return signInWithEmailAndPassword(auth, email, password);
-}; 
+};
 
 const createUser = async (data) => {
-  const response = await axios.get(API_URL + "createUser", data);
+  const response = await axios.post(API_URL + "createUser", data);
   return response.data;
-}
+};
 
 const registerWithEmailAndPassword = async (data) => {
   const { email, password } = data;
@@ -29,11 +29,11 @@ const registerWithEmailAndPassword = async (data) => {
 
 const sendVerification = async () => {
   return sendEmailVerification(auth.currentUser);
-}
+};
 
 const changeEmail = async (data) => {
   return updateEmail(auth.currentUser, data);
-}
+};
 
 const continueWithGoogle = async (data) => {
   const provider = new GoogleAuthProvider();

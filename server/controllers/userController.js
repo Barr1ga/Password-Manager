@@ -14,10 +14,11 @@ const getAllUser = asyncHandler(async (req, res) => {
 
 const createUser = asyncHandler(async (req, res) => {
   const { uid, username, masterPasswordHint } = req.body;
-//TODO: revise this
-  const res = await User.doc(uid).set({ username, masterPasswordHint });
+  console.log(req.body);
 
-  res.status(201).json(res);
+  const result = User.doc(uid).set({ username, masterPasswordHint });
+
+  res.status(201).json(result);
 });
 
 const loginUser = asyncHandler(async (req, res) => {
