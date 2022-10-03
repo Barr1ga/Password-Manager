@@ -177,25 +177,25 @@ const Register = ({ handleShowLogin }) => {
 
                     <div className="form-group">
                       <label>
-                        Name <span className="error-message">*</span>
+                        Username <span className="error-message">*</span>
                       </label>
                       <input
                         type="text"
-                        {...register("name", {
+                        {...register("username", {
                           required: {
                             value: true,
                             message: "Name is required",
                           },
                         })}
                         className={
-                          errors.name
+                          errors.username
                             ? "form-control form-error"
                             : "form-control "
                         }
                       />
-                      {errors.name && (
+                      {errors.username && (
                         <small className="error-message">
-                          ⚠ {errors.name.message}
+                          ⚠ {errors.username.message}
                           <br></br>
                         </small>
                       )}

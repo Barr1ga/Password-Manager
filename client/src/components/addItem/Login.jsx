@@ -6,7 +6,7 @@ import {
   HiOutlineEyeOff,
   HiOutlineRefresh,
   HiPlus,
-  HiOutlinePencil
+  HiOutlinePencil,
 } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import PasswordGenerator from "../PasswordGenerator";
