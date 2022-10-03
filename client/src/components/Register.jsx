@@ -12,7 +12,11 @@ import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import MicrosoftIcon from "../assets/icons8-microsoft.svg";
-import { continueWithGoogle, registerWithEmailAndPassword } from "../features/slice/authSlice";
+import {
+  continueWithGoogle,
+  registerWithEmailAndPassword,
+  setUserInformation,
+} from "../features/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "./SpinnerLoader";
 import Logo from "../assets/vaulteer_logo.svg";
@@ -57,10 +61,11 @@ const Register = ({ handleShowLogin }) => {
   const onSubmit = (data) => {
     console.log(data);
 
-    const { name, masterPassword } = data;
+    const { username, masterPassword, masterPasswordHint } = data;
     const registerData = { email, password: masterPassword };
 
     dispatch(registerWithEmailAndPassword(registerData));
+    dispatch(setUserInformation({username, masterPasswordHint}));
   };
 
   const handleBack = () => {

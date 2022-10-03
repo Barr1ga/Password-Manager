@@ -28,11 +28,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getBrandDetails } from "./features/slice/passwordSlice";
 import { auth } from "./features/firebase/firebase";
 import Footer from "./components/Footer";
-import { setUser } from "./features/slice/authSlice";
+import { createUser, setUser } from "./features/slice/authSlice";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
-  const { authUser } = useSelector((state) => state.auth);
+  const { authUser, username, masterPasswordHint, authRegistered } =
+    useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
@@ -54,6 +55,12 @@ const App = () => {
 
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (authRegistered) {
+      dispatch(createUser({ username, masterPasswordHint }));
+    }
+  }, [authRegistered]);
 
   return (
     <BrowserRouter>
