@@ -1502,7 +1502,7 @@ textarea {
 .page-header-with-close div:nth-child(1),
 .page-header div:nth-child(1) {
   display: flex;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .page-header-with-close div:nth-child(2),
