@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharingCenter/Message";
-import formatDate from "../utils/formatToMonthDayYearDate";
+import { formatToMonthDayYearDate, daysDifference } from "../utils/Date";
 import EnterMessage from "../components/sharingCenter/EnterMessage";
 
 const SharingCenter = () => {
@@ -24,19 +24,41 @@ const SharingCenter = () => {
         <div className="scroll-view standard-stack">
           {conversations.map((message, idx) => {
             let sameSender = false;
-            if (conversations[idx - 1]?.senderID === message.senderID) {
+            if (
+              idx !== 0 &&
+              conversations[idx - 1]?.senderID === message.senderID
+            ) {
               sameSender = true;
             }
+
+            const difference =
+              idx !== 0
+                ? daysDifference(
+                    conversations[idx - 1]?.createdAt,
+                    message.createdAt
+                  )
+                : 0;
+
             return (
               <div key={idx}>
-                {true && (
+                {idx == 0 ? (
                   <div className="date-separator">
                     <hr></hr>
                     <small>
-                      <b>{formatDate(message.createdAt)}</b>
+                      <b>{formatToMonthDayYearDate(message.createdAt)}</b>
                     </small>
                     <hr></hr>
                   </div>
+                ) : (
+                  difference >= 1 && (
+                    <div className="date-separator">
+                      <hr></hr>
+                      <small>
+                        <b>{formatToMonthDayYearDate(message.createdAt)}</b>
+                      </small>
+                      <hr></hr>
+                    </div>
+                  )
                 )}
 
                 <Message sameSender={sameSender} message={message}></Message>

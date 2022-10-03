@@ -16,6 +16,20 @@ const initialState = {
       isReply: true,
     },
     {
+      senderID: 2,
+      message: "I think we should run around the campus tonight",
+      createdAt: "Thu Sep 01 2022 21:01:17 GMT+0800 (Philippine Standard Time)",
+      replyID: null,
+      isReply: false,
+    },
+    {
+      senderID: 2,
+      message: "Wanna come along?",
+      createdAt: "Thu Sep 01 2022 21:01:17 GMT+0800 (Philippine Standard Time)",
+      replyID: null,
+      isReply: false,
+    },
+    {
       senderID: 3,
       message:
         "Good to see some people around here. Lets have a karaoke night tonight, i suggest :D!",

@@ -2176,6 +2176,7 @@ textarea {
   border: none;
   background-color: transparent;
   text-align: left;
+  width: 100%;
 }
 
 .message:hover {
