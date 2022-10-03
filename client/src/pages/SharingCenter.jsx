@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharingCenter/Message";
 import { formatToMonthDayYearDate, daysDifference } from "../utils/Date";
 import EnterMessage from "../components/sharingCenter/EnterMessage";
+import EmptyList from "../assets/empty-list.svg";
 
 const SharingCenter = () => {
   const route = "/SharingCenter";
@@ -22,9 +23,14 @@ const SharingCenter = () => {
       </div>
       <div className="conversation-list">
         <div className="scroll-view standard-stack">
-          <div className="start padding-side">
-            <p>This is the start of the<br></br> sharing center conversations.</p>
-          </div>
+          {conversations.length === 0 && (
+            <div className="empty-list">
+              <img src={EmptyList}></img>
+              <p>
+                No messages yet
+              </p>
+            </div>
+          )}
           {conversations.map((message, idx) => {
             let sameSender = false;
             if (

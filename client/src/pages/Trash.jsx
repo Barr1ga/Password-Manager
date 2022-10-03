@@ -13,16 +13,16 @@ const Trash = () => {
   const [listView, setListView] = useState(true);
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
-
+  
   const filteredPasswords = passwords.filter(
     (password) => password.trash === true
   );
   const count = filteredPasswords.length;
-
+  
   return (
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>All Items</h4>{" "}
+        <h4>Trash</h4>{" "}
         <div>
           <Button
             onClick={() => setListView(false)}

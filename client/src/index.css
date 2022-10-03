@@ -42,7 +42,7 @@ p {
   font-size: 0.9rem;
   font-weight: 100;
   margin: 0 !important;
-  color: rgb(255, 255, 255, .8);
+  color: rgb(255, 255, 255, 0.8);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -345,7 +345,7 @@ input {
 }
 
 .scroll-view .empty-list {
-  height: calc(100% - 107px);
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -900,6 +900,7 @@ textarea {
   min-width: 60px;
   padding-right: 15px;
   border-radius: 3px;
+  margin-top: 22px;
 }
 
 .sidenav-hr {
@@ -1318,7 +1319,7 @@ textarea {
 .site-warning {
   border: 2px solid #b970ff;
   border-radius: 3px;
-  margin-top: 22px;
+  margin-top: 23px;
 }
 
 .site-warning .title {
@@ -1717,16 +1718,19 @@ textarea {
 }
 
 .password-item .name {
-  flex-grow: 1;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .password-item .name a,
 .password-item .name span,
 .password-item .name small {
-  max-width: 100%;
-  white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 100%;
+  width: 0;
 }
 
 .password-item .name .siteName {
@@ -1950,7 +1954,7 @@ textarea {
 
 .add-item-modal .item-image img {
   height: 100px;
-  border-radius:15px;
+  border-radius: 15px;
   /* box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253); */
 }
 

@@ -15,7 +15,7 @@ const Identity = () => {
   const { passwords } = useSelector((state) => state.passwords);
 
   const filteredPasswords = passwords.filter(
-    (password) => password.type === "identity" && password.trash === false
+    (password) => password.type === "identification" && password.trash === false
   );
   const count = filteredPasswords.length;
 
