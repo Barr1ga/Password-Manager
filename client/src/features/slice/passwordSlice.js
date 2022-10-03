@@ -289,6 +289,41 @@ const passwordSlice = createSlice({
   initialState,
   reducers: {
     resetPasswords: (state) => initialState,
+    createPasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    createCardItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    createIdentificationItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    createSecureNoteItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    createWifiPasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updatePasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateCardItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateIdentificationItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateSecureNoteItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    updateWifiPasswordItem: (state, action) => {
+      state.passwords = [...state.passwords, action.payload];
+    },
+    handleDeletePasswordItem: (state, action) => {
+      state.passwords = state.passwords.filter(
+        (password) => password.id !== action.payload
+      );
+    },
     resetSelectedPasswordItem: (state) => {
       state.selectedPassword = null;
     },
@@ -319,6 +354,20 @@ const passwordSlice = createSlice({
   },
 });
 
-export const { resetPasswords, resetSelectedPasswordItem, selectPasswordItem } =
-  passwordSlice.actions;
+export const {
+  resetPasswords,
+  createPasswordItem,
+  createCardItem,
+  createIdentificationItem,
+  createSecureNoteItem,
+  createWifiPasswordItem,
+  updateCardItem,
+  updatePasswordItem,
+  updateSecureNoteItem,
+  updateWifiPasswordItem,
+  updateIdentificationItem,
+  handleDeletePasswordItem,
+  resetSelectedPasswordItem,
+  selectPasswordItem,
+} = passwordSlice.actions;
 export default passwordSlice.reducer;

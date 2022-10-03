@@ -18,11 +18,12 @@ import {
   HiOutlineUsers,
   HiUsers,
   HiOutlineClipboardList,
+  HiOutlineTrash,
 } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch } from "react-redux";
-import { resetSelectedPasswordItem } from "../features/slice/passwordSlice";
+import { handleDeletePasswordItem, resetSelectedPasswordItem } from "../features/slice/passwordSlice";
 import PasswordGenerator from "./PasswordGenerator";
 import { useNavigate } from "react-router-dom";
 
@@ -41,6 +42,12 @@ const PasswordInformation = ({ currentPassword }) => {
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Logins");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
+
+  const method = "update";
+
+  const handleDeletePassword = (id) => {
+    dispatch(handleDeletePasswordItem(id));
+  };
 
   const handleCloseMobile = () => {
     if (showPasswordGenerator) {
@@ -207,6 +214,7 @@ const PasswordInformation = ({ currentPassword }) => {
 
         {selectedType === "Logins" && (
           <Login
+            method={method}
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
             defaultValues={currentPassword}
@@ -214,19 +222,25 @@ const PasswordInformation = ({ currentPassword }) => {
         )}
 
         {selectedType === "Cards" && (
-          <Card defaultValues={currentPassword}></Card>
+          <Card method={method} defaultValues={currentPassword}></Card>
         )}
 
         {selectedType === "Identifications" && (
-          <Identification></Identification>
+          <Identification method={method}></Identification>
         )}
 
         {selectedType === "Secure Notes" && (
-          <SecureNote defaultValues={currentPassword}></SecureNote>
+          <SecureNote
+            method={method}
+            defaultValues={currentPassword}
+          ></SecureNote>
         )}
 
         {selectedType === "Wifi Passwords" && (
-          <WifiPassword defaultValues={currentPassword}></WifiPassword>
+          <WifiPassword
+            method={method}
+            defaultValues={currentPassword}
+          ></WifiPassword>
         )}
 
         {/* {!showPasswordGenerator && (
@@ -405,24 +419,7 @@ const PasswordInformation = ({ currentPassword }) => {
                   continueMessage={"Update"}
                 ></ConfirmModal>
               </div>
-              <div className="form-group">
-                <ConfirmModal
-                  handleProceed={() => handleDeletePassword(currentPassword.id)}
-                  component={
-                    <Button
-                      type="submit"
-                      className="btn-secondary danger btn-long btn-with-icon"
-                    >
-                      <HiOutlineTrash></HiOutlineTrash>Delete Item
-                    </Button>
-                  }
-                  headerMessage={"Are you sure you want to delete this item?"}
-                  bodyMessage={
-                    "Once you delete this item, there is no going back. Please be certain."
-                  }
-                  continueMessage={"Delete"}
-                ></ConfirmModal>
-              </div>
+            
             </form>
           </>
         )}
@@ -433,6 +430,26 @@ const PasswordInformation = ({ currentPassword }) => {
             handleUsePassword={handleUsePassword}
           ></PasswordGenerator>
         )} */}
+        <div className="form-group">
+          <ConfirmModal
+            proceedInteraction={
+              <Button className="btn-dark btn-long" onClick={() => handleDeletePassword(currentPassword.id)}>Yes</Button>
+            }
+            component={
+              <Button
+                type="submit"
+                className="btn-secondary danger btn-long btn-with-icon"
+              >
+                <HiOutlineTrash></HiOutlineTrash>Delete Item
+
+              </Button>
+            }
+            headerMessage={"Are you sure you want to delete this item?"}
+            bodyMessage={
+              "Once you delete this item, there is no going back. Please be certain."
+            }
+          ></ConfirmModal>
+        </div>
 
         <div className="last-updated">
           <div>

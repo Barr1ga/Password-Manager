@@ -13,8 +13,11 @@ import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import { createIdentificationItem } from "../../features/slice/passwordSlice";
+import { updateIdentificationItem } from "../../features/slice/passwordSlice";
+import { useDispatch } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
@@ -26,6 +29,8 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [title, setTitle] = useState(false);
   const folderRef = useRef();
   const titleRef = useRef();
+
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -44,9 +49,15 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     },
   });
 
+  
+
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    dispatch(createIdentificationItem(data))
+    if(method === "update"){
+      dispatch(updateIdentificationItem(data))
+    }
     console.log(data);
   };
 

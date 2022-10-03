@@ -13,8 +13,11 @@ import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import { createSecureNoteItem } from "../../features/slice/passwordSlice";
+import { updateSecureNoteItem } from "../../features/slice/passwordSlice";
+import { useDispatch } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -22,6 +25,8 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
 
+  const dispatch = useDispatch()
+  
   const {
     register,
     handleSubmit,
@@ -33,15 +38,21 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     mode: "all",
     defaultValues: {
       name: "",
-      userName: "",
-      password: "",
       folder: "",
     },
   });
 
+   
+
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    console.log(data);
+    data.folder = folderRef.current.value;
+    dispatch(createSecureNoteItem(data))
+    if(method === "update"){
+      dispatch(updateSecureNoteItem(data))
+    }
     console.log(data);
   };
 
