@@ -3,6 +3,7 @@ import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
 import { HiPlusSm } from "react-icons/hi";
 import SideNavFolderContent from "./SideNavFolderContent";
 import AddFolderModal from "./folders/AddFolderModal";
+import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
 
 const SideNavFolders = ({ folder, items }) => {
   const [showNavFolders, setShowNavFolders] = useState(true);
@@ -18,7 +19,8 @@ const SideNavFolders = ({ folder, items }) => {
             ) : (
               <RiArrowRightSLine></RiArrowRightSLine>
             )}
-            folders
+            <p className="full">folders</p>
+            <p className="short">f</p>
           </p>
           <AddFolderModal></AddFolderModal>
         </span>

@@ -39,7 +39,8 @@ const SideNavTypes = () => {
             ) : (
               <RiArrowRightSLine></RiArrowRightSLine>
             )}
-            types
+            <p className="full">types</p>
+            <p className="short">t</p>
           </p>
           <AddItemButtonSm></AddItemButtonSm>
         </span>
