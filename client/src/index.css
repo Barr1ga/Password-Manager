@@ -40,8 +40,9 @@ p {
   font-family: "Poppins", sans-serif;
   line-height: 1.5;
   font-size: 0.9rem;
+  font-weight: 100;
   margin: 0 !important;
-  color: #fff;
+  color: rgb(255, 255, 255, .8);
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -383,6 +384,7 @@ input {
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding-bottom: 10px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -751,10 +753,6 @@ textarea {
   /* height: calc(100vh - 182px); */
 }
 
-.center-margin .screen-version .mobile .margin-content {
-  margin: 20px 0 0 15px;
-}
-
 .center-margin .margin-content {
   display: flex;
   flex-direction: column;
@@ -1019,6 +1017,7 @@ textarea {
 .side-nav .category-folder-title p {
   display: flex;
   gap: 5px;
+  min-width: 0;
   align-items: center;
   white-space: nowrap;
   overflow: hidden;
@@ -1121,7 +1120,7 @@ textarea {
   display: flex;
   align-items: center;
   margin: 0 10px;
-  flex: 0 1 1070px;
+  flex: 0 1 1140px;
   justify-content: space-between;
 }
 
@@ -1306,6 +1305,7 @@ textarea {
 .site-warning {
   border: 2px solid #b970ff;
   border-radius: 3px;
+  margin-top: 22px;
 }
 
 .site-warning .title {
@@ -1346,7 +1346,6 @@ textarea {
 
 .vault-members h5 {
   padding: 15px 15px 0 15px;
-  margin-bottom: 0;
 }
 
 .vault-members .role {
@@ -1400,6 +1399,10 @@ textarea {
   flex-grow: 1;
 }
 
+.vault-members .member .name p {
+  font-weight: 200;
+}
+
 .vault-members .image {
   text-transform: uppercase;
   display: flex;
@@ -1428,6 +1431,12 @@ textarea {
   bottom: 0px;
   right: 0px;
   transition: 0.2s ease-out 0s;
+}
+
+.right-margin .vault-members .image .online,
+.right-margin .vault-members .image .offline,
+.right-margin .vault-members .image .idle {
+  outline: 3px solid rgb(45, 45, 45);
 }
 
 .vault-members .member:hover .online,
@@ -1486,9 +1495,9 @@ textarea {
   /* position: absolute; */
 }
 
-.right-margin .page-header {
-  padding-top: 0;
-}
+/* .right-margin .page-header {
+  padding-top: 22px;
+} */
 
 .modal-header .page-header-with-close,
 .page-header {
@@ -2147,6 +2156,10 @@ textarea {
   justify-content: end;
 }
 
+.conversation-list .scroll-view {
+  justify-content: end;
+}
+
 .conversation-list .date-separator {
   width: 100%;
   margin: 10px 0;
@@ -2230,8 +2243,9 @@ textarea {
   flex-direction: column;
 }
 
-.message .message-text .name {
+.message .message-text .name p {
   margin-bottom: 5px;
+  color: rgb(255, 255, 255, 1);
 }
 
 .message .message-text p {

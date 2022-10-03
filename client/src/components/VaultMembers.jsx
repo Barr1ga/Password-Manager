@@ -19,8 +19,8 @@ const VaultMembers = () => {
   [roles[0], roles[idx]] = [roles[idx], roles[0]];
 
   return (
-    <div className="vault-members standard-stack">
-      <h5>Vault Members</h5>
+    <div className="vault-members standard-stack gap-10">
+      <h5>Members</h5>
 
       {roles.map((role, idx) => {
         const filteredOnlineMembers = onlineMembers.filter(

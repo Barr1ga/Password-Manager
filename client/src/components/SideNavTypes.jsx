@@ -22,10 +22,10 @@ const SideNavTypes = () => {
   const route = useLocation().pathname;
 
   const notifications = {
-    logins: true,
+    logins: false,
     cards: false,
     identifications: false,
-    secureNotes: true,
+    secureNotes: false,
     wifiPasswords: false,
   };
 

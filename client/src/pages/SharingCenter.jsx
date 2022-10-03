@@ -22,6 +22,9 @@ const SharingCenter = () => {
       </div>
       <div className="conversation-list">
         <div className="scroll-view standard-stack">
+          <div className="start padding-side">
+            <p>This is the start of the<br></br> sharing center conversations.</p>
+          </div>
           {conversations.map((message, idx) => {
             let sameSender = false;
             if (

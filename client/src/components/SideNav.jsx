@@ -35,7 +35,7 @@ const SideNav = () => {
   const route = useLocation().pathname;
 
   const notifications = {
-    allItems: true,
+    allItems: false,
     favorites: false,
     trash: false,
     sharingCenter: false,
