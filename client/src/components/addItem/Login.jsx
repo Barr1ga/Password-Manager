@@ -6,6 +6,7 @@ import {
   HiOutlineEyeOff,
   HiOutlineRefresh,
   HiPlus,
+  HiOutlinePencil
 } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import PasswordGenerator from "../PasswordGenerator";
@@ -262,9 +263,15 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
               </div>
             </div>
 
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}

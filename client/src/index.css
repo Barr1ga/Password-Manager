@@ -249,12 +249,12 @@ input {
 }
 
 .danger {
-  color: #e93535;
+  color: #ff4949;
 }
 
 .danger:hover {
-  background-color: #e93535;
-  border: 1px solid #e93535;
+  background-color: #ff4949;
+  border: 1px solid #ff4949;
   color: #fff;
 }
 
@@ -764,21 +764,21 @@ textarea {
 }
 
 .form-error {
-  border: 1px solid #e93535;
+  border: 1px solid #ff4949;
 }
 
 .form-error:focus::placeholder {
-  color: #e93535 !important;
+  color: #ff4949 !important;
 }
 
 .form-error:focus {
-  border: 1px solid #e93535;
-  outline: 1px solid #e93535;
+  border: 1px solid #ff4949;
+  outline: 1px solid #ff4949;
   box-shadow: none;
 }
 
 .error-message {
-  color: #e93535;
+  color: #ff4949;
 }
 
 .password-generator-input {
@@ -1640,7 +1640,7 @@ textarea {
 }
 
 .password-card .name .trashed {
-  color: #e93535;
+  color: #ff4949;
   font-weight: 600;
 }
 
@@ -1739,7 +1739,7 @@ textarea {
 }
 
 .password-item .name .trashed {
-  color: #e93535;
+  color: #ff4949;
   font-weight: 600;
 }
 
@@ -1849,7 +1849,7 @@ textarea {
 }
 
 .delete-account {
-  color: #e93535;
+  color: #ff4949;
 }
 
 /* roles css */

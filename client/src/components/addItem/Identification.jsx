@@ -7,6 +7,7 @@ import {
   HiOutlineRefresh,
   HiPlus,
   HiOutlineX,
+  HiOutlinePencil,
 } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
@@ -17,7 +18,11 @@ import { createIdentificationItem } from "../../features/slice/passwordSlice";
 import { updateIdentificationItem } from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
 
-const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({
+  method,
+  showPasswordGenerator,
+  setShowPasswordGenerator,
+}) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
@@ -30,7 +35,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
   const folderRef = useRef();
   const titleRef = useRef();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -49,14 +54,12 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
     },
   });
 
-  
-
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
-    dispatch(createIdentificationItem(data))
-    if(method === "update"){
-      dispatch(updateIdentificationItem(data))
+    dispatch(createIdentificationItem(data));
+    if (method === "update") {
+      dispatch(updateIdentificationItem(data));
     }
     console.log(data);
   };
@@ -156,7 +159,9 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
             </div>
 
             <div className="form-group form-select-group">
-              <label>Title <span className="error-message">*</span></label>
+              <label>
+                Title <span className="error-message">*</span>
+              </label>
               <div className="input">
                 <input
                   type="text"
@@ -657,9 +662,15 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
               </div>
             </div>
 
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}

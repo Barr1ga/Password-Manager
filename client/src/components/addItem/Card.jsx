@@ -4,9 +4,9 @@ import { useForm } from "react-hook-form";
 import {
   HiOutlineEye,
   HiOutlineEyeOff,
-  HiOutlineRefresh,
   HiPlus,
   HiOutlineX,
+  HiOutlinePencil,
 } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
@@ -18,8 +18,12 @@ import { createCardItem } from "../../features/slice/passwordSlice";
 import { updateCardItem } from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
 
-
-const AddItemModal = ({method, showPasswordGenerator, setShowPasswordGenerator, defaultValues}) => {
+const AddItemModal = ({
+  method,
+  showPasswordGenerator,
+  setShowPasswordGenerator,
+  defaultValues,
+}) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
@@ -59,7 +63,7 @@ const AddItemModal = ({method, showPasswordGenerator, setShowPasswordGenerator, 
   const brandRef = useRef();
   const monthRef = useRef();
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -76,9 +80,9 @@ const AddItemModal = ({method, showPasswordGenerator, setShowPasswordGenerator, 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
-    dispatch(createCardItem(data))
-    if(method === "update"){
-      dispatch(updateCardItem(data))
+    dispatch(createCardItem(data));
+    if (method === "update") {
+      dispatch(updateCardItem(data));
     }
     console.log(data);
   };
@@ -122,7 +126,7 @@ const AddItemModal = ({method, showPasswordGenerator, setShowPasswordGenerator, 
   const handleFavorite = () => {
     setFavorite((prev) => !prev);
   };
-
+  console.log(method);
   return (
     <>
       {!showPasswordGenerator && (
@@ -442,10 +446,15 @@ const AddItemModal = ({method, showPasswordGenerator, setShowPasswordGenerator, 
                 )}
               </div>
             </div>
-
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}
