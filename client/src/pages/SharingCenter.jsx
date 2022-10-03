@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharingCenter/Message";
-import formatDate from "../features/utils/formatToMonthDayYearDate";
+import formatDate from "../utils/formatToMonthDayYearDate";
 import EnterMessage from "../components/sharingCenter/EnterMessage";
 
 const SharingCenter = () => {
@@ -28,7 +28,7 @@ const SharingCenter = () => {
               sameSender = true;
             }
             return (
-              <>
+              <div key={idx}>
                 {true && (
                   <div className="date-separator">
                     <hr></hr>
@@ -39,22 +39,8 @@ const SharingCenter = () => {
                   </div>
                 )}
 
-                <Message
-                  key={idx}
-                  sameSender={sameSender}
-                  message={message}
-                ></Message>
-                <Message
-                  key={idx}
-                  sameSender={true}
-                  message={message}
-                ></Message>
-                <Message
-                  key={idx}
-                  sameSender={true}
-                  message={message}
-                ></Message>
-              </>
+                <Message sameSender={sameSender} message={message}></Message>
+              </div>
             );
           })}
           <div ref={scrollRef}></div>

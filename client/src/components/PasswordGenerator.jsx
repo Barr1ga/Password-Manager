@@ -11,7 +11,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
 import WarningAlert from "./alerts/WarningAlert";
 import ConfirmModal from "./helpers/ConfirmModal";
-import getPassword from "../features/utils/getPassword";
+import getPassword from "../utils/getPassword";
 import PasswordHistory from "./PasswordHistory";
 
 const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {

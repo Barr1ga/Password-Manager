@@ -380,6 +380,7 @@ input {
 
 .center-margin .scroll-view {
   /* height: 100%; */
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -852,11 +853,8 @@ textarea {
 
 .left-margin {
   height: 100vh;
-  flex: 0 1 100px;
-  padding-top: 80px;
-  padding-bottom: 40px;
-  padding-left: 2px;
-  padding: 55px 0 40px 2px;
+  /* flex: 0 1 200px; */
+  padding: 55px 0 40px 0;
 }
 
 .center-margin {
@@ -901,7 +899,7 @@ textarea {
 /* sidenav css */
 .side-nav {
   /* border: 1px solid #474747; */
-  min-width: 50px;
+  min-width: 60px;
   padding-right: 15px;
   border-radius: 3px;
 }
@@ -962,7 +960,6 @@ textarea {
 .side-nav .selected {
   /* color: #b970ff; */
   color: #b970ff;
-  font-weight: 600;
 }
 
 .side-nav .selected {
@@ -972,6 +969,21 @@ textarea {
 .sidenav-button:hover p {
   /* transition: 0.2s ease-out 0s; */
   color: rgba(255, 255, 255);
+}
+
+.side-nav .new-notif p {
+  color: rgba(255, 255, 255, 1);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.side-nav .new-notif p .notif-ball {
+  height: 7px;
+  width: 7px;
+  border-radius: 50%;
+  background-color: #ffffff;
 }
 
 .sidenav-button:hover {
@@ -2161,6 +2173,9 @@ textarea {
   padding-bottom: 5px;
   cursor: pointer;
   transition: 0.2s ease-out 0s;
+  border: none;
+  background-color: transparent;
+  text-align: left;
 }
 
 .message:hover {
@@ -2184,25 +2199,16 @@ textarea {
 
 .message .user-alternative {
   min-width: 40px;
-  transition: 0.2s ease-out 0s;
 }
 
-.message .user-alternative .date {
-  width: 40px;
-  height: 20px;
-}
-
-.message:hover .user-alternative {
-  min-width: 60px;
-  transition: 0.2s ease-out 0s;
-}
-
-.message .user-alternative .date {
+.message .message-text .trailing {
+  height: 0;
   opacity: 0;
   transition: 0.2s ease-out 0s;
 }
 
-.message:hover .user-alternative .date {
+.message:focus .message-text .trailing {
+  height: 25px;
   opacity: 1;
   transition: 0.2s ease-out 0s;
 }
@@ -2304,4 +2310,48 @@ textarea {
   display: flex;
   gap: 5px;
   align-items: end;
+}
+
+.message-lazy {
+  display: flex;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: 0.2s ease-out 0s;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  gap: 10px;
+}
+
+.message-lazy .image {
+  background-color: rgb(45, 45, 45);
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+}
+
+.message-lazy .message-text {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.message-lazy .message-text .name {
+  height: 15px;
+  /* width: 100%; */
+  border-radius: 10px;
+  background-color: rgb(61, 61, 61);
+}
+
+.message-lazy .message-text .text {
+  display: flex;
+  gap: 5px;
+}
+
+.message-lazy .message-text .text p {
+  height: 15px;
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgb(45, 45, 45);
 }

@@ -1,15 +1,20 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import formatDate from "../../features/utils/formatToNowDate";
-import formatToTimeDate from "../../features/utils/formatToTimeDate";
+import formatDate from "../../utils/formatToNowDate";
+import formatToTimeDate from "../../utils/formatToTimeDate";
+import MessageLazyLoad from "./MessageLazyLoad";
 
 const Message = ({ sameSender, message }) => {
   const { members } = useSelector((state) => state.members);
   const sender = members.find((member) => member.id === message.senderID);
 
+  // if (true) {
+  //   return <MessageLazyLoad></MessageLazyLoad>
+  // }  
+
   return (
     <>
-      <div className="message padding-side">
+      <button type="button" className="message padding-side">
         {message.isReply && (
           <div className="reply">
             <div className="pointer">
@@ -37,13 +42,9 @@ const Message = ({ sameSender, message }) => {
           )}
 
           {!message.isReply && sameSender && (
-            <div className="user-alternative">
-              <small className="date">
-                {formatToTimeDate(message.createdAt)}
-              </small>
-              <br></br>
-            </div>
+            <div className="user-alternative"></div>
           )}
+
           <div className="message-text">
             {!sameSender && (
               <div className="name">
@@ -53,11 +54,18 @@ const Message = ({ sameSender, message }) => {
                 </p>
               </div>
             )}
-
+            {!message.isReply && sameSender && (
+              <div className="trailing">
+                <small className="date">
+                  {formatToTimeDate(message.createdAt)}
+                </small>
+                <br></br>
+              </div>
+            )}
             <p>{message.message}</p>
           </div>
         </div>
-      </div>
+      </button>
     </>
   );
 };

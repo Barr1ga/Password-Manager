@@ -11,7 +11,7 @@ const initialState = {
     {
       senderID: 2,
       message: "How are you guys doing?!",
-      createdAt: "Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard Time)",
+      createdAt: "Thu Sep 01 2022 21:01:17 GMT+0800 (Philippine Standard Time)",
       replyID: 3,
       isReply: true,
     },
@@ -19,13 +19,13 @@ const initialState = {
       senderID: 3,
       message:
         "Good to see some people around here. Lets have a karaoke night tonight, i suggest :D!",
-      createdAt: "Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard Time)",
+      createdAt: "Thu Sep 01 2022 21:01:18 GMT+0800 (Philippine Standard Time)",
       isReply: false,
     },
     {
       senderID: 4,
       message: "Sure bro",
-      createdAt: "Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard Time)",
+      createdAt: "Thu Sep 10 2022 21:01:19 GMT+0800 (Philippine Standard Time)",
       isReply: false,
     },
   ],
