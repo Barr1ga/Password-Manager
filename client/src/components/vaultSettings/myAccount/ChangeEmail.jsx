@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
-import PrimaryAlertInteractive from "../alerts/PrimaryAlertInteractive";
-import { changeEmail, sendVerification } from "../../features/slice/authSlice";
+import PrimaryAlertInteractive from "../../alerts/PrimaryAlertInteractive";
+import { changeEmail, sendVerification } from "../../../features/slice/authSlice";
 import { useDispatch } from "react-redux";
 
 const ChangeEmail = () => {

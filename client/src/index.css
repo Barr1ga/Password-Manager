@@ -1399,15 +1399,19 @@ textarea {
 
 .vault-members .member {
   display: flex;
+  align-items: center;
   cursor: pointer;
   padding-top: 10px;
   padding-bottom: 10px;
   transition: 0.2s ease-out 0s;
+}
+
+.center-margin .vault-members .member {
   align-items: flex-start;
 }
 
 .vault-members .member .vault-owner {
-  color: #b970ff;
+  color: #ffffff;
 }
 
 .vault-members .member:hover {
@@ -1425,8 +1429,26 @@ textarea {
   flex-grow: 1;
 }
 
+.vault-members .member .name .vault-owner-tag {
+  background-color: #9e58e0;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-size: 0.8rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.vault-members .member .name .vault-owner-tag svg {
+  height: 13px;
+  width: 13px;
+}
+
 .vault-members .member .name p {
   font-weight: 200;
+  display: flex;
+  gap: 5px;
 }
 
 .vault-members .image {
@@ -1462,7 +1484,7 @@ textarea {
 .right-margin .vault-members .image .online,
 .right-margin .vault-members .image .offline,
 .right-margin .vault-members .image .idle {
-  outline: 3px solid rgb(45, 45, 45);
+  outline: 2px solid rgb(45, 45, 45);
 }
 
 .vault-members .member:hover .online,
@@ -1517,6 +1539,7 @@ textarea {
   align-items: center;
   box-shadow: 0 3px 3px -1px rgb(0, 0, 0, 0.2);
   padding-top: 22px;
+  padding-bottom: 10px;
   flex-wrap: wrap;
   /* position: absolute; */
 }
@@ -1592,13 +1615,14 @@ textarea {
   justify-content: start;
   align-items: start;
   flex-wrap: wrap;
+  gap: 2px;
   /* margin: 10px 0; */
 }
 
 .password-card {
   padding: 10px;
   border-radius: 3px;
-  width: 25%;
+  width: calc(25% - 2px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1849,6 +1873,7 @@ textarea {
 
 .role-item {
   display: flex;
+  justify-content: space-between;
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
@@ -1859,6 +1884,10 @@ textarea {
 .role-item:hover {
   background-color: rgb(45, 45, 45);
   transition: 0.2s ease-out 0s;
+}
+
+.role-item .information {
+  flex: 1;
 }
 
 .role-item .name {
@@ -2413,3 +2442,4 @@ textarea {
   border-radius: 10px;
   background-color: rgb(45, 45, 45);
 }
+

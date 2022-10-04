@@ -1,7 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  roles: ["vaultOwner", "family", "employee"],
+  roles: [
+    { name: "vaultOwner", abreviation: "VO" },
+    { name: "family", abreviation: "FAM" },
+    { name: "employee", abreviation: "EMP" },
+    { name: "neighboor", abreviation: "NEIGH" },
+    { name: "BSIT", abreviation: "BSIT" },
+    { name: "student", abreviation: "STUD" },
+    { name: "professor", abreviation: "PROF" },
+  ],
   roleLoading: false,
   roleFulfilled: false,
   roleError: false,

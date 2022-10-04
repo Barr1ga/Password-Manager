@@ -1,9 +1,7 @@
 import React from "react";
-import WarningAlert from "../components/alerts/WarningAlert";
 import { HiOutlineX } from "react-icons/hi";
-import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import VaultEmails from "../components/vaultSettings/VaultEmails";
+import VaultMembers from "../components/vaultSettings/members/Members";
 
 const Members = () => {
   return (
@@ -16,7 +14,7 @@ const Members = () => {
           </Link>
         </div>
         <div className="vault-settings standard-stack gap-20">
-          <VaultEmails></VaultEmails>
+          <VaultMembers></VaultMembers>
         </div>
       </div>
     </div>

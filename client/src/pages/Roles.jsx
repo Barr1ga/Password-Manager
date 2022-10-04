@@ -3,7 +3,7 @@ import WarningAlert from "../components/alerts/WarningAlert";
 import { HiOutlineX, HiOutlineArrowLeft } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import VaultRoles from "../components/vaultSettings/VaultRoles";
+import VaultRoles from "../components/vaultSettings/roles/VaultRoles";
 
 const Roles = () => {
   return (
@@ -15,7 +15,7 @@ const Roles = () => {
             <HiOutlineX className="btn-close"></HiOutlineX>
           </Link>
         </div>
-        <div className="vault-settings standard-stack gap-20">
+        <div className="vault-members standard-stack gap-20">
           <VaultRoles></VaultRoles>
         </div>
       </div>

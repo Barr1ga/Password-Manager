@@ -39,6 +39,9 @@ const SideNav = () => {
     favorites: true,
     trash: false,
     sharingCenter: false,
+    myAccount: false,
+    members: false,
+    roles: false,
   };
 
   const handleLogout = () => {
@@ -200,10 +203,12 @@ const SideNav = () => {
             <Link
               to="/MyAccount"
               className={
-                true
-                  ? "sidenav-button new-notif"
+                notifications.myAccount && route === "/MyAccount"
+                  ? "sidenav-button new-notif selected"
                   : route === "/MyAccount"
                   ? "sidenav-button selected"
+                  : notifications.myAccount
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
@@ -217,10 +222,12 @@ const SideNav = () => {
             <Link
               to="/Members"
               className={
-                true
-                  ? "sidenav-button new-notif"
+                notifications.members && route === "/Members"
+                  ? "sidenav-button new-notif selected"
                   : route === "/Members"
                   ? "sidenav-button selected"
+                  : notifications.members
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
@@ -235,10 +242,12 @@ const SideNav = () => {
             <Link
               to="/Roles"
               className={
-                true
-                  ? "sidenav-button new-notif"
+                notifications.roles && route === "/Roles"
+                  ? "sidenav-button new-notif selected"
                   : route === "/Roles"
                   ? "sidenav-button selected"
+                  : notifications.roles
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >

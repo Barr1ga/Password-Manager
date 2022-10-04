@@ -3,9 +3,9 @@ import Button from "react-bootstrap/Button";
 import { HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import WarningAlert from "../components/alerts/WarningAlert";
-import MyAccount from "../components/myAccount/MyAccount";
-import ChangeEmail from "../components/myAccount/ChangeEmail";
-import ChangePassword from "../components/myAccount/ChangePassword";
+import MyAccount from "../components/vaultSettings/myAccount/MyAccount";
+import ChangeEmail from "../components/vaultSettings/myAccount/ChangeEmail";
+import ChangePassword from "../components/vaultSettings/myAccount/ChangePassword";
 import ConfirmModal from "../components/helpers/ConfirmModal";
 
 const VaultSettings = () => {

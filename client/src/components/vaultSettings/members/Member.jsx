@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
-import useGenerateRandomColor from "../hooks/useGenerateRandomColor";
+import React from "react";
 import {
-  HiDotsVertical,
   HiViewGrid,
   HiStar,
   HiTrash,
@@ -19,7 +17,7 @@ import {
 import { FaCrown } from "react-icons/fa";
 import { RiSettings2Line } from "react-icons/ri";
 
-const VaultMember = ({ member }) => {
+const Member = ({ member }) => {
   return (
     <div className="member padding-side gap-10">
       <div className="image">
@@ -36,6 +34,8 @@ const VaultMember = ({ member }) => {
             </small>
           )}
         </p>
+        <small>{member.email}</small>
+        <br></br>
         <small>
           {member.viewing !== "" && "Viewing"} <b>{member.viewing}</b>{" "}
           {member.viewing === "All" && <HiViewGrid></HiViewGrid>}
@@ -68,4 +68,4 @@ const VaultMember = ({ member }) => {
   );
 };
 
-export default VaultMember;
+export default Member;
