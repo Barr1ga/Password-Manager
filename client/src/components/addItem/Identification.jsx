@@ -93,7 +93,7 @@ const AddItemModal = ({
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item <span className="error-message">*</span>
               </label>
               <input
                 type="text"

@@ -22,13 +22,13 @@ const VaultMember = ({ member }) => {
   return (
     <div className="member padding-side gap-10">
       <div className="image">
-        {member.name.charAt(0)}
+        {member.username.charAt(0)}
         {member.status === "online" && <div className="online"></div>}
         {member.status === "idle" && <div className="idle"></div>}
       </div>
       <div className="name">
         <p className={member.role === "vault owner" ? "vault-owner" : ""}>
-          <b>{member.name}</b>
+          <b>{member.username}</b>
         </p>
         <small>
           {member.viewing !== "" && ("Viewing")}

@@ -11,10 +11,12 @@ const SideNavFolder = ({ folder }) => {
     <Link
       to={`/${folder}`}
       className={
-        notification
-          ? "sidenav-button new-notif"
+        notification && route === `/${folder}`
+          ? "sidenav-button new-notif selected"
           : route === `/${folder}`
           ? "sidenav-button selected"
+          : notification
+          ? "sidenav-button new-notif"
           : "sidenav-button"
       }
     >

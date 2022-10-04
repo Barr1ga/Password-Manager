@@ -340,7 +340,6 @@ const passwordSlice = createSlice({
       .addCase(getBrandDetails.fulfilled, (state, action) => {
         state.brandLoading = false;
         state.brandFulfilled = true;
-        console.log(action.payload.data)
         if (action.payload.data) {
           const idx = state.passwords.findIndex((password) => password.id === action.payload.id);
           state.passwords[idx].image = action.payload.data[0].icon;

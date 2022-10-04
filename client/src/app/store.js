@@ -3,6 +3,7 @@ import passwordReducer from "../features/slice/passwordSlice";
 import authReducer from "../features/slice/authSlice";
 import memberReducer from "../features/slice/memberSlice";
 import sharingReducer from "../features/slice/sharingSlice";
+import roleReducer from "../features/slice/roleSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
     auth: authReducer,
     members: memberReducer,
     sharing: sharingReducer,
+    roles: roleReducer,
   },
 });

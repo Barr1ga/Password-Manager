@@ -83,11 +83,13 @@ const AllItems = () => {
                   </div>
                 )}
                 {filteredPasswords.map((password, idx) => (
-                  <PasswordCard
-                    key={idx}
-                    route={route}
-                    password={password}
-                  ></PasswordCard>
+                  <>
+                    <PasswordCard
+                      key={idx}
+                      route={route}
+                      password={password}
+                    ></PasswordCard>
+                  </>
                 ))}
               </div>
             </div>

@@ -110,6 +110,10 @@ input {
 .gap-20 {
   gap: 20px;
 }
+
+label {
+  font-size: 0.9rem;
+}
 /* 
 *::-webkit-scrollbar {
   display: none;
@@ -175,7 +179,7 @@ input {
 
 .btn-back:hover,
 .btn-circle:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(90, 90, 90);
   transition: 0.2s ease-out 0s;
 }
 
@@ -196,7 +200,7 @@ input {
 }
 
 .btn-close:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(90, 90, 90);
   border: 1px solid transparent;
   transition: 0.2s ease-out 0s;
   color: #fff;
@@ -210,13 +214,13 @@ input {
 }
 
 .btn-secondary:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(90, 90, 90);
   border: 1px solid transparent;
   color: #fff;
 }
 
 .btn-secondary:focus {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(90, 90, 90);
   border: 1px solid transparent;
   color: #fff;
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
@@ -304,7 +308,7 @@ input {
   height: 1.6em;
   /* margin-bottom: 20px; */
   border-radius: 1em;
-  background: rgb(71, 71, 71);
+  background: rgb(90, 90, 90);
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -903,6 +907,10 @@ textarea {
   margin-top: 22px;
 }
 
+.side-nav .standard-stack {
+  gap: 2px;
+}
+
 .sidenav-hr {
   min-width: 0;
   white-space: nowrap;
@@ -946,7 +954,11 @@ textarea {
   }
 
   .sidenav-button p {
-    display: none;
+    display: none !important;
+  }
+
+  .new-notif svg {
+    color: #ffffff !important;
   }
 
   .side-nav h5,
@@ -1121,7 +1133,7 @@ textarea {
 }
 
 .header .right .settings:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(90, 90, 90);
   transition: 0.2s ease-out 0s;
 }
 
@@ -1440,7 +1452,7 @@ textarea {
   height: 10px;
   width: 10px;
   border-radius: 50%;
-  outline: 3px solid rgb(37, 37, 37);
+  outline: 2px solid rgb(37, 37, 37);
   position: absolute;
   bottom: 0px;
   right: 0px;
@@ -1566,48 +1578,29 @@ textarea {
   margin: 10px 0;
 }
 
+.password-list .scroll-view div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 /* password grid css */
 .password-grid .contents {
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  height: 100%;
   /* margin: 10px 0; */
 }
 
-.password-grid .contents > * {
-  flex: 0 0 49%;
-}
-
-@media only screen and (max-width: 370px) {
-  .password-grid .contents {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-  }
-
-  .password-grid .contents > * {
-    flex: 0 0 100%;
-  }
-}
-
 .password-card {
-  padding: 15px;
+  padding: 10px;
   border-radius: 3px;
-  min-width: 0;
-  overflow: hidden;
-  background-color: rgb(61, 61, 61);
-}
-
-.password-card > * {
-  min-width: 0;
-  min-height: 0;
-  overflow: hidden;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.2s ease-out 0s;
 }
 
 .password-card .head {
@@ -1615,23 +1608,11 @@ textarea {
   justify-content: space-between;
 }
 
-.password-card-selected .name small,
-.password-card-selected {
-  color: #b970ff !important;
-}
-
 .password-card-selected,
 .password-card:hover {
-  background-color: rgb(71, 71, 71);
-}
-
-.password-card .label {
-  display: flex;
-  align-items: flex-end;
-}
-
-.password-card .name {
-  flex-grow: 1;
+  /* transform: scale(1.1); */
+  background-color: rgb(61, 61, 61);
+  transition: 0.2s ease-out 0s;
 }
 
 .password-card .name .siteName {
@@ -1678,6 +1659,12 @@ textarea {
   margin-bottom: 10px;
 }
 
+.password-card .name .siteName {
+  color: rgb(77, 154, 255);
+  font-weight: 600;
+  font-size: .9rem;
+}
+
 /* password item css */
 .list-view-btn {
   font-size: 1.3rem;
@@ -1714,7 +1701,7 @@ textarea {
 
 .password-item-selected,
 .password-item:hover {
-  background-color: rgb(255, 255, 255, 0.05);
+  background-color: rgb(45, 45, 45);
 }
 
 .password-item .name {
@@ -1795,7 +1782,7 @@ textarea {
 }
 
 .last-updated a:hover {
-  background-color: rgb(71, 71, 71);
+  background-color: rgb(90, 90, 90);
   transition: 0.2s ease-out 0s;
 }
 
@@ -1860,14 +1847,16 @@ textarea {
 
 .role-item {
   display: flex;
-  align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
+  transition: 0.2s ease-out 0s;
+  border-radius: 0 3px 3px 0;
 }
 
 .role-item:hover {
-  background-color: rgb(61, 61, 61);
+  background-color: rgb(45, 45, 45);
+  transition: 0.2s ease-out 0s;
 }
 
 .role-item .name {
@@ -1878,6 +1867,39 @@ textarea {
 .role-item .icon {
   color: rgb(255, 170, 42);
   /* opacity: 50%; */
+}
+
+.role-item .members-with-role {
+  display: flex;
+}
+
+.role-item span {
+  display: flex;
+  gap: 10px;
+}
+
+.role-item .members-with-role .member {
+  height: 35px;
+  width: 35px;
+  background-color: #1a1a1a;
+  outline: 2px solid rgb(34, 34, 34);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-right: -5px;
+  transition: 0.2s ease-out 0s;
+}
+
+.role-item .last-member {
+  background-color: #1a1a1a;
+}
+
+.role-item:hover .members-with-role .member {
+  outline: 2px solid rgb(45, 45, 45);
+  transition: 0.2s ease-out 0s;
 }
 
 .role-count {
@@ -1980,7 +2002,7 @@ textarea {
 .form-unfavorited {
   height: 30px;
   width: 30px;
-  color: rgb(71, 71, 71);
+  color: rgb(90, 90, 90);
   transition: 0.2s ease-out 0s;
 }
 
@@ -2212,7 +2234,7 @@ textarea {
 }
 
 .message:hover {
-  background-color: rgb(61, 61, 61);
+  background-color: rgb(45, 45, 45);
   transition: 0.2s ease-out 0s;
 }
 
@@ -2293,8 +2315,8 @@ textarea {
 
 .message .reply .pointer .line {
   background-color: transparent;
-  border-top: 3px solid rgb(71, 71, 71);
-  border-left: 3px solid rgb(71, 71, 71);
+  border-top: 3px solid rgb(90, 90, 90);
+  border-left: 3px solid rgb(90, 90, 90);
   border-radius: 5px 0 0 0;
   height: 50%;
   width: 50%;

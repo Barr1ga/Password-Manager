@@ -4,40 +4,10 @@ import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import AddButton from "../helpers/AddButton";
 import Role from "./Role";
+import { useSelector } from "react-redux";
 
 const VaultRoles = () => {
-  const [members, setMembers] = useState([
-    {
-      id: 1,
-      name: "horebBarriga",
-      email: "hor.barr1ga@gmail.com",
-      role: "vault owner",
-    },
-    {
-      id: 1,
-      name: "DainSiao",
-      email: "dainalou@gmail.com",
-      role: "vault owner",
-    },
-    {
-      id: 1,
-      name: "CJCaburnay",
-      email: "caburnaycj@gmail.com",
-      role: "employee",
-    },
-    { id: 1, name: "Bryll", email: "bryllandales@gmail.com", role: "family" },
-    {
-      id: 1,
-      name: "JemseyAmonsot",
-      email: "jemseyamonsot@gmail.com",
-      role: "family",
-    },
-  ]);
-
-  const roles = [...new Set(members.map((member) => member.role))];
-  const idx = roles.indexOf("vault owner");
-  //   swap index
-  [roles[0], roles[idx]] = [roles[idx], roles[0]];
+  const { roles } = useSelector((state) => state.roles);
 
   const {
     register,
@@ -90,10 +60,7 @@ const VaultRoles = () => {
           <span className="role-count padding-side">{roles.length} Items</span>
           <div className="form-group">
             {roles.map((role, idx) => {
-              const count = members.filter(
-                (member) => member.role === role
-              ).length;
-              return <Role key={idx} role={role} count={count}></Role>;
+              return <Role key={idx} role={role}></Role>;
             })}
           </div>
           <div className="form-group padding-side">

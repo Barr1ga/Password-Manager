@@ -20,7 +20,7 @@ const Message = ({ sameSender, message }) => {
               <div className="line"></div>
             </div>
             <div className="replied-message">
-              <div className="image">{sender.name.charAt(0)}</div>
+              <div className="image">{sender.username.charAt(0)}</div>
               <small>
                 <b>@horebb</b> This is a replied message
               </small>
@@ -30,13 +30,13 @@ const Message = ({ sameSender, message }) => {
         <div>
           {message.isReply && (
             <div className="user">
-              <div className="image">{sender.name.charAt(0)}</div>
+              <div className="image">{sender.username.charAt(0)}</div>
             </div>
           )}
 
           {!message.isReply && !sameSender && (
             <div className="user">
-              <div className="image">{sender.name.charAt(0)}</div>
+              <div className="image">{sender.username.charAt(0)}</div>
             </div>
           )}
 
@@ -48,7 +48,7 @@ const Message = ({ sameSender, message }) => {
             {!sameSender && (
               <div className="name">
                 <p>
-                  <b>{sender.name}</b>{" "}
+                  <b>{sender.username}</b>{" "}
                   <small>{formatToMonthDayYearDate(message.createdAt)}</small>
                 </p>
               </div>

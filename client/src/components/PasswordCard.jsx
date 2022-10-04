@@ -12,6 +12,10 @@ const PasswordCard = ({ route, password }) => {
     dispatch(selectPasswordItem(password.id));
   };
 
+  const handleLinkClicked = () => {
+    window.open(password.domain, "_blank");
+  };
+
   return (
     <Link
       to={`${route}/${password.id}`}
@@ -26,13 +30,20 @@ const PasswordCard = ({ route, password }) => {
         {password.image !== "" ? (
           <img src={password.image} alt={password.name} className="icon"></img>
         ) : (
-          <div className="empty-icon">
-            {password.name.charAt(0)}
-          </div>
+          <div className="empty-icon">{password.name.charAt(0)}</div>
         )}
-        <HiOutlineChevronRight className="three-dots"></HiOutlineChevronRight>
       </div>
-      <div className="label">
+      <span className="name">
+        <a
+          className={password.trash ? "trashed btn-link" : "siteName btn-link"}
+          href={password.domain}
+          onClick={handleLinkClicked}
+          target="_blank"
+        >
+          {password.name}
+        </a>{" "}
+      </span>
+      {/* <div className="label">
         <div className="name standard-stack">
           <span>
             <a
@@ -49,7 +60,7 @@ const PasswordCard = ({ route, password }) => {
           </span>
           <small>{password.userName}</small>
         </div>
-      </div>
+      </div> */}
     </Link>
   );
 };

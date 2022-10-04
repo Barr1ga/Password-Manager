@@ -35,8 +35,8 @@ const SideNav = () => {
   const route = useLocation().pathname;
 
   const notifications = {
-    allItems: false,
-    favorites: false,
+    allItems: true,
+    favorites: true,
     trash: false,
     sharingCenter: false,
   };
@@ -70,10 +70,12 @@ const SideNav = () => {
               <Link
                 to="/"
                 className={
-                  notifications.allItems
-                    ? "sidenav-button new-notif"
+                  notifications.allItems && route === "/"
+                    ? "sidenav-button new-notif selected"
                     : route === "/"
                     ? "sidenav-button selected"
+                    : notifications.allItems
+                    ? "sidenav-button new-notif"
                     : "sidenav-button"
                 }
               >
@@ -93,10 +95,12 @@ const SideNav = () => {
             <Link
               to="/Favorites"
               className={
-                notifications.favorites
-                  ? "sidenav-button new-notif"
+                notifications.favorites && route === "/Favorites"
+                  ? "sidenav-button new-notif selected"
                   : route === "/Favorites"
                   ? "sidenav-button selected"
+                  : notifications.favorites
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
@@ -105,15 +109,22 @@ const SideNav = () => {
               ) : (
                 <HiOutlineStar></HiOutlineStar>
               )}
-              <p>Favorites {notifications.favorites && <span className="notif-ball"></span>}</p>
+              <p>
+                Favorites{" "}
+                {notifications.favorites && (
+                  <span className="notif-ball"></span>
+                )}
+              </p>
             </Link>
             <Link
               to="/Trash"
               className={
-                notifications.trash
-                  ? "sidenav-button new-notif"
+                notifications.trash && route === "/Trash"
+                  ? "sidenav-button new-notif selected"
                   : route === "/Trash"
                   ? "sidenav-button selected"
+                  : notifications.trash
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
@@ -122,15 +133,20 @@ const SideNav = () => {
               ) : (
                 <HiOutlineTrash></HiOutlineTrash>
               )}
-              <p>Trash {notifications.trash && <span className="notif-ball"></span>}</p>
+              <p>
+                Trash{" "}
+                {notifications.trash && <span className="notif-ball"></span>}
+              </p>
             </Link>
             <Link
               to="/SharingCenter"
               className={
-                notifications.sharingCenter
-                  ? "sidenav-button new-notif"
+                notifications.sharingCenter && route === "/SharingCenter"
+                  ? "sidenav-button new-notif selected"
                   : route === "/SharingCenter"
                   ? "sidenav-button selected"
+                  : notifications.sharingCenter
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
@@ -140,7 +156,10 @@ const SideNav = () => {
                 <HiOutlineUsers></HiOutlineUsers>
               )}
               <p>
-                Sharing Center {notifications.sharingCenter && <span className="notif-ball"></span>}
+                Sharing Center{" "}
+                {notifications.sharingCenter && (
+                  <span className="notif-ball"></span>
+                )}
               </p>
             </Link>
           </div>
