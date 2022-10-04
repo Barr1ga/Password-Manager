@@ -39,7 +39,7 @@ const MyAccount = () => {
             />
             {errorsAccount.name && (
               <small className="error-message">
-                ⚠ {errorsAccount.name.message}
+                {errorsAccount.name.message}
                 <br></br>
               </small>
             )}
@@ -68,7 +68,7 @@ const MyAccount = () => {
             />
             {errorsAccount.masterPasswordHint && (
               <small className="error-message">
-                ⚠ {errorsAccount.masterPasswordHint.message}
+                {errorsAccount.masterPasswordHint.message}
               </small>
             )}
           </div>

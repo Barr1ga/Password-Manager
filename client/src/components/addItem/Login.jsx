@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
@@ -6,21 +6,28 @@ import {
   HiOutlineEyeOff,
   HiOutlineRefresh,
   HiPlus,
-  HiOutlineX,
+  HiOutlinePencil,
 } from "react-icons/hi";
-import { RiArrowDownSLine } from "react-icons/ri";
-import ConfirmModal from "../helpers/ConfirmModal";
+import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
-import { HiStar, HiOutlineStar } from "react-icons/hi";
+import { HiStar } from "react-icons/hi";
+import { createPasswordItem } from "../../features/slice/passwordSlice";
+import { updatePasswordItem, getBrandDetails }  from "../../features/slice/passwordSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator, defaultValues }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
+  
+  
+  const dispatch = useDispatch()
+
+  const {selectedPassword} = useSelector((state) => state.passwords);
 
   const {
     register,
@@ -31,18 +38,26 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    defaultValues: defaultValues,
   });
+
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues]);
 
   const watchPassword = watch("password");
 
+
   const onSubmit = (data) => {
-    console.log(data);
+    if(method === "update"){
+      if (selectedPassword){
+        dispatch(updatePasswordItem({id: selectedPassword, data}))
+        dispatch(getBrandDetails({brand: data.name, id: selectedPassword}))
+      }
+      return;
+    }
+    dispatch(createPasswordItem(data))
   };
 
   const handleOnBlurFolder = () => {
@@ -68,7 +83,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item<span className="error-message">*</span>
               </label>
               <input
                 type="text"
@@ -84,7 +99,31 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.name.message}
+                  <br></br>
+                </small>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>
+                Domain / Link <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("domain", {
+                  required: {
+                    value: true,
+                    message: "Domain is required",
+                  },
+                })}
+                className={
+                  errors.domain ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.domain && (
+                <small className="error-message">
+                  {errors.domain.message}
                   <br></br>
                 </small>
               )}
@@ -108,13 +147,13 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               />
               {errors.userName && (
                 <small className="error-message">
-                  ⚠ {errors.userName.message}
+                  {errors.userName.message}
                   <br></br>
                 </small>
               )}
               <small>
                 Username can be your email or username depending on the login
-                requirements of the website.
+                requirements of the item.
               </small>
             </div>
 
@@ -147,6 +186,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                       onClick={() => setShowPasswordInput(true)}
                     ></HiOutlineEyeOff>
                   )}
+
                   <HiOutlineRefresh
                     className="generate-password"
                     onClick={() => setShowPasswordGenerator(true)}
@@ -155,7 +195,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               </span>
               {errors.password && (
                 <small className="error-message">
-                  ⚠ {errors.password.message}
+                  {errors.password.message}
                   <br></br>
                 </small>
               )}
@@ -169,38 +209,42 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   readOnly
                   {...register("folder")}
                   ref={folderRef}
-                  className={
-                    errors.userName
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
+                  className="form-control"
                   onFocus={() => setShowFolder(true)}
                   onBlur={handleOnBlurFolder}
                 />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                {showFolder ? (
+                  <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                ) : (
+                  <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                )}
               </div>
               {showFolder && (
                 <div className="select-options folder-options">
-                  {folders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        folderRef.current.value = folder;
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {folder}
-                    </div>
-                  ))}
+                  {folders.length === 0 && (
+                    <div className="option disabled">No folders found</div>
+                  )}
+                  {folders.length !== 0 &&
+                    folders.map((folder, idx) => (
+                      <div
+                        key={idx}
+                        className="option padding-side "
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                        onClick={() => {
+                          folderRef.current.value = folder;
+                          setShowFolder(false);
+                          setHovering(false);
+                        }}
+                      >
+                        {folder}
+                      </div>
+                    ))}
                 </div>
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}
@@ -227,9 +271,15 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               </div>
             </div>
 
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}

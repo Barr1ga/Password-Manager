@@ -13,9 +13,8 @@ import MyAccount from "./pages/MyAccount";
 import Members from "./pages/Members";
 import Roles from "./pages/Roles";
 import LoginRegistration from "./pages/LoginRegistration";
-import CurrentPasswordItemPage from "./pages/CurrentPasswordItemPage";
+import CurrentPasswordItemPage from "./pages/CurrentPasswordItem";
 import AuditLog from "./pages/AuditLog";
-
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import OtherLinks from "./components/OtherLinks";
@@ -26,14 +25,15 @@ import VaultMembers from "./components/VaultMembers";
 import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrandDetails } from "./features/slice/brandSlice";
+import { getBrandDetails } from "./features/slice/passwordSlice";
 import { auth } from "./features/firebase/firebase";
 import Footer from "./components/Footer";
-import { setUser } from "./features/slice/authSlice";
+import { createUser, setUser } from "./features/slice/authSlice";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
-  const { authUser } = useSelector((state) => state.auth);
+  const { authUser, username, masterPasswordHint, authRegistered } =
+    useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
@@ -44,9 +44,9 @@ const App = () => {
 
   useEffect(() => {
     passwords.forEach((password) => {
-      dispatch(getBrandDetails(password.name));
+      dispatch(getBrandDetails({ brand: password.name, id: password.id }));
     });
-  }, [passwords]);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -55,6 +55,13 @@ const App = () => {
 
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    if (authRegistered && authUser && username && masterPasswordHint) {
+      const uid = authUser.uid;
+      dispatch(createUser({ uid, username, masterPasswordHint }));
+    }
+  }, [authRegistered]);
 
   return (
     <BrowserRouter>
@@ -67,9 +74,9 @@ const App = () => {
             </div>
             <div className="center-margin">
               <Routes>
-                <Route path="/All" element={<AllItems></AllItems>}></Route>
+                <Route path="/" element={<AllItems></AllItems>}></Route>
                 <Route
-                  path="/All/:id"
+                  path="/:id"
                   element={
                     <ResponsiveDisplay
                       nonMobile={<AllItems />}
@@ -100,12 +107,24 @@ const App = () => {
                     ></ResponsiveDisplay>
                   }
                 ></Route>
-                <Route path="/Logins" element={<Logins></Logins>}></Route>
-                <Route
-                  path="/Logins/:id"
+                {/* <Route
+                  path="/SharingCenter"
                   element={
                     <ResponsiveDisplay
-                      nonMobile={<Logins />}
+                      nonMobile={<SharingCenter />}
+                      mobile={<CurrentPasswordItemPage />}
+                    ></ResponsiveDisplay>
+                  }
+                ></Route> */}
+                <Route
+                  path="/SharingCenter"
+                  element={<SharingCenter></SharingCenter>}
+                ></Route>
+                <Route
+                  path="/SharingCenter/:id"
+                  element={
+                    <ResponsiveDisplay
+                      nonMobile={<SharingCenter />}
                       mobile={<CurrentPasswordItemPage />}
                     ></ResponsiveDisplay>
                   }
@@ -201,23 +220,25 @@ const App = () => {
                 ></Route>
               </Routes>
             </div>
-            <div className="right-margin standard-stack gap-10">
-              {selectedPassword && (
-                <>
-                  <CurrentPasswordItem></CurrentPasswordItem>
-                  <hr></hr>
-                </>
-              )}
+            <div className="right-margin">
+              <div className="scroll-view standard-stack gap-10">
+                {selectedPassword && (
+                  <>
+                    <CurrentPasswordItem></CurrentPasswordItem>
+                    <hr></hr>
+                  </>
+                )}
 
-              <SiteWarning></SiteWarning>
+                <SiteWarning></SiteWarning>
 
-              <div className="right-vault-members">
-                <VaultMembers></VaultMembers>
+                <div className="right-vault-members">
+                  <VaultMembers></VaultMembers>
+                </div>
               </div>
-              <OtherLinks></OtherLinks>
+              {/* <OtherLinks></OtherLinks> */}
             </div>
           </div>
-          <Footer></Footer>
+          {/* <Footer></Footer> */}
         </>
       ) : (
         <>

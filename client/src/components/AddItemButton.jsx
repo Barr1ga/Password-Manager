@@ -29,7 +29,10 @@ const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Logins");
-  const [showTypeOptions, setShowTypeOptions] = useState(true);
+  const [showTypeOptions, setShowTypeOptions] = useState(false);
+
+  const method = "add";
+
   const handleBack = () => {
     setShowPasswordGenerator(false);
   };
@@ -43,7 +46,6 @@ const AddItemModal = () => {
     setShowTypeOptions(false);
   };
 
-  console.log(selectedType);
   return (
     <>
       <div onClick={() => setModalShow(true)}>
@@ -68,7 +70,7 @@ const AddItemModal = () => {
                   onClick={handleBack}
                 ></HiOutlineArrowLeft>
               )}
-              <h4>Create Password</h4>
+              <h4>Add Item</h4>
             </div>
             <ConfirmModal
               proceedInteraction={
@@ -98,6 +100,7 @@ const AddItemModal = () => {
 
             {showTypeOptions ? (
               <div className="types standard-stack gap-10">
+                <small>Select the type of this item.</small>
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
@@ -161,20 +164,21 @@ const AddItemModal = () => {
 
           {selectedType === "Logins" && (
             <Login
+              method={method}
               showPasswordGenerator={showPasswordGenerator}
               setShowPasswordGenerator={setShowPasswordGenerator}
             ></Login>
           )}
 
-          {selectedType === "Cards" && <Card></Card>}
+          {selectedType === "Cards" && <Card method={method} ></Card>}
 
           {selectedType === "Identifications" && (
-            <Identification></Identification>
+            <Identification method={method} ></Identification>
           )}
 
-          {selectedType === "Secure Notes" && <SecureNote></SecureNote>}
+          {selectedType === "Secure Notes" && <SecureNote method={method} ></SecureNote>}
 
-          {selectedType === "Wifi Passwords" && <WifiPassword></WifiPassword>}
+          {selectedType === "Wifi Passwords" && <WifiPassword method={method} ></WifiPassword>}
         </Modal.Body>
       </Modal>
     </>

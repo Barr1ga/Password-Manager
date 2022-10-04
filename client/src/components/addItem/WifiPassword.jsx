@@ -7,20 +7,28 @@ import {
   HiOutlineRefresh,
   HiPlus,
   HiOutlineX,
+  HiOutlinePencil,
 } from "react-icons/hi";
-import { RiArrowDownSLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import { createWifiPasswordItem } from "../../features/slice/passwordSlice";
+import { updateWifiPasswordItem, getBrandDetails } from "../../features/slice/passwordSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
+
+  const dispatch = useDispatch()
+
+  const {selectedPassword} = useSelector((state) => state.passwords);
 
   const {
     register,
@@ -31,17 +39,23 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    
   });
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    console.log(data);
+    data.folder = folderRef.current.value;
+    
+    if(method === "update"){
+      if (selectedPassword){
+        dispatch(updateWifiPasswordItem({id:selectedPassword, data}))
+        dispatch(getBrandDetails({brand: data.name, id: selectedPassword}))
+      }
+      return;
+    }
+    dispatch(createWifiPasswordItem(data))
     console.log(data);
   };
 
@@ -68,23 +82,23 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                SSID<span className="error-message">*</span>
               </label>
               <input
                 type="text"
-                {...register("name", {
+                {...register("ssid", {
                   required: {
                     value: true,
-                    message: "Name is required",
+                    message: "SSID is required",
                   },
                 })}
                 className={
-                  errors.name ? "form-control form-error" : "form-control "
+                  errors.ssid ? "form-control form-error" : "form-control "
                 }
               />
-              {errors.name && (
+              {errors.ssid && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.ssid.message}
                   <br></br>
                 </small>
               )}
@@ -127,7 +141,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               </span>
               {errors.password && (
                 <small className="error-message">
-                  ⚠ {errors.password.message}
+                  {errors.password.message}
                   <br></br>
                 </small>
               )}
@@ -149,7 +163,11 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   onFocus={() => setShowFolder(true)}
                   onBlur={handleOnBlurFolder}
                 />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                {showFolder ? (
+                  <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                ) : (
+                  <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                )}
               </div>
               {showFolder && (
                 <div className="select-options folder-options">
@@ -172,7 +190,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}
@@ -199,9 +217,15 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               </div>
             </div>
 
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}

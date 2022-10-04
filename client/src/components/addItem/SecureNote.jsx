@@ -7,20 +7,28 @@ import {
   HiOutlineRefresh,
   HiPlus,
   HiOutlineX,
+  HiOutlinePencil,
 } from "react-icons/hi";
 import { RiArrowDownSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import { createSecureNoteItem } from "../../features/slice/passwordSlice";
+import { updateSecureNoteItem, getBrandDetails } from "../../features/slice/passwordSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
+const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
+
+  const dispatch = useDispatch()
+  
+  const {selectedPassword} = useSelector((state) => state.passwords);
 
   const {
     register,
@@ -33,15 +41,25 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     mode: "all",
     defaultValues: {
       name: "",
-      userName: "",
-      password: "",
       folder: "",
     },
   });
 
+   
+
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    console.log(data);
+    data.folder = folderRef.current.value;
+    if(method === "update"){
+      if (selectedPassword) {
+        dispatch(updateSecureNoteItem({id:selectedPassword, data}))
+        dispatch(getBrandDetails({brand: data.name, id: selectedPassword}))
+      }
+      return;
+    }
+    dispatch(createSecureNoteItem(data))
     console.log(data);
   };
 
@@ -68,7 +86,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item<span className="error-message">*</span>
               </label>
               <input
                 type="text"
@@ -84,78 +102,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
-                  <br></br>
-                </small>
-              )}
-            </div>
-
-            <div className="form-group">
-              <label>
-                Username <span className="error-message">*</span>
-              </label>
-              <input
-                type="text"
-                {...register("userName", {
-                  required: {
-                    value: true,
-                    message: "Username is required",
-                  },
-                })}
-                className={
-                  errors.userName ? "form-control form-error" : "form-control "
-                }
-              />
-              {errors.userName && (
-                <small className="error-message">
-                  ⚠ {errors.userName.message}
-                  <br></br>
-                </small>
-              )}
-              <small>
-                Username can be your email or username depending on the login
-                requirements of the website.
-              </small>
-            </div>
-
-            <div className="form-group">
-              <label>
-                Password <span className="error-message">*</span>
-              </label>
-              <span className="password-input">
-                <input
-                  type={showPasswordInput ? "text" : "password"}
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "Password is required",
-                    },
-                  })}
-                  className={
-                    errors.password
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                <div className="interactions">
-                  {showPasswordInput ? (
-                    <HiOutlineEye
-                      onClick={() => setShowPasswordInput(false)}
-                    ></HiOutlineEye>
-                  ) : (
-                    <HiOutlineEyeOff
-                      onClick={() => setShowPasswordInput(true)}
-                    ></HiOutlineEyeOff>
-                  )}
-                  <HiOutlineRefresh
-                    className="generate-password"
-                    onClick={() => setShowPasswordGenerator(true)}
-                  ></HiOutlineRefresh>
-                </div>
-              </span>
-              {errors.password && (
-                <small className="error-message">
-                  ⚠ {errors.password.message}
+                  {errors.name.message}
                   <br></br>
                 </small>
               )}
@@ -200,7 +147,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}
@@ -227,9 +174,15 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               </div>
             </div>
 
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}

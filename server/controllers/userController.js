@@ -1,8 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { db, admin } = require("../util/admin");
 const User = db.collection("Users");
-const { getAuth, createUserWithEmailAndPassword } = require("firebase/auth");
-const { getAuth: getAdminAuth } = require("firebase-admin/auth");
 
 const getAllUser = asyncHandler(async (req, res) => {
   const user = await User.get();
@@ -14,36 +12,18 @@ const getAllUser = asyncHandler(async (req, res) => {
   });
 });
 
-const registerUser = asyncHandler(async (req, res) => {
-  const { email, masterPassword } = req.body;
-  //   console.log(req.body);
-  //   console.log("Register");
-  //   const user = await User.add(req.body);
+const createUser = asyncHandler(async (req, res) => {
+  const { uid, username, masterPasswordHint } = req.body;
+  console.log(req.body);
 
-  const auth = getAuth();
-  const credential = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    masterPassword,
-  );
+  const result = User.doc(uid).set({ username, masterPasswordHint });
 
-  const adminAuth = getAdminAuth();
-  const token = await adminAuth.createCustomToken(credential.user.uid);
-  await firestore.doc(`users/${credential.user.uid}`).set({ secureNote });
-  res.status(201).json({ token });
-
-//   res.status(200).json(user);
+  res.status(201).json(result);
 });
 
 const loginUser = asyncHandler(async (req, res) => {
   console.log("Login");
-
-  const objecttest = {
-    name: "horeb",
-    age: 2,
-  };
-
-  res.status(200).json(objecttest);
+  res.status(200).json();
 });
 
-module.exports = { getAllUser, registerUser, loginUser };
+module.exports = { getAllUser, createUser, loginUser };

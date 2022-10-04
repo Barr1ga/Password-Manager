@@ -13,49 +13,50 @@ const VaultSettings = () => {
     console.log("deleteAccount");
   };
 
-  const handleDeleteAccount = () => {
-  };
+  const handleDeleteAccount = () => {};
 
   return (
-    <div className="margin-content">
-      <div className="page-header-with-close padding-side">
-        <h4>Vault Settings</h4>
-        
-        <Link to="/">
-          <HiOutlineX className="btn-close"></HiOutlineX>
-        </Link>
-      </div>
-      <div className="vault-settings padding-side standard-stack gap-20">
-        <MyAccount></MyAccount>
-        <ChangeEmail></ChangeEmail>
-        <ChangePassword></ChangePassword>
+    <div className="scroll-view-long">
+      <div className="margin-content">
+        <div className="page-header page-header-with-close padding-side">
+          <h4>Vault Settings</h4>
 
-        <div className="form-group">
-          <h5 className="delete-account">Account Removal</h5>
+          <Link to="/">
+            <HiOutlineX className="btn-close"></HiOutlineX>
+          </Link>
+        </div>
+        <div className="vault-settings padding-side standard-stack gap-20">
+          <MyAccount></MyAccount>
+          <ChangeEmail></ChangeEmail>
+          <ChangePassword></ChangePassword>
+
           <div className="form-group">
-            <WarningAlert
-              message={
-                "Once you delete your account, there is no going back. Please be certain."
+            <h5 className="delete-account">Account Removal</h5>
+            <div className="form-group">
+              <WarningAlert
+                message={
+                  "Once you delete your account, there is no going back. Please be certain."
+                }
+              ></WarningAlert>
+            </div>
+            <ConfirmModal
+              handleProceed={handleDeleteAccount}
+              component={
+                <Button
+                  onClick={onDeleteAccount}
+                  type="button"
+                  className="btn-secondary danger"
+                >
+                  Delete Account
+                </Button>
               }
-            ></WarningAlert>
+              headerMessage={"Are you sure you want to delete this account?"}
+              bodyMessage={
+                "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
+              }
+              continueMessage={"Delete"}
+            ></ConfirmModal>
           </div>
-          <ConfirmModal
-            handleProceed={handleDeleteAccount}
-            component={
-              <Button
-                onClick={onDeleteAccount}
-                type="button"
-                className="btn-secondary danger"
-              >
-                Delete Account
-              </Button>
-            }
-            headerMessage={"Are you sure you want to delete this account?"}
-            bodyMessage={
-              "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
-            }
-            continueMessage={"Delete"}
-          ></ConfirmModal>
         </div>
       </div>
     </div>

@@ -17,12 +17,10 @@ const VaultMembers = () => {
   const idx = roles.indexOf("vaultOwner");
   //   swap index
   [roles[0], roles[idx]] = [roles[idx], roles[0]];
-  console.log(members);
-  console.log(roles);
 
   return (
     <div className="vault-members standard-stack gap-10">
-      <h5>Vault Members</h5>
+      <h5>Members</h5>
 
       {roles.map((role, idx) => {
         const filteredOnlineMembers = onlineMembers.filter(

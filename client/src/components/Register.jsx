@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RiShieldFlashFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
@@ -12,7 +12,13 @@ import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import MicrosoftIcon from "../assets/icons8-microsoft.svg";
-import { continueWithGoogle, registerWithEmailAndPassword } from "../features/slice/authSlice";
+import {
+  checkEmailExists,
+  continueWithGoogle,
+  registerWithEmailAndPassword,
+  resetAuthErrors,
+  setUserInformation,
+} from "../features/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "./SpinnerLoader";
 import Logo from "../assets/vaulteer_logo.svg";
@@ -26,9 +32,12 @@ const Register = ({ handleShowLogin }) => {
 
   const dispatch = useDispatch();
 
-  const { authEmailAndPasswordLoading, authGoogleLoading } = useSelector(
-    (state) => state.auth
-  );
+  const {
+    authEmailAndPasswordLoading,
+    authGoogleLoading,
+    authErrorMessage,
+    authErrorCode,
+  } = useSelector((state) => state.auth);
 
   const {
     register: registerEmail,
@@ -55,12 +64,11 @@ const Register = ({ handleShowLogin }) => {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
-
-    const { name, masterPassword } = data;
+    const { username, masterPassword, masterPasswordHint } = data;
     const registerData = { email, password: masterPassword };
 
     dispatch(registerWithEmailAndPassword(registerData));
+    dispatch(setUserInformation({ username, masterPasswordHint }));
   };
 
   const handleBack = () => {
@@ -70,6 +78,18 @@ const Register = ({ handleShowLogin }) => {
   const handleContinueWithGoogle = () => {
     dispatch(continueWithGoogle());
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetAuthErrors());
+    };
+  }, []);
+
+  useEffect(() => {
+    if (authErrorCode === "auth/email-already-in-use") {
+      setShowRegistrationForms(false);
+    }
+  }, [authErrorCode]);
 
   return (
     <>
@@ -125,14 +145,15 @@ const Register = ({ handleShowLogin }) => {
                           },
                         })}
                         className={
-                          errorsEmail.email
+                          errorsEmail.email ||
+                          authErrorCode === "auth/email-already-in-use"
                             ? "form-control form-error"
                             : "form-control "
                         }
                       />
                       {errorsEmail.email && (
                         <small className="error-message">
-                          ⚠ {errorsEmail.email.message}
+                          {errorsEmail.email.message}
                           <br></br>
                         </small>
                       )}
@@ -157,12 +178,23 @@ const Register = ({ handleShowLogin }) => {
                         </small>
                       </p>
                     </div>
+                    {authErrorMessage !== "" && (
+                      <div className="form-group">
+                        <small className="error-message">
+                          {authErrorMessage}
+                        </small>
+                      </div>
+                    )}
                     <div className="form-group">
                       <Button
                         type="submit"
                         className="btn-dark btn-with-icon btn-long"
                       >
-                        Continue
+                        {authEmailAndPasswordLoading ? (
+                          <SpinnerLoader></SpinnerLoader>
+                        ) : (
+                          <>Continue</>
+                        )}
                       </Button>
                     </div>
                   </form>
@@ -177,25 +209,25 @@ const Register = ({ handleShowLogin }) => {
 
                     <div className="form-group">
                       <label>
-                        Name <span className="error-message">*</span>
+                        Username <span className="error-message">*</span>
                       </label>
                       <input
                         type="text"
-                        {...register("name", {
+                        {...register("username", {
                           required: {
                             value: true,
                             message: "Name is required",
                           },
                         })}
                         className={
-                          errors.name
+                          errors.username
                             ? "form-control form-error"
                             : "form-control "
                         }
                       />
-                      {errors.name && (
+                      {errors.username && (
                         <small className="error-message">
-                          ⚠ {errors.name.message}
+                          {errors.username.message}
                           <br></br>
                         </small>
                       )}
@@ -241,7 +273,7 @@ const Register = ({ handleShowLogin }) => {
 
                       {errors.masterPassword && (
                         <small className="error-message">
-                          ⚠ {errors.masterPassword.message}
+                          {errors.masterPassword.message}
                           <br></br>
                         </small>
                       )}
@@ -293,7 +325,7 @@ const Register = ({ handleShowLogin }) => {
 
                         {errors.reTypeMasterPassword && (
                           <small className="error-message">
-                            ⚠ {errors.reTypeMasterPassword.message}
+                            {errors.reTypeMasterPassword.message}
                           </small>
                         )}
                       </div>

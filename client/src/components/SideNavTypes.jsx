@@ -15,26 +15,34 @@ import {
   HiUsers,
 } from "react-icons/hi";
 import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
+import AddItemButtonSm from "./AddItemButtonSm";
 
 const SideNavTypes = () => {
   const [showNavTypes, setShowNavTypes] = useState(true);
   const route = useLocation().pathname;
 
+  const notifications = {
+    logins: false,
+    cards: false,
+    identifications: false,
+    secureNotes: false,
+    wifiPasswords: false,
+  };
+
   return (
     <>
       <div className="standard-stack gap-10">
-        <span
-          className="category-folder-title"
-          onClick={() => setShowNavTypes((prev) => !prev)}
-        >
-          <p>types</p>
-          <span className="icon">
+        <span className="category-folder-title">
+          <p onClick={() => setShowNavTypes((prev) => !prev)}>
             {showNavTypes ? (
               <RiArrowDownSLine></RiArrowDownSLine>
             ) : (
               <RiArrowRightSLine></RiArrowRightSLine>
             )}
-          </span>
+            <p className="full">types</p>
+            <p className="short">t</p>
+          </p>
+          <AddItemButtonSm></AddItemButtonSm>
         </span>
 
         {showNavTypes && (
@@ -42,7 +50,9 @@ const SideNavTypes = () => {
             <Link
               to="/Login"
               className={
-                route === "/Login"
+                notifications.logins
+                  ? "sidenav-button new-notif"
+                  : route === "/Login"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -52,12 +62,16 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineGlobe></HiOutlineGlobe>
               )}
-              <p>Logins</p>
+              <p>Logins {notifications.logins && <span className="notif-ball"></span>}</p>
             </Link>
             <Link
               to="/Card"
               className={
-                route === "/Card" ? "sidenav-button selected" : "sidenav-button"
+                notifications.cards
+                  ? "sidenav-button new-notif"
+                  : route === "/Card"
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
               }
             >
               {route === "/Card" ? (
@@ -65,12 +79,14 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineCreditCard></HiOutlineCreditCard>
               )}
-              <p>Cards</p>
+              <p>Cards {notifications.cards && <span className="notif-ball"></span>}</p>
             </Link>
             <Link
               to="/Identity"
               className={
-                route === "/Identity"
+                notifications.identifications
+                  ? "sidenav-button new-notif"
+                  : route === "/Identity"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -80,12 +96,16 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineIdentification></HiOutlineIdentification>
               )}
-              <p>Identifications</p>
+              <p>
+                Identifications {notifications.identifications && <span className="notif-ball"></span>}
+              </p>
             </Link>
             <Link
               to="/SecureNote"
               className={
-                route === "/SecureNote"
+                notifications.secureNotes
+                  ? "sidenav-button new-notif"
+                  : route === "/SecureNote"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -95,12 +115,14 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineDocumentText></HiOutlineDocumentText>
               )}
-              <p>Secure Notes</p>
+              <p>Secure Notes {notifications.secureNotes && <span className="notif-ball"></span>}</p>
             </Link>
             <Link
               to="/WifiPasswords"
               className={
-                route === "/WifiPasswords"
+                notifications.wifiPasswords
+                  ? "sidenav-button new-notif"
+                  : route === "/WifiPasswords"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -110,22 +132,9 @@ const SideNavTypes = () => {
               ) : (
                 <HiOutlineWifi></HiOutlineWifi>
               )}
-              <p>Wifi Passwords</p>
-            </Link>
-            <Link
-              to="/SharingCenter"
-              className={
-                route === "/SharingCenter"
-                  ? "sidenav-button selected"
-                  : "sidenav-button"
-              }
-            >
-              {route === "/SharingCenter" ? (
-                <HiUsers></HiUsers>
-              ) : (
-                <HiOutlineUsers></HiOutlineUsers>
-              )}
-              <p>Sharing Center</p>
+              <p>
+                Wifi Passwords {notifications.wifiPasswords && <span className="notif-ball"></span>}
+              </p>
             </Link>
           </div>
         )}

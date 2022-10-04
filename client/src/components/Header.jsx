@@ -16,7 +16,7 @@ const Header = () => {
     <>
       <div className="header">
         <div className="margin">
-          <Link to="/All">
+          <Link to="/">
             <div className="logo gap-10">
               <img src={Logo} className="icon"></img>
               <h3>
@@ -26,33 +26,38 @@ const Header = () => {
           </Link>
           <div className="nav gap-20">
             <small>
-              <Link to="/All" className="item btn-link">
+              <Link to="/" className="item btn-link">
                 About
               </Link>
             </small>
             <small>
-              <Link to="/All" className="item btn-link">
+              <Link to="/" className="item btn-link">
                 Safety
               </Link>
             </small>
             <small>
-              <Link to="/All" className="item btn-link">
+              <Link to="/" className="item btn-link">
                 Privacy
               </Link>
             </small>
             <small>
-              <Link to="/All" className="item btn-link">
+              <Link to="/" className="item btn-link">
                 Terms
               </Link>
             </small>
             <small>
-              <Link to="/All" className="item btn-link">
+              <Link to="/" className="item btn-link">
                 Contact
               </Link>
             </small>
           </div>
           <div className="right gap-10">
-            <Link to="/MyAccount" className={route === "/MyAccount" ? "settings selected" : "settings"}>
+            <Link
+              to="/MyAccount"
+              className={
+                route === "/MyAccount" ? "btn-circle selected" : "btn-circle"
+              }
+            >
               {route === "/MyAccount" ? (
                 <RiSettings2Fill></RiSettings2Fill>
               ) : (

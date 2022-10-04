@@ -12,8 +12,6 @@ const VaultRoles = ({ role, members }) => {
     count = members.filter((member) => member.role === role).length;
   }
 
-  console.log(members);
-
   return (
     <>
       <span

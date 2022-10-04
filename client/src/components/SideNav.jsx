@@ -5,6 +5,8 @@ import {
   HiViewGrid,
   HiOutlineStar,
   HiStar,
+  HiUsers,
+  HiOutlineUsers,
   HiOutlineTrash,
   HiTrash,
   HiOutlineUser,
@@ -32,8 +34,15 @@ const SideNav = () => {
   const dispatch = useDispatch();
   const route = useLocation().pathname;
 
+  const notifications = {
+    allItems: false,
+    favorites: false,
+    trash: false,
+    sharingCenter: false,
+  };
+
   const handleLogout = () => {
-    console.log("logouit")
+    console.log("logouit");
     dispatch(logOut());
   };
 
@@ -57,23 +66,36 @@ const SideNav = () => {
             ></input>
           </form>
           <div className="standard-stack">
-            <Link
-              to="/All"
-              className={
-                route === "/All" ? "sidenav-button selected" : "sidenav-button"
-              }
-            >
-              {route === "/All" ? (
-                <HiViewGrid></HiViewGrid>
-              ) : (
-                <HiOutlineViewGrid></HiOutlineViewGrid>
-              )}
-              <p>All Items</p>
-            </Link>
+            {
+              <Link
+                to="/"
+                className={
+                  notifications.allItems
+                    ? "sidenav-button new-notif"
+                    : route === "/"
+                    ? "sidenav-button selected"
+                    : "sidenav-button"
+                }
+              >
+                {route === "/" ? (
+                  <HiViewGrid></HiViewGrid>
+                ) : (
+                  <HiOutlineViewGrid></HiOutlineViewGrid>
+                )}
+                <p>
+                  All Items{" "}
+                  {notifications.allItems && (
+                    <span className="notif-ball"></span>
+                  )}
+                </p>
+              </Link>
+            }
             <Link
               to="/Favorites"
               className={
-                route === "/Favorites"
+                notifications.favorites
+                  ? "sidenav-button new-notif"
+                  : route === "/Favorites"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -83,12 +105,14 @@ const SideNav = () => {
               ) : (
                 <HiOutlineStar></HiOutlineStar>
               )}
-              <p>Favorites</p>
+              <p>Favorites {notifications.favorites && <span className="notif-ball"></span>}</p>
             </Link>
             <Link
               to="/Trash"
               className={
-                route === "/Trash"
+                notifications.trash
+                  ? "sidenav-button new-notif"
+                  : route === "/Trash"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -98,7 +122,26 @@ const SideNav = () => {
               ) : (
                 <HiOutlineTrash></HiOutlineTrash>
               )}
-              <p>Trash</p>
+              <p>Trash {notifications.trash && <span className="notif-ball"></span>}</p>
+            </Link>
+            <Link
+              to="/SharingCenter"
+              className={
+                notifications.sharingCenter
+                  ? "sidenav-button new-notif"
+                  : route === "/SharingCenter"
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
+              }
+            >
+              {route === "/SharingCenter" ? (
+                <HiUsers></HiUsers>
+              ) : (
+                <HiOutlineUsers></HiOutlineUsers>
+              )}
+              <p>
+                Sharing Center {notifications.sharingCenter && <span className="notif-ball"></span>}
+              </p>
             </Link>
           </div>
           <div className="standard-stack">
@@ -138,7 +181,9 @@ const SideNav = () => {
             <Link
               to="/MyAccount"
               className={
-                route === "/MyAccount"
+                true
+                  ? "sidenav-button new-notif"
+                  : route === "/MyAccount"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -148,12 +193,14 @@ const SideNav = () => {
               ) : (
                 <HiOutlineUser></HiOutlineUser>
               )}
-              <p>My Account</p>
+              <p>My Account {true && <span className="notif-ball"></span>}</p>
             </Link>
             <Link
               to="/Members"
               className={
-                route === "/Members"
+                true
+                  ? "sidenav-button new-notif"
+                  : route === "/Members"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -163,13 +210,15 @@ const SideNav = () => {
               ) : (
                 <HiOutlineUserGroup></HiOutlineUserGroup>
               )}
-              <p>Members</p>
+              <p>Members {true && <span className="notif-ball"></span>}</p>
             </Link>
 
             <Link
               to="/Roles"
               className={
-                route === "/Roles"
+                true
+                  ? "sidenav-button new-notif"
+                  : route === "/Roles"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -179,13 +228,15 @@ const SideNav = () => {
               ) : (
                 <HiOutlineShieldCheck></HiOutlineShieldCheck>
               )}
-              <p>Roles</p>
+              <p>Roles {true && <span className="notif-ball"></span>}</p>
             </Link>
 
             <Link
               to="/AuditLog"
               className={
-                route === "/AuditLog"
+                true
+                  ? "sidenav-button new-notif"
+                  : route === "/AuditLog"
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
@@ -195,7 +246,7 @@ const SideNav = () => {
               ) : (
                 <HiOutlineClipboardList></HiOutlineClipboardList>
               )}
-              <p>Audit Log</p>
+              <p>Audit Log {true && <span className="notif-ball"></span>}</p>
             </Link>
           </div>
           <div>
@@ -214,7 +265,10 @@ const SideNav = () => {
               }
               component={
                 <div className="sidenav-button">
-                  <HiOutlineLockClosed></HiOutlineLockClosed> <p>Change Vault</p>
+                  <HiOutlineLockClosed></HiOutlineLockClosed>{" "}
+                  <p>
+                    Change Vault {true && <span className="notif-ball"></span>}
+                  </p>
                 </div>
               }
               headerMessage={"Change Vault"}
@@ -232,7 +286,8 @@ const SideNav = () => {
               }
               component={
                 <div className="sidenav-button">
-                  <HiOutlineLogout></HiOutlineLogout> <p>Log Out</p>
+                  <HiOutlineLogout></HiOutlineLogout>{" "}
+                  <p>Log Out {true && <span className="notif-ball"></span>}</p>
                 </div>
               }
               headerMessage={"Log out"}

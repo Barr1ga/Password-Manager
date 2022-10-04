@@ -75,7 +75,7 @@ const VaultRoles = () => {
             />
             {errors.name && (
               <small className="error-message">
-                ⚠ {errors.name.message}
+                {errors.name.message}
                 <br></br>
               </small>
             )}

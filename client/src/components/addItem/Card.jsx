@@ -4,29 +4,68 @@ import { useForm } from "react-hook-form";
 import {
   HiOutlineEye,
   HiOutlineEyeOff,
-  HiOutlineRefresh,
   HiPlus,
   HiOutlineX,
+  HiOutlinePencil,
 } from "react-icons/hi";
-import { RiArrowDownSLine } from "react-icons/ri";
+import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
+import Select from "react-select";
+import { createCardItem, getBrandDetails, updatePasswordItem } from "../../features/slice/passwordSlice";
+import { updateCardItem } from "../../features/slice/passwordSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
+const AddItemModal = ({
+  method,
+  showPasswordGenerator,
+  setShowPasswordGenerator,
+  defaultValues,
+}) => {
+  const [showNumberInput, setShowNumberInput] = useState(false);
+  const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [showBrand, setShowBrand] = useState(false);
   const [showMonth, setShowMonth] = useState(false);
+  const [brandError, setBrandError] = useState(false);
+  const [monthError, setMonthError] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
-  const [brands, setBrands] = useState(["Visa", "MasterCard", "AmericanExpress", "Discover", "JCB"]);
-  const [months, setMonths] = useState(["01 - January", "02 - February", "03 - March"]);
+  const [folders, setFolders] = useState([]);
+  const [brands, setBrands] = useState([
+    "Visa",
+    "Master Card",
+    "American Express",
+    "Discover",
+    "JCB",
+    "Maestry",
+    "UnionPay",
+    "RuPay",
+    "Other",
+  ]);
+  const [months, setMonths] = useState([
+    "01 - January",
+    "02 - February",
+    "03 - March",
+    "04 - April",
+    "05 - May",
+    "06 - June",
+    "07 - July",
+    "08 - August",
+    "09 - September",
+    "10 - October",
+    "11 - November",
+    "12 - December",
+  ]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
   const brandRef = useRef();
   const monthRef = useRef();
+
+  const dispatch = useDispatch();
+
+  const {selectedPassword} = useSelector((state) => state.passwords);
 
   const {
     register,
@@ -37,23 +76,50 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    defaultValues: defaultValues,
   });
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
+    if (method === "update") {
+      if (selectedPassword) {
+        dispatch(updatePasswordItem({id: selectedPassword, data}));
+        dispatch(getBrandDetails({brand: data.name, id: selectedPassword}))
+      }  
+      return;     
+    }
+    dispatch(createCardItem(data));
     console.log(data);
   };
 
   const handleOnBlurFolder = () => {
     if (!hovering) {
       setShowFolder(false);
+    }
+  };
+
+  const handleOnBlurBrand = () => {
+    if (brandRef.current.value === "") {
+      setBrandError(true);
+    } else {
+      setBrandError(false);
+    }
+
+    if (!hovering) {
+      setShowBrand(false);
+    }
+  };
+
+  const handleOnBlurMonth = () => {
+    if (monthRef.current.value === "") {
+      setMonthError(true);
+    } else {
+      setMonthError(false);
+    }
+
+    if (!hovering) {
+      setShowMonth(false);
     }
   };
 
@@ -66,7 +132,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
   const handleFavorite = () => {
     setFavorite((prev) => !prev);
   };
-
+  console.log(method);
   return (
     <>
       {!showPasswordGenerator && (
@@ -74,7 +140,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <label>
-                Name <span className="error-message">*</span>
+                Name of the Item<span className="error-message">*</span>
               </label>
               <input
                 type="text"
@@ -90,7 +156,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.name.message}
                   <br></br>
                 </small>
               )}
@@ -109,12 +175,14 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   },
                 })}
                 className={
-                  errors.cardHolder ? "form-control form-error" : "form-control "
+                  errors.cardHolder
+                    ? "form-control form-error"
+                    : "form-control "
                 }
               />
               {errors.cardHolder && (
                 <small className="error-message">
-                  ⚠ {errors.cardHolder.message}
+                  {errors.cardHolder.message}
                   <br></br>
                 </small>
               )}
@@ -129,16 +197,18 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   {...register("brand")}
                   ref={brandRef}
                   className={
-                    errors.userName
-                      ? "form-control form-error"
-                      : "form-control "
+                    brandError ? "form-control form-error" : "form-control "
                   }
-                  onFocus={() => setShowFolder(true)}
-                  onBlur={handleOnBlurFolder}
+                  onFocus={() => setShowBrand(true)}
+                  onBlur={handleOnBlurBrand}
                 />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                {showBrand ? (
+                  <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                ) : (
+                  <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                )}
               </div>
-              {showFolder && (
+              {showBrand && (
                 <div className="select-options folder-options">
                   {brands.map((brand, idx) => (
                     <div
@@ -148,7 +218,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                       onMouseLeave={() => setHovering(false)}
                       onClick={() => {
                         brandRef.current.value = brand;
-                        setShowFolder(false);
+                        setShowBrand(false);
                         setHovering(false);
                       }}
                     >
@@ -157,14 +227,13 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   ))}
                 </div>
               )}
-              {errors.brand && (
+              {brandError && (
                 <small className="error-message">
-                  ⚠ {errors.brand.message}
+                  Brand is required
                   <br></br>
                 </small>
               )}
             </div>
-
 
             <div className="form-group">
               <label>
@@ -172,7 +241,7 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
               </label>
               <span className="password-input">
                 <input
-                  type={showPasswordInput ? "text" : "password"}
+                  type={showNumberInput ? "text" : "password"}
                   {...register("number", {
                     required: {
                       value: true,
@@ -180,108 +249,110 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                     },
                   })}
                   className={
-                    errors.number
-                      ? "form-control form-error"
-                      : "form-control "
+                    errors.number ? "form-control form-error" : "form-control "
                   }
                 />
                 <div className="interactions">
-                  {showPasswordInput ? (
+                  {showNumberInput ? (
                     <HiOutlineEye
-                      onClick={() => setShowPasswordInput(false)}
+                      onClick={() => setShowNumberInput(false)}
                     ></HiOutlineEye>
                   ) : (
                     <HiOutlineEyeOff
-                      onClick={() => setShowPasswordInput(true)}
+                      onClick={() => setShowNumberInput(true)}
                     ></HiOutlineEyeOff>
                   )}
                 </div>
               </span>
               {errors.number && (
                 <small className="error-message">
-                  ⚠ {errors.number.message}
+                  {errors.number.message}
                   <br></br>
                 </small>
               )}
             </div>
 
-            <div className="form-group form-select-group">
-              <label>Expiration Month</label>
-              <div className="input">
+            <div className="form-group-horizontal">
+              <div className="form-group form-select-group">
+                <label>Expiration Month</label>
+                <div className="input">
+                  <input
+                    type="text"
+                    readOnly
+                    {...register("expirationMonth")}
+                    ref={monthRef}
+                    className={
+                      monthError ? "form-control form-error" : "form-control "
+                    }
+                    onFocus={() => setShowMonth(true)}
+                    onBlur={handleOnBlurMonth}
+                  />
+                  {showMonth ? (
+                    <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                  ) : (
+                    <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                  )}
+                </div>
+                {showMonth && (
+                  <div className="select-options folder-options">
+                    {months.map((month, idx) => (
+                      <div
+                        key={idx}
+                        className="option padding-side "
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                        onClick={() => {
+                          monthRef.current.value = month;
+                          setShowMonth(false);
+                          setHovering(false);
+                        }}
+                      >
+                        {month}
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {monthError && (
+                  <small className="error-message">
+                    Expiration Month is required
+                    <br></br>
+                  </small>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label>
+                  Expiration Year <span className="error-message">*</span>
+                </label>
                 <input
                   type="text"
-                  readOnly
-                  {...register("folder")}
-                  ref={monthRef}
+                  {...register("expirationYear", {
+                    required: {
+                      value: true,
+                      message: "Expiration Year is required",
+                    },
+                  })}
                   className={
-                    errors.userName
+                    errors.expirationYear
                       ? "form-control form-error"
                       : "form-control "
                   }
-                  onFocus={() => setShowFolder(true)}
-                  onBlur={handleOnBlurFolder}
                 />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                {errors.expirationYear && (
+                  <small className="error-message">
+                    {errors.expirationYear.message}
+                    <br></br>
+                  </small>
+                )}
               </div>
-              {showFolder && (
-                <div className="select-options folder-options">
-                  {months.map((month, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        brandRef.current.value = month;
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {month}
-                    </div>
-                  ))}
-                </div>
-              )}
-              {errors.months && (
-                <small className="error-message">
-                  ⚠ {errors.months.message}
-                  <br></br>
-                </small>
-              )}
             </div>
-
-            <div className="form-group">
-              <label>
-                Expiration Year <span className="error-message">*</span>
-              </label>
-              <input
-                type="text"
-                {...register("expirationYear", {
-                  required: {
-                    value: true,
-                    message: "Expiration Year is required",
-                  },
-                })}
-                className={
-                  errors.expirationYear ? "form-control form-error" : "form-control "
-                }
-              />
-              {errors.expirationYear && (
-                <small className="error-message">
-                  ⚠ {errors.expirationYear.message}
-                  <br></br>
-                </small>
-              )}
-            </div>
-
-
             <div className="form-group">
               <label>
                 Security Code (CVV) <span className="error-message">*</span>
               </label>
               <span className="password-input">
                 <input
-                  type={showPasswordInput ? "text" : "password"}
+                  type={showCodeInput ? "text" : "password"}
                   {...register("number", {
                     required: {
                       value: true,
@@ -289,26 +360,24 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                     },
                   })}
                   className={
-                    errors.number
-                      ? "form-control form-error"
-                      : "form-control "
+                    errors.number ? "form-control form-error" : "form-control "
                   }
                 />
                 <div className="interactions">
-                  {showPasswordInput ? (
+                  {showCodeInput ? (
                     <HiOutlineEye
-                      onClick={() => setShowPasswordInput(false)}
+                      onClick={() => setShowCodeInput(false)}
                     ></HiOutlineEye>
                   ) : (
                     <HiOutlineEyeOff
-                      onClick={() => setShowPasswordInput(true)}
+                      onClick={() => setShowCodeInput(true)}
                     ></HiOutlineEyeOff>
                   )}
                 </div>
               </span>
               {errors.number && (
                 <small className="error-message">
-                  ⚠ {errors.number.message}
+                  {errors.number.message}
                   <br></br>
                 </small>
               )}
@@ -322,38 +391,42 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                   readOnly
                   {...register("folder")}
                   ref={folderRef}
-                  className={
-                    errors.userName
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
+                  className="form-control"
                   onFocus={() => setShowFolder(true)}
                   onBlur={handleOnBlurFolder}
                 />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                {showFolder ? (
+                  <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                ) : (
+                  <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                )}
               </div>
               {showFolder && (
                 <div className="select-options folder-options">
-                  {folders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        folderRef.current.value = folder;
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {folder}
-                    </div>
-                  ))}
+                  {folders.length === 0 && (
+                    <div className="option disabled">No folders found</div>
+                  )}
+                  {folders.length !== 0 &&
+                    folders.map((folder, idx) => (
+                      <div
+                        key={idx}
+                        className="option padding-side "
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                        onClick={() => {
+                          folderRef.current.value = folder;
+                          setShowFolder(false);
+                          setHovering(false);
+                        }}
+                      >
+                        {folder}
+                      </div>
+                    ))}
                 </div>
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}
@@ -379,10 +452,15 @@ const AddItemModal = ({ showPasswordGenerator, setShowPasswordGenerator }) => {
                 )}
               </div>
             </div>
-
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            {method === "update" ? (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+            ) : (
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            )}
           </form>
         </>
       )}

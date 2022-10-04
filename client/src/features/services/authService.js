@@ -1,4 +1,5 @@
 import {
+  fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -9,10 +10,18 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
+import axios from "axios";
+
+const API_URL = "/api/auth";
 
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
   return signInWithEmailAndPassword(auth, email, password);
+};
+
+const createUser = async (data) => {
+  const response = await axios.post(API_URL + "/createUser", data);
+  return response.data;
 };
 
 const registerWithEmailAndPassword = async (data) => {
@@ -22,11 +31,11 @@ const registerWithEmailAndPassword = async (data) => {
 
 const sendVerification = async () => {
   return sendEmailVerification(auth.currentUser);
-}
+};
 
 const changeEmail = async (data) => {
   return updateEmail(auth.currentUser, data);
-}
+};
 
 const changePassword = async (data) => {
   const { currentMasterPassword, newMasterPassword, retypeMasterPassword, masterPasswordHint } = data;
@@ -46,6 +55,7 @@ const logOut = async () => {
 
 const userService = {
   logInWithEmailAndPassword,
+  createUser,
   registerWithEmailAndPassword,
   sendVerification,
   changeEmail,

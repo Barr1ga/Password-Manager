@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 const CurrentPasswordItemPage = () => {
   const { id } = useParams();
 
-  console.log(id);
   const { passwords, selectedPassword } = useSelector(
     (state) => state.passwords
   );
