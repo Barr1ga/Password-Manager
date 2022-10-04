@@ -1,10 +1,13 @@
 import React from "react";
 import { HiShieldCheck, HiPlusSm } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { HiPlus } from "react-icons/hi";
 
 const Role = ({ role, count }) => {
   const { members } = useSelector((state) => state.members);
-  const filteredMembers = members.filter((member) => member.role === role).slice(0, 5);
+  const filteredMembers = members
+    .filter((member) => member.role === role)
+    .slice(0, 5);
   const remainingCount = 10;
   console.log(role);
   console.log(filteredMembers);
@@ -27,7 +30,7 @@ const Role = ({ role, count }) => {
             <div className="member last-member">+{remainingCount}</div>
           </div>
           <div className="btn-circle">
-            <HiPlusSm></HiPlusSm>
+            <HiPlus></HiPlus>
           </div>
         </span>
       </div>

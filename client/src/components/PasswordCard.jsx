@@ -43,24 +43,6 @@ const PasswordCard = ({ route, password }) => {
           {password.name}
         </a>{" "}
       </span>
-      {/* <div className="label">
-        <div className="name standard-stack">
-          <span>
-            <a
-              className={
-                password.trash ? "trashed btn-link" : "siteName btn-link"
-              }
-              href={password.domain}
-              target="_blank"
-            >
-              {password.name}
-            </a>{" "}
-            <HiLink className="link-icon"></HiLink>
-            {password.favorite && <HiStar className="favorited"></HiStar>}
-          </span>
-          <small>{password.userName}</small>
-        </div>
-      </div> */}
     </Link>
   );
 };
