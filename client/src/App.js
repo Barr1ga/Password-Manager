@@ -57,8 +57,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (authRegistered && username && masterPasswordHint) {
-      dispatch(createUser({ username, masterPasswordHint }));
+    if (authRegistered && authUser && username && masterPasswordHint) {
+      const uid = authUser.uid;
+      dispatch(createUser({ uid, username, masterPasswordHint }));
     }
   }, [authRegistered]);
 

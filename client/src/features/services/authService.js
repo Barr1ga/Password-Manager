@@ -10,7 +10,7 @@ import {
 import { auth } from "../firebase/firebase";
 import axios from "axios";
 
-const API_URL = "/api/auth/";
+const API_URL = "/api/auth";
 
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
@@ -18,7 +18,7 @@ const logInWithEmailAndPassword = async (data) => {
 };
 
 const createUser = async (data) => {
-  const response = await axios.post(API_URL + "createUser", data);
+  const response = await axios.post(API_URL + "/createUser", data);
   return response.data;
 };
 

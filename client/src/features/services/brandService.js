@@ -14,7 +14,6 @@ const getBrandDetails = async (brand, id) => {
     config
   );
 
-  console.log(response.data)
   const returnData = {
     data: response.data,
     id,
