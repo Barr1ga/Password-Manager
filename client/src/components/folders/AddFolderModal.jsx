@@ -90,7 +90,7 @@ const AddItemModal = () => {
               />
               {errors.folderName && (
                 <small className="error-message">
-                  ⚠ {errors.folderName.message}
+                  {errors.folderName.message}
                   <br></br>
                 </small>
               )}

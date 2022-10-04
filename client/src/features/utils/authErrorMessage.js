@@ -11,6 +11,10 @@ const authErrorMessage = (errorCode) => {
     return "The password you entered is incorrect. Please try again.";
   }
 
+  if (errorCode === "auth/email-already-in-use") {
+    return "The email address is already in use by another account. Please try again.";
+  }
+
   return "";
 };
 

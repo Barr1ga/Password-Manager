@@ -96,7 +96,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.name.message}
                   <br></br>
                 </small>
               )}
@@ -141,7 +141,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}

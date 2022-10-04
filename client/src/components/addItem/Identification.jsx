@@ -109,7 +109,7 @@ const AddItemModal = ({
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.name.message}
                   <br></br>
                 </small>
               )}
@@ -152,7 +152,7 @@ const AddItemModal = ({
               </span>
               {errors.password && (
                 <small className="error-message">
-                  ⚠ {errors.password.message}
+                  {errors.password.message}
                   <br></br>
                 </small>
               )}
@@ -200,7 +200,7 @@ const AddItemModal = ({
               )}
               {titleError && (
                 <small className="error-message">
-                  ⚠ Title is required
+                  Title is required
                   <br></br>
                 </small>
               )}
@@ -224,7 +224,7 @@ const AddItemModal = ({
               />
               {errors.firstName && (
                 <small className="error-message">
-                  ⚠ {errors.firstName.message}
+                  {errors.firstName.message}
                   <br></br>
                 </small>
               )}
@@ -250,7 +250,7 @@ const AddItemModal = ({
               />
               {errors.middleName && (
                 <small className="error-message">
-                  ⚠ {errors.middleName.message}
+                  {errors.middleName.message}
                   <br></br>
                 </small>
               )}
@@ -274,7 +274,7 @@ const AddItemModal = ({
               />
               {errors.lastName && (
                 <small className="error-message">
-                  ⚠ {errors.lastName.message}
+                  {errors.lastName.message}
                   <br></br>
                 </small>
               )}
@@ -301,7 +301,7 @@ const AddItemModal = ({
                 />
                 {errors.userName && (
                   <small className="error-message">
-                    ⚠ {errors.userName.message}
+                    {errors.userName.message}
                     <br></br>
                   </small>
                 )}
@@ -325,7 +325,7 @@ const AddItemModal = ({
                 />
                 {errors.company && (
                   <small className="error-message">
-                    ⚠ {errors.company.message}
+                    {errors.company.message}
                     <br></br>
                   </small>
                 )}
@@ -352,7 +352,7 @@ const AddItemModal = ({
               />
               {errors.socialSecurityNumber && (
                 <small className="error-message">
-                  ⚠ {errors.socialSecurityNumber.message}
+                  {errors.socialSecurityNumber.message}
                   <br></br>
                 </small>
               )}
@@ -378,7 +378,7 @@ const AddItemModal = ({
               />
               {errors.passportNumber && (
                 <small className="error-message">
-                  ⚠ {errors.passportNumber.message}
+                  {errors.passportNumber.message}
                   <br></br>
                 </small>
               )}
@@ -404,7 +404,7 @@ const AddItemModal = ({
               />
               {errors.licenseNumber && (
                 <small className="error-message">
-                  ⚠ {errors.licenseNumber.message}
+                  {errors.licenseNumber.message}
                   <br></br>
                 </small>
               )}
@@ -429,7 +429,7 @@ const AddItemModal = ({
                 />
                 {errors.email && (
                   <small className="error-message">
-                    ⚠ {errors.email.message}
+                    {errors.email.message}
                     <br></br>
                   </small>
                 )}
@@ -453,7 +453,7 @@ const AddItemModal = ({
                 />
                 {errors.phone && (
                   <small className="error-message">
-                    ⚠ {errors.phone.message}
+                    {errors.phone.message}
                     <br></br>
                   </small>
                 )}
@@ -481,7 +481,7 @@ const AddItemModal = ({
                 />
                 {errors.address1 && (
                   <small className="error-message">
-                    ⚠ {errors.address1.message}
+                    {errors.address1.message}
                     <br></br>
                   </small>
                 )}
@@ -507,7 +507,7 @@ const AddItemModal = ({
                 />
                 {errors.address2 && (
                   <small className="error-message">
-                    ⚠ {errors.address2.message}
+                    {errors.address2.message}
                     <br></br>
                   </small>
                 )}
@@ -535,7 +535,7 @@ const AddItemModal = ({
                 />
                 {errors.address3 && (
                   <small className="error-message">
-                    ⚠ {errors.address3.message}
+                    {errors.address3.message}
                     <br></br>
                   </small>
                 )}
@@ -561,7 +561,7 @@ const AddItemModal = ({
                 />
                 {errors.cityOrTown && (
                   <small className="error-message">
-                    ⚠ {errors.cityOrTown.message}
+                    {errors.cityOrTown.message}
                     <br></br>
                   </small>
                 )}
@@ -586,7 +586,7 @@ const AddItemModal = ({
               />
               {errors.country && (
                 <small className="error-message">
-                  ⚠ {errors.country.message}
+                  {errors.country.message}
                   <br></br>
                 </small>
               )}
@@ -635,7 +635,7 @@ const AddItemModal = ({
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}

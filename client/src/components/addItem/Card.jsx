@@ -150,7 +150,7 @@ const AddItemModal = ({
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.name.message}
                   <br></br>
                 </small>
               )}
@@ -176,7 +176,7 @@ const AddItemModal = ({
               />
               {errors.cardHolder && (
                 <small className="error-message">
-                  ⚠ {errors.cardHolder.message}
+                  {errors.cardHolder.message}
                   <br></br>
                 </small>
               )}
@@ -223,7 +223,7 @@ const AddItemModal = ({
               )}
               {brandError && (
                 <small className="error-message">
-                  ⚠ Brand is required
+                  Brand is required
                   <br></br>
                 </small>
               )}
@@ -260,7 +260,7 @@ const AddItemModal = ({
               </span>
               {errors.number && (
                 <small className="error-message">
-                  ⚠ {errors.number.message}
+                  {errors.number.message}
                   <br></br>
                 </small>
               )}
@@ -308,7 +308,7 @@ const AddItemModal = ({
                 )}
                 {monthError && (
                   <small className="error-message">
-                    ⚠ Expiration Month is required
+                    Expiration Month is required
                     <br></br>
                   </small>
                 )}
@@ -334,7 +334,7 @@ const AddItemModal = ({
                 />
                 {errors.expirationYear && (
                   <small className="error-message">
-                    ⚠ {errors.expirationYear.message}
+                    {errors.expirationYear.message}
                     <br></br>
                   </small>
                 )}
@@ -371,7 +371,7 @@ const AddItemModal = ({
               </span>
               {errors.number && (
                 <small className="error-message">
-                  ⚠ {errors.number.message}
+                  {errors.number.message}
                   <br></br>
                 </small>
               )}
@@ -420,7 +420,7 @@ const AddItemModal = ({
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}

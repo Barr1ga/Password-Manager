@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   continueWithGoogle,
   logInWithEmailAndPassword,
+  resetAuthErrors,
   setUser,
 } from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
@@ -61,6 +62,11 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     dispatch(continueWithGoogle());
   };
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetAuthErrors());
+    };
+  }, []);
 
   return (
     <>
@@ -114,7 +120,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   />
                   {errors.email && (
                     <small className="error-message">
-                      ⚠ {errors.email.message}
+                      {errors.email.message}
                       <br></br>
                     </small>
                   )}
@@ -157,7 +163,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   </span>
                   {errors.masterPassword && (
                     <small className="error-message">
-                      ⚠ {errors.masterPassword.message}
+                      {errors.masterPassword.message}
                       <br></br>
                     </small>
                   )}

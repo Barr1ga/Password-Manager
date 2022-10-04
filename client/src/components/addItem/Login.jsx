@@ -91,7 +91,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
               />
               {errors.name && (
                 <small className="error-message">
-                  ⚠ {errors.name.message}
+                  {errors.name.message}
                   <br></br>
                 </small>
               )}
@@ -115,7 +115,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
               />
               {errors.domain && (
                 <small className="error-message">
-                  ⚠ {errors.domain.message}
+                  {errors.domain.message}
                   <br></br>
                 </small>
               )}
@@ -139,7 +139,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
               />
               {errors.userName && (
                 <small className="error-message">
-                  ⚠ {errors.userName.message}
+                  {errors.userName.message}
                   <br></br>
                 </small>
               )}
@@ -187,7 +187,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
               </span>
               {errors.password && (
                 <small className="error-message">
-                  ⚠ {errors.password.message}
+                  {errors.password.message}
                   <br></br>
                 </small>
               )}
@@ -236,7 +236,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}

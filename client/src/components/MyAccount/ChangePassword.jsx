@@ -41,7 +41,7 @@ const ChangePassword = () => {
             />
             {errorsMaster.currentMasterPassword && (
               <small className="error-message">
-                ⚠ {errorsMaster.currentMasterPassword.message}
+                {errorsMaster.currentMasterPassword.message}
                 <br></br>
               </small>
             )}
@@ -73,7 +73,7 @@ const ChangePassword = () => {
             />
             {errorsMaster.currentMasterPassword && (
               <small className="error-message">
-                ⚠ {errorsMaster.currentMasterPassword.message}
+                {errorsMaster.currentMasterPassword.message}
               </small>
             )}
           </div>
@@ -99,7 +99,7 @@ const ChangePassword = () => {
               />
               {errorsMaster.reTypeMasterPassword && (
                 <small className="error-message">
-                  ⚠ {errorsMaster.reTypeMasterPassword.message}
+                  {errorsMaster.reTypeMasterPassword.message}
                 </small>
               )}
             </div>
@@ -119,7 +119,7 @@ const ChangePassword = () => {
               {errorsMaster.masterPasswordHint && (
                 <>
                   <small className="error-message">
-                    ⚠ {errorsMaster.masterPasswordHint.message}
+                    {errorsMaster.masterPasswordHint.message}
                   </small>
                   <br></br>
                 </>

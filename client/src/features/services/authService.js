@@ -1,4 +1,5 @@
 import {
+  fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,

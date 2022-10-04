@@ -88,7 +88,7 @@ const ChangeEmail = () => {
                 />
                 {errorsEmail.email && (
                   <small className="error-message">
-                    ⚠ {errorsEmail.email.message}
+                    {errorsEmail.email.message}
                   </small>
                 )}
               </div>
@@ -112,7 +112,7 @@ const ChangeEmail = () => {
                 />
                 {errorsEmail.masterPassword && (
                   <small className="error-message">
-                    ⚠ {errorsEmail.masterPassword.message}
+                    {errorsEmail.masterPassword.message}
                   </small>
                 )}
               </div>

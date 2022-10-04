@@ -91,7 +91,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
               />
               {errors.ssid && (
                 <small className="error-message">
-                  ⚠ {errors.ssid.message}
+                  {errors.ssid.message}
                   <br></br>
                 </small>
               )}
@@ -134,7 +134,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
               </span>
               {errors.password && (
                 <small className="error-message">
-                  ⚠ {errors.password.message}
+                  {errors.password.message}
                   <br></br>
                 </small>
               )}
@@ -183,7 +183,7 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator 
               )}
               {errors.folder && (
                 <small className="error-message">
-                  ⚠ {errors.folder.message}
+                  {errors.folder.message}
                   <br></br>
                 </small>
               )}

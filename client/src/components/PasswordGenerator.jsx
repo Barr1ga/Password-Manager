@@ -252,7 +252,7 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
         <div className="form-group">
           {generateEmptyCriteria && (
             <small className="error-message">
-              ⚠ Password criterias are required
+              Password criterias are required
             </small>
           )}
 
@@ -260,7 +260,7 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
 
           {generatedEmpty && (
             <small className="error-message">
-              ⚠ You have not yet generated a password
+              You have not yet generated a password
             </small>
           )}
         </div>

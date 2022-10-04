@@ -20,6 +20,17 @@ const initialState = {
   authErrorCode: "",
 };
 
+export const checkEmailExists = createAsyncThunk(
+  "auth/checkEmailExists",
+  async (data, ThunkAPI) => {
+    try {
+      await authService.checkEmailExists(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const logInWithEmailAndPassword = createAsyncThunk(
   "auth/logInWithEmailAndPassword",
   async (data, ThunkAPI) => {
@@ -107,6 +118,12 @@ const userSlice = createSlice({
       state.authUser = action.payload;
     },
     resetUser: (state) => initialState,
+    resetAuthErrors: (state) => {
+      state.authError = false;
+      state.authMessage = "";
+      state.authErrorMessage = "";
+      state.authErrorCode = "";
+    },
     setUserInformation: (state, action) => {
       state.username = action.payload.username;
       state.masterPasswordHint = action.payload.masterPasswordHint;
@@ -175,7 +192,6 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
       })
 
       .addCase(sendVerification.pending, (state) => {
@@ -254,10 +270,10 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
       });
   },
 });
 
-export const { setUser, resetUser, setUserInformation } = userSlice.actions;
+export const { setUser, resetUser, resetAuthErrors, setUserInformation } =
+  userSlice.actions;
 export default userSlice.reducer;
