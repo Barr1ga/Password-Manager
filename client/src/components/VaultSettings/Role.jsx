@@ -5,12 +5,15 @@ import { HiPlus } from "react-icons/hi";
 
 const Role = ({ role, count }) => {
   const { members } = useSelector((state) => state.members);
-  const filteredMembers = members
-    .filter((member) => member.role === role)
-    .slice(0, 5);
-  const remainingCount = 10;
-  console.log(role);
-  console.log(filteredMembers);
+
+  let filteredMembers = members.filter((member) => member.role === role);
+
+  let length = filteredMembers.length;
+
+  filteredMembers = filteredMembers.slice(0, 5);
+
+  const remainingCount = length - filteredMembers.length;
+
   return (
     <div className="role-item gap-10 padding-side">
       <HiShieldCheck className="icon"></HiShieldCheck>
@@ -27,7 +30,9 @@ const Role = ({ role, count }) => {
                 <img key={idx} src={member.image} className="member"></img>
               )
             )}
-            <div className="member last-member">+{remainingCount}</div>
+            {remainingCount > 0 && (
+              <div className="member last-member">+{remainingCount}</div>
+            )}
           </div>
           <div className="btn-circle">
             <HiPlus></HiPlus>

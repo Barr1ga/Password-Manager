@@ -73,7 +73,6 @@ const PasswordInformation = ({ currentPassword }) => {
     setShowTypeOptions(false);
   };
 
-  console.log(currentPassword);
   return (
     <>
       <div>
