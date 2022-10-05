@@ -6,10 +6,10 @@ import AddButton from "../../helpers/AddButton";
 import Role from "./Role";
 import { useSelector } from "react-redux";
 import AddRoleButton from "./AddRoleButton";
+import { HiOutlineSearch } from "react-icons/hi";
 
 const VaultRoles = () => {
   const { roles } = useSelector((state) => state.roles);
-
   const {
     register,
     handleSubmit,
@@ -34,15 +34,16 @@ const VaultRoles = () => {
         ></WarningAlert>
       </div>
       <div className="standard-stack">
-        <form className="search">
+        <form>
           <div className="form-group-horizontal padding-side">
-            <div className="form-group">
+            <div className="form-group form-search">
               <input
                 type="text"
                 {...register("search")}
                 placeholder="Search Role"
                 className="form-control"
               />
+              <HiOutlineSearch className="icon"></HiOutlineSearch>
             </div>
             <AddRoleButton></AddRoleButton>
           </div>

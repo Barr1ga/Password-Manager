@@ -667,6 +667,20 @@ label svg {
   background-color: #1a1a1a;
 }
 
+.form-search {
+  position: relative;
+}
+
+.form-search input {
+  padding-right: 38px;
+}
+
+.form-search .icon {
+  position: absolute;
+  right: 10px;
+  top: 9px;
+}
+
 .form-control {
   color: #fff;
   border: 1px solid transparent;

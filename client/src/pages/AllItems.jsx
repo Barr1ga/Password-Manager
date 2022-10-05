@@ -44,13 +44,16 @@ const AllItems = () => {
       >
         {!searchStatus && <h4>All Items</h4>}{" "}
         <div>
-          <div className="search">
+          <div className="form-search">
             {searchStatus && (
-              <input
-                placeholder="Search Items"
-                onClick={handleSearch}
-                className="form-control"
-              ></input>
+              <>
+                <input
+                  placeholder="Search Items"
+                  onClick={handleSearch}
+                  className="form-control"
+                ></input>
+                <HiOutlineSearch className="icon"></HiOutlineSearch>
+              </>
             )}
           </div>
           {searchStatus && (
