@@ -18,6 +18,33 @@ import { createCardItem } from "../../features/slice/passwordSlice";
 import { updateCardItem } from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
 
+const brands = [
+  "Visa",
+  "Master Card",
+  "American Express",
+  "Discover",
+  "JCB",
+  "Maestry",
+  "UnionPay",
+  "RuPay",
+  "Other",
+];
+
+const months = [
+  "01 - January",
+  "02 - February",
+  "03 - March",
+  "04 - April",
+  "05 - May",
+  "06 - June",
+  "07 - July",
+  "08 - August",
+  "09 - September",
+  "10 - October",
+  "11 - November",
+  "12 - December",
+];
+
 const AddItemModal = ({
   method,
   showPasswordGenerator,
@@ -33,32 +60,8 @@ const AddItemModal = ({
   const [monthError, setMonthError] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState([]);
-  const [brands, setBrands] = useState([
-    "Visa",
-    "Master Card",
-    "American Express",
-    "Discover",
-    "JCB",
-    "Maestry",
-    "UnionPay",
-    "RuPay",
-    "Other",
-  ]);
-  const [months, setMonths] = useState([
-    "01 - January",
-    "02 - February",
-    "03 - March",
-    "04 - April",
-    "05 - May",
-    "06 - June",
-    "07 - July",
-    "08 - August",
-    "09 - September",
-    "10 - October",
-    "11 - November",
-    "12 - December",
-  ]);
   const [favorite, setFavorite] = useState(false);
+
   const folderRef = useRef();
   const brandRef = useRef();
   const monthRef = useRef();
@@ -126,7 +129,7 @@ const AddItemModal = ({
   const handleFavorite = () => {
     setFavorite((prev) => !prev);
   };
-  console.log(method);
+
   return (
     <>
       {!showPasswordGenerator && (
@@ -446,15 +449,23 @@ const AddItemModal = ({
                 )}
               </div>
             </div>
-            {method === "update" ? (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiOutlinePencil></HiOutlinePencil>Update Item
-              </Button>
-            ) : (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiPlus></HiPlus>Add Item
-              </Button>
-            )}
+            <div className="form-group">
+              {method === "update" ? (
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <HiOutlinePencil></HiOutlinePencil>Update Item
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <HiPlus></HiPlus>Add Item
+                </Button>
+              )}
+            </div>
           </form>
         </>
       )}

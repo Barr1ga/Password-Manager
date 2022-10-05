@@ -15,7 +15,7 @@ const Roles = () => {
             <HiOutlineX className="btn-close"></HiOutlineX>
           </Link>
         </div>
-        <div className="vault-members standard-stack gap-20">
+        <div className="standard-stack gap-20">
           <VaultRoles></VaultRoles>
         </div>
       </div>

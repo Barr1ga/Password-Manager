@@ -4,7 +4,7 @@ import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import PasswordCard from "../components/PasswordCard";
 import { useDispatch, useSelector } from "react-redux";
-import { HiOutlineViewGrid, HiOutlineServer } from "react-icons/hi";
+import { HiOutlineViewGrid, HiOutlineServer, HiOutlineSearch } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import EmptyList from "../assets/empty-list.svg";
 
@@ -22,8 +22,14 @@ const Identity = () => {
   return (
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>All Items</h4>{" "}
+        <h4>Identifications</h4>{" "}
         <div>
+          <Button
+            onClick={() => setListView(true)}
+            className="btn-secondary list-view-btn"
+          >
+            <HiOutlineSearch></HiOutlineSearch>
+          </Button>
           <Button
             onClick={() => setListView(false)}
             className="btn-secondary list-view-btn"

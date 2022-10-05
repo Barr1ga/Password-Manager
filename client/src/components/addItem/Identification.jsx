@@ -661,16 +661,23 @@ const AddItemModal = ({
                 )}
               </div>
             </div>
-
-            {method === "update" ? (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiOutlinePencil></HiOutlinePencil>Update Item
-              </Button>
-            ) : (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiPlus></HiPlus>Add Item
-              </Button>
-            )}
+            <div className="form-group">
+              {method === "update" ? (
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <HiOutlinePencil></HiOutlinePencil>Update Item
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <HiPlus></HiPlus>Add Item
+                </Button>
+              )}
+            </div>
           </form>
         </>
       )}

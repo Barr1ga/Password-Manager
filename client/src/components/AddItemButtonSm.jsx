@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { HiPlusSm } from "react-icons/hi";
+import { HiPlus, HiPlusSm } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import {
   HiOutlineArrowLeft,
@@ -47,7 +47,7 @@ const AddItemModal = () => {
     <>
       <div onClick={() => setModalShow(true)}>
         <span className="icon">
-          <HiPlusSm></HiPlusSm>
+          <HiPlus></HiPlus>
         </span>
       </div>
       <Modal

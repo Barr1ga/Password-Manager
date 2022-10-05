@@ -25,10 +25,15 @@ const VaultSettings = () => {
             <HiOutlineX className="btn-close"></HiOutlineX>
           </Link>
         </div>
-        <div className="vault-settings padding-side standard-stack gap-20">
+        <div className="vault-settings padding-side standard-stack gap-10">
           <MyAccount></MyAccount>
+          <hr></hr>
+
           <ChangeEmail></ChangeEmail>
+          <hr></hr>
+
           <ChangePassword></ChangePassword>
+          <hr></hr>
 
           <div className="form-group">
             <h5 className="delete-account">Account Removal</h5>

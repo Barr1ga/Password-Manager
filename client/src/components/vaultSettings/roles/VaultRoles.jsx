@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import AddButton from "../../helpers/AddButton";
 import Role from "./Role";
 import { useSelector } from "react-redux";
+import AddRoleButton from "./AddRoleButton";
 
 const VaultRoles = () => {
   const { roles } = useSelector((state) => state.roles);
@@ -23,39 +24,37 @@ const VaultRoles = () => {
   });
 
   return (
-    <div className="standard-stack gap-10">
-      <form>
-        <div className="form-group padding-side">
-          <input
-            type="text"
-            {...register("search")}
-            placeholder="Search Role"
-            className={
-              errors.name ? "form-control form-error" : "form-control "
-            }
-          />
-          {errors.name && (
-            <small className="error-message">
-              {errors.name.message}
-              <br></br>
-            </small>
-          )}
-        </div>
-      </form>
-
-      <div className="roles-list-header padding-side">
-        <h5>All Roles</h5>
-        <AddButton message={"Create Role"}></AddButton>
+    <div className="standard-stack">
+      <h5 className="padding-side">All Roles</h5>
+      <div className="form-group padding-side">
+        <WarningAlert
+          message={
+            "Accidentally giving permissions to a role may cause unauthorized access to sensitive information."
+          }
+        ></WarningAlert>
       </div>
       <div className="standard-stack">
-        <span className="role-count padding-side">{roles.length} Items</span>
-        <div className="form-group">
-          {roles.map((role, idx) => {
-            return <Role key={idx} role={role.name}></Role>;
-          })}
-        </div>
-        <div className="form-group padding-side">
-          <AddButton message={"Create Role"}></AddButton>
+        <form className="search">
+          <div className="form-group-horizontal padding-side">
+            <div className="form-group">
+              <input
+                type="text"
+                {...register("search")}
+                placeholder="Search Role"
+                className="form-control"
+              />
+            </div>
+            <AddRoleButton></AddRoleButton>
+          </div>
+        </form>
+
+        <div className="standard-stack">
+          <span className="role-count padding-side">{roles.length} Items</span>
+          <div className="form-group">
+            {roles.map((role, idx) => {
+              return <Role key={idx} role={role}></Role>;
+            })}
+          </div>
         </div>
       </div>
     </div>

@@ -13,17 +13,22 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { createPasswordItem } from "../../features/slice/passwordSlice";
-import { updatePasswordItem }  from "../../features/slice/passwordSlice";
+import { updatePasswordItem } from "../../features/slice/passwordSlice";
 import { useDispatch } from "react-redux";
 
-const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator, defaultValues }) => {
+const AddItemModal = ({
+  method,
+  showPasswordGenerator,
+  setShowPasswordGenerator,
+  defaultValues,
+}) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
-  
+
   const {
     register,
     handleSubmit,
@@ -36,18 +41,18 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
     defaultValues: defaultValues,
   });
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    reset(defaultValues)
+    reset(defaultValues);
   }, [defaultValues]);
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
-    dispatch(createPasswordItem(data))
-    if(method === "update"){
-      dispatch(updatePasswordItem(data))
+    dispatch(createPasswordItem(data));
+    if (method === "update") {
+      dispatch(updatePasswordItem(data));
     }
     console.log(data);
   };
@@ -262,16 +267,23 @@ const AddItemModal = ({ method, showPasswordGenerator, setShowPasswordGenerator,
                 )}
               </div>
             </div>
-
-            {method === "update" ? (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiOutlinePencil></HiOutlinePencil>Update Item
-              </Button>
-            ) : (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiPlus></HiPlus>Add Item
-              </Button>
-            )}
+            <div className="form-group">
+              {method === "update" ? (
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <HiOutlinePencil></HiOutlinePencil>Update Item
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <HiPlus></HiPlus>Add Item
+                </Button>
+              )}
+            </div>
           </form>
         </>
       )}

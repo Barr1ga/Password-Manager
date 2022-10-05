@@ -226,12 +226,21 @@ label {
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
 }
 
+.btn-add-role {
+  height: 24px;
+  width: 24px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn-dark {
   display: flex;
   align-items: center;
   gap: 5px;
   background-color: #9e58e0;
-  border: 1px solid rgb(59, 30, 112);
+  border: 1px solid transparent;
   color: #fff;
   font-weight: 600;
 }
@@ -635,6 +644,7 @@ label {
 
 .form-group {
   margin-bottom: 15px;
+  flex: 1;
 }
 
 .form-group label {
@@ -663,6 +673,8 @@ label svg {
   background-color: #1a1a1a;
   border-radius: 3px;
   resize: none;
+  height: 38px;
+  width: 100%;
 }
 
 .form-number {
@@ -837,6 +849,35 @@ textarea {
 
 .registration-agree-note .btn-link {
   color: #b970ff;
+}
+
+/* search css */
+
+.search {
+  position: relative;
+}
+
+.search-show div:nth-child(1) {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+}
+
+.search .list-view-btn {
+  cursor: pointer;
+}
+
+.search .icon {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.search-hide,
+.search-hide > * {
+  opacity: 0 !important;
+  width: 0 !important;
 }
 
 /* sub body css */
@@ -1325,7 +1366,35 @@ textarea {
   color: #fff;
 }
 
-/* password css */
+/* tab css */
+.tab {
+  display: flex;
+  gap: 2px;
+  width: 100%;
+}
+
+.tab .pills {
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  height: 35px;
+  transition: 0.2s ease-out 0s;
+  cursor: pointer;
+}
+
+.tab .pills p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.tab .selected {
+  background-color: rgb(61, 61, 61);
+}
+
+.tab .selected p {
+  color: #b970ff;
+}
 
 /* site warning css */
 .site-warning {
@@ -1374,7 +1443,7 @@ textarea {
   padding: 15px 15px 0 15px;
 }
 
-.vault-members .role {
+.vault-members .role-title {
   text-transform: uppercase;
   font-size: 1rem;
   opacity: 50%;
@@ -1384,7 +1453,7 @@ textarea {
   transition: 0.2s ease-out 0s;
 }
 
-.vault-members .role:hover {
+.vault-members .role-title:hover {
   opacity: 100%;
   transition: 0.2s ease-out 0s;
 }
@@ -1404,20 +1473,16 @@ textarea {
   padding-top: 10px;
   padding-bottom: 10px;
   transition: 0.2s ease-out 0s;
+  margin-bottom: 2px;
 }
 
 .center-margin .vault-members .member {
+  cursor: default;
   align-items: flex-start;
 }
 
 .vault-members .member .vault-owner {
   color: #ffffff;
-}
-
-.vault-members .member:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  display: flex;
-  transition: 0.2s ease-out 0s;
 }
 
 .vault-members .member svg {
@@ -1432,7 +1497,7 @@ textarea {
 .vault-members .member .name .vault-owner-tag {
   background-color: #9e58e0;
   border-radius: 3px;
-  padding: 1px 5px;
+  padding: 1px 6px;
   font-size: 0.8rem;
   color: #fff;
   display: flex;
@@ -1506,6 +1571,24 @@ textarea {
   background: rgb(117, 117, 117);
 }
 
+.vault-members .member .roles {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.role-tag {
+  background-color: rgb(61, 61, 61);
+  border-radius: 3px;
+  padding: 0 6px;
+}
+
+.role-tag small {
+  font-size: 0.8rem;
+  color: #ffffff;
+  opacity: 1;
+}
+
 /* other links css */
 .other-links {
   display: flex;
@@ -1572,12 +1655,13 @@ textarea {
 .page-header-with-close div:nth-child(1),
 .page-header div:nth-child(1) {
   display: flex;
-  /* width: 100%; */
+  gap: 5px;
 }
 
 .page-header-with-close div:nth-child(2),
 .page-header div:nth-child(2) {
   display: flex;
+  align-items: center;
   gap: 5px;
 }
 
@@ -1599,13 +1683,16 @@ textarea {
 .password-list .count,
 .password-grid .count {
   margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.password-list .scroll-view div {
+/* .password-list .scroll-view div {
   display: flex;
   flex-direction: column;
   gap: 2px;
-}
+} */
 
 /* password grid css */
 .password-grid .contents {
@@ -1688,18 +1775,15 @@ textarea {
 .password-card .name .siteName {
   color: rgb(77, 154, 255);
   font-weight: 600;
-  font-size: .9rem;
+  font-size: 0.9rem;
 }
 
 /* password item css */
 .list-view-btn {
+  padding: 8px;
   font-size: 1.3rem;
   line-height: 0;
-  padding: 5px 8px;
-}
-
-.list-view-btn:nth-child(2) {
-  transform: scaleX(-1);
+  /* padding: 5px 8px; */
 }
 
 .password-item {
@@ -1712,6 +1796,8 @@ textarea {
   min-width: 0;
   min-height: 0;
   overflow: hidden;
+  margin-bottom: 2px;
+  transition: 0.2s ease-out 0s;
 }
 
 @media only screen and (max-width: 768px) {
@@ -1728,6 +1814,7 @@ textarea {
 .password-item-selected,
 .password-item:hover {
   background-color: rgb(45, 45, 45);
+  transition: 0.2s ease-out 0s;
 }
 
 .password-item .name {
@@ -1874,11 +1961,13 @@ textarea {
 .role-item {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
   transition: 0.2s ease-out 0s;
   border-radius: 0 3px 3px 0;
+  /* flex-wrap: wrap; */
 }
 
 .role-item:hover {
@@ -1890,18 +1979,36 @@ textarea {
   flex: 1;
 }
 
+.role-item .info {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+}
+
 .role-item .name {
   text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   flex-grow: 1;
 }
 
-.role-item .icon {
-  color: rgb(255, 170, 42);
-  /* opacity: 50%; */
+.role-item .name > div {
+  flex-grow: 1;
+}
+
+.role-item .name p {
+  width: 0;
+  min-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .role-item .members-with-role {
   display: flex;
+  justify-content: end;
 }
 
 .role-item span {
@@ -1963,7 +2070,7 @@ textarea {
 .form-group-horizontal {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 10px;
 }
 
@@ -1978,10 +2085,10 @@ textarea {
 .add-item-modal .options button {
   flex: 1;
 }
-
+/* 
 .add-item-modal form {
   padding-left: 1px;
-}
+} */
 
 .add-item-modal .item-type {
   margin-bottom: 15px;
@@ -2376,6 +2483,7 @@ textarea {
 
 .enter-message .form-group {
   margin-bottom: 0;
+  width: 100%;
 }
 
 .enter-message .send {
@@ -2442,4 +2550,3 @@ textarea {
   border-radius: 10px;
   background-color: rgb(45, 45, 45);
 }
-

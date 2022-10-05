@@ -229,11 +229,15 @@ const App = () => {
                   </>
                 )}
 
-                <SiteWarning></SiteWarning>
+                {!selectedPassword && (
+                  <>
+                    <SiteWarning></SiteWarning>
 
-                <div className="right-vault-members">
-                  <VaultMembers></VaultMembers>
-                </div>
+                    <div className="right-vault-members">
+                      <VaultMembers></VaultMembers>
+                    </div>
+                  </>
+                )}
               </div>
               {/* <OtherLinks></OtherLinks> */}
             </div>

@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import AddItemButton from "../components/AddItemButton";
 import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import PasswordCard from "../components/PasswordCard";
 import { useDispatch, useSelector } from "react-redux";
-import { HiOutlineViewGrid, HiOutlineServer } from "react-icons/hi";
+import {
+  HiOutlineViewGrid,
+  HiOutlineServer,
+  HiOutlineSearch,
+  HiOutlineArrowLeft,
+  HiOutlineX,
+} from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import EmptyList from "../assets/empty-list.svg";
 
@@ -13,6 +19,9 @@ const AllItems = () => {
   const [listView, setListView] = useState(true);
   const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
+  const [searchStatus, setSearchStatus] = useState(false);
+
+  const searchRef = useRef();
 
   const filteredPasswords = passwords.filter(
     (password) => password.trash === false
@@ -20,24 +29,63 @@ const AllItems = () => {
 
   const count = filteredPasswords.length;
 
+  const handleSearch = () => {
+    setSearchStatus(true);
+  };
+
   return (
     <div className="margin-content">
-      <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>All Items</h4>{" "}
+      <div
+        className={
+          searchStatus
+            ? "search-show page-header page-header-long page-header-fixed padding-side"
+            : "page-header page-header-long page-header-fixed padding-side"
+        }
+      >
+        {!searchStatus && <h4>All Items</h4>}{" "}
         <div>
-          <Button
-            onClick={() => setListView(false)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineViewGrid></HiOutlineViewGrid>
-          </Button>
-          <Button
-            onClick={() => setListView(true)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineServer></HiOutlineServer>
-          </Button>
-          <AddItemButton></AddItemButton>
+          <div className="search">
+            {searchStatus && (
+              <input
+                placeholder="Search Items"
+                onClick={handleSearch}
+                className="form-control"
+              ></input>
+            )}
+          </div>
+          {searchStatus && (
+            <div>
+              <HiOutlineX
+                onClick={() => setSearchStatus(false)}
+                className="btn-close"
+              ></HiOutlineX>
+            </div>
+          )}
+          {!searchStatus && (
+            <Button
+              onClick={handleSearch}
+              className="btn-secondary list-view-btn"
+            >
+              <HiOutlineSearch></HiOutlineSearch>
+            </Button>
+          )}
+          {!searchStatus && (
+            <>
+              <Button
+                onClick={() => setListView(false)}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineViewGrid></HiOutlineViewGrid>
+              </Button>
+              <Button
+                onClick={() => setListView(true)}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineServer></HiOutlineServer>
+              </Button>
+              <AddItemButton></AddItemButton>
+            </>
+          )}
         </div>
       </div>
       {filteredPasswords.length > 0 && listView ? (

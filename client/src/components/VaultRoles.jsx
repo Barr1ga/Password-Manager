@@ -15,7 +15,7 @@ const VaultRoles = ({ role, members }) => {
   return (
     <>
       <span
-        className="role padding-side"
+        className="role-title padding-side"
         onClick={() => setShowMembers((prev) => !prev)}
       >
         {role} — {count}{" "}

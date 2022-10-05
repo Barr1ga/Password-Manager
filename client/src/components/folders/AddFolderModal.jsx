@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import AddButton from "../helpers/AddButton";
 import Button from "react-bootstrap/Button";
-import { HiOutlineX, HiFolder, HiPlusSm, HiPlus, HiOutlineLockClosed } from "react-icons/hi";
+import {
+  HiOutlineX,
+  HiFolder,
+  HiPlusSm,
+  HiPlus,
+  HiOutlineLockClosed,
+} from "react-icons/hi";
 import ConfirmModal from "../helpers/ConfirmModal";
 import { useForm } from "react-hook-form";
 
@@ -32,7 +38,7 @@ const AddItemModal = () => {
     <>
       <div onClick={() => setModalShow(true)}>
         <span className="icon">
-          <HiPlusSm></HiPlusSm>
+          <HiPlus></HiPlus>
         </span>
       </div>
       <Modal
@@ -95,9 +101,11 @@ const AddItemModal = () => {
                 </small>
               )}
             </div>
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              <HiPlus></HiPlus>Add Item
-            </Button>
+            <div className="form-group">
+              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+                <HiPlus></HiPlus>Add Item
+              </Button>
+            </div>
           </form>
         </Modal.Body>
       </Modal>

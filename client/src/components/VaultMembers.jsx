@@ -6,17 +6,12 @@ import { useSelector } from "react-redux";
 
 const VaultMembers = () => {
   const { members } = useSelector((state) => state.members);
-  const [onlineMembers, setOnlineMembers] = useState(
-    members.filter((member) => member.status !== "offline")
-  );
-  const [offlineMembers, setOfflineMembers] = useState(
-    members.filter((member) => member.status === "offline")
-  );
+  const { roles } = useSelector((state) => state.roles);
 
-  const roles = [...new Set(members.map((member) => member.role))];
-  const idx = roles.indexOf("vaultOwner");
-  //   swap index
-  [roles[0], roles[idx]] = [roles[idx], roles[0]];
+  const onlineMembers = members.filter((member) => member.status !== "offline");
+  const offlineMembers = members.filter(
+    (member) => member.status === "offline"
+  );
 
   return (
     <div className="vault-members standard-stack gap-10">
@@ -24,13 +19,13 @@ const VaultMembers = () => {
 
       {roles.map((role, idx) => {
         const filteredOnlineMembers = onlineMembers.filter(
-          (member) => member.role === role
+          (member) => member.rolesID[0] === role.uid
         );
         if (filteredOnlineMembers.length !== 0) {
           return (
             <VaultRoles
               key={idx}
-              role={role}
+              role={role.name}
               members={filteredOnlineMembers}
             ></VaultRoles>
           );

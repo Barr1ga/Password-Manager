@@ -1,0 +1,45 @@
+Created By AccessData® FTK® Imager 3.1.5.0 
+
+Case Information: 
+Acquired using: ADI3.1.5.0
+Case Number: C10-04-2002
+Evidence Number: C-1001-10-04-2002
+Unique description: MurderCase Evidence
+Examiner: Godwin S. Monserate
+Notes: Flashdrive taken from murder suspect, involved in Drugs, Extortion, and Murder
+
+--------------------------------------------------------------
+
+Information for C:\Users\Godwin Monserate\Desktop\USC Files 2022-23\Classes 1st Sem 2022-2023\Information Assurance and Security\Lab Activity 5005\Evidence Case 1001:
+
+Physical Evidentiary Item (Source) Information:
+[Device Info]
+ Source Type: Physical
+[Drive Geometry]
+ Cylinders: 121
+ Tracks per Cylinder: 255
+ Sectors per Track: 63
+ Bytes per Sector: 512
+ Sector Count: 1,955,840
+[Physical Drive Information]
+ Drive Model: Imation Nano USB Device
+ Drive Serial Number: 07920B193297
+ Drive Interface Type: USB
+ Removable drive: True
+ Source data size: 955 MB
+ Sector count:    1955840
+[Computed Hashes]
+ MD5 checksum:    f438c0143a0b0bc8c90e188e0fcbe226
+ SHA1 checksum:   8ba5edb401f0950fa8cc8882631f72da5d6bcb09
+
+Image Information:
+ Acquisition started:   Tue Oct 04 20:22:57 2022
+ Acquisition finished:  Tue Oct 04 20:24:09 2022
+ Segment list:
+  C:\Users\Godwin Monserate\Desktop\USC Files 2022-23\Classes 1st Sem 2022-2023\Information Assurance and Security\Lab Activity 5005\Evidence Case 1001.001
+
+Image Verification Results:
+ Verification started:  Tue Oct 04 20:24:09 2022
+ Verification finished: Tue Oct 04 20:24:13 2022
+ MD5 checksum:    f438c0143a0b0bc8c90e188e0fcbe226 : verified
+ SHA1 checksum:   8ba5edb401f0950fa8cc8882631f72da5d6bcb09 : verified

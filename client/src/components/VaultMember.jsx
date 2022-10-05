@@ -18,8 +18,12 @@ import {
 } from "react-icons/hi";
 import { FaCrown } from "react-icons/fa";
 import { RiSettings2Line } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 const VaultMember = ({ member }) => {
+  const { roles } = useSelector((state) => state.roles);
+  const ownerID = roles.find((role) => role.name === "Vault Owner").uid;
+
   return (
     <div className="member padding-side gap-10">
       <div className="image">
@@ -28,9 +32,9 @@ const VaultMember = ({ member }) => {
         {member.status === "idle" && <div className="idle"></div>}
       </div>
       <div className="name">
-        <p className={member.role === "vault owner" ? "vault-owner" : ""}>
+        <p className={member.rolesID[0] === ownerID ? "vault-owner" : ""}>
           <b>{member.username}</b>{" "}
-          {member.role === "vaultOwner" && (
+          {member.rolesID[0] === ownerID && (
             <small className="vault-owner-tag">
               <FaCrown></FaCrown>VO
             </small>

@@ -61,7 +61,7 @@ const SideNav = () => {
       route !== "/AuditLog" ? (
         <>
           <h5>My Vault</h5>
-          <form className="search">
+          <form>
             <input
               type="text"
               className="form-control"

@@ -5,9 +5,9 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import WarningAlert from "../../alerts/WarningAlert.jsx";
 import Member from "./Member";
+import MembersList from "./MembersList.jsx";
 
 const Members = () => {
-  const { members } = useSelector((state) => state.members);
   const {
     register,
     handleSubmit,
@@ -21,9 +21,9 @@ const Members = () => {
     },
   });
   return (
-    <div className="standard-stack gap-10">
-      <h5 className="padding-side">Invite People</h5>
-      <div className="form-group padding-side">
+    <div className="standard-stack padding-side gap-10">
+      <h5>Invite People</h5>
+      <div className="form-group">
         <WarningAlert
           message={
             "Please note that inviting users to this vault may lead to unauthorized access to sensitive information. Assign proper authorizations to new and existing users by giving them appropriate roles."
@@ -31,7 +31,7 @@ const Members = () => {
         ></WarningAlert>
       </div>
       <form>
-        <div className="form-group padding-side">
+        <div className="form-group">
           <label>Email Address</label>
 
           <input
@@ -53,16 +53,13 @@ const Members = () => {
           </small>
         </div>
 
-        <div className="form-group padding-side">
+        <div className="form-group">
           <Button className="btn-dark">Invite Email</Button>
         </div>
       </form>
+      <hr></hr>
 
-      <div className="vault-members">
-        {members.map((member, idx) => (
-          <Member key={idx} member={member}></Member>
-        ))}
-      </div>
+      <MembersList></MembersList>
     </div>
   );
 };
