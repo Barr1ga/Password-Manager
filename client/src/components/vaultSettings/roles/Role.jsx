@@ -13,53 +13,46 @@ const Role = ({ role, count }) => {
 
   let length = filteredMembers.length;
 
-  filteredMembers = filteredMembers.slice(0, 3);
+  filteredMembers = filteredMembers.slice(0, 5);
 
   const remainingCount = length - filteredMembers.length;
 
   return (
-    <div className="role-item gap-10 padding-side">
-      <div className="name">
-        <span className="role-tag">
-          <small>{role.abreviation}</small>
-        </span>
-        <div>
-          <p>{role.name}</p>
+    <div className="role-item padding-side">
+      <div>
+        <div className="name">
+          <span className="role-tag">
+            <small>{role.abreviation}</small>
+          </span>
+          <div>
+            <p>{role.name}</p>
+          </div>
+        </div>
+        <div className="info">
+          <span>
+            {filteredMembers.length > 0 && (
+              <div className="members-with-role">
+                {filteredMembers.map((member, idx) =>
+                  member.image === "" ? (
+                    <div key={idx} className="member">
+                      {member.username.charAt(0)}
+                    </div>
+                  ) : (
+                    <img key={idx} src={member.image} className="member"></img>
+                  )
+                )}
+                {remainingCount > 0 && (
+                  <div className="member last-member">+{remainingCount}</div>
+                )}
+              </div>
+            )}
+            <div className="btn-circle">
+              <HiPlus></HiPlus>
+            </div>
+          </span>
         </div>
       </div>
-      <div className="info">
-        <ResponsiveDisplay
-          nonMobile={
-            <span>
-              {filteredMembers.length > 0 && (
-                <div className="members-with-role">
-                  {filteredMembers.map((member, idx) =>
-                    member.image === "" ? (
-                      <div key={idx} className="member">
-                        {member.username.charAt(0)}
-                      </div>
-                    ) : (
-                      <img
-                        key={idx}
-                        src={member.image}
-                        className="member"
-                      ></img>
-                    )
-                  )}
-                  {remainingCount > 0 && (
-                    <div className="member last-member">+{remainingCount}</div>
-                  )}
-                </div>
-              )}
-              <div className="btn-circle">
-                <HiPlus></HiPlus>
-              </div>
-            </span>
-          }
-        ></ResponsiveDisplay>
-
-        <HiOutlineChevronRight className="three-dots"></HiOutlineChevronRight>
-      </div>
+      <HiOutlineChevronRight className="three-dots"></HiOutlineChevronRight>
     </div>
   );
 };

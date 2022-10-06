@@ -20,7 +20,7 @@ import {
 } from "react-icons/hi";
 import ConfirmModal from "../../helpers/ConfirmModal";
 import RoleInformation from "../../roles/RoleInformation";
-import MembersList from "../members/MembersList";
+import MembersList from "./MembersList";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
