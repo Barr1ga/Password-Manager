@@ -29,12 +29,16 @@ const MembersList = () => {
             className={
               errors.name ? "form-control form-error" : "form-control "
             }
-            />
-            <HiOutlineSearch className="icon"></HiOutlineSearch>
+          />
+          <HiOutlineSearch className="icon"></HiOutlineSearch>
         </div>
-        {members.map((member, idx) => (
-          <Member key={idx} member={member}></Member>
-        ))}
+        <div className="standard-stack">
+          <span className="member-count">{members.length} Members</span>
+
+          {members.map((member, idx) => (
+            <Member key={idx} member={member}></Member>
+          ))}
+        </div>
       </div>
     </>
   );

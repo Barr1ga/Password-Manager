@@ -50,7 +50,7 @@ const VaultRoles = () => {
         </form>
 
         <div className="standard-stack">
-          <span className="role-count padding-side">{roles.length} Items</span>
+          <span className="role-count padding-side">{roles.length} Roles</span>
           <div className="form-group">
             {roles.map((role, idx) => {
               return <Role key={idx} role={role}></Role>;

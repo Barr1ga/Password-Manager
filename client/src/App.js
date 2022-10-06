@@ -225,12 +225,12 @@ const App = () => {
                 {selectedPassword && (
                   <>
                     <CurrentPasswordItem></CurrentPasswordItem>
-                    <hr></hr>
                   </>
                 )}
 
                 {!selectedPassword && (
                   <>
+                    <hr></hr>
                     <SiteWarning></SiteWarning>
 
                     <div className="right-vault-members">
