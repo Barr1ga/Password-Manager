@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { changePassword } from "../../features/slice/authSlice";
+import { changePassword, logOut } from "../../features/slice/authSlice";
 
 const ChangePassword = () => {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ const ChangePassword = () => {
 
   const onSubmitMaster = (data) => {
     dispatch(changePassword(data));  
+    dispatch(logOut());
     console.log(data);
   };
   return (
