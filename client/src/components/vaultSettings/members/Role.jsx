@@ -8,7 +8,7 @@ const Role = ({ roleID }) => {
   return (
     <div className="role-tag">
       <small>{name.abreviation} </small>
-      <HiPlus className="btn-tag-delete"></HiPlus>
+      <HiPlus className="btn-delete"></HiPlus>
     </div>
   );
 };

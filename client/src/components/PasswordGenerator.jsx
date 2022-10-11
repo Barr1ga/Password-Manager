@@ -6,6 +6,7 @@ import {
   HiOutlineDuplicate,
   HiMinusSm,
   HiPlusSm,
+  HiCheck,
 } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";

@@ -24,16 +24,11 @@ import MembersList from "./MembersList";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
-  const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Logins");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [tab, setTab] = useState(1);
 
   const method = "add";
-
-  const handleBack = () => {
-    setShowPasswordGenerator(false);
-  };
 
   const handleCloseModal = () => {
     setModalShow(false);
@@ -50,10 +45,10 @@ const AddItemModal = () => {
         <AddButton message={"Add Role"}></AddButton>
       </div>
       <Modal
+        centered={setTab === 1 ? true : false}
         scrollable
         size="md"
         aria-labelledby="contained-modal-title-vcenter"
-        centered
         backdrop="static"
         show={modalShow}
         onHide={handleCloseModal}
@@ -62,12 +57,6 @@ const AddItemModal = () => {
           {/* <Modal.Title>Modal heading</Modal.Title> */}
           <div className="page-header-with-close">
             <div className="back-enabled">
-              {showPasswordGenerator && (
-                <HiOutlineArrowLeft
-                  className="btn-back"
-                  onClick={handleBack}
-                ></HiOutlineArrowLeft>
-              )}
               <h4>Add Role</h4>
             </div>
             <ConfirmModal
@@ -88,7 +77,7 @@ const AddItemModal = () => {
             ></ConfirmModal>
           </div>
         </Modal.Header>
-        <Modal.Body className="add-item-modal standard-stack gap-10">
+        <Modal.Body className="add-role-modal standard-stack gap-10">
           <div className="form-group">
             <div className="tab">
               <div
@@ -118,3 +107,5 @@ const AddItemModal = () => {
 };
 
 export default AddItemModal;
+
+
