@@ -16,7 +16,7 @@ const Logins = () => {
   
   const filteredPasswords = passwords.filter((password) => password.type === "login" && password.trash === false);
   const count = filteredPasswords.length;
-  
+
   return (
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">

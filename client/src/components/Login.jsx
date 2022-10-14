@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   continueWithGoogle,
+  getMasterPasswordHint,
   logInWithEmailAndPassword,
   resetAuthErrors,
   setUser,
@@ -29,6 +30,10 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
   const dispatch = useDispatch();
+
+  const { masterPasswordHint, authLoading } = useSelector(
+    (state) => state.auth
+  );
 
   const {
     authErrorCode,
@@ -49,6 +54,8 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     },
   });
 
+  const watchEmail = watch("email");
+
   const onSubmit = (data) => {
     const { email, masterPassword } = data;
     const loginData = {
@@ -67,6 +74,14 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
       dispatch(resetAuthErrors());
     };
   }, []);
+
+  const handleMasterPasswordHint = () => {
+    if (!showPasswordHint) {
+      setShowPasswordHint(true);
+    }
+
+    dispatch(getMasterPasswordHint(watchEmail));
+  };
 
   return (
     <>
@@ -175,27 +190,33 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                 )}
                 <div className="form-group">
                   <Button
+                    type="button"
                     className="btn-secondary btn-with-icon btn-long"
-                    onClick={() => setShowPasswordHint((prev) => !prev)}
+                    disabled={watchEmail === "" ? true : false}
+                    onClick={handleMasterPasswordHint}
                   >
-                    {showPasswordHint ? (
-                      <HiOutlineLightBulb></HiOutlineLightBulb>
+                    {authLoading ? (
+                      <SpinnerLoader></SpinnerLoader>
+                    ) : showPasswordHint ? (
+                      <>
+                        <HiOutlineLightBulb></HiOutlineLightBulb> Get master
+                        password hint
+                      </>
                     ) : (
-                      <HiLightBulb></HiLightBulb>
+                      <>
+                        <HiLightBulb></HiLightBulb> Get master password hint
+                      </>
                     )}
-                    {showPasswordHint ? "Hide" : "Get"} master password hint
                   </Button>
                 </div>
                 {showPasswordHint && (
                   <div className="form-group">
                     <div className="password-hint">
-                      <b>Hint:</b> This is a hint message. A very long one that
-                      is
+                      <p>Hint: {masterPasswordHint}</p>
                     </div>
                   </div>
                 )}
 
-                
                 <div className="form-group">
                   <Button
                     type="submit"

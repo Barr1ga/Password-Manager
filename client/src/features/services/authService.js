@@ -22,6 +22,13 @@ const logInWithEmailAndPassword = async (data) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
 
+const getMasterPasswordHint = async (data) => {
+  const response = await axios.post(API_URL + "/getMasterPasswordHint", {
+    data,
+  });
+  return response.data;
+};
+
 const createUser = async (data) => {
   const response = await axios.post(API_URL + "/createUser", data);
   return response.data;
@@ -33,10 +40,7 @@ const registerWithEmailAndPassword = async (data) => {
 };
 
 const Reauthentication = async (data) => {
-  const credential = EmailAuthProvider.credential(
-    auth.currentUser.email,
-    data
-  );
+  const credential = EmailAuthProvider.credential(auth.currentUser.email, data);
   return reauthenticateWithCredential(auth.currentUser, credential);
 };
 
@@ -57,12 +61,18 @@ const removeAccount = async () => {
   return deleteUser(auth.currentUser);
 };
 
+const removeUser = async (uid) => {
+  const response = await axios.post(API_URL + "/removeUser", uid);
+  return response.data;
+};
+
 const logOut = async () => {
   return signOut(auth);
 };
 
 const userService = {
   logInWithEmailAndPassword,
+  getMasterPasswordHint,
   createUser,
   registerWithEmailAndPassword,
   Reauthentication,

@@ -18,7 +18,7 @@ const initialState = {
   authMessage: "",
   authErrorMessage: "",
   authErrorCode: "",
-
+  
   // registration
   authRegistered: false,
   authEmailAndPasswordLoading: false,
@@ -67,6 +67,17 @@ export const registerWithEmailAndPassword = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await authService.registerWithEmailAndPassword(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getMasterPasswordHint = createAsyncThunk(
+  "auth/getMasterPasswordHint",
+  async (data, ThunkAPI) => {
+    try {
+      await authService.getMasterPasswordHint(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -161,6 +172,17 @@ export const removeAccount = createAsyncThunk(
   }
 );
 
+export const removeUser = createAsyncThunk(
+  "auth/removeUser",
+  async (uid, ThunkAPI) => {
+    try {
+      return await authService.removeUser(uid);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const logOut = createAsyncThunk(
   "auth/logOut",
   async (data, ThunkAPI) => {
@@ -234,6 +256,25 @@ const userSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
+      })
+      
+      .addCase(getMasterPasswordHint.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(getMasterPasswordHint.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.masterPasswordHint = action.payload;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+      })
+      .addCase(getMasterPasswordHint.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
       })
 
       .addCase(createUser.pending, (state) => {
@@ -396,7 +437,33 @@ const userSlice = createSlice({
       })
       .addCase(logOut.fulfilled, (state) => {
         localStorage.removeItem("authUser");
-        state = initialState;
+        state.authUser = null;
+        state.username = "";
+        state.masterPasswordHint = "";
+        state.authRegistered = false;
+        state.authEmailAndPasswordLoading = false;
+        state.authGoogleLoading = false;
+        state.authMicrosoftLoading = false;
+        state.authLoading = false;
+        state.authFulfilled = false;
+        state.authError = false;
+        state.authMessage = "";
+        state.authErrorMessage = "";
+        state.authErrorCode = "";
+        state.authRegistered = false;
+        state.authEmailAndPasswordLoading = false;
+        state.authChangedEmail = false;
+        state.authChangedEmailReauthFulfilled = false;
+        state.authChangedEmailFulfilled = false;
+        state.authChangedEmailLoading = false;
+        state.authChangedPassword = false;
+        state.authChangedPasswordReauthFulfilled = false;
+        state.authChangedPasswordFulfilled = false;
+        state.authChangedPasswordLoading = false;
+        state.authRemovedAccount = false;
+        state.authRemovedAccountReauthFulfilled = false;
+        state.authRemovedAccountFulfilled = false;
+        state.authRemovedAccountLoading = false;
       })
       .addCase(logOut.rejected, (state, action) => {
         state.authLoading = false;

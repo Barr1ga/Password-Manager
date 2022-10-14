@@ -12,18 +12,39 @@ const getAllUser = asyncHandler(async (req, res) => {
   });
 });
 
-const createUser = asyncHandler(async (req, res) => {
-  const { uid, username, masterPasswordHint } = req.body;
-  console.log(req.body);
-
-  const result = User.doc(uid).set({ username, masterPasswordHint });
+const getMasterPasswordHint = asyncHandler(async (req, res) => {
+  const { data } = req.body;
+  console.log(req.body)
+  const result = await User.where("email", "==", data).get("masterPasswordHint");
 
   res.status(201).json(result);
 });
 
-const loginUser = asyncHandler(async (req, res) => {
-  console.log("Login");
-  res.status(200).json();
+const createUser = asyncHandler(async (req, res) => {
+  console.log(req.body)
+  const { uid, username, masterPasswordHint, email } = req.body;
+
+  const result = await User.doc(uid).set({ username, masterPasswordHint, email });
+
+  res.status(201).json(result);
 });
 
-module.exports = { getAllUser, createUser, loginUser };
+const removeUser = asyncHandler(async (req, res) => {
+  const { uid } = req.body;
+
+  const result = await User.doc(uid).delete();
+
+  res.status(201).json(result);
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+  const { uid, username, masterPasswordHint } = req.body;
+
+  const result = await User.doc(uid).update({
+    username
+  });
+
+  res.status(201).json(result);
+});
+
+module.exports = { getAllUser, getMasterPasswordHint, createUser, removeUser };
