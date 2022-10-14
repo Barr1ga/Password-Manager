@@ -62,6 +62,7 @@ const userService = {
   registerWithEmailAndPassword,
   Reauthentication,
   changeEmail,
+  changePassword,
   continueWithGoogle,
   logOut,
 };

@@ -254,6 +254,7 @@ label {
 .btn-dark {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   background-color: #9e58e0;
   border: 1px solid transparent;

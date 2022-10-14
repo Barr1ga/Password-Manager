@@ -329,11 +329,28 @@ const userSlice = createSlice({
         state.authLoading = true;
       })
       .addCase(logOut.fulfilled, (state) => {
+        state.username = "";
+        state.masterPasswordHint = "";
+        state.authRegistered = false;
+        state.authEmailAndPasswordLoading = false;
+        state.authGoogleLoading = false;
+        state.authMicrosoftLoading = false;
         state.authLoading = false;
-        state.authFulfilled = true;
+        state.authFulfilled = false;
+        state.authError = false;
         state.authMessage = "";
-        state.authErrorCode = "";
         state.authErrorMessage = "";
+        state.authErrorCode = "";
+        state.authRegistered = false;
+        state.authEmailAndPasswordLoading = false;
+        state.authChangedEmail = false;
+        state.authChangedEmailReauthFulfilled = false;
+        state.authChangedEmailFulfilled = false;
+        state.authChangedEmailLoading = false;
+        state.authChangedPassword = false;
+        state.authChangedPasswordReauthFulfilled = false;
+        state.authChangedPasswordFulfilled = false;
+        state.authChangedPasswordLoading = false;
         localStorage.removeItem("authUser");
       })
       .addCase(logOut.rejected, (state, action) => {

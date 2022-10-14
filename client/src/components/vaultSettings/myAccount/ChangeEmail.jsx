@@ -46,8 +46,7 @@ const ChangeEmail = () => {
   const onSubmitEmail = (data) => {
     const { email, masterPassword } = data;
     setEmail(email);
-    dispatch(changeEmail(email));
-    // dispatch(sendVerification());
+    dispatch(changeEmailReauthentication(masterPassword));
     // setVerificationSent(true);
   };
 

@@ -36,15 +36,19 @@ const ChangePassword = () => {
   const {
     register: masterField,
     handleSubmit: handleSubmitMaster,
+    watch,
     formState: { errors: errorsMaster },
   } = useForm({
     mode: "all",
     defaultValues: {},
   });
 
+  const watchNewPassword = watch("newMasterPassword");
+
   const onSubmitMaster = (data) => {
     console.log(data);
-    const { currentMasterPassword, newMasterPassword, masterPasswordHint } = data;
+    const { currentMasterPassword, newMasterPassword, masterPasswordHint } =
+      data;
     dispatch(changePasswordReauthentication(currentMasterPassword));
     setPassword(newMasterPassword);
     setPasswordHint(masterPasswordHint);
@@ -102,19 +106,19 @@ const ChangePassword = () => {
             </label>
             <input
               type="text"
-              {...masterField("newCurrentMasterPassword", {
+              {...masterField("newMasterPassword", {
                 required: {
                   value: true,
                   message: "New master password is required",
                 },
               })}
               className={
-                errorsMaster.currentMasterPassword
+                errorsMaster.newMasterPassword
                   ? "form-control form-error"
                   : "form-control "
               }
             />
-            {errorsMaster.currentMasterPassword && (
+            {errorsMaster.newMasterPassword && (
               <small className="error-message">
                 {errorsMaster.newMasterPassword.message}
               </small>
@@ -133,6 +137,8 @@ const ChangePassword = () => {
                     value: true,
                     message: "Re-typing master password is required",
                   },
+                  validate: (value) =>
+                    watchNewPassword === value || "Passwords do not match",
                 })}
                 className={
                   errorsMaster.reTypeMasterPassword
