@@ -18,6 +18,20 @@ const initialState = {
   authMessage: "",
   authErrorMessage: "",
   authErrorCode: "",
+
+  // registration
+  authRegistered: false,
+  authEmailAndPasswordLoading: false,
+
+  // reauthentication
+  authChangedEmail: false,
+  authChangedEmailReauthFulfilled: false,
+  authChangedEmailFulfilled: false,
+  authChangedEmailLoading: false,
+  authChangedPassword: false,
+  authChangedPasswordReauthFulfilled: false,
+  authChangedPasswordFulfilled: false,
+  authChangedPasswordLoading: false,
 };
 
 export const checkEmailExists = createAsyncThunk(
@@ -64,11 +78,11 @@ export const createUser = createAsyncThunk(
   }
 );
 
-export const sendVerification = createAsyncThunk(
-  "auth/sendVerification",
-  async (_, ThunkAPI) => {
+export const changeEmailReauthentication = createAsyncThunk(
+  "auth/changeEmailReauthentication",
+  async (masterPassword, ThunkAPI) => {
     try {
-      return await authService.sendVerification();
+      await authService.Reauthentication(masterPassword);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -79,9 +93,29 @@ export const changeEmail = createAsyncThunk(
   "auth/changeEmail",
   async (data, ThunkAPI) => {
     try {
-      const uid = ThunkAPI.getState().auth.uid;
-      data.uid = uid;
-      return await authService.changeEmail(data);
+      await authService.changeEmail(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const changePasswordReauthentication = createAsyncThunk(
+  "auth/changePasswordReauthentication",
+  async (masterPassword, ThunkAPI) => {
+    try {
+      await authService.Reauthentication(masterPassword);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const changePassword = createAsyncThunk(
+  "auth/changePassword",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.changePassword(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -194,19 +228,16 @@ const userSlice = createSlice({
         state.authErrorCode = code;
       })
 
-      .addCase(sendVerification.pending, (state) => {
-        state.authLoading = true;
+      .addCase(changeEmailReauthentication.pending, (state) => {
+        state.authChangedEmailLoading = true;
+        state.authChangedEmail = true;
       })
-      .addCase(sendVerification.fulfilled, (state, action) => {
-        state.authLoading = false;
-        state.authFulfilled = true;
-        state.authMessage = "";
-        state.authErrorCode = "";
-        state.authErrorMessage = "";
-        localStorage.setItem("authUser", JSON.stringify(action.payload));
+      .addCase(changeEmailReauthentication.fulfilled, (state, action) => {
+        state.authChangedEmailLoading = false;
+        state.authChangedEmailReauthFulfilled = true;
       })
-      .addCase(sendVerification.rejected, (state, action) => {
-        state.authLoading = false;
+      .addCase(changeEmailReauthentication.rejected, (state, action) => {
+        state.authChangedEmailLoading = false;
         state.authError = true;
         const { code, message } = action.payload;
         state.authMessage = message;
@@ -215,18 +246,59 @@ const userSlice = createSlice({
       })
 
       .addCase(changeEmail.pending, (state) => {
-        state.authLoading = true;
+        state.authChangedEmailLoading = true;
       })
       .addCase(changeEmail.fulfilled, (state, action) => {
-        state.authLoading = false;
-        state.authFulfilled = true;
+        state.authChangedEmailLoading = false;
+        state.authChangedEmail = false;
+        state.authChangedEmailFulfilled = true;
+        state.authChangedEmailReauthFulfilled = false;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
         localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(changeEmail.rejected, (state, action) => {
-        state.authLoading = false;
+        state.authChangedEmailLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(changePasswordReauthentication.pending, (state) => {
+        state.authChangedPasswordLoading = true;
+        state.authChangedPassword = true;
+      })
+      .addCase(changePasswordReauthentication.fulfilled, (state) => {
+        state.authChangedPasswordLoading = false;
+        state.authChangedPasswordReauthFulfilled = true;
+      })
+      .addCase(changePasswordReauthentication.rejected, (state, action) => {
+        state.authChangedPasswordLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(changePassword.pending, (state) => {
+        state.authChangedPasswordLoading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.authChangedPasswordLoading = false;
+        state.authChangedPassword = false;
+        state.authChangedPasswordFulfilled = true;
+        state.authChangedPasswordReauthFulfilled = false;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+        localStorage.setItem("authUser", JSON.stringify(action.payload));
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        state.authChangedPasswordLoading = false;
         state.authError = true;
         const { code, message } = action.payload;
         state.authMessage = message;

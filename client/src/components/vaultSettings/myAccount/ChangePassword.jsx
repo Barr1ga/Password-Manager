@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changePassword,
+  changePasswordReauthentication,
+  logOut,
+} from "../../../features/slice/authSlice";
+import SpinnerLoader from "../../SpinnerLoader";
 
 const ChangePassword = () => {
+  const [password, setPassword] = useState("");
+  const [passwordHint, setPasswordHint] = useState("");
+  const dispatch = useDispatch();
+
+  const {
+    authChangedPassword,
+    authChangedPasswordReauthFulfilled,
+    authChangedPasswordFulfilled,
+    authChangedPasswordLoading,
+    authErrorCode,
+    authErrorMessage,
+  } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (authChangedPasswordReauthFulfilled) {
+      dispatch(changePassword(password));
+    }
+
+    if (authChangedPasswordFulfilled) {
+      dispatch(logOut());
+    }
+  }, [authChangedPasswordReauthFulfilled]);
+
   const {
     register: masterField,
     handleSubmit: handleSubmitMaster,
@@ -14,12 +44,17 @@ const ChangePassword = () => {
 
   const onSubmitMaster = (data) => {
     console.log(data);
+    const { currentMasterPassword, newMasterPassword, masterPasswordHint } = data;
+    dispatch(changePasswordReauthentication(currentMasterPassword));
+    setPassword(newMasterPassword);
+    setPasswordHint(masterPasswordHint);
   };
+
   return (
     <div className="standard-stack">
       <div className="form-group">
         <h5>Change Master Password</h5>
-        
+
         <form onSubmit={handleSubmitMaster(onSubmitMaster)}>
           <div className="form-group">
             <label>
@@ -34,7 +69,10 @@ const ChangePassword = () => {
                 },
               })}
               className={
-                errorsMaster.currentMasterPassword
+                errorsMaster.currentMasterPassword ||
+                (authChangedPassword &&
+                  (authErrorCode === "auth/too-many-requests" ||
+                    authErrorCode === "auth/wrong-password"))
                   ? "form-control form-error"
                   : "form-control "
               }
@@ -44,6 +82,11 @@ const ChangePassword = () => {
                 {errorsMaster.currentMasterPassword.message}
                 <br></br>
               </small>
+            )}
+            {authChangedPassword && authErrorMessage !== "" && (
+              <div className="form-group">
+                <small className="error-message">{authErrorMessage}</small>
+              </div>
             )}
             <small>
               The master password is the password you use to access your vault.
@@ -73,7 +116,7 @@ const ChangePassword = () => {
             />
             {errorsMaster.currentMasterPassword && (
               <small className="error-message">
-                {errorsMaster.currentMasterPassword.message}
+                {errorsMaster.newMasterPassword.message}
               </small>
             )}
           </div>
@@ -108,8 +151,7 @@ const ChangePassword = () => {
               <label>Master Password Hint (optional)</label>
               <input
                 type="text"
-                {...masterField("masterPasswordHint", {
-                })}
+                {...masterField("masterPasswordHint", {})}
                 className={
                   errorsMaster.masterPasswordHint
                     ? "form-control form-error"
@@ -131,8 +173,12 @@ const ChangePassword = () => {
             </div>
           </div>
 
-          <Button type="submit" className="btn-dark">
-            Change Master Password
+          <Button type="submit" className="btn-dark" style={{ width: "235px" }}>
+            {authChangedPasswordLoading ? (
+              <SpinnerLoader></SpinnerLoader>
+            ) : (
+              <>Change Master Password</>
+            )}
           </Button>
         </form>
       </div>

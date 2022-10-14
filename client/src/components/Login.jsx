@@ -168,6 +168,11 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     </small>
                   )}
                 </div>
+                {authErrorMessage !== "" && (
+                  <div className="form-group">
+                    <small className="error-message">{authErrorMessage}</small>
+                  </div>
+                )}
                 <div className="form-group">
                   <Button
                     className="btn-secondary btn-with-icon btn-long"
@@ -190,11 +195,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   </div>
                 )}
 
-                {authErrorMessage !== "" && (
-                  <div className="form-group">
-                    <small className="error-message">{authErrorMessage}</small>
-                  </div>
-                )}
+                
                 <div className="form-group">
                   <Button
                     type="submit"

@@ -1,4 +1,7 @@
 import {
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+  updatePassword,
   fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -28,12 +31,20 @@ const registerWithEmailAndPassword = async (data) => {
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
-const sendVerification = async () => {
-  return sendEmailVerification(auth.currentUser);
+const Reauthentication = async (data) => {
+  const credential = EmailAuthProvider.credential(
+    auth.currentUser.email,
+    data
+  );
+  return reauthenticateWithCredential(auth.currentUser, credential);
 };
 
 const changeEmail = async (data) => {
   return updateEmail(auth.currentUser, data);
+};
+
+const changePassword = async (data) => {
+  return updatePassword(auth.currentUser, data);
 };
 
 const continueWithGoogle = async (data) => {
@@ -49,7 +60,7 @@ const userService = {
   logInWithEmailAndPassword,
   createUser,
   registerWithEmailAndPassword,
-  sendVerification,
+  Reauthentication,
   changeEmail,
   continueWithGoogle,
   logOut,

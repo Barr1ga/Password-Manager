@@ -1,14 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import PrimaryAlertInteractive from "../../alerts/PrimaryAlertInteractive";
-import { changeEmail, sendVerification } from "../../../features/slice/authSlice";
-import { useDispatch } from "react-redux";
+import {
+  changeEmail,
+  changeEmailReauthentication,
+  logOut,
+} from "../../../features/slice/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import SpinnerLoader from "../../SpinnerLoader";
 
 const ChangeEmail = () => {
   const [verificationSent, setVerificationSent] = useState(false);
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
+
+  const {
+    authChangedEmail,
+    authChangedEmailReauthFulfilled,
+    authChangedEmailFulfilled,
+    authChangedEmailLoading,
+    authErrorCode,
+    authErrorMessage,
+  } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (authChangedEmailReauthFulfilled) {
+      dispatch(changeEmail(email));
+    }
+
+    if (authChangedEmailFulfilled) {
+      dispatch(logOut());
+    }
+  }, [authChangedEmailReauthFulfilled]);
 
   const {
     register: emailField,
@@ -20,7 +44,6 @@ const ChangeEmail = () => {
   });
 
   const onSubmitEmail = (data) => {
-    console.log(data);
     const { email, masterPassword } = data;
     setEmail(email);
     dispatch(changeEmail(email));
@@ -29,7 +52,7 @@ const ChangeEmail = () => {
   };
 
   const handleResendEmail = () => {
-    dispatch(sendVerification());
+    // dispatch(sendVerification());
   };
 
   const handleUndoEmailChange = () => {
@@ -105,7 +128,9 @@ const ChangeEmail = () => {
                     },
                   })}
                   className={
-                    errorsEmail.masterPassword
+                    errorsEmail.masterPassword || (authChangedEmail &&
+                    (authErrorCode === "auth/too-many-requests" ||
+                    authErrorCode === "auth/wrong-password"))
                       ? "form-control form-error"
                       : "form-control "
                   }
@@ -116,8 +141,17 @@ const ChangeEmail = () => {
                   </small>
                 )}
               </div>
-              <Button type="submit" className="btn-dark">
-                Change Email
+              {authChangedEmail && authErrorMessage !== "" && (
+                <div className="form-group">
+                  <small className="error-message">{authErrorMessage}</small>
+                </div>
+              )}
+              <Button type="submit" className="btn-dark" style={{width: "140px"}}>
+                {authChangedEmailLoading ? (
+                  <SpinnerLoader></SpinnerLoader>
+                ) : (
+                  <>Change Email</>
+                )}
               </Button>
             </form>
           </>
