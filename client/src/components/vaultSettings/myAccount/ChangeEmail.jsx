@@ -9,8 +9,15 @@ import {
 } from "../../../features/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "../../SpinnerLoader";
+import Modal from "react-bootstrap/Modal";
 
 const ChangeEmail = () => {
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const [verificationSent, setVerificationSent] = useState(false);
   const [email, setEmail] = useState("");
   const dispatch = useDispatch();
@@ -44,10 +51,15 @@ const ChangeEmail = () => {
   });
 
   const onSubmitEmail = (data) => {
-    const { email, masterPassword } = data;
+    setFormData(data);
+    handleShow();
+  };
+
+  const handleEmailChange = () => {
+    const { email, masterPassword } = formData;
+
     setEmail(email);
     dispatch(changeEmailReauthentication(masterPassword));
-    // setVerificationSent(true);
   };
 
   const handleResendEmail = () => {
@@ -116,7 +128,7 @@ const ChangeEmail = () => {
               </div>
               <div className="form-group">
                 <label>
-                  Master Password <span className="error-message">*</span>
+                  Enter Master Password <span className="error-message">*</span>
                 </label>
                 <input
                   type="text"
@@ -127,9 +139,10 @@ const ChangeEmail = () => {
                     },
                   })}
                   className={
-                    errorsEmail.masterPassword || (authChangedEmail &&
-                    (authErrorCode === "auth/too-many-requests" ||
-                    authErrorCode === "auth/wrong-password"))
+                    errorsEmail.masterPassword ||
+                    (authChangedEmail &&
+                      (authErrorCode === "auth/too-many-requests" ||
+                        authErrorCode === "auth/wrong-password"))
                       ? "form-control form-error"
                       : "form-control "
                   }
@@ -145,7 +158,12 @@ const ChangeEmail = () => {
                   <small className="error-message">{authErrorMessage}</small>
                 </div>
               )}
-              <Button type="submit" className="btn-dark" style={{width: "140px"}}>
+
+              <Button
+                type="submit"
+                className="btn-dark"
+                style={{ width: "140px" }}
+              >
                 {authChangedEmailLoading ? (
                   <SpinnerLoader></SpinnerLoader>
                 ) : (
@@ -153,6 +171,46 @@ const ChangeEmail = () => {
                 )}
               </Button>
             </form>
+
+            <Modal
+              size="sm"
+              show={show}
+              onHide={handleClose}
+              backdrop="static"
+              keyboard={false}
+              centered
+            >
+              <Modal.Body className="confirmation-modal-body">
+                <div className="confirmation-modal">
+                  <h5>{"Are you sure you want to delete this account?"}</h5>
+                  <small>
+                    {
+                      "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
+                    }
+                  </small>
+                  <div className="options gap-10">
+                    <Button
+                      type="button"
+                      className="btn-secondary btn-long"
+                      onClick={handleClose}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleEmailChange}
+                      type="button"
+                      className="btn-secondary btn-long danger"
+                    >
+                      {authChangedEmailLoading ? (
+                        <SpinnerLoader></SpinnerLoader>
+                      ) : (
+                        <>Delete</>
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              </Modal.Body>
+            </Modal>
           </>
         )}
       </div>

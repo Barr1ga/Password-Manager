@@ -182,7 +182,7 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
               <input
                 type="number"
                 min="10"
-                max="30"
+                max="100"
                 {...registerPassword("length")}
                 className="form-control length"
               ></input>

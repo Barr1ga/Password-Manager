@@ -9,6 +9,7 @@ import {
   updateEmail,
   signInWithRedirect,
   GoogleAuthProvider,
+  deleteUser,
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
@@ -52,6 +53,10 @@ const continueWithGoogle = async (data) => {
   return signInWithRedirect(auth, provider);
 };
 
+const removeAccount = async () => {
+  return deleteUser(auth.currentUser);
+};
+
 const logOut = async () => {
   return signOut(auth);
 };
@@ -64,6 +69,7 @@ const userService = {
   changeEmail,
   changePassword,
   continueWithGoogle,
+  removeAccount,
   logOut,
 };
 

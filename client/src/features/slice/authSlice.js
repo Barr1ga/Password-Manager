@@ -32,6 +32,12 @@ const initialState = {
   authChangedPasswordReauthFulfilled: false,
   authChangedPasswordFulfilled: false,
   authChangedPasswordLoading: false,
+
+  // account removal
+  authRemovedAccount: false,
+  authRemovedAccountReauthFulfilled: false,
+  authRemovedAccountFulfilled: false,
+  authRemovedAccountLoading: false,
 };
 
 export const checkEmailExists = createAsyncThunk(
@@ -127,6 +133,28 @@ export const continueWithGoogle = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await authService.continueWithGoogle(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const accountRemovalReauthentication = createAsyncThunk(
+  "auth/accountRemovalReauthentication",
+  async (masterPassword, ThunkAPI) => {
+    try {
+      await authService.Reauthentication(masterPassword);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const removeAccount = createAsyncThunk(
+  "auth/removeAccount",
+  async (_, ThunkAPI) => {
+    try {
+      return await authService.removeAccount();
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -325,33 +353,50 @@ const userSlice = createSlice({
         state.authErrorMessage = authErrorMessage(code);
       })
 
+      .addCase(accountRemovalReauthentication.pending, (state) => {
+        state.authRemovedAccountLoading = true;
+        state.authRemovedAccount = true;
+      })
+      .addCase(accountRemovalReauthentication.fulfilled, (state) => {
+        state.authRemovedAccountLoading = false;
+        state.authRemovedAccountReauthFulfilled = true;
+      })
+      .addCase(accountRemovalReauthentication.rejected, (state, action) => {
+        state.authRemovedAccountLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(removeAccount.pending, (state) => {
+        state.authRemovedAccountLoading = true;
+      })
+      .addCase(removeAccount.fulfilled, (state) => {
+        state.authRemovedAccountLoading = false;
+        state.authRemovedAccount = false;
+        state.authRemovedAccountFulfilled = true;
+        state.authRemovedAccountReauthFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+      })
+      .addCase(removeAccount.rejected, (state, action) => {
+        state.authRemovedAccountLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
       .addCase(logOut.pending, (state) => {
         state.authLoading = true;
       })
       .addCase(logOut.fulfilled, (state) => {
-        state.username = "";
-        state.masterPasswordHint = "";
-        state.authRegistered = false;
-        state.authEmailAndPasswordLoading = false;
-        state.authGoogleLoading = false;
-        state.authMicrosoftLoading = false;
-        state.authLoading = false;
-        state.authFulfilled = false;
-        state.authError = false;
-        state.authMessage = "";
-        state.authErrorMessage = "";
-        state.authErrorCode = "";
-        state.authRegistered = false;
-        state.authEmailAndPasswordLoading = false;
-        state.authChangedEmail = false;
-        state.authChangedEmailReauthFulfilled = false;
-        state.authChangedEmailFulfilled = false;
-        state.authChangedEmailLoading = false;
-        state.authChangedPassword = false;
-        state.authChangedPasswordReauthFulfilled = false;
-        state.authChangedPasswordFulfilled = false;
-        state.authChangedPasswordLoading = false;
         localStorage.removeItem("authUser");
+        state = initialState;
       })
       .addCase(logOut.rejected, (state, action) => {
         state.authLoading = false;

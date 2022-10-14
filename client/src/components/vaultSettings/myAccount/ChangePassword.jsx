@@ -8,8 +8,15 @@ import {
   logOut,
 } from "../../../features/slice/authSlice";
 import SpinnerLoader from "../../SpinnerLoader";
+import Modal from "react-bootstrap/Modal";
 
 const ChangePassword = () => {
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const [password, setPassword] = useState("");
   const [passwordHint, setPasswordHint] = useState("");
   const dispatch = useDispatch();
@@ -46,9 +53,14 @@ const ChangePassword = () => {
   const watchNewPassword = watch("newMasterPassword");
 
   const onSubmitMaster = (data) => {
-    console.log(data);
+    setFormData(data);
+    handleShow();
+  };
+
+  const handleChangePassword = () => {
+    console.log(formData);
     const { currentMasterPassword, newMasterPassword, masterPasswordHint } =
-      data;
+      formData;
     dispatch(changePasswordReauthentication(currentMasterPassword));
     setPassword(newMasterPassword);
     setPasswordHint(masterPasswordHint);
@@ -187,6 +199,46 @@ const ChangePassword = () => {
             )}
           </Button>
         </form>
+
+        <Modal
+          size="sm"
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+          centered
+        >
+          <Modal.Body className="confirmation-modal-body">
+            <div className="confirmation-modal">
+              <h5>{"Are you sure you want to delete this account?"}</h5>
+              <small>
+                {
+                  "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
+                }
+              </small>
+              <div className="options gap-10">
+                <Button
+                  type="button"
+                  className="btn-secondary btn-long"
+                  onClick={handleClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleChangePassword}
+                  type="button"
+                  className="btn-secondary btn-long danger"
+                >
+                  {authChangedPasswordLoading ? (
+                    <SpinnerLoader></SpinnerLoader>
+                  ) : (
+                    <>Delete</>
+                  )}
+                </Button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
       </div>
     </div>
   );

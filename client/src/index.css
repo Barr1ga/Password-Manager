@@ -227,6 +227,9 @@ label {
   border: 1px solid transparent;
   color: #fff;
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btn-secondary:hover {

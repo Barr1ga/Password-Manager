@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import { useForm } from "react-hook-form";
 import { HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import WarningAlert from "../components/alerts/WarningAlert";
 import MyAccount from "../components/vaultSettings/myAccount/MyAccount";
 import ChangeEmail from "../components/vaultSettings/myAccount/ChangeEmail";
 import ChangePassword from "../components/vaultSettings/myAccount/ChangePassword";
+import AccountRemoval from "../components/vaultSettings/myAccount/AccountRemoval";
 import ConfirmModal from "../components/helpers/ConfirmModal";
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, removeAccount } from "../features/slice/authSlice";
+import SpinnerLoader from "../components/SpinnerLoader";
 
 const VaultSettings = () => {
+  const { removedAccount, authLoading } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
   const onDeleteAccount = () => {
-    console.log("deleteAccount");
+    console.log("test")
+    dispatch(removeAccount());
   };
 
-  const handleDeleteAccount = () => {};
+  useEffect(() => {
+    if (removedAccount) {
+      dispatch(logOut());
+    }
+  }, [removedAccount]);
 
   return (
     <div className="scroll-view-long">
@@ -35,33 +49,7 @@ const VaultSettings = () => {
           <ChangePassword></ChangePassword>
           <hr></hr>
 
-          <div className="form-group">
-            <h5 className="delete-account">Account Removal</h5>
-            <div className="form-group">
-              <WarningAlert
-                message={
-                  "Once you delete your account, there is no going back. Please be certain."
-                }
-              ></WarningAlert>
-            </div>
-            <ConfirmModal
-              handleProceed={handleDeleteAccount}
-              component={
-                <Button
-                  onClick={onDeleteAccount}
-                  type="button"
-                  className="btn-secondary danger"
-                >
-                  Delete Account
-                </Button>
-              }
-              headerMessage={"Are you sure you want to delete this account?"}
-              bodyMessage={
-                "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
-              }
-              continueMessage={"Delete"}
-            ></ConfirmModal>
-          </div>
+          <AccountRemoval></AccountRemoval>
         </div>
       </div>
     </div>
