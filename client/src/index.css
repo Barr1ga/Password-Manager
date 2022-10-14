@@ -225,6 +225,7 @@ input {
 .btn-dark {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   background-color: #9e58e0;
   border: 1px solid rgb(59, 30, 112);
@@ -824,7 +825,7 @@ textarea {
 }
 
 .password-hint {
-  padding: 10px;
+  padding: 10px;  
   border-radius: 3px;
   border: 1px solid rgb(119, 226, 77);
   background-color: rgba(57, 255, 146, 0.055);

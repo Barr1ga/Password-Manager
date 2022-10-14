@@ -80,7 +80,7 @@ const MyAccount = () => {
               privacy statement to learn more about how we use this information.
             </small>
           </div>
-          <Button type="submit" className="btn-dark">
+          <Button type="submit" className="btn-dark" style={{width: "140px"}}>
             Save Account
           </Button>
         </form>

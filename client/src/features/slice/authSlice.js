@@ -8,16 +8,25 @@ const initialState = {
   authUser: authUser && typeof authUser !== "undefined" ? authUser : null,
   username: "",
   masterPasswordHint: "",
-  authRegistered: false,
-  authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
-  authMicrosoftLoading: false,
   authLoading: false,
   authFulfilled: false,
   authError: false,
   authMessage: "",
   authErrorMessage: "",
   authErrorCode: "",
+
+  // registration
+  authRegistered: false,
+  authEmailAndPasswordLoading: false,
+
+  // reauthentication
+  authChangedEmail: false,
+  authChangedEmailFulfilled: false,
+  authChangedEmailLoading: false,
+  authChangedPassword: false,
+  authChangedPasswordFulfilled: false,
+  authChangedPasswordLoading: false,
 };
 
 export const checkEmailExists = createAsyncThunk(
@@ -75,13 +84,22 @@ export const sendVerification = createAsyncThunk(
   }
 );
 
+export const changeEmailReauthentication = createAsyncThunk(
+  "auth/changeEmailReauthentication",
+  async (masterPassword, ThunkAPI) => {
+    try {
+      await authService.changeEmailReauthentication(masterPassword);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const changeEmail = createAsyncThunk(
   "auth/changeEmail",
   async (data, ThunkAPI) => {
     try {
-      const uid = ThunkAPI.getState().auth.uid;
-      data.uid = uid;
-      return await authService.changeEmail(data);
+      await authService.changeEmail(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -120,8 +138,6 @@ export const logOut = createAsyncThunk(
     }
   }
 );
-
-
 
 const userSlice = createSlice({
   name: "auth",
@@ -227,19 +243,36 @@ const userSlice = createSlice({
         state.authErrorMessage = authErrorMessage(code);
       })
 
+      .addCase(changeEmailReauthentication.pending, (state) => {
+        state.authChangedEmailLoading = true;
+      })
+      .addCase(changeEmailReauthentication.fulfilled, (state, action) => {
+        state.authChangedEmailLoading = false;
+        state.authChangedEmail = true;
+      })
+      .addCase(changeEmailReauthentication.rejected, (state, action) => {
+        state.authChangedEmailLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
       .addCase(changeEmail.pending, (state) => {
-        state.authLoading = true;
+        state.authChangedEmailLoading = true;
       })
       .addCase(changeEmail.fulfilled, (state, action) => {
-        state.authLoading = false;
-        state.authFulfilled = true;
+        state.authChangedEmailLoading = false;
+        state.authChangedEmail = false;
+        state.authChangedEmailFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
         localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(changeEmail.rejected, (state, action) => {
-        state.authLoading = false;
+        state.authChangedEmailLoading = false;
         state.authError = true;
         const { code, message } = action.payload;
         state.authMessage = message;
@@ -291,10 +324,23 @@ const userSlice = createSlice({
       })
       .addCase(logOut.fulfilled, (state) => {
         state.authLoading = false;
-        state.authFulfilled = true;
+        state.username = "";
+        state.masterPasswordHint = "";
+        state.authGoogleLoading = false;
+        state.authLoading = false;
+        state.authFulfilled = false;
+        state.authError = false;
         state.authMessage = "";
-        state.authErrorCode = "";
         state.authErrorMessage = "";
+        state.authErrorCode = "";
+        state.authRegistered = false;
+        state.authEmailAndPasswordLoading = false;
+        state.authChangedEmail = false;
+        state.authChangedEmailFulfilled = false;
+        state.authChangedEmailLoading = false;
+        state.authChangedPassword = false;
+        state.authChangedPasswordFulfilled = false;
+        state.authChangedPasswordLoading = false;
         localStorage.removeItem("authUser");
       })
       .addCase(logOut.rejected, (state, action) => {
@@ -307,6 +353,10 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, resetUser, resetAuthErrors, setUserInformation } =
-  userSlice.actions;
+export const {
+  setUser,
+  resetUser,
+  resetAuthErrors,
+  setUserInformation,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -2,6 +2,8 @@ import {
   fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
   sendEmailVerification,
   updateEmail,
   updatePassword,
@@ -33,12 +35,25 @@ const sendVerification = async () => {
   return sendEmailVerification(auth.currentUser);
 };
 
+const changeEmailReauthentication = async (data) => {
+  const credential = EmailAuthProvider.credential(
+    auth.currentUser.email,
+    data
+  );
+  return reauthenticateWithCredential(auth.currentUser, credential);
+};
+
 const changeEmail = async (data) => {
   return updateEmail(auth.currentUser, data);
 };
 
 const changePassword = async (data) => {
-  const { currentMasterPassword, newMasterPassword, retypeMasterPassword, masterPasswordHint } = data;
+  const {
+    currentMasterPassword,
+    newMasterPassword,
+    retypeMasterPassword,
+    masterPasswordHint,
+  } = data;
   return updatePassword(auth.currentUser, newMasterPassword);
 };
 
@@ -51,12 +66,11 @@ const logOut = async () => {
   return signOut(auth);
 };
 
-
-
 const userService = {
   logInWithEmailAndPassword,
   createUser,
   registerWithEmailAndPassword,
+  changeEmailReauthentication,
   sendVerification,
   changeEmail,
   changePassword,
