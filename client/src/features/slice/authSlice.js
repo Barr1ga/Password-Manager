@@ -8,20 +8,17 @@ const initialState = {
   authUser: authUser && typeof authUser !== "undefined" ? authUser : null,
   username: "",
   masterPasswordHint: "",
-  authRegistered: false,
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
-  authMicrosoftLoading: false,
   authLoading: false,
   authFulfilled: false,
   authError: false,
   authMessage: "",
   authErrorMessage: "",
   authErrorCode: "",
-  
+
   // registration
   authRegistered: false,
-  authEmailAndPasswordLoading: false,
 
   // reauthentication
   authChangedEmail: false,
@@ -77,7 +74,7 @@ export const getMasterPasswordHint = createAsyncThunk(
   "auth/getMasterPasswordHint",
   async (data, ThunkAPI) => {
     try {
-      await authService.getMasterPasswordHint(data);
+      return await authService.getMasterPasswordHint(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -88,7 +85,7 @@ export const createUser = createAsyncThunk(
   "auth/createUser",
   async (data, ThunkAPI) => {
     try {
-      await authService.createUser(data);
+      return await authService.createUser(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -99,7 +96,7 @@ export const changeEmailReauthentication = createAsyncThunk(
   "auth/changeEmailReauthentication",
   async (masterPassword, ThunkAPI) => {
     try {
-      await authService.Reauthentication(masterPassword);
+      return await authService.Reauthentication(masterPassword);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -110,7 +107,7 @@ export const changeEmail = createAsyncThunk(
   "auth/changeEmail",
   async (data, ThunkAPI) => {
     try {
-      await authService.changeEmail(data);
+      return await authService.changeEmail(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -121,7 +118,7 @@ export const changePasswordReauthentication = createAsyncThunk(
   "auth/changePasswordReauthentication",
   async (masterPassword, ThunkAPI) => {
     try {
-      await authService.Reauthentication(masterPassword);
+      return await authService.Reauthentication(masterPassword);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -257,7 +254,7 @@ const userSlice = createSlice({
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
       })
-      
+
       .addCase(getMasterPasswordHint.pending, (state) => {
         state.authLoading = true;
       })
@@ -272,9 +269,8 @@ const userSlice = createSlice({
       .addCase(getMasterPasswordHint.rejected, (state, action) => {
         state.authLoading = false;
         state.authError = true;
-        const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
+        state.authErrorCode = "auth/user-not-found";
+        state.authErrorMessage = authErrorMessage("auth/user-not-found");
       })
 
       .addCase(createUser.pending, (state) => {

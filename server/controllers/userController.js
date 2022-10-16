@@ -14,17 +14,31 @@ const getAllUser = asyncHandler(async (req, res) => {
 
 const getMasterPasswordHint = asyncHandler(async (req, res) => {
   const { data } = req.body;
-  console.log(req.body)
-  const result = await User.where("email", "==", data).get("masterPasswordHint");
+  console.log(data);
+  const result = await User.where("email", "==", data).get();
 
-  res.status(201).json(result);
+  if (result.empty) {
+    res.status(400);
+    throw new Error("User not found!");
+  }
+
+  let hint;
+  result.forEach((doc) => {
+    hint = doc.data().masterPasswordHint;
+  });
+
+  res.status(200).json(hint);
 });
 
 const createUser = asyncHandler(async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   const { uid, username, masterPasswordHint, email } = req.body;
 
-  const result = await User.doc(uid).set({ username, masterPasswordHint, email });
+  const result = await User.doc(uid).set({
+    username,
+    masterPasswordHint,
+    email,
+  });
 
   res.status(201).json(result);
 });
@@ -41,7 +55,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const { uid, username, masterPasswordHint } = req.body;
 
   const result = await User.doc(uid).update({
-    username
+    username,
   });
 
   res.status(201).json(result);

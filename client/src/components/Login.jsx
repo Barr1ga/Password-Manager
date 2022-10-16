@@ -209,7 +209,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                     )}
                   </Button>
                 </div>
-                {showPasswordHint && (
+                {showPasswordHint && masterPasswordHint !== "" && (
                   <div className="form-group">
                     <div className="password-hint">
                       <p>Hint: {masterPasswordHint}</p>
