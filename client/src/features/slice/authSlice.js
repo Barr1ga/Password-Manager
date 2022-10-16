@@ -37,17 +37,6 @@ const initialState = {
   authRemovedAccountLoading: false,
 };
 
-export const checkEmailExists = createAsyncThunk(
-  "auth/checkEmailExists",
-  async (data, ThunkAPI) => {
-    try {
-      await authService.checkEmailExists(data);
-    } catch (error) {
-      return ThunkAPI.rejectWithValue(error);
-    }
-  }
-);
-
 export const logInWithEmailAndPassword = createAsyncThunk(
   "auth/logInWithEmailAndPassword",
   async (data, ThunkAPI) => {
@@ -64,6 +53,17 @@ export const registerWithEmailAndPassword = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await authService.registerWithEmailAndPassword(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getUserData = createAsyncThunk(
+  "auth/getUserData",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.getUserData(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -253,6 +253,23 @@ const userSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(getUserData.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.username = action.payload.username;
+        state.masterPasswordHint = action.payload.masterPasswordHint;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
       })
 
       .addCase(getMasterPasswordHint.pending, (state) => {

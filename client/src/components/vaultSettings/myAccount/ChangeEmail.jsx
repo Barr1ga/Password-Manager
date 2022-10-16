@@ -182,10 +182,12 @@ const ChangeEmail = () => {
             >
               <Modal.Body className="confirmation-modal-body">
                 <div className="confirmation-modal">
-                  <h5>{"Are you sure you want to delete this account?"}</h5>
+                  <h5>
+                    {"Are you sure you want to change your email address?"}
+                  </h5>
                   <small>
                     {
-                      "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
+                      "This will change the email you use to login. You will no longer be able to sign in with your current email address."
                     }
                   </small>
                   <div className="options gap-10">
@@ -199,12 +201,12 @@ const ChangeEmail = () => {
                     <Button
                       onClick={handleEmailChange}
                       type="button"
-                      className="btn-secondary btn-long danger"
+                      className="btn-dark btn-long"
                     >
                       {authChangedEmailLoading ? (
                         <SpinnerLoader></SpinnerLoader>
                       ) : (
-                        <>Delete</>
+                        <>Change</>
                       )}
                     </Button>
                   </div>

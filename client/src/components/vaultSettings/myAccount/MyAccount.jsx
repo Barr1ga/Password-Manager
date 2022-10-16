@@ -1,15 +1,26 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const MyAccount = () => {
+  const { authUser, username, masterPasswordHint } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {}, []);
+
   const {
-    register: accountField,
-    handleSubmit: handleSubmitAccount,
+    register,
+    handleSubmit,
     formState: { errors: errorsAccount },
   } = useForm({
     mode: "all",
-    defaultValues: {},
+    defaultValues: {
+      username: username,
+      masterPasswordHint: masterPasswordHint,
+    },
   });
 
   const onSubmitAccount = (data) => {
@@ -17,49 +28,56 @@ const MyAccount = () => {
   };
 
   return (
-    <div className="standard-stack">
-      <div className="form-group">
+    <div className="my-account">
+      <div className="form-group standard-stack gap-10">
         <h5>My Account</h5>
-        <form onSubmit={handleSubmitAccount(onSubmitAccount)}>
+        <div className="user">
+          <div className="image">{username.charAt(0)}</div>
+          <small>
+            Sorry, we do not support<br></br>changing of avatars for now.
+          </small>
+        </div>
+        <form onSubmit={handleSubmit(onSubmitAccount)}>
           <div className="form-group">
             <label>
               Name <span className="error-message">*</span>
             </label>
             <input
               type="text"
-              {...accountField("name", {
+              {...register("username", {
                 required: {
                   value: true,
                   message: "Name is required",
                 },
               })}
               className={
-                errorsAccount.name ? "form-control form-error" : "form-control "
+                errorsAccount.username
+                  ? "form-control form-error"
+                  : "form-control "
               }
             />
-            {errorsAccount.name && (
+            {errorsAccount.username && (
               <small className="error-message">
-                {errorsAccount.name.message}
+                {errorsAccount.username.message}
                 <br></br>
               </small>
             )}
             <small>
-              Your name may appear around the vault where you are a member of.
+              Your username may appear around the vault where you are a member
+              of.
             </small>
           </div>
 
           <div className="form-group">
-            <label>
-              Email Address
-            </label>
-            <div className="form-control-disabled">hor.barr1ga@gmail.com</div>
+            <label>Email Address</label>
+            <div className="form-control-disabled">{authUser.email}</div>
           </div>
 
           <div className="form-group">
             <label>Master Password Hint</label>
             <input
               type="text"
-              {...accountField("masterPasswordHint")}
+              {...register("masterPasswordHint")}
               className={
                 errorsAccount.masterPasswordHint
                   ? "form-control form-error"

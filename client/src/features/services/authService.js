@@ -22,6 +22,13 @@ const logInWithEmailAndPassword = async (data) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
 
+const getUserData = async (data) => {
+  const response = await axios.post(API_URL + "/getUserData", {
+    data,
+  });
+  return response.data;
+};
+
 const getMasterPasswordHint = async (data) => {
   const response = await axios.post(API_URL + "/getMasterPasswordHint", {
     data,
@@ -72,6 +79,7 @@ const logOut = async () => {
 
 const userService = {
   logInWithEmailAndPassword,
+  getUserData,
   getMasterPasswordHint,
   createUser,
   registerWithEmailAndPassword,

@@ -69,7 +69,7 @@ const ChangePassword = () => {
   return (
     <div className="standard-stack">
       <div className="form-group">
-        <h5>Change Master Password</h5>
+        <h5 className="delete-account">Change Master Password</h5>
 
         <form onSubmit={handleSubmitMaster(onSubmitMaster)}>
           <div className="form-group">
@@ -191,7 +191,11 @@ const ChangePassword = () => {
             </div>
           </div>
 
-          <Button type="submit" className="btn-dark" style={{ width: "235px" }}>
+          <Button
+            type="submit"
+            className="btn-secondary danger"
+            style={{ width: "235px" }}
+          >
             {authChangedPasswordLoading ? (
               <SpinnerLoader></SpinnerLoader>
             ) : (
@@ -210,10 +214,10 @@ const ChangePassword = () => {
         >
           <Modal.Body className="confirmation-modal-body">
             <div className="confirmation-modal">
-              <h5>{"Are you sure you want to delete this account?"}</h5>
+              <h5>{"Are you sure you want to change your master password?"}</h5>
               <small>
                 {
-                  "Your vault will be deleted along with your account. Additionally, all members of your vault will lose access to the passwords inside it."
+                  "This will change the master password you use to login. You will no longer be able to sign in with your current master password."
                 }
               </small>
               <div className="options gap-10">
@@ -232,7 +236,7 @@ const ChangePassword = () => {
                   {authChangedPasswordLoading ? (
                     <SpinnerLoader></SpinnerLoader>
                   ) : (
-                    <>Delete</>
+                    <>Change</>
                   )}
                 </Button>
               </div>

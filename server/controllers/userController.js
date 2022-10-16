@@ -12,9 +12,20 @@ const getAllUser = asyncHandler(async (req, res) => {
   });
 });
 
+const getUserData = asyncHandler(async (req, res) => {
+  const { data } = req.body;
+  const result = await User.doc(data).get();
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("User not found!");
+  }
+  const { username, masterPasswordHint } = result.data();
+  res.status(200).json({ username, masterPasswordHint });
+});
+
 const getMasterPasswordHint = asyncHandler(async (req, res) => {
   const { data } = req.body;
-  console.log(data);
   const result = await User.where("email", "==", data).get();
 
   if (result.empty) {
@@ -61,4 +72,10 @@ const updateUser = asyncHandler(async (req, res) => {
   res.status(201).json(result);
 });
 
-module.exports = { getAllUser, getMasterPasswordHint, createUser, removeUser };
+module.exports = {
+  getAllUser,
+  getUserData,
+  getMasterPasswordHint,
+  createUser,
+  removeUser,
+};
