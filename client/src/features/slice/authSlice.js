@@ -3,11 +3,18 @@ import authService from "../services/authService";
 import authErrorMessage from "../utils/authErrorMessage";
 
 const authUser = JSON.parse(localStorage.getItem("authUser"));
+const authProfile = JSON.parse(localStorage.getItem("authProfile"));
 
 const initialState = {
   authUser: authUser && typeof authUser !== "undefined" ? authUser : null,
-  username: "",
-  masterPasswordHint: "",
+  username:
+    authProfile && typeof authProfile !== "undefined"
+      ? authProfile.username
+      : null,
+  masterPasswordHint:
+    authProfile && typeof authProfile !== "undefined"
+      ? authProfile.masterPasswordHint
+      : null,
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
   authLoading: false,
@@ -64,6 +71,28 @@ export const getUserData = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await authService.getUserData(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateUserData = createAsyncThunk(
+  "auth/updateUserData",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.updateUserData(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const updateUserPasswordHint = createAsyncThunk(
+  "auth/updateUserPasswordHint",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.updateUserPasswordHint(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -266,8 +295,45 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
+        localStorage.setItem("authProfile", JSON.stringify(action.payload));
       })
       .addCase(getUserData.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
+      })
+
+      .addCase(updateUserData.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(updateUserData.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.username = action.payload.username;
+        state.masterPasswordHint = action.payload.masterPasswordHint;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+        console.log(action.payload);
+      })
+      .addCase(updateUserData.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
+      })
+
+      .addCase(updateUserPasswordHint.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(updateUserPasswordHint.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.username = action.payload.username;
+        state.masterPasswordHint = action.payload.masterPasswordHint;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+        console.log(action.payload);
+      })
+      .addCase(updateUserPasswordHint.rejected, (state, action) => {
         state.authLoading = false;
         state.authError = true;
       })

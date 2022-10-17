@@ -51,7 +51,10 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
-      dispatch(getUserData(user.uid));
+
+      if (username === "" || masterPasswordHint === "") {
+        dispatch(getUserData(user.uid));
+      }
     });
 
     return unsubscribe;

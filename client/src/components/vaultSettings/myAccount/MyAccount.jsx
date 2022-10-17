@@ -1,15 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Modal from "react-bootstrap/Modal";
+import { updateUserData } from "../../../features/slice/authSlice";
+import SpinnerLoader from "../../SpinnerLoader";
 
 const MyAccount = () => {
-  const { authUser, username, masterPasswordHint } = useSelector(
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const dispatch = useDispatch();
+  const { authUser, authLoading, authFulfilled, username } = useSelector(
     (state) => state.auth
   );
-
-  useEffect(() => {}, []);
 
   const {
     register,
@@ -19,12 +26,18 @@ const MyAccount = () => {
     mode: "all",
     defaultValues: {
       username: username,
-      masterPasswordHint: masterPasswordHint,
     },
   });
 
   const onSubmitAccount = (data) => {
-    console.log(data);
+    setFormData(data);
+    handleShow();
+  };
+
+  const handleUpdateUserData = () => {
+    console.log(formData);
+    const { username } = formData;
+    dispatch(updateUserData({ uid: authUser.uid, username }));
   };
 
   return (
@@ -74,33 +87,52 @@ const MyAccount = () => {
           </div>
 
           <div className="form-group">
-            <label>Master Password Hint</label>
-            <input
-              type="text"
-              {...register("masterPasswordHint")}
-              className={
-                errorsAccount.masterPasswordHint
-                  ? "form-control form-error"
-                  : "form-control "
-              }
-            />
-            {errorsAccount.masterPasswordHint && (
-              <small className="error-message">
-                {errorsAccount.masterPasswordHint.message}
-              </small>
-            )}
-          </div>
-          <div className="form-group">
             <small>
               All of the fields on this page are optional and can be deleted at
               any time, and by filling them out, you're giving us consent to
-              share this data wherever your user profile appears. Please see our
-              privacy statement to learn more about how we use this information.
+              share your username wherever your user profile appears. Please see
+              our privacy statement to learn more about how we use this
+              information.
             </small>
           </div>
           <Button type="submit" className="btn-dark">
             Save Account
           </Button>
+          <Modal
+            size="sm"
+            show={show}
+            onHide={handleClose}
+            backdrop="static"
+            keyboard={false}
+            centered
+          >
+            <Modal.Body className="confirmation-modal-body">
+              <div className="confirmation-modal">
+                <h5>
+                  {"Are you sure you want to save and update your profile?"}
+                </h5>
+                <small>
+                  {"This will change the information you use for your account."}
+                </small>
+                <div className="options gap-10">
+                  <Button
+                    type="button"
+                    className="btn-secondary btn-long"
+                    onClick={handleClose}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleUpdateUserData}
+                    type="button"
+                    className="btn-dark btn-long"
+                  >
+                    {authLoading ? <SpinnerLoader></SpinnerLoader> : <>Save</>}
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
         </form>
       </div>
     </div>

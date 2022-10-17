@@ -12,6 +12,35 @@ const getAllUser = asyncHandler(async (req, res) => {
   });
 });
 
+const updateUserData = asyncHandler(async (req, res) => {
+  const { uid, username } = req.body;
+  const result = await User.doc(uid).update({
+    username,
+  });
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  res.status(201).json(result);
+});
+
+const updateUserPasswordHint = asyncHandler(async (req, res) => {
+  const { uid, masterPasswordHint } = req.body;
+
+  const result = await User.doc(uid).update({
+    masterPasswordHint,
+  });
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  res.status(201).json(result);
+});
+
 const getUserData = asyncHandler(async (req, res) => {
   const { data } = req.body;
   const result = await User.doc(data).get();
@@ -20,6 +49,7 @@ const getUserData = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User not found!");
   }
+
   const { username, masterPasswordHint } = result.data();
   res.status(200).json({ username, masterPasswordHint });
 });
@@ -51,6 +81,11 @@ const createUser = asyncHandler(async (req, res) => {
     email,
   });
 
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this user!");
+  }
+
   res.status(201).json(result);
 });
 
@@ -74,8 +109,11 @@ const updateUser = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllUser,
+  updateUserData,
+  updateUserPasswordHint,
   getUserData,
   getMasterPasswordHint,
   createUser,
   removeUser,
+  updateUserData,
 };

@@ -8,9 +8,12 @@ import RoundLoader from "./RoundLoader";
 import BarLoader from "./BarLoader";
 import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
 import Logo from "../assets/vaulteer_logo.svg";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const route = useLocation().pathname;
+
+  const { username } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -66,7 +69,7 @@ const Header = () => {
             </Link>
             <Link to="/MyAccount">
               <Button className="btn-secondary btn-with-icon gap-10">
-                <small className="image">H</small>
+                <small className="image">{username.charAt(0)}</small>
                 <p>Username</p>
               </Button>
             </Link>

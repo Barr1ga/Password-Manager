@@ -29,6 +29,25 @@ const getUserData = async (data) => {
   return response.data;
 };
 
+const updateUserData = async (data) => {
+  const { uid, username } = data;
+
+  const response = await axios.post(API_URL + "/updateUserData", {
+    uid,
+    username,
+  });
+  return response.data;
+};
+
+const updateUserPasswordHint = async (data) => {
+  const { uid, masterPasswordHint } = data;
+  const response = await axios.post(API_URL + "/updateUserPasswordHint", {
+    uid,
+    masterPasswordHint,
+  });
+  return response.data;
+};
+
 const getMasterPasswordHint = async (data) => {
   const response = await axios.post(API_URL + "/getMasterPasswordHint", {
     data,
@@ -79,6 +98,8 @@ const logOut = async () => {
 
 const userService = {
   logInWithEmailAndPassword,
+  updateUserData,
+  updateUserPasswordHint,
   getUserData,
   getMasterPasswordHint,
   createUser,
