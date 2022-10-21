@@ -6,15 +6,9 @@ const authUser = JSON.parse(localStorage.getItem("authUser"));
 const authProfile = JSON.parse(localStorage.getItem("authProfile"));
 
 const initialState = {
-  authUser: authUser && typeof authUser !== "undefined" ? authUser : null,
-  username:
-    authProfile && typeof authProfile !== "undefined"
-      ? authProfile.username
-      : null,
-  masterPasswordHint:
-    authProfile && typeof authProfile !== "undefined"
-      ? authProfile.masterPasswordHint
-      : null,
+  authUser: authUser ? authUser : null,
+  username: authProfile ? authProfile.username : null,
+  masterPasswordHint: authProfile ? authProfile.masterPasswordHint : null,
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
   authLoading: false,
@@ -251,6 +245,7 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
+        state.authUser = action.payload;
         localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(logInWithEmailAndPassword.rejected, (state, action) => {
@@ -272,7 +267,7 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        console.log(action.payload);
+        state.authUser = action.payload;
         localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
@@ -307,13 +302,14 @@ const userSlice = createSlice({
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
         state.authLoading = false;
-        state.username = action.payload.username;
-        state.masterPasswordHint = action.payload.masterPasswordHint;
+        // state.username = action.payload;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
         console.log(action.payload);
+        authProfile.username = action.payload;
+        localStorage.setItem("authProfile", JSON.stringify(authProfile));
       })
       .addCase(updateUserData.rejected, (state, action) => {
         state.authLoading = false;
@@ -325,8 +321,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUserPasswordHint.fulfilled, (state, action) => {
         state.authLoading = false;
-        state.username = action.payload.username;
-        state.masterPasswordHint = action.payload.masterPasswordHint;
+        state.masterPasswordHint = action.payload;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";

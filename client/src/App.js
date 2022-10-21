@@ -52,7 +52,11 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
 
-      if (username === "" || masterPasswordHint === "") {
+      if (
+        username === null ||
+        username.trim() === "" ||
+        (masterPasswordHint === null || !masterPasswordHint.trim()) === ""
+      ) {
         dispatch(getUserData(user.uid));
       }
     });

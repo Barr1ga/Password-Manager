@@ -38,7 +38,16 @@ const updateUserPasswordHint = asyncHandler(async (req, res) => {
     throw new Error("There was an error updating this user!");
   }
 
-  res.status(201).json(result);
+  const updatedDocument = await User.doc(data).get();
+
+  if (updatedDocument.empty) {
+    res.status(400);
+    throw new Error("User not found!");
+  }
+
+  const { username } = updatedDocument.data();
+
+  res.status(201).json(username);
 });
 
 const getUserData = asyncHandler(async (req, res) => {
