@@ -23,7 +23,10 @@ const updateUserData = asyncHandler(async (req, res) => {
     throw new Error("There was an error updating this user!");
   }
 
-  res.status(201).json(result);
+  const updatedDocument = await User.doc(uid).get();
+  const updatedUsername = updatedDocument.data().username;
+
+  res.status(201).json(updatedUsername);
 });
 
 const updateUserPasswordHint = asyncHandler(async (req, res) => {

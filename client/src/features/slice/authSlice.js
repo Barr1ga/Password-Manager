@@ -309,6 +309,7 @@ const userSlice = createSlice({
         state.authErrorCode = "";
         state.authErrorMessage = "";
         console.log(action.payload);
+        state.username = action.payload;
         authProfile.username = action.payload;
         localStorage.setItem("authProfile", JSON.stringify(authProfile));
       })
@@ -512,6 +513,7 @@ const userSlice = createSlice({
       })
       .addCase(logOut.fulfilled, (state) => {
         localStorage.removeItem("authUser");
+        localStorage.removeItem("authProfile");
         state.authUser = null;
         state.username = "";
         state.masterPasswordHint = "";

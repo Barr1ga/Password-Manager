@@ -14,20 +14,7 @@ import { logOut, removeAccount } from "../features/slice/authSlice";
 import SpinnerLoader from "../components/SpinnerLoader";
 
 const VaultSettings = () => {
-  const { removedAccount, authLoading } = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
-
-  const onDeleteAccount = () => {
-    console.log("test")
-    dispatch(removeAccount());
-  };
-
-  useEffect(() => {
-    if (removedAccount) {
-      dispatch(logOut());
-    }
-  }, [removedAccount]);
+  const { authLoading } = useSelector((state) => state.auth);
 
   return (
     <div className="scroll-view-long">
