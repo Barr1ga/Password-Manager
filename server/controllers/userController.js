@@ -12,6 +12,29 @@ const getAllUser = asyncHandler(async (req, res) => {
   });
 });
 
+const updateUserEmail = asyncHandler(async (req, res) => {
+  const { uid, email } = req.body;
+  const result = await User.doc(uid).update({
+    email,
+  });
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  const updatedDocument = await User.doc(uid).get();
+
+  if (updatedDocument.empty) {
+    res.status(400);
+    throw new Error("User not found!");
+  }
+
+  const updatedUsername = updatedDocument.data().email;
+
+  res.status(201).json(updatedUsername);
+});
+
 const updateUserData = asyncHandler(async (req, res) => {
   const { uid, username } = req.body;
   const result = await User.doc(uid).update({
@@ -24,6 +47,12 @@ const updateUserData = asyncHandler(async (req, res) => {
   }
 
   const updatedDocument = await User.doc(uid).get();
+
+  if (updatedDocument.empty) {
+    res.status(400);
+    throw new Error("User not found!");
+  }
+
   const updatedUsername = updatedDocument.data().username;
 
   res.status(201).json(updatedUsername);
@@ -31,7 +60,8 @@ const updateUserData = asyncHandler(async (req, res) => {
 
 const updateUserPasswordHint = asyncHandler(async (req, res) => {
   const { uid, masterPasswordHint } = req.body;
-
+  console.log("updatepashint")
+  console.log(req.body)
   const result = await User.doc(uid).update({
     masterPasswordHint,
   });
@@ -41,16 +71,16 @@ const updateUserPasswordHint = asyncHandler(async (req, res) => {
     throw new Error("There was an error updating this user!");
   }
 
-  const updatedDocument = await User.doc(data).get();
+  const updatedDocument = await User.doc(uid).get();
 
   if (updatedDocument.empty) {
     res.status(400);
     throw new Error("User not found!");
   }
 
-  const { username } = updatedDocument.data();
+  const updatedPasswordHint = updatedDocument.data().masterPasswordHint;
 
-  res.status(201).json(username);
+  res.status(201).json(updatedPasswordHint);
 });
 
 const getUserData = asyncHandler(async (req, res) => {
@@ -110,18 +140,9 @@ const removeUser = asyncHandler(async (req, res) => {
   res.status(201).json(result);
 });
 
-const updateUser = asyncHandler(async (req, res) => {
-  const { uid, username, masterPasswordHint } = req.body;
-
-  const result = await User.doc(uid).update({
-    username,
-  });
-
-  res.status(201).json(result);
-});
-
 module.exports = {
   getAllUser,
+  updateUserEmail,
   updateUserData,
   updateUserPasswordHint,
   getUserData,

@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useParams,
+  Navigate,
+} from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
 import Trash from "./pages/Trash";
@@ -66,6 +72,8 @@ const App = () => {
     }
   }, [authRegistered]);
 
+  
+
   return (
     <BrowserRouter>
       {authUser ? (
@@ -77,148 +85,280 @@ const App = () => {
             </div>
             <div className="center-margin">
               <Routes>
-                <Route path="/" element={<AllItems></AllItems>}></Route>
+                <Route
+                  path="/"
+                  element={
+                    authUser ? (
+                      <AllItems></AllItems>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<AllItems />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<AllItems />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
                 <Route
                   path="/Favorites"
-                  element={<Favorites></Favorites>}
+                  element={
+                    authUser ? (
+                      <Favorites></Favorites>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
                 ></Route>
                 <Route
                   path="/Favorites/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<Favorites />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<Favorites />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                <Route path="/Trash" element={<Trash></Trash>}></Route>
+                <Route
+                  path="/Trash"
+                  element={
+                    authUser ? (
+                      <Trash></Trash>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/Trash/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<Trash />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<Trash />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                {/* <Route
-                  path="/SharingCenter"
-                  element={
-                    <ResponsiveDisplay
-                      nonMobile={<SharingCenter />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
-                  }
-                ></Route> */}
                 <Route
                   path="/SharingCenter"
-                  element={<SharingCenter></SharingCenter>}
+                  element={
+                    authUser ? (
+                      <SharingCenter></SharingCenter>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
                 ></Route>
                 <Route
                   path="/SharingCenter/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<SharingCenter />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<SharingCenter />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                <Route path="/Card" element={<Card></Card>}></Route>
+                <Route
+                  path="/Card"
+                  element={
+                    authUser ? (
+                      <Card></Card>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/Card/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<Card />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<Card />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                <Route path="/Identity" element={<Identity></Identity>}></Route>
+                <Route
+                  path="/Identity"
+                  element={
+                    authUser ? (
+                      <Identity></Identity>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/Identity/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<Identity />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<Identity />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
                 <Route
                   path="/SecureNote"
-                  element={<SecureNote></SecureNote>}
+                  element={
+                    authUser ? (
+                      <SecureNote></SecureNote>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
                 ></Route>
                 <Route
                   path="/SecureNote/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<SecureNote />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<SecureNote />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
                 <Route
                   path="/WifiPasswords"
-                  element={<WifiPasswords></WifiPasswords>}
+                  element={
+                    authUser ? (
+                      <WifiPasswords></WifiPasswords>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
                 ></Route>
                 <Route
                   path="/WifiPasswords/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<WifiPasswords />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<WifiPasswords />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
                 <Route
                   path="/MyAccount"
-                  element={<MyAccount></MyAccount>}
+                  element={
+                    authUser ? (
+                      <MyAccount></MyAccount>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
                 ></Route>
                 <Route
                   path="/MyAccount/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<MyAccount />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<MyAccount />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                <Route path="/Members" element={<Members></Members>}></Route>
+                <Route
+                  path="/Members"
+                  element={
+                    authUser ? (
+                      <Members></Members>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/Members/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<Members />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<Members />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                <Route path="/Roles" element={<Roles></Roles>}></Route>
+                <Route
+                  path="/Roles"
+                  element={
+                    authUser ? (
+                      <Roles></Roles>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/Roles/:id"
                   element={
-                    <ResponsiveDisplay
-                      nonMobile={<Roles />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></ResponsiveDisplay>
+                    authUser ? (
+                      <ResponsiveDisplay
+                        nonMobile={<Roles />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></ResponsiveDisplay>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
-                <Route path="/AuditLog" element={<AuditLog></AuditLog>}></Route>
+                <Route
+                  path="/AuditLog"
+                  element={
+                    authUser ? (
+                      <AuditLog></AuditLog>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
+                  }
+                ></Route>
                 <Route
                   path="/AuditLog/:id"
                   element={
-                    <AuditLog
-                      nonMobile={<Roles />}
-                      mobile={<CurrentPasswordItemPage />}
-                    ></AuditLog>
+                    authUser ? (
+                      <AuditLog
+                        nonMobile={<Roles />}
+                        mobile={<CurrentPasswordItemPage />}
+                      ></AuditLog>
+                    ) : (
+                      <Navigate to="/LoginRegistration" />
+                    )
                   }
                 ></Route>
               </Routes>
@@ -245,15 +385,20 @@ const App = () => {
               {/* <OtherLinks></OtherLinks> */}
             </div>
           </div>
-          {/* <Footer></Footer> */}
         </>
       ) : (
         <>
+          {/* <Route
+            path="/LoginRegistration"
+            element={ */}
           <div className="sub-body-small">
             <LoginRegistration></LoginRegistration>
           </div>
+          {/* }
+          ></Route> */}
         </>
       )}
+      {/* <Footer></Footer> */}
     </BrowserRouter>
   );
 };

@@ -6,6 +6,7 @@ import {
   changePassword,
   changePasswordReauthentication,
   logOut,
+  updateUserPasswordHint,
 } from "../../../features/slice/authSlice";
 import SpinnerLoader from "../../SpinnerLoader";
 import Modal from "react-bootstrap/Modal";
@@ -14,11 +15,13 @@ const ChangePassword = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState("");
 
+  const { authUser } = useSelector((state) => state.auth);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const [password, setPassword] = useState("");
-  const [passwordHint, setPasswordHint] = useState("");
+  const [masterPasswordHint, setMasterPasswordHint] = useState("");
   const dispatch = useDispatch();
 
   const {
@@ -33,6 +36,7 @@ const ChangePassword = () => {
   useEffect(() => {
     if (authChangedPasswordReauthFulfilled) {
       dispatch(changePassword(password));
+      dispatch(updateUserPasswordHint({ uid: authUser.uid, masterPasswordHint }));
     }
 
     if (authChangedPasswordFulfilled) {
@@ -63,7 +67,7 @@ const ChangePassword = () => {
       formData;
     dispatch(changePasswordReauthentication(currentMasterPassword));
     setPassword(newMasterPassword);
-    setPasswordHint(masterPasswordHint);
+    setMasterPasswordHint(masterPasswordHint);
   };
 
   return (

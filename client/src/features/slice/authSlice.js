@@ -82,6 +82,17 @@ export const updateUserData = createAsyncThunk(
   }
 );
 
+export const updateUserEmail = createAsyncThunk(
+  "auth/updateUserEmail",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.updateUserEmail(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const updateUserPasswordHint = createAsyncThunk(
   "auth/updateUserPasswordHint",
   async (data, ThunkAPI) => {
@@ -205,7 +216,7 @@ export const removeUser = createAsyncThunk(
 
 export const logOut = createAsyncThunk(
   "auth/logOut",
-  async (data, ThunkAPI) => {
+  async (_, ThunkAPI) => {
     try {
       return await authService.logOut();
     } catch (error) {
@@ -303,7 +314,6 @@ const userSlice = createSlice({
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
         state.authLoading = false;
-        // state.username = action.payload;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -318,12 +328,26 @@ const userSlice = createSlice({
         state.authError = true;
       })
 
+      .addCase(updateUserEmail.pending, (state) => {
+        state.authLoading = true;
+      })
+      .addCase(updateUserEmail.fulfilled, (state, action) => {
+        state.authLoading = false;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+      })
+      .addCase(updateUserEmail.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
+      })
+
       .addCase(updateUserPasswordHint.pending, (state) => {
         state.authLoading = true;
       })
       .addCase(updateUserPasswordHint.fulfilled, (state, action) => {
         state.authLoading = false;
-        state.masterPasswordHint = action.payload;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -372,6 +396,8 @@ const userSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
       })
+
+      
 
       .addCase(changeEmailReauthentication.pending, (state) => {
         state.authChangedEmailLoading = true;
@@ -494,7 +520,7 @@ const userSlice = createSlice({
         state.authRemovedAccountLoading = false;
         state.authRemovedAccount = false;
         state.authRemovedAccountFulfilled = true;
-        state.authRemovedAccountReauthFulfilled = true;
+        state.authRemovedAccountReauthFulfilled = false;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
@@ -506,6 +532,25 @@ const userSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(removeUser.pending, (state) => {
+        state.authEmailAndPasswordLoading = true;
+      })
+      .addCase(removeUser.fulfilled, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authRegistered = false;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+      })
+      .addCase(removeUser.rejected, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
       })
 
       .addCase(logOut.pending, (state) => {

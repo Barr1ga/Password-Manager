@@ -6,6 +6,7 @@ import {
   changeEmail,
   changeEmailReauthentication,
   logOut,
+  updateUserEmail,
 } from "../../../features/slice/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "../../SpinnerLoader";
@@ -14,6 +15,8 @@ import Modal from "react-bootstrap/Modal";
 const ChangeEmail = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState("");
+
+  const { authUser } = useSelector((state) => state.auth);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -34,6 +37,7 @@ const ChangeEmail = () => {
   useEffect(() => {
     if (authChangedEmailReauthFulfilled) {
       dispatch(changeEmail(email));
+      dispatch(updateUserEmail({ uid: authUser.uid, email }));
     }
 
     if (authChangedEmailFulfilled) {

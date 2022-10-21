@@ -5,12 +5,19 @@ import WarningAlert from "../../alerts/WarningAlert";
 import ConfirmModal from "../../helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "../../SpinnerLoader";
-import { accountRemovalReauthentication, logOut, removeAccount } from "../../../features/slice/authSlice";
+import {
+  accountRemovalReauthentication,
+  logOut,
+  removeAccount,
+  removeUser,
+} from "../../../features/slice/authSlice";
 import Modal from "react-bootstrap/Modal";
 
 const VaultSettings = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState("");
+
+  const { authUser } = useSelector((state) => state.auth);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -29,6 +36,7 @@ const VaultSettings = () => {
   useEffect(() => {
     if (authRemovedAccountReauthFulfilled) {
       dispatch(removeAccount());
+      dispatch(removeUser({uid: authUser.uid}));
     }
 
     if (authRemovedAccountFulfilled) {
@@ -100,7 +108,11 @@ const VaultSettings = () => {
             </div>
           )}
         </div>
-        <Button type="submit" className="btn-secondary danger" style={{width: "150px"}}>
+        <Button
+          type="submit"
+          className="btn-secondary danger"
+          style={{ width: "150px" }}
+        >
           {authRemovedAccountLoading ? (
             <SpinnerLoader></SpinnerLoader>
           ) : (
@@ -138,7 +150,11 @@ const VaultSettings = () => {
                 type="button"
                 className="btn-secondary btn-long danger"
               >
-                {authRemovedAccountLoading ? <SpinnerLoader></SpinnerLoader> : <>Delete</>}
+                {authRemovedAccountLoading ? (
+                  <SpinnerLoader></SpinnerLoader>
+                ) : (
+                  <>Delete</>
+                )}
               </Button>
             </div>
           </div>
