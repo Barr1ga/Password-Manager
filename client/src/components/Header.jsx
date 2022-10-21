@@ -69,7 +69,7 @@ const Header = () => {
             </Link>
             <Link to="/MyAccount">
               <Button className="btn-secondary btn-with-icon gap-10">
-                <small className="image">{username.charAt(0)}</small>
+                <small className="image">{username?.charAt(0)}</small>
                 <p>{username}</p>
               </Button>
             </Link>

@@ -51,11 +51,11 @@ const App = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
-
       if (
         username === null ||
         username.trim() === "" ||
-        (masterPasswordHint === null || !masterPasswordHint.trim()) === ""
+        masterPasswordHint === null ||
+        masterPasswordHint.trim() === ""
       ) {
         dispatch(getUserData(user.uid));
       }

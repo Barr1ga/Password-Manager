@@ -245,8 +245,8 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        state.authUser = action.payload;
-        localStorage.setItem("authUser", JSON.stringify(action.payload));
+        state.authUser = action.payload.user;
+        localStorage.setItem("authUser", JSON.stringify(state.authUser));
       })
       .addCase(logInWithEmailAndPassword.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
@@ -267,7 +267,7 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        state.authUser = action.payload;
+        state.authUser = action.payload.user;
         localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
@@ -284,6 +284,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.authLoading = false;
+        console.log(action.payload)
         state.username = action.payload.username;
         state.masterPasswordHint = action.payload.masterPasswordHint;
         state.authFulfilled = true;
