@@ -22,6 +22,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "./SpinnerLoader";
 import Logo from "../assets/vaulteer_logo.svg";
+import { useNavigate } from "react-router-dom";
 
 const Register = ({ handleShowLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,12 +32,16 @@ const Register = ({ handleShowLogin }) => {
   const [email, setEmail] = useState("");
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
+    authError,
+    authMessage,
+    authFulfilled,
+    authErrorCode,
+    authErrorMessage,
     authEmailAndPasswordLoading,
     authGoogleLoading,
-    authErrorMessage,
-    authErrorCode,
   } = useSelector((state) => state.auth);
 
   const {
@@ -80,10 +85,14 @@ const Register = ({ handleShowLogin }) => {
   };
 
   useEffect(() => {
+    if (authFulfilled) {
+      navigate("/");
+    }
+
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, []);
+  }, [authFulfilled]);
 
   useEffect(() => {
     if (authErrorCode === "auth/email-already-in-use") {

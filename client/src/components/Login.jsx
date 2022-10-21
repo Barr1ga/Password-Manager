@@ -10,7 +10,7 @@ import {
   HiLightBulb,
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   continueWithGoogle,
@@ -29,13 +29,18 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { masterPasswordHint, authLoading } = useSelector(
     (state) => state.auth
   );
 
   const {
+    authError,
+    authMessage,
+    authFulfilled,
     authErrorCode,
     authErrorMessage,
     authEmailAndPasswordLoading,
@@ -70,10 +75,14 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   };
 
   useEffect(() => {
+    if (authFulfilled) {
+      navigate("/");
+    }
+
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, []);
+  }, [authFulfilled]);
 
   const handleMasterPasswordHint = () => {
     if (!showPasswordHint) {

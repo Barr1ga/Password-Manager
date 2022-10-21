@@ -21,6 +21,7 @@ const MyAccount = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors: errorsAccount },
   } = useForm({
     mode: "all",
@@ -37,7 +38,12 @@ const MyAccount = () => {
   const handleUpdateUserData = () => {
     console.log(formData);
     const { username } = formData;
-    dispatch(updateUserData({ uid: authUser.uid, username }));
+    const cleanedUsername = username
+      .trim()
+      .replace(/^[^a-z]+|[^a-z\d_\-.]|[_\-.](?![a-z\d])/gi, "");
+    dispatch(updateUserData({ uid: authUser.uid, username: cleanedUsername }));
+    setValue("username", cleanedUsername);
+    handleClose();
   };
 
   return (

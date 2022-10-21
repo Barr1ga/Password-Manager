@@ -135,7 +135,7 @@ const ChangeEmail = () => {
                   Enter Master Password <span className="error-message">*</span>
                 </label>
                 <input
-                  type="text"
+                  type="text" 
                   {...emailField("masterPassword", {
                     required: {
                       value: true,
