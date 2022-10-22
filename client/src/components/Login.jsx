@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { RiShieldFlashFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import {
@@ -10,18 +9,15 @@ import {
   HiLightBulb,
 } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   continueWithGoogle,
   getMasterPasswordHint,
   logInWithEmailAndPassword,
-  resetAuthErrors,
-  setUser,
 } from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
-import MicrosoftIcon from "../assets/icons8-microsoft.svg";
 import SpinnerLoader from "./SpinnerLoader";
 import Logo from "../assets/vaulteer_logo.svg";
 
@@ -38,8 +34,6 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   );
 
   const {
-    authError,
-    authMessage,
     authFulfilled,
     authErrorCode,
     authErrorMessage,
@@ -78,10 +72,6 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     if (authFulfilled) {
       navigate("/");
     }
-
-    return () => {
-      dispatch(resetAuthErrors());
-    };
   }, [authFulfilled]);
 
   const handleMasterPasswordHint = () => {
@@ -104,7 +94,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
         <Modal.Header>
           <div className="login-register-header padding-side">
             <div className="logo gap-10">
-              <img src={Logo} className="icon"></img>
+              <img src={Logo} className="icon" alt={Logo}></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>

@@ -214,16 +214,13 @@ export const removeUser = createAsyncThunk(
   }
 );
 
-export const logOut = createAsyncThunk(
-  "auth/logOut",
-  async (_, ThunkAPI) => {
-    try {
-      return await authService.logOut();
-    } catch (error) {
-      return ThunkAPI.rejectWithValue(error);
-    }
+export const logOut = createAsyncThunk("auth/logOut", async (_, ThunkAPI) => {
+  try {
+    return await authService.logOut();
+  } catch (error) {
+    return ThunkAPI.rejectWithValue(error);
   }
-);
+});
 
 const userSlice = createSlice({
   name: "auth",
@@ -295,7 +292,7 @@ const userSlice = createSlice({
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.authLoading = false;
-        console.log(action.payload)
+        console.log(action.payload);
         state.username = action.payload.username;
         state.masterPasswordHint = action.payload.masterPasswordHint;
         state.authFulfilled = true;
@@ -333,7 +330,7 @@ const userSlice = createSlice({
       })
       .addCase(updateUserEmail.fulfilled, (state, action) => {
         state.authLoading = false;
-        state.authFulfilled = true;
+        // state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
@@ -396,8 +393,6 @@ const userSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
       })
-
-      
 
       .addCase(changeEmailReauthentication.pending, (state) => {
         state.authChangedEmailLoading = true;

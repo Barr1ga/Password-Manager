@@ -60,8 +60,8 @@ const updateUserData = asyncHandler(async (req, res) => {
 
 const updateUserPasswordHint = asyncHandler(async (req, res) => {
   const { uid, masterPasswordHint } = req.body;
-  console.log("updatepashint")
-  console.log(req.body)
+  console.log("updatepashint");
+  console.log(req.body);
   const result = await User.doc(uid).update({
     masterPasswordHint,
   });

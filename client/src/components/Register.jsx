@@ -88,10 +88,6 @@ const Register = ({ handleShowLogin }) => {
     if (authFulfilled) {
       navigate("/");
     }
-
-    return () => {
-      dispatch(resetAuthErrors());
-    };
   }, [authFulfilled]);
 
   useEffect(() => {
@@ -130,7 +126,7 @@ const Register = ({ handleShowLogin }) => {
                   onClick={handleBack}
                 ></HiOutlineArrowLeft>
               )}
-              <h4 className="login-title">Register to Vaulteer</h4>
+              <h5 className="login-title">Register to Vaulteer</h5>
             </div>
 
             <div>
