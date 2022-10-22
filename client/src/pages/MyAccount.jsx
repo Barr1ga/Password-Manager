@@ -5,18 +5,17 @@ import ChangePassword from "../components/vaultSettings/myAccount/ChangePassword
 import AccountRemoval from "../components/vaultSettings/myAccount/AccountRemoval";
 import { useDispatch, useSelector } from "react-redux";
 import { resetAuthErrors } from "../features/slice/authSlice";
+import { HiOutlineX } from "react-icons/hi";
+import MyAccount from "../components/vaultSettings/myAccount/MyAccount";
 
 const VaultSettings = () => {
+  const { authFulfilled } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (authFulfilled) {
-      navigate("/");
-    }
-
     return () => {
       dispatch(resetAuthErrors());
-    }
+    };
   }, [authFulfilled]);
 
   return (
