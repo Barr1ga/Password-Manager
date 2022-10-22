@@ -360,7 +360,6 @@ const userSlice = createSlice({
       .addCase(getMasterPasswordHint.fulfilled, (state, action) => {
         state.authLoading = false;
         state.masterPasswordHint = action.payload;
-        state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
