@@ -88,6 +88,10 @@ const Register = ({ handleShowLogin }) => {
     if (authFulfilled) {
       navigate("/");
     }
+
+    return () => {
+      dispatch(resetAuthErrors());
+    }
   }, [authFulfilled]);
 
   useEffect(() => {

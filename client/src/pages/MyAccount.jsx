@@ -1,20 +1,23 @@
 import React, { useEffect } from "react";
-import Button from "react-bootstrap/Button";
-import { useForm } from "react-hook-form";
-import { HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import WarningAlert from "../components/alerts/WarningAlert";
-import MyAccount from "../components/vaultSettings/myAccount/MyAccount";
 import ChangeEmail from "../components/vaultSettings/myAccount/ChangeEmail";
 import ChangePassword from "../components/vaultSettings/myAccount/ChangePassword";
 import AccountRemoval from "../components/vaultSettings/myAccount/AccountRemoval";
-import ConfirmModal from "../components/helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
-import { logOut, removeAccount } from "../features/slice/authSlice";
-import SpinnerLoader from "../components/SpinnerLoader";
+import { resetAuthErrors } from "../features/slice/authSlice";
 
 const VaultSettings = () => {
-  const { authLoading } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (authFulfilled) {
+      navigate("/");
+    }
+
+    return () => {
+      dispatch(resetAuthErrors());
+    }
+  }, [authFulfilled]);
 
   return (
     <div className="scroll-view-long">
