@@ -330,7 +330,6 @@ const userSlice = createSlice({
       })
       .addCase(updateUserEmail.fulfilled, (state, action) => {
         state.authLoading = false;
-        // state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
@@ -345,7 +344,6 @@ const userSlice = createSlice({
       })
       .addCase(updateUserPasswordHint.fulfilled, (state, action) => {
         state.authLoading = false;
-        state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
