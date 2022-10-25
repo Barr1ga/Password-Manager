@@ -657,7 +657,7 @@ label {
 
 .select-options .option {
   padding: 10px 15px;
-  color: rgb(255, 255, 255, 0.5);
+  color: #ffffff;
   cursor: pointer;
 }
 
@@ -785,6 +785,17 @@ input:placeholder-shown {
   padding: 6px 12px 6px 12px;
   max-height: 105px;
   overflow-y: scroll;
+  transition: 0.2s ease-out 0s;
+}
+
+.form-pills-active {
+  border: 1px solid rgb(157, 104, 255);
+  outline: 1px solid rgb(157, 104, 255);
+  transition: 0.2s ease-out 0s;
+}
+
+.form-pills-active input::placeholder {
+  color: rgb(157, 104, 255);
 }
 
 .form-pills::-webkit-scrollbar {

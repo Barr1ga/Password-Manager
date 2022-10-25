@@ -5,6 +5,7 @@ import memberReducer from "../features/slice/memberSlice";
 import sharingReducer from "../features/slice/sharingSlice";
 import roleReducer from "../features/slice/roleSlice";
 import auditLogReducer from "../features/slice/auditLogSlice";
+import folderReducer from "../features/slice/folderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
     sharing: sharingReducer,
     roles: roleReducer,
     auditLogs: auditLogReducer,
+    folders: folderReducer,
   },
 });

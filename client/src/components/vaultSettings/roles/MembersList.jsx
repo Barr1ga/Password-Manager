@@ -1,42 +1,37 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
-import { HiOutlineSearch, HiPlus } from "react-icons/hi";
-import Button from "react-bootstrap/Button";
+import { HiPlus } from "react-icons/hi";
 
 const MembersList = () => {
   const [assignedMembers, setAssignedMembers] = useState([]);
   const [search, setSearch] = useState("");
   const { members } = useSelector((state) => state.members);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    // reset,
-    formState: { errors },
-  } = useForm({
-    mode: "all",
-    defaultValues: {
-      //   sex: "",
-    },
-  });
-
+  const [focused, setFocused] = useState(false);
   const handleSelectMember = (member) => {
     const { image, username } = member;
     setAssignedMembers([...assignedMembers, { image, username }]);
   };
 
-  console.log(search);
   const filteredMembers =
     search !== ""
       ? members.filter((member) => member.username.includes(search))
       : members;
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      if (search === "" && assignedMembers.length > 0) {
+        setAssignedMembers(assignedMembers.slice(0, -1));
+      }
+    }
+  };
+
   return (
     <>
       <div className="vault-members">
         <div className="form-group">
-          <div className="form-pills">
+          <div
+            className={focused ? "form-pills form-pills-active" : "form-pills"}
+          >
             {assignedMembers.map((member, idx) => (
               <div key={idx} className="pill">
                 <small>{member.username}</small>
@@ -53,11 +48,15 @@ const MembersList = () => {
             <input
               placeholder={assignedMembers.length === 0 ? "Search Member" : ""}
               type="text"
+              onKeyDown={(e) => handleKeyDown(e)}
               onChange={(e) => setSearch(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
               className="form-control-borderless"
               autocomplete="off"
             />
           </div>
+          {focused}
         </div>
         <div className="standard-stack">
           <span className="member-count">{filteredMembers.length} Members</span>

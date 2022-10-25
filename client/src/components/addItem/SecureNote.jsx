@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
@@ -16,19 +16,21 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import { createSecureNoteItem } from "../../features/slice/passwordSlice";
 import { updateSecureNoteItem } from "../../features/slice/passwordSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = ({
+const SecureNote = ({
   method,
   showPasswordGenerator,
   setShowPasswordGenerator,
+  defaultValues,
 }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [favorite, setFavorite] = useState(false);
-  const folderRef = useRef();
+  const [assignedFolders, setAssignedFolders] = useState([]);
+  const [search, setSearch] = useState("");
+  const { folders } = useSelector((state) => state.folders);
 
   const dispatch = useDispatch();
 
@@ -47,11 +49,18 @@ const AddItemModal = ({
     },
   });
 
+  useEffect(() => {
+    reset(defaultValues);
+
+    return () => {
+      reset();
+    }
+  }, [defaultValues, reset]);
+
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
     console.log(data);
-    data.folder = folderRef.current.value;
     dispatch(createSecureNoteItem(data));
     if (method === "update") {
       dispatch(updateSecureNoteItem(data));
@@ -74,6 +83,27 @@ const AddItemModal = ({
   const handleFavorite = () => {
     setFavorite((prev) => !prev);
   };
+
+  // folders
+  const handleSelectFolder = (folder) => {
+    setAssignedFolders([...assignedFolders, folder]);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      if (search === "" && assignedFolders.length > 0) {
+        setAssignedFolders(assignedFolders.slice(0, -1));
+      }
+    }
+  };
+
+  let filteredFolders = folders.filter(
+    (folder) => !assignedFolders.includes(folder)
+  );
+  filteredFolders =
+    search !== ""
+      ? filteredFolders.filter((folder) => folder.includes(search))
+      : filteredFolders;
 
   return (
     <>
@@ -106,47 +136,62 @@ const AddItemModal = ({
 
             <div className="form-group form-select-group">
               <label>Folder</label>
-              <div className="input">
-                <input
-                  type="text"
-                  readOnly
-                  {...register("folder")}
-                  ref={folderRef}
+              <div className="form-group">
+                <div
                   className={
-                    errors.userName
-                      ? "form-control form-error"
-                      : "form-control "
+                    showFolder ? "form-pills form-pills-active" : "form-pills"
                   }
-                  onFocus={() => setShowFolder(true)}
-                  onBlur={handleOnBlurFolder}
-                />
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
-              </div>
-              {showFolder && (
-                <div className="select-options folder-options">
-                  {folders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        folderRef.current.value = folder;
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {folder}
+                >
+                  {assignedFolders.map((folder, idx) => (
+                    <div key={idx} className="pill">
+                      <small>{folder}</small>
+                      <HiPlus
+                        className="btn-delete"
+                        onClick={() =>
+                          setAssignedFolders(
+                            assignedFolders.filter((_, i) => i !== idx)
+                          )
+                        }
+                      ></HiPlus>
                     </div>
                   ))}
+                  <input
+                    placeholder={
+                      assignedFolders.length === 0 ? "Enter Folder" : ""
+                    }
+                    type="text"
+                    onFocus={() => setShowFolder(true)}
+                    onBlur={handleOnBlurFolder}
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="form-control-borderless"
+                    autocomplete="off"
+                  />
                 </div>
-              )}
-              {errors.folder && (
-                <small className="error-message">
-                  {errors.folder.message}
-                  <br></br>
-                </small>
-              )}
+                {showFolder && (
+                  <div className="select-options folder-options">
+                    {filteredFolders.length === 0 && (
+                      <div className="option disabled">No folders found</div>
+                    )}
+                    {filteredFolders.length !== 0 &&
+                      filteredFolders.map((folder, idx) => (
+                        <div
+                          key={idx}
+                          className="option padding-side "
+                          onMouseEnter={() => setHovering(true)}
+                          onMouseLeave={() => setHovering(false)}
+                          onClick={() => {
+                            handleSelectFolder(folder);
+                            setShowFolder(false);
+                            setHovering(false);
+                          }}
+                        >
+                          {folder}
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="form-group">
@@ -200,4 +245,4 @@ const AddItemModal = ({
   );
 };
 
-export default AddItemModal;
+export default SecureNote;
