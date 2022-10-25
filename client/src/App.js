@@ -372,7 +372,6 @@ const App = () => {
 
               {!selectedPassword && (
                 <>
-                  <hr></hr>
                   <SiteWarning></SiteWarning>
 
                   <div className="right-vault-members">
