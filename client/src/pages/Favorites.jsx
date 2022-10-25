@@ -1,42 +1,97 @@
 import React, { useState } from "react";
 import AddItemButton from "../components/AddItemButton";
-import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import PasswordCard from "../components/PasswordCard";
-import { useDispatch, useSelector } from "react-redux";
-import { HiOutlineViewGrid, HiOutlineServer } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import {
+  HiOutlineViewGrid,
+  HiOutlineServer,
+  HiOutlineSearch,
+  HiOutlineX,
+} from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import EmptyList from "../assets/empty-list.svg";
 
 const Favorites = () => {
   const route = "/Favorites";
   const [listView, setListView] = useState(true);
-  const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
+  const [searchStatus, setSearchStatus] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
-  const filteredPasswords = passwords.filter(
-    (password) => password.favorite === true && password.trash === false
-  );
+  let filteredPasswords = passwords.filter(
+    (password) => password.trash === false
+  ).filter((password) => password.favorite === true);
+
+  filteredPasswords =
+    searchValue !== ""
+      ? filteredPasswords.filter((password) =>
+          password.name.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      : filteredPasswords;
+
   const count = filteredPasswords.length;
+
+  const handleSearch = () => {
+    setSearchStatus(true);
+  };
 
   return (
     <div className="margin-content">
-      <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>Favorites</h4>{" "}
+      <div
+        className={
+          searchStatus
+            ? "search-show page-header page-header-long page-header-fixed padding-side"
+            : "page-header page-header-long page-header-fixed padding-side"
+        }
+      >
+        {!searchStatus && <h4>Favorites</h4>}{" "}
         <div>
-          <Button
-            onClick={() => setListView(false)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineViewGrid></HiOutlineViewGrid>
-          </Button>
-          <Button
-            onClick={() => setListView(true)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineServer></HiOutlineServer>
-          </Button>
-          <AddItemButton></AddItemButton>
+          <div className="form-search">
+            {searchStatus && (
+              <>
+                <input
+                  placeholder="Search Items"
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="form-control"
+                ></input>
+                <HiOutlineSearch className="icon"></HiOutlineSearch>
+              </>
+            )}
+          </div>
+          {searchStatus && (
+            <div>
+              <HiOutlineX
+                onClick={() => setSearchStatus(false)}
+                className="btn-close"
+              ></HiOutlineX>
+            </div>
+          )}
+          {!searchStatus && (
+            <Button
+              onClick={handleSearch}
+              className="btn-secondary list-view-btn"
+            >
+              <HiOutlineSearch></HiOutlineSearch>
+            </Button>
+          )}
+          {!searchStatus && (
+            <>
+              <Button
+                onClick={() => setListView(false)}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineViewGrid></HiOutlineViewGrid>
+              </Button>
+              <Button
+                onClick={() => setListView(true)}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineServer></HiOutlineServer>
+              </Button>
+              <AddItemButton></AddItemButton>
+            </>
+          )}
         </div>
       </div>
       {filteredPasswords.length > 0 && listView ? (
@@ -47,9 +102,15 @@ const Favorites = () => {
               <div>
                 {filteredPasswords.length === 0 && (
                   <div className="empty-list">
-                    <img src={EmptyList}></img>
+                    <img src={EmptyList} alt={EmptyList}></img>
                     <p>
-                      You havent added<br></br>any item yet
+                      {searchValue === "" ? (
+                        <>
+                          You havent added<br></br>any item yet
+                        </>
+                      ) : (
+                        <>No items Found</>
+                      )}
                     </p>
                   </div>
                 )}
@@ -75,9 +136,15 @@ const Favorites = () => {
               <div className="contents">
                 {filteredPasswords.length === 0 && (
                   <div className="empty-list">
-                    <img src={EmptyList}></img>
+                    <img src={EmptyList} alt={EmptyList}></img>
                     <p>
-                      You havent added<br></br>any item yet
+                      {searchValue === "" ? (
+                        <>
+                          You havent added<br></br>any item yet
+                        </>
+                      ) : (
+                        <>No items Found</>
+                      )}
                     </p>
                   </div>
                 )}

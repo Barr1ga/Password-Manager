@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { HiOutlineChevronRight, HiLink, HiStar } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { selectPasswordItem } from "../features/slice/passwordSlice";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const PasswordCard = ({ route, password }) => {
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ const PasswordCard = ({ route, password }) => {
           href={password.domain}
           onClick={handleLinkClicked}
           target="_blank"
+          rel="noreferrer"
         >
           {password.name}
         </a>{" "}

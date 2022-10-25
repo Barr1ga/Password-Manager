@@ -100,7 +100,7 @@ const Logins = ({
   );
   filteredFolders =
     search !== ""
-      ? filteredFolders.filter((folder) => folder.includes(search))
+      ? filteredFolders.filter((folder) => folder.toLowerCase().includes(search.toLowerCase()))
       : filteredFolders;
 
   return (

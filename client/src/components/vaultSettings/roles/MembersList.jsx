@@ -14,7 +14,7 @@ const MembersList = () => {
 
   const filteredMembers =
     search !== ""
-      ? members.filter((member) => member.username.includes(search))
+      ? members.filter((member) => member.username.toLowerCase().includes(search.toLowerCase()))
       : members;
 
   const handleKeyDown = (e) => {

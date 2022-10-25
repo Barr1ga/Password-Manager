@@ -16,10 +16,18 @@ const Logins = () => {
   const [listView, setListView] = useState(true);
   const { passwords } = useSelector((state) => state.passwords);
   const [searchStatus, setSearchStatus] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
-  const filteredPasswords = passwords
-    .filter((password) => password.trash === false)
-    .filter((password) => password.type === "login");
+  let filteredPasswords = passwords.filter(
+    (password) => password.trash === false
+  ).filter((password) => password.type === "login");
+
+  filteredPasswords =
+    searchValue !== ""
+      ? filteredPasswords.filter((password) =>
+          password.name.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      : filteredPasswords;
 
   const count = filteredPasswords.length;
 
@@ -38,18 +46,18 @@ const Logins = () => {
       >
         {!searchStatus && <h4>Logins</h4>}{" "}
         <div>
-          {searchStatus && (
-            <>
-              <div className="form-search">
+          <div className="form-search">
+            {searchStatus && (
+              <>
                 <input
                   placeholder="Search Items"
-                  onClick={handleSearch}
+                  onChange={(e) => setSearchValue(e.target.value)}
                   className="form-control"
                 ></input>
                 <HiOutlineSearch className="icon"></HiOutlineSearch>
-              </div>
-            </>
-          )}
+              </>
+            )}
+          </div>
           {searchStatus && (
             <div>
               <HiOutlineX
@@ -95,7 +103,13 @@ const Logins = () => {
                   <div className="empty-list">
                     <img src={EmptyList} alt={EmptyList}></img>
                     <p>
-                      You havent added<br></br>any item yet
+                      {searchValue === "" ? (
+                        <>
+                          You havent added<br></br>any item yet
+                        </>
+                      ) : (
+                        <>No items Found</>
+                      )}
                     </p>
                   </div>
                 )}
@@ -123,7 +137,13 @@ const Logins = () => {
                   <div className="empty-list">
                     <img src={EmptyList} alt={EmptyList}></img>
                     <p>
-                      You havent added<br></br>any item yet
+                      {searchValue === "" ? (
+                        <>
+                          You havent added<br></br>any item yet
+                        </>
+                      ) : (
+                        <>No items Found</>
+                      )}
                     </p>
                   </div>
                 )}
