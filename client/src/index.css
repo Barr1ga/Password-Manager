@@ -1820,6 +1820,7 @@ textarea {
 .page-header-with-close div:nth-child(2),
 .page-header div:nth-child(2) {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 5px;
 }

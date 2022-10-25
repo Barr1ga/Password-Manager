@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
 import Trash from "./pages/Trash";
@@ -30,6 +25,7 @@ import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
 import { createUser, setUser, getUserData } from "./features/slice/authSlice";
+import Logins from "./pages/Logins";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
@@ -168,13 +164,36 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Card"
+              path="Types/Logins"
+              element={
+                authUser ? (
+                  <Logins></Logins>
+                ) : (
+                  <Navigate to="/LoginRegistration" />
+                )
+              }
+            ></Route>
+            <Route
+              path="Types/Logins/:id"
+              element={
+                authUser ? (
+                  <ResponsiveDisplay
+                    nonMobile={<Logins />}
+                    mobile={<CurrentPasswordItemPage />}
+                  ></ResponsiveDisplay>
+                ) : (
+                  <Navigate to="/LoginRegistration" />
+                )
+              }
+            ></Route>
+            <Route
+              path="Types/Cards"
               element={
                 authUser ? <Card></Card> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
-              path="/Card/:id"
+              path="Types/Cards/:id"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -187,7 +206,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Identifications"
+              path="Types/Identifications"
               element={
                 authUser ? (
                   <Identifications></Identifications>
@@ -197,7 +216,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Identifications/:id"
+              path="Types/Identifications/:id"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -210,7 +229,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/SecureNote"
+              path="Types/SecureNotes"
               element={
                 authUser ? (
                   <SecureNote></SecureNote>
@@ -220,7 +239,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/SecureNote/:id"
+              path="Types/SecureNotes/:id"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -233,7 +252,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/WifiPasswords"
+              path="Types/WifiPasswords"
               element={
                 authUser ? (
                   <WifiPasswords></WifiPasswords>
@@ -243,7 +262,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/WifiPasswords/:id"
+              path="Types/WifiPasswords/:id"
               element={
                 authUser ? (
                   <ResponsiveDisplay

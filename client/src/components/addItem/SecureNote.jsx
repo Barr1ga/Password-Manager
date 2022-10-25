@@ -28,7 +28,9 @@ const SecureNote = ({
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [favorite, setFavorite] = useState(false);
-  const [assignedFolders, setAssignedFolders] = useState([]);
+  const [assignedFolders, setAssignedFolders] = useState(
+    defaultValues?.folders || []
+  );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
 
@@ -50,22 +52,24 @@ const SecureNote = ({
   });
 
   useEffect(() => {
-    reset(defaultValues);
+    if (defaultValues) {
+      reset(defaultValues);
+      setAssignedFolders(defaultValues.folders);
+    }
 
     return () => {
       reset();
-    }
+    };
   }, [defaultValues, reset]);
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
     console.log(data);
-    dispatch(createSecureNoteItem(data));
-    if (method === "update") {
-      dispatch(updateSecureNoteItem(data));
-    }
-    console.log(data);
+    // dispatch(createSecureNoteItem(data));
+    // if (method === "update") {
+    //   dispatch(updateSecureNoteItem(data));
+    // }
   };
 
   const handleOnBlurFolder = () => {

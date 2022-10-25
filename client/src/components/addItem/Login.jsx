@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
@@ -8,7 +8,6 @@ import {
   HiPlus,
   HiOutlinePencil,
 } from "react-icons/hi";
-import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
@@ -26,7 +25,9 @@ const Logins = ({
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [favorite, setFavorite] = useState(false);
-  const [assignedFolders, setAssignedFolders] = useState([]);
+  const [assignedFolders, setAssignedFolders] = useState(
+    defaultValues?.folders || []
+  );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
 
@@ -45,21 +46,24 @@ const Logins = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    reset(defaultValues);
+    if (defaultValues) {
+      reset(defaultValues);
+      setAssignedFolders(defaultValues.folders);
+    }
 
     return () => {
       reset();
-    }
+    };
   }, [defaultValues, reset]);
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
-    dispatch(createPasswordItem(data));
-    if (method === "update") {
-      dispatch(updatePasswordItem(data));
-    }
     console.log(data);
+    // dispatch(createPasswordItem(data));
+    // if (method === "update") {
+    //   dispatch(updatePasswordItem(data));
+    // }
   };
 
   const handleOnBlurFolder = () => {

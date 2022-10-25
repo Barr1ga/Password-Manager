@@ -4,10 +4,11 @@ import { HiPlusSm } from "react-icons/hi";
 import SideNavFolderContent from "./SideNavFolderContent";
 import AddFolderModal from "./folders/AddFolderModal";
 import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
+import { useSelector } from "react-redux";
 
 const SideNavFolders = ({ folder, items }) => {
   const [showNavFolders, setShowNavFolders] = useState(true);
-  const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
+  const { folders } = useSelector((state) => state.folders);
 
   return (
     <>

@@ -33,7 +33,9 @@ const Identifications = ({
   const [favorite, setFavorite] = useState(false);
   const folderRef = useRef();
   const titleRef = useRef();
-  const [assignedFolders, setAssignedFolders] = useState([]);
+  const [assignedFolders, setAssignedFolders] = useState(
+    defaultValues?.folders || []
+  );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
 
@@ -57,21 +59,24 @@ const Identifications = ({
   });
 
   useEffect(() => {
-    reset(defaultValues);
+    if (defaultValues) {
+      reset(defaultValues);
+      setAssignedFolders(defaultValues.folders);
+    }
 
     return () => {
       reset();
-    }
+    };
   }, [defaultValues, reset]);
 
   const watchPassword = watch("password");
 
   const onSubmit = (data) => {
-    dispatch(createIdentificationItem(data));
-    if (method === "update") {
-      dispatch(updateIdentificationItem(data));
-    }
     console.log(data);
+    // dispatch(createIdentificationItem(data));
+    // if (method === "update") {
+    //   dispatch(updateIdentificationItem(data));
+    // }
   };
 
   const handleOnBlurFolder = () => {
@@ -191,7 +196,7 @@ const Identifications = ({
 
             <div className="form-group form-select-group">
               <label>
-                Title <span className="error-message">*</span>
+                Title
               </label>
               <div className="input">
                 <input
@@ -228,12 +233,6 @@ const Identifications = ({
                       </div>
                     ))}
                 </div>
-              )}
-              {titleError && (
-                <small className="error-message">
-                  Title is required
-                  <br></br>
-                </small>
               )}
             </div>
 

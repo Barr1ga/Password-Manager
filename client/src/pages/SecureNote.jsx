@@ -18,9 +18,9 @@ const SecureNote = () => {
   const { passwords } = useSelector((state) => state.passwords);
   const [searchStatus, setSearchStatus] = useState(false);
 
-  const filteredPasswords = passwords.filter(
-    (password) => password.trash === false
-  ).filter((password) => password.type === "secureNote");
+  const filteredPasswords = passwords
+    .filter((password) => password.trash === false)
+    .filter((password) => password.type === "secureNote");
 
   const count = filteredPasswords.length;
 
@@ -37,20 +37,20 @@ const SecureNote = () => {
             : "page-header page-header-long page-header-fixed padding-side"
         }
       >
-        {!searchStatus && <h4>All Items</h4>}{" "}
+        {!searchStatus && <h4>Secure Notes</h4>}{" "}
         <div>
-          <div className="form-search">
-            {searchStatus && (
-              <>
+          {searchStatus && (
+            <>
+              <div className="form-search">
                 <input
                   placeholder="Search Items"
                   onClick={handleSearch}
                   className="form-control"
                 ></input>
                 <HiOutlineSearch className="icon"></HiOutlineSearch>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
           {searchStatus && (
             <div>
               <HiOutlineX

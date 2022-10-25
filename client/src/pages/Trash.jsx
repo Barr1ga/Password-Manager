@@ -37,7 +37,7 @@ const Trash = () => {
             : "page-header page-header-long page-header-fixed padding-side"
         }
       >
-        {!searchStatus && <h4>All Items</h4>}{" "}
+        {!searchStatus && <h4>Trash</h4>}{" "}
         <div>
           <div className="form-search">
             {searchStatus && (
