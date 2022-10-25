@@ -15,6 +15,7 @@ import {
   continueWithGoogle,
   getMasterPasswordHint,
   logInWithEmailAndPassword,
+  resetAuthErrors,
 } from "../features/slice/authSlice";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
@@ -71,6 +72,10 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   useEffect(() => {
     if (authFulfilled) {
       navigate("/");
+    }
+    
+    return () => {
+      dispatch(resetAuthErrors());
     }
   }, [authFulfilled]);
 

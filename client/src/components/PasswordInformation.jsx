@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -6,24 +6,21 @@ import {
   HiOutlineArrowLeft,
   HiOutlineX,
   HiOutlineGlobe,
-  HiGlobe,
   HiOutlineCreditCard,
-  HiCreditCard,
   HiOutlineIdentification,
-  HiIdentification,
   HiOutlineDocumentText,
-  HiDocumentText,
   HiOutlineWifi,
-  HiWifi,
-  HiOutlineUsers,
-  HiUsers,
   HiOutlineClipboardList,
   HiOutlineTrash,
+  HiOutlineCamera,
 } from "react-icons/hi";
-import { RiArrowDownSLine } from "react-icons/ri";
+import UploadImage from "./UploadImage";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch } from "react-redux";
-import { handleDeletePasswordItem, resetSelectedPasswordItem } from "../features/slice/passwordSlice";
+import {
+  handleDeletePasswordItem,
+  resetSelectedPasswordItem,
+} from "../features/slice/passwordSlice";
 import PasswordGenerator from "./PasswordGenerator";
 import { useNavigate } from "react-router-dom";
 
@@ -32,15 +29,13 @@ import Login from "./addItem/Login";
 import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
-import CurrentPasswordItem from "./CurrentPasswordItem";
 
 const PasswordInformation = ({ currentPassword }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [selectedType, setSelectedType] = useState("Logins");
+  const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
 
   const method = "update";
@@ -136,11 +131,16 @@ const PasswordInformation = ({ currentPassword }) => {
       <div className="add-item-modal standard-stack gap-10">
         <h5>Item Information</h5>
         <div className="item-image">
-          {currentPassword.image !== "" ? (
-            <img src={currentPassword.image} alt={currentPassword.name}></img>
-          ) : (
-            <div>{currentPassword.name.charAt(0)}</div>
-          )}
+          <div className="image">
+            {currentPassword.image !== "" ? (
+              <img src={currentPassword.image} alt={currentPassword.name}></img>
+            ) : (
+              <div className="default">{currentPassword.name.charAt(0)}</div>
+            )}
+            <div className="btn-circle update-image" htmlFor="upload-photo">
+              <UploadImage mode={"item"}></UploadImage>
+            </div>
+          </div>
         </div>
         <div className="item-type">
           <label>
@@ -153,13 +153,13 @@ const PasswordInformation = ({ currentPassword }) => {
               <div className="options">
                 <Button
                   className="btn-secondary btn-with-icon"
-                  onClick={() => handleTypeClicked("Logins")}
+                  onClick={() => handleTypeClicked("Login")}
                 >
-                  <HiOutlineGlobe></HiOutlineGlobe>Logins
+                  <HiOutlineGlobe></HiOutlineGlobe>Login
                 </Button>
                 <Button
                   className="btn-secondary btn-with-icon"
-                  onClick={() => handleTypeClicked("Cards")}
+                  onClick={() => handleTypeClicked("Card")}
                 >
                   <HiOutlineCreditCard></HiOutlineCreditCard>Card
                 </Button>
@@ -167,14 +167,14 @@ const PasswordInformation = ({ currentPassword }) => {
               <div className="options">
                 <Button
                   className="btn-secondary btn-with-icon"
-                  onClick={() => handleTypeClicked("Identifications")}
+                  onClick={() => handleTypeClicked("Identification")}
                 >
                   <HiOutlineIdentification></HiOutlineIdentification>
                   Identification
                 </Button>
                 <Button
                   className="btn-secondary btn-with-icon"
-                  onClick={() => handleTypeClicked("Secure Notes")}
+                  onClick={() => handleTypeClicked("Secure Note")}
                 >
                   <HiOutlineDocumentText></HiOutlineDocumentText>Secure Note
                 </Button>
@@ -182,7 +182,7 @@ const PasswordInformation = ({ currentPassword }) => {
               <div className="options">
                 <Button
                   className="btn-secondary btn-with-icon"
-                  onClick={() => handleTypeClicked("Wifi Passwords")}
+                  onClick={() => handleTypeClicked("Wifi Password")}
                 >
                   <HiOutlineWifi></HiOutlineWifi>Wifi Password
                 </Button>
@@ -193,17 +193,17 @@ const PasswordInformation = ({ currentPassword }) => {
               className="btn-secondary btn-with-icon btn-long"
               onClick={() => setShowTypeOptions(true)}
             >
-              {selectedType === "Logins" && <HiOutlineGlobe></HiOutlineGlobe>}
-              {selectedType === "Cards" && (
+              {selectedType === "Login" && <HiOutlineGlobe></HiOutlineGlobe>}
+              {selectedType === "Card" && (
                 <HiOutlineCreditCard></HiOutlineCreditCard>
               )}
-              {selectedType === "Identifications" && (
+              {selectedType === "Identification" && (
                 <HiOutlineIdentification></HiOutlineIdentification>
               )}
-              {selectedType === "Secure Notes" && (
+              {selectedType === "Secure Note" && (
                 <HiOutlineDocumentText></HiOutlineDocumentText>
               )}
-              {selectedType === "Wifi Passwords" && (
+              {selectedType === "Wifi Password" && (
                 <HiOutlineWifi></HiOutlineWifi>
               )}
               {selectedType}
@@ -211,7 +211,7 @@ const PasswordInformation = ({ currentPassword }) => {
           )}
         </div>
 
-        {selectedType === "Logins" && (
+        {selectedType === "Login" && (
           <Login
             method={method}
             showPasswordGenerator={showPasswordGenerator}
@@ -220,22 +220,22 @@ const PasswordInformation = ({ currentPassword }) => {
           ></Login>
         )}
 
-        {selectedType === "Cards" && (
+        {selectedType === "Card" && (
           <Card method={method} defaultValues={currentPassword}></Card>
         )}
 
-        {selectedType === "Identifications" && (
+        {selectedType === "Identification" && (
           <Identification method={method}></Identification>
         )}
 
-        {selectedType === "Secure Notes" && (
+        {selectedType === "Secure Note" && (
           <SecureNote
             method={method}
             defaultValues={currentPassword}
           ></SecureNote>
         )}
 
-        {selectedType === "Wifi Passwords" && (
+        {selectedType === "Wifi Password" && (
           <WifiPassword
             method={method}
             defaultValues={currentPassword}
@@ -245,7 +245,12 @@ const PasswordInformation = ({ currentPassword }) => {
         <div className="form-group">
           <ConfirmModal
             proceedInteraction={
-              <Button className="btn-dark btn-long" onClick={() => handleDeletePassword(currentPassword.id)}>Yes</Button>
+              <Button
+                className="btn-dark btn-long"
+                onClick={() => handleDeletePassword(currentPassword.id)}
+              >
+                Yes
+              </Button>
             }
             component={
               <Button
@@ -253,7 +258,6 @@ const PasswordInformation = ({ currentPassword }) => {
                 className="btn-secondary danger btn-long btn-with-icon"
               >
                 <HiOutlineTrash></HiOutlineTrash>Delete Item
-
               </Button>
             }
             headerMessage={"Are you sure you want to delete this item?"}

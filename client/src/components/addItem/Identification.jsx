@@ -31,7 +31,6 @@ const AddItemModal = ({
   const [folders, setFolders] = useState(["folder1", "folder2", "folder3"]);
   const [titles, setTitles] = useState(["Mr", "Mrs", "Ms", "Dr"]);
   const [favorite, setFavorite] = useState(false);
-  const [title, setTitle] = useState(false);
   const folderRef = useRef();
   const titleRef = useRef();
 

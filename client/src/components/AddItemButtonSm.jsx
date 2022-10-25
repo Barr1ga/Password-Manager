@@ -28,7 +28,7 @@ import Identification from "./addItem/Identification";
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [selectedType, setSelectedType] = useState("Logins");
+  const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const handleBack = () => {
     setShowPasswordGenerator(false);
@@ -103,9 +103,9 @@ const AddItemModal = () => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Logins")}
+                    onClick={() => handleTypeClicked("Login")}
                   >
-                    <HiOutlineGlobe></HiOutlineGlobe>Logins
+                    <HiOutlineGlobe></HiOutlineGlobe>Login
                   </Button>
                   <Button
                     className="btn-secondary btn-with-icon"
@@ -117,7 +117,7 @@ const AddItemModal = () => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Identifications")}
+                    onClick={() => handleTypeClicked("Identification")}
                   >
                     <HiOutlineIdentification></HiOutlineIdentification>
                     Identification
@@ -143,11 +143,11 @@ const AddItemModal = () => {
                 className="btn-secondary btn-with-icon btn-long"
                 onClick={() => setShowTypeOptions(true)}
               >
-                {selectedType === "Logins" && <HiOutlineGlobe></HiOutlineGlobe>}
+                {selectedType === "Login" && <HiOutlineGlobe></HiOutlineGlobe>}
                 {selectedType === "Cards" && (
                   <HiOutlineCreditCard></HiOutlineCreditCard>
                 )}
-                {selectedType === "Identifications" && (
+                {selectedType === "Identification" && (
                   <HiOutlineIdentification></HiOutlineIdentification>
                 )}
                 {selectedType === "Secure Notes" && (
@@ -161,7 +161,7 @@ const AddItemModal = () => {
             )}
           </div>
 
-          {selectedType === "Logins" && (
+          {selectedType === "Login" && (
             <Login
               showPasswordGenerator={showPasswordGenerator}
               setShowPasswordGenerator={setShowPasswordGenerator}
@@ -170,7 +170,7 @@ const AddItemModal = () => {
 
           {selectedType === "Cards" && <Card></Card>}
 
-          {selectedType === "Identifications" && (
+          {selectedType === "Identification" && (
             <Identification></Identification>
           )}
 

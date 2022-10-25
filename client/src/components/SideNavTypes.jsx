@@ -92,18 +92,18 @@ const SideNavTypes = () => {
               </p>
             </Link>
             <Link
-              to="/Identity"
+              to="/Identifications"
               className={
-                notifications.identifications && route === "/Identity"
+                notifications.identifications && route === "/Identifications"
                   ? "sidenav-button new-notif selected"
-                  : route === "/Identity"
+                  : route === "/Identifications"
                   ? "sidenav-button selected"
                   : notifications.identifications
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/Identity" ? (
+              {route === "/Identifications" ? (
                 <HiIdentification></HiIdentification>
               ) : (
                 <HiOutlineIdentification></HiOutlineIdentification>

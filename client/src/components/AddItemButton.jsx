@@ -6,17 +6,10 @@ import {
   HiOutlineArrowLeft,
   HiOutlineX,
   HiOutlineGlobe,
-  HiGlobe,
   HiOutlineCreditCard,
-  HiCreditCard,
   HiOutlineIdentification,
-  HiIdentification,
   HiOutlineDocumentText,
-  HiDocumentText,
   HiOutlineWifi,
-  HiWifi,
-  HiOutlineUsers,
-  HiUsers,
 } from "react-icons/hi";
 import ConfirmModal from "./helpers/ConfirmModal";
 import Card from "./addItem/Card";
@@ -28,7 +21,7 @@ import Identification from "./addItem/Identification";
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [selectedType, setSelectedType] = useState("Logins");
+  const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
 
   const method = "add";
@@ -104,9 +97,9 @@ const AddItemModal = () => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Logins")}
+                    onClick={() => handleTypeClicked("Login")}
                   >
-                    <HiOutlineGlobe></HiOutlineGlobe>Logins
+                    <HiOutlineGlobe></HiOutlineGlobe>Login
                   </Button>
                   <Button
                     className="btn-secondary btn-with-icon"
@@ -118,7 +111,7 @@ const AddItemModal = () => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Identifications")}
+                    onClick={() => handleTypeClicked("Identification")}
                   >
                     <HiOutlineIdentification></HiOutlineIdentification>
                     Identification
@@ -144,11 +137,11 @@ const AddItemModal = () => {
                 className="btn-secondary btn-with-icon btn-long"
                 onClick={() => setShowTypeOptions(true)}
               >
-                {selectedType === "Logins" && <HiOutlineGlobe></HiOutlineGlobe>}
+                {selectedType === "Login" && <HiOutlineGlobe></HiOutlineGlobe>}
                 {selectedType === "Cards" && (
                   <HiOutlineCreditCard></HiOutlineCreditCard>
                 )}
-                {selectedType === "Identifications" && (
+                {selectedType === "Identification" && (
                   <HiOutlineIdentification></HiOutlineIdentification>
                 )}
                 {selectedType === "Secure Notes" && (
@@ -162,7 +155,7 @@ const AddItemModal = () => {
             )}
           </div>
 
-          {selectedType === "Logins" && (
+          {selectedType === "Login" && (
             <Login
               method={method}
               showPasswordGenerator={showPasswordGenerator}
@@ -172,7 +165,7 @@ const AddItemModal = () => {
 
           {selectedType === "Cards" && <Card method={method} ></Card>}
 
-          {selectedType === "Identifications" && (
+          {selectedType === "Identification" && (
             <Identification method={method} ></Identification>
           )}
 

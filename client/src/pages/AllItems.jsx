@@ -1,14 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import AddItemButton from "../components/AddItemButton";
-import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import PasswordCard from "../components/PasswordCard";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   HiOutlineViewGrid,
   HiOutlineServer,
   HiOutlineSearch,
-  HiOutlineArrowLeft,
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
@@ -17,11 +15,8 @@ import EmptyList from "../assets/empty-list.svg";
 const AllItems = () => {
   const route = "";
   const [listView, setListView] = useState(true);
-  const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
   const [searchStatus, setSearchStatus] = useState(false);
-
-  const searchRef = useRef();
 
   const filteredPasswords = passwords.filter(
     (password) => password.trash === false
@@ -99,7 +94,7 @@ const AllItems = () => {
               <div>
                 {filteredPasswords.length === 0 && (
                   <div className="empty-list">
-                    <img src={EmptyList}></img>
+                    <img src={EmptyList} alt={EmptyList}></img>
                     <p>
                       You havent added<br></br>any item yet
                     </p>
@@ -127,7 +122,7 @@ const AllItems = () => {
               <div className="contents">
                 {filteredPasswords.length === 0 && (
                   <div className="empty-list">
-                    <img src={EmptyList}></img>
+                    <img src={EmptyList} alt={EmptyList}></img>
                     <p>
                       You havent added<br></br>any item yet
                     </p>

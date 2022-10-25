@@ -3,15 +3,13 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  useParams,
   Navigate,
 } from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
 import Trash from "./pages/Trash";
-import Logins from "./pages/Logins";
 import Card from "./pages/Card";
-import Identity from "./pages/Identity";
+import Identifications from "./pages/Identifications";
 import SecureNote from "./pages/SecureNote";
 import WifiPasswords from "./pages/WifiPasswords";
 import SharingCenter from "./pages/SharingCenter";
@@ -23,7 +21,6 @@ import CurrentPasswordItemPage from "./pages/CurrentPasswordItem";
 import AuditLog from "./pages/AuditLog";
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
-import OtherLinks from "./components/OtherLinks";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
@@ -31,9 +28,7 @@ import VaultMembers from "./components/VaultMembers";
 import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
-import { getBrandDetails } from "./features/slice/passwordSlice";
 import { auth } from "./features/firebase/firebase";
-import Footer from "./components/Footer";
 import { createUser, setUser, getUserData } from "./features/slice/authSlice";
 
 const App = () => {
@@ -42,16 +37,9 @@ const App = () => {
     useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-  const { passwords } = useSelector((state) => state.passwords);
 
   useEffect(() => {
     document.title = "Vaulteer";
-  }, []);
-
-  useEffect(() => {
-    passwords.forEach((password) => {
-      dispatch(getBrandDetails({ brand: password.name, id: password.id }));
-    });
   }, []);
 
   useEffect(() => {
@@ -199,21 +187,21 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Identity"
+              path="/Identifications"
               element={
                 authUser ? (
-                  <Identity></Identity>
+                  <Identifications></Identifications>
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
               }
             ></Route>
             <Route
-              path="/Identity/:id"
+              path="/Identifications/:id"
               element={
                 authUser ? (
                   <ResponsiveDisplay
-                    nonMobile={<Identity />}
+                    nonMobile={<Identifications />}
                     mobile={<CurrentPasswordItemPage />}
                   ></ResponsiveDisplay>
                 ) : (

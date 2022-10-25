@@ -1,48 +1,89 @@
 import React, { useState } from "react";
 import AddItemButton from "../components/AddItemButton";
-import Filters from "../components/Filters";
 import PasswordItem from "../components/PasswordItem";
 import PasswordCard from "../components/PasswordCard";
-import { useDispatch, useSelector } from "react-redux";
-import { HiOutlineViewGrid, HiOutlineServer, HiOutlineSearch } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import {
+  HiOutlineViewGrid,
+  HiOutlineServer,
+  HiOutlineSearch,
+  HiOutlineX,
+} from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import EmptyList from "../assets/empty-list.svg";
 
-const Identity = () => {
+const Identifications = () => {
   const route = "/Identity";
   const [listView, setListView] = useState(true);
-  const dispatch = useDispatch();
   const { passwords } = useSelector((state) => state.passwords);
+  const [searchStatus, setSearchStatus] = useState(false);
 
   const filteredPasswords = passwords.filter(
-    (password) => password.type === "identification" && password.trash === false
-  );
+    (password) => password.trash === false
+  ).filter((password) => password.type === "identification");
+
   const count = filteredPasswords.length;
+
+  const handleSearch = () => {
+    setSearchStatus(true);
+  };
 
   return (
     <div className="margin-content">
-      <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>Identifications</h4>{" "}
+      <div
+        className={
+          searchStatus
+            ? "search-show page-header page-header-long page-header-fixed padding-side"
+            : "page-header page-header-long page-header-fixed padding-side"
+        }
+      >
+        {!searchStatus && <h4>All Items</h4>}{" "}
         <div>
-          <Button
-            onClick={() => setListView(true)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineSearch></HiOutlineSearch>
-          </Button>
-          <Button
-            onClick={() => setListView(false)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineViewGrid></HiOutlineViewGrid>
-          </Button>
-          <Button
-            onClick={() => setListView(true)}
-            className="btn-secondary list-view-btn"
-          >
-            <HiOutlineServer></HiOutlineServer>
-          </Button>
-          <AddItemButton></AddItemButton>
+          <div className="form-search">
+            {searchStatus && (
+              <>
+                <input
+                  placeholder="Search Items"
+                  onClick={handleSearch}
+                  className="form-control"
+                ></input>
+                <HiOutlineSearch className="icon"></HiOutlineSearch>
+              </>
+            )}
+          </div>
+          {searchStatus && (
+            <div>
+              <HiOutlineX
+                onClick={() => setSearchStatus(false)}
+                className="btn-close"
+              ></HiOutlineX>
+            </div>
+          )}
+          {!searchStatus && (
+            <Button
+              onClick={handleSearch}
+              className="btn-secondary list-view-btn"
+            >
+              <HiOutlineSearch></HiOutlineSearch>
+            </Button>
+          )}
+          {!searchStatus && (
+            <>
+              <Button
+                onClick={() => setListView(false)}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineViewGrid></HiOutlineViewGrid>
+              </Button>
+              <Button
+                onClick={() => setListView(true)}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineServer></HiOutlineServer>
+              </Button>
+              <AddItemButton></AddItemButton>
+            </>
+          )}
         </div>
       </div>
       {filteredPasswords.length > 0 && listView ? (
@@ -53,7 +94,7 @@ const Identity = () => {
               <div>
                 {filteredPasswords.length === 0 && (
                   <div className="empty-list">
-                    <img src={EmptyList}></img>
+                    <img src={EmptyList} alt={EmptyList}></img>
                     <p>
                       You havent added<br></br>any item yet
                     </p>
@@ -81,7 +122,7 @@ const Identity = () => {
               <div className="contents">
                 {filteredPasswords.length === 0 && (
                   <div className="empty-list">
-                    <img src={EmptyList}></img>
+                    <img src={EmptyList} alt={EmptyList}></img>
                     <p>
                       You havent added<br></br>any item yet
                     </p>
@@ -106,4 +147,4 @@ const Identity = () => {
   );
 };
 
-export default Identity;
+export default Identifications;

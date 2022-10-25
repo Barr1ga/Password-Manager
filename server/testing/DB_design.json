@@ -1,6 +1,8 @@
 {
-    "user": {
+    "Users": {
+        "email": "...",
         "masterPasswordHint": "...",
+        "username": "...",
         "vault": {
             "items": {
                 "login": [
@@ -124,7 +126,7 @@
                     "currentFolderAccessing": "...",
                     "currentItemAccessing": "...",
                     "status": "..."
-                }   
+                }
             ]
         }
     }
