@@ -1,19 +1,25 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { HiOutlineUserCircle } from "react-icons/hi";
-import { RiShieldFlashFill } from "react-icons/ri";
 import Button from "react-bootstrap/Button";
-import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
-import RoundLoader from "./RoundLoader";
-import BarLoader from "./BarLoader";
-import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
+import {
+  HiOutlineClipboardList,
+  HiClipboardList,
+  HiOutlineLogout,
+} from "react-icons/hi";
 import Logo from "../assets/vaulteer_logo.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import ConfirmModal from "./helpers/ConfirmModal";
+import { logOut } from "../features/slice/authSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
 
   const { authUser, username } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logOut());
+  };
 
   return (
     <>
@@ -55,32 +61,49 @@ const Header = () => {
             </small>
           </div>
           <div className="right gap-10">
-            <Link
-              to="/MyAccount"
-              className={
-                route === "/MyAccount" ? "btn-circle selected" : "btn-circle"
-              }
-            >
-              {route === "/MyAccount" ? (
-                <RiSettings2Fill></RiSettings2Fill>
+            <Link to="/MyAccount">
+              {authUser.photoURL ? (
+                <img
+                  className="btn-user-image"
+                  src={authUser.photoURL}
+                  alt={authUser.photoURL}
+                ></img>
               ) : (
-                <RiSettings2Line></RiSettings2Line>
+                <div className="btn-user-image">{username?.charAt(0)}</div>
               )}
             </Link>
-            <Link to="/MyAccount">
-              <Button className="btn-secondary btn-with-icon gap-10">
-                {authUser.photoURL ? (
-                  <img
-                    className="image"
-                    src={authUser.photoURL}
-                    alt={authUser.photoURL}
-                  ></img>
+            <div>
+              <Link
+                to="/AuditLog"
+                className={
+                  route === "/AuditLog" ? "btn-circle selected" : "btn-circle"
+                }
+              >
+                {route === "/AuditLog" ? (
+                  <HiClipboardList></HiClipboardList>
                 ) : (
-                  <small className="image">{username?.charAt(0)}</small>
+                  <HiOutlineClipboardList></HiOutlineClipboardList>
                 )}
-                <p>{username}</p>
-              </Button>
-            </Link>
+              </Link>
+            </div>
+            <ConfirmModal
+              proceedInteraction={
+                <Button
+                  type="button"
+                  className="btn-dark btn-long"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </Button>
+              }
+              component={
+                <div className="btn-circle">
+                  <HiOutlineLogout></HiOutlineLogout>{" "}
+                </div>
+              }
+              headerMessage={"Log out"}
+              bodyMessage={"Are you sure you want to logout?"}
+            ></ConfirmModal>
           </div>
         </div>
       </div>
