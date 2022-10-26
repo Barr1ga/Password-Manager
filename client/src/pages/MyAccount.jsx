@@ -9,7 +9,7 @@ import { HiOutlineX } from "react-icons/hi";
 import MyAccount from "../components/vaultSettings/myAccount/MyAccount";
 
 const VaultSettings = () => {
-  const { authFulfilled } = useSelector((state) => state.auth);
+  const { authUser, authFulfilled } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,11 +32,15 @@ const VaultSettings = () => {
           <MyAccount></MyAccount>
           <hr></hr>
 
-          <ChangeEmail></ChangeEmail>
-          <hr></hr>
+          {authUser.providerData[0].providerId === "password" && (
+            <>
+              <ChangeEmail></ChangeEmail>
+              <hr></hr>
 
-          <ChangePassword></ChangePassword>
-          <hr></hr>
+              <ChangePassword></ChangePassword>
+              <hr></hr>
+            </>
+          )}
 
           <AccountRemoval></AccountRemoval>
         </div>

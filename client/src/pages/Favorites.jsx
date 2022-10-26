@@ -19,9 +19,9 @@ const Favorites = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  let filteredPasswords = passwords.filter(
-    (password) => password.trash === false
-  ).filter((password) => password.favorite === true);
+  let filteredPasswords = passwords
+    .filter((password) => password.trash === false)
+    .filter((password) => password.favorite === true);
 
   filteredPasswords =
     searchValue !== ""
@@ -47,18 +47,18 @@ const Favorites = () => {
       >
         {!searchStatus && <h4>Favorites</h4>}{" "}
         <div>
-          <div className="form-search">
-            {searchStatus && (
-              <>
+          {searchStatus && (
+            <>
+              <div className="form-search">
                 <input
                   placeholder="Search Items"
                   onChange={(e) => setSearchValue(e.target.value)}
                   className="form-control"
                 ></input>
                 <HiOutlineSearch className="icon"></HiOutlineSearch>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
           {searchStatus && (
             <div>
               <HiOutlineX

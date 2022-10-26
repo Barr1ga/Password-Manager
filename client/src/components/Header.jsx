@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const route = useLocation().pathname;
 
-  const { username } = useSelector((state) => state.auth);
+  const { authUser, username } = useSelector((state) => state.auth);
 
   return (
     <>
@@ -21,7 +21,7 @@ const Header = () => {
         <div className="margin">
           <Link to="/">
             <div className="logo gap-10">
-              <img src={Logo} className="icon"></img>
+              <img src={Logo} alt={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>
@@ -69,7 +69,15 @@ const Header = () => {
             </Link>
             <Link to="/MyAccount">
               <Button className="btn-secondary btn-with-icon gap-10">
-                <small className="image">{username?.charAt(0)}</small>
+                {authUser.photoURL ? (
+                  <img
+                    className="image"
+                    src={authUser.photoURL}
+                    alt={authUser.photoURL}
+                  ></img>
+                ) : (
+                  <small className="image">{username?.charAt(0)}</small>
+                )}
                 <p>{username}</p>
               </Button>
             </Link>

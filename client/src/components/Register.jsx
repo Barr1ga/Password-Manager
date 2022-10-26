@@ -91,7 +91,7 @@ const Register = ({ handleShowLogin }) => {
 
     return () => {
       dispatch(resetAuthErrors());
-    }
+    };
   }, [authFulfilled]);
 
   useEffect(() => {

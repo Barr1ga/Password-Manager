@@ -36,7 +36,9 @@ const ChangePassword = () => {
   useEffect(() => {
     if (authChangedPasswordReauthFulfilled) {
       dispatch(changePassword(password));
-      dispatch(updateUserPasswordHint({ uid: authUser.uid, masterPasswordHint }));
+      dispatch(
+        updateUserPasswordHint({ uid: authUser.uid, masterPasswordHint })
+      );
     }
 
     if (authChangedPasswordFulfilled) {

@@ -51,7 +51,15 @@ const MyAccount = () => {
       <div className="form-group standard-stack gap-10">
         <h5>My Account</h5>
         <div className="user">
-          <div className="image">{username?.charAt(0)}</div>
+          {authUser.photoURL ? (
+            <img
+              className="image"
+              src={authUser.photoURL}
+              alt={authUser.photoURL}
+            ></img>
+          ) : (
+            <div className="image">{username?.charAt(0)}</div>
+          )}
           <small>
             Sorry, we do not support<br></br>changing of avatars for now.
           </small>

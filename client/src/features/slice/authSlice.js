@@ -227,6 +227,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser: (state, action) => {
+      state.username = action.payload.displayName
+        ? action.payload.displayName
+        : state.username;
       state.authUser = action.payload;
     },
     resetUser: (state) => initialState,
@@ -292,8 +295,9 @@ const userSlice = createSlice({
       })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.authLoading = false;
-        console.log(action.payload);
-        state.username = action.payload.username;
+        state.username = action.payload.username
+          ? action.payload.username
+          : state.username;
         state.masterPasswordHint = action.payload.masterPasswordHint;
         state.authFulfilled = true;
         state.authMessage = "";
@@ -419,7 +423,7 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        localStorage.setItem("authUser", JSON.stringify(action.payload));
+        // localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(changeEmail.rejected, (state, action) => {
         state.authChangedEmailLoading = false;
@@ -458,7 +462,7 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        localStorage.setItem("authUser", JSON.stringify(action.payload));
+        // localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.authChangedPasswordLoading = false;
@@ -472,12 +476,14 @@ const userSlice = createSlice({
       .addCase(continueWithGoogle.pending, (state) => {
         state.authGoogleLoading = true;
       })
-      .addCase(continueWithGoogle.fulfilled, (state) => {
+      .addCase(continueWithGoogle.fulfilled, (state, action) => {
         state.authGoogleLoading = false;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
+        // state.username = action.payload.displayName;
+        // localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(continueWithGoogle.rejected, (state, action) => {
         state.authGoogleLoading = false;
@@ -532,7 +538,6 @@ const userSlice = createSlice({
       .addCase(removeUser.fulfilled, (state, action) => {
         state.authEmailAndPasswordLoading = false;
         state.authRegistered = false;
-        state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
