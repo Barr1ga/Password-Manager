@@ -31,8 +31,8 @@ const VaultSettings = () => {
         <div className="vault-settings padding-side standard-stack gap-10">
           <MyAccount></MyAccount>
           <hr></hr>
-
-          {authUser.providerData[0].providerId === "password" && (
+          
+          {authUser?.providerData[0]?.providerId === "password" && (
             <>
               <ChangeEmail></ChangeEmail>
               <hr></hr>

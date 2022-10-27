@@ -14,4 +14,16 @@ app.use("/api/auth", require("./routes/authRoutes"));
 
 app.use(errorHandler);
 
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/build")));
+  
+    app.get("*", (req, res) =>
+      res.sendFile(
+        path.resolve(__dirname, "../", "client", "build", "index.html")
+      )
+    );
+  } else {
+    app.get("/", (req, res) => res.send("Node environment is not running in production mode"));
+  }
+
 app.listen(port, console.log("Started on port " + port));

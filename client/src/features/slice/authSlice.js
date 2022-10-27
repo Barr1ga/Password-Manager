@@ -234,6 +234,7 @@ const userSlice = createSlice({
     },
     resetUser: (state) => initialState,
     resetAuthErrors: (state) => {
+      state.authFulfilled = false;
       state.authError = false;
       state.authMessage = "";
       state.authErrorMessage = "";
@@ -279,7 +280,7 @@ const userSlice = createSlice({
         state.authErrorCode = "";
         state.authErrorMessage = "";
         state.authUser = action.payload.user;
-        localStorage.setItem("authUser", JSON.stringify(action.payload));
+        localStorage.setItem("authUser", JSON.stringify(state.authUser));
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
