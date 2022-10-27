@@ -47,7 +47,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (authRegistered && authUser && username && masterPasswordHint) {
+    if (authRegistered && authUser && username) {
       const uid = authUser.uid;
       dispatch(
         createUser({ uid, email: authUser.email, username, masterPasswordHint })
