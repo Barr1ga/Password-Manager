@@ -20,7 +20,7 @@ const App = () => {
     useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
     document.title = "Vaulteer";
   }, []);
