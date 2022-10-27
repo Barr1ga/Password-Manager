@@ -12,11 +12,8 @@ import {
   HiOutlineWifi,
 } from "react-icons/hi";
 import ConfirmModal from "./helpers/ConfirmModal";
-import Card from "./addItem/Card";
 import Login from "./addItem/Login";
-import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
-import Identification from "./addItem/Identification";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -162,14 +159,6 @@ const AddItemModal = () => {
               setShowPasswordGenerator={setShowPasswordGenerator}
             ></Login>
           )}
-
-          {selectedType === "Cards" && <Card method={method} ></Card>}
-
-          {selectedType === "Identification" && (
-            <Identification method={method} ></Identification>
-          )}
-
-          {selectedType === "Secure Notes" && <SecureNote method={method} ></SecureNote>}
 
           {selectedType === "Wifi Passwords" && <WifiPassword method={method} ></WifiPassword>}
         </Modal.Body>

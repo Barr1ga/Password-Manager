@@ -21,14 +21,10 @@ import {
   handleDeletePasswordItem,
   resetSelectedPasswordItem,
 } from "../features/slice/passwordSlice";
-import PasswordGenerator from "./PasswordGenerator";
 import { useNavigate } from "react-router-dom";
 
-import Card from "./addItem/Card";
 import Login from "./addItem/Login";
-import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
-import Identification from "./addItem/Identification";
 
 const PasswordInformation = ({ currentPassword }) => {
   const navigate = useNavigate();
@@ -218,21 +214,6 @@ const PasswordInformation = ({ currentPassword }) => {
             setShowPasswordGenerator={setShowPasswordGenerator}
             defaultValues={currentPassword}
           ></Login>
-        )}
-
-        {selectedType === "Card" && (
-          <Card method={method} defaultValues={currentPassword}></Card>
-        )}
-
-        {selectedType === "Identification" && (
-          <Identification method={method}></Identification>
-        )}
-
-        {selectedType === "Secure Note" && (
-          <SecureNote
-            method={method}
-            defaultValues={currentPassword}
-          ></SecureNote>
         )}
 
         {selectedType === "Wifi Password" && (

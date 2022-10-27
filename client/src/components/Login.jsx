@@ -91,9 +91,10 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     <>
       <Modal
         dialogClassName="login-modal"
+        backdropClassName="custom-modal-backdrop"
         size="md"
         show={show}
-        backdrop={false}
+        backdrop={true}
         keyboard={false}
       >
         <Modal.Header>

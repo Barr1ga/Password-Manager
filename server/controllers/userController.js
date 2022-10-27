@@ -115,14 +115,16 @@ const getMasterPasswordHint = asyncHandler(async (req, res) => {
 });
 
 const createUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const { uid, username, masterPasswordHint, email } = req.body;
 
-  const result = await User.doc(uid).set({
-    username,
-    masterPasswordHint,
-    email,
-  });
+  const result = await User.doc(uid).set(
+    {
+      username,
+      masterPasswordHint,
+      email,
+    },
+    { merge: true }
+  );
 
   if (result.empty) {
     res.status(400);

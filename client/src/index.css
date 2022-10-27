@@ -260,8 +260,8 @@ label {
   font-size: 1rem;
   font-weight: 400;
   padding: 0;
-  min-height: 35px;
-  min-width: 35px;
+  height: 35px;
+  width: 35px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -2408,6 +2408,11 @@ textarea {
   bottom: -50px;
   border: none;
   background-color: transparent;
+}
+
+.custom-modal-backdrop.show {
+  background-color: #1a1a1a;
+  opacity: 1;
 }
 
 @media only screen and (min-width: 576px) {

@@ -6,24 +6,14 @@ import {
   HiOutlineArrowLeft,
   HiOutlineX,
   HiOutlineGlobe,
-  HiGlobe,
   HiOutlineCreditCard,
-  HiCreditCard,
   HiOutlineIdentification,
-  HiIdentification,
   HiOutlineDocumentText,
-  HiDocumentText,
   HiOutlineWifi,
-  HiWifi,
-  HiOutlineUsers,
-  HiUsers,
 } from "react-icons/hi";
 import ConfirmModal from "./helpers/ConfirmModal";
-import Card from "./addItem/Card";
 import Login from "./addItem/Login";
-import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
-import Identification from "./addItem/Identification";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -167,14 +157,6 @@ const AddItemModal = () => {
               setShowPasswordGenerator={setShowPasswordGenerator}
             ></Login>
           )}
-
-          {selectedType === "Cards" && <Card></Card>}
-
-          {selectedType === "Identification" && (
-            <Identification></Identification>
-          )}
-
-          {selectedType === "Secure Notes" && <SecureNote></SecureNote>}
 
           {selectedType === "Wifi Passwords" && <WifiPassword></WifiPassword>}
         </Modal.Body>

@@ -1,9 +1,7 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {
-  HiOutlineClipboardList,
-  HiClipboardList,
   HiOutlineLogout,
 } from "react-icons/hi";
 import Logo from "../assets/vaulteer_logo.svg";
@@ -12,8 +10,6 @@ import ConfirmModal from "./helpers/ConfirmModal";
 import { logOut } from "../features/slice/authSlice";
 
 const Header = () => {
-  const route = useLocation().pathname;
-
   const { authUser, username } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -72,20 +68,6 @@ const Header = () => {
                 <div className="btn-user-image">{username?.charAt(0)}</div>
               )}
             </Link>
-            <div>
-              <Link
-                to="/AuditLog"
-                className={
-                  route === "/AuditLog" ? "btn-circle selected" : "btn-circle"
-                }
-              >
-                {route === "/AuditLog" ? (
-                  <HiClipboardList></HiClipboardList>
-                ) : (
-                  <HiOutlineClipboardList></HiOutlineClipboardList>
-                )}
-              </Link>
-            </div>
             <ConfirmModal
               proceedInteraction={
                 <Button
