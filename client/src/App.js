@@ -29,7 +29,6 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
       dispatch(getUserData(user.uid));
-      console.log("test")
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;
         dispatch(

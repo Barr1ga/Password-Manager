@@ -69,26 +69,34 @@ const MyAccount = () => {
             <label>
               Name <span className="error-message">*</span>
             </label>
-            <input
-              type="text"
-              {...register("username", {
-                required: {
-                  value: true,
-                  message: "Name is required",
-                },
-              })}
-              className={
-                errorsAccount.username
-                  ? "form-control form-error"
-                  : "form-control "
-              }
-            />
-            {errorsAccount.username && (
-              <small className="error-message">
-                {errorsAccount.username.message}
-                <br></br>
-              </small>
+
+            {authUser?.providerData[0].providerId ? (
+              <div className="form-control-disabled">{username}</div>
+            ) : (
+              <>
+                <input
+                  type="text"
+                  {...register("username", {
+                    required: {
+                      value: true,
+                      message: "Name is required",
+                    },
+                  })}
+                  className={
+                    errorsAccount.username
+                      ? "form-control form-error"
+                      : "form-control "
+                  }
+                />
+                {errorsAccount.username && (
+                  <small className="error-message">
+                    {errorsAccount.username.message}
+                    <br></br>
+                  </small>
+                )}
+              </>
             )}
+
             <small>
               Your username may appear around the vault where you are a member
               of.
