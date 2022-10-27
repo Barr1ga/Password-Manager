@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === "production") {
       res.sendFile(
         path.resolve(__dirname, "../", "client", "build", "index.html")
       )
-    );
+    ); 
   } else {
     app.get("/", (req, res) => res.send("Node environment is not running in production mode"));
   }
