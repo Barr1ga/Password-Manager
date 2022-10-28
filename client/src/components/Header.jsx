@@ -66,7 +66,7 @@ const Header = () => {
                 <img
                   className="btn-user-image"
                   src={authUser.photoURL}
-                  alt={authUser.photoURL}
+                  alt="you"
                 ></img>
               ) : (
                 <div className="btn-user-image">{username?.charAt(0)}</div>

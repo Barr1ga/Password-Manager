@@ -54,7 +54,7 @@ const MyAccount = () => {
             <img
               className="image"
               src={authUser.photoURL}
-              alt={authUser.photoURL}
+              alt={"you"}
             ></img>
           ) : (
             <div className="image">{username?.charAt(0)}</div>

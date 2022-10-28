@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { RiShieldFlashFill } from "react-icons/ri";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import {
@@ -11,9 +10,7 @@ import { HiOutlineArrowLeft } from "react-icons/hi";
 import Modal from "react-bootstrap/Modal";
 import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
-import MicrosoftIcon from "../assets/icons8-microsoft.svg";
 import {
-  checkEmailExists,
   continueWithGoogle,
   registerWithEmailAndPassword,
   resetAuthErrors,
@@ -92,7 +89,7 @@ const Register = ({ handleShowLogin }) => {
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, [authFulfilled]);
+  }, [authFulfilled, dispatch, navigate]);
 
   useEffect(() => {
     if (authErrorCode === "auth/email-already-in-use") {
@@ -115,7 +112,7 @@ const Register = ({ handleShowLogin }) => {
         <Modal.Header>
           <div className="login-register-header padding-side">
             <div className="logo gap-10">
-              <img src={Logo} className="icon"></img>
+              <img src={Logo} alt={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>

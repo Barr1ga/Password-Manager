@@ -77,7 +77,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     return () => {
       dispatch(resetAuthErrors());
     };
-  }, [authFulfilled]);
+  }, [authFulfilled, dispatch, navigate]);
 
   const handleMasterPasswordHint = () => {
     if (!showPasswordHint) {

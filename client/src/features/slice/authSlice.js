@@ -236,6 +236,7 @@ const userSlice = createSlice({
     resetUser: (state) => initialState,
     resetAuthErrors: (state) => {
       state.authError = false;
+      state.authFulfilled = false;
       state.authMessage = "";
       state.authErrorMessage = "";
       state.authErrorCode = "";
