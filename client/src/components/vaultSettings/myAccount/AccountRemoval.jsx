@@ -42,7 +42,7 @@ const VaultSettings = () => {
     if (authRemovedAccountFulfilled) {
       dispatch(logOut());
     }
-  }, [authRemovedAccountFulfilled, authRemovedAccountReauthFulfilled]);
+  }, [authRemovedAccountFulfilled, authRemovedAccountReauthFulfilled, authUser.uid, dispatch]);
 
   const {
     register,

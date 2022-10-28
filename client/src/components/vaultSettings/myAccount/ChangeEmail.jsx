@@ -43,7 +43,7 @@ const ChangeEmail = () => {
     if (authChangedEmailFulfilled) {
       dispatch(logOut());
     }
-  }, [authChangedEmailReauthFulfilled]);
+  }, [authChangedEmailReauthFulfilled, authChangedEmailFulfilled, email, dispatch, authUser.uid]);
 
   const {
     register: emailField,

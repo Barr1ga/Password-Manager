@@ -44,7 +44,7 @@ const ChangePassword = () => {
     if (authChangedPasswordFulfilled) {
       dispatch(logOut());
     }
-  }, [authChangedPasswordReauthFulfilled]);
+  }, [authChangedPasswordReauthFulfilled, authChangedPasswordFulfilled, authUser.uid, masterPasswordHint, password, dispatch]);
 
   const {
     register: masterField,
