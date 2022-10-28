@@ -19,7 +19,7 @@ const App = () => {
   const { authUser, username, masterPasswordHint, authRegistered } =
     useSelector((state) => state.auth);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
  
   useEffect(() => {
     document.title = "Vaulteer";
