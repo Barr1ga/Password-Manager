@@ -43,14 +43,21 @@ const App = () => {
       dispatch(setUser(user));
       dispatch(getUserData(user.uid));
 
-      if (user.providerData[0].providerId === "google.com") {
+      if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;
-        createUser({ uid, email: user.email, username, masterPasswordHint });
+        dispatch(
+          createUser({
+            uid,
+            email: user.email,
+            username,
+            masterPasswordHint,
+          })
+        );
       }
     });
 
     return unsubscribe;
-  }, []);
+  }, [dispatch, username, masterPasswordHint]);
 
   useEffect(() => {
     if (authRegistered && authUser && username) {
@@ -59,7 +66,7 @@ const App = () => {
         createUser({ uid, email: authUser.email, username, masterPasswordHint })
       );
     }
-  }, [authRegistered]);
+  }, [authRegistered, authUser, username, masterPasswordHint, dispatch]);
 
   return (
     <BrowserRouter>
