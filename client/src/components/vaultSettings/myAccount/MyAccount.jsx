@@ -70,7 +70,7 @@ const MyAccount = () => {
               Name <span className="error-message">*</span>
             </label>
 
-            {authUser?.providerData[0].providerId ? (
+            {authUser?.providerData[0].providerId === "google.com" ? (
               <div className="form-control-disabled">{username}</div>
             ) : (
               <>
@@ -117,8 +117,12 @@ const MyAccount = () => {
               information.
             </small>
           </div>
-          <Button type="submit" className="btn-dark">
-            Save Account
+          <Button type="submit" className="btn-dark" style={{width: "138.16px"}}>
+            {authLoading ? (
+              <SpinnerLoader></SpinnerLoader>
+            ) : (
+              <>Save Account</>
+            )}
           </Button>
           <Modal
             size="sm"
