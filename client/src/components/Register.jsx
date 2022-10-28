@@ -103,12 +103,13 @@ const Register = ({ handleShowLogin }) => {
   return (
     <>
       <Modal
+        backdropClassName="custom-modal-backdrop"
         dialogClassName={
           showRegistrationForms ? "registration-modal" : "login-modal"
         }
         size={showRegistrationForms ? "md" : ""}
         show={show}
-        backdrop={false}
+        backdrop={true}
         keyboard={false}
       >
         <Modal.Header>

@@ -73,10 +73,10 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     if (authFulfilled) {
       navigate("/");
     }
-    
+
     return () => {
       dispatch(resetAuthErrors());
-    }
+    };
   }, [authFulfilled]);
 
   const handleMasterPasswordHint = () => {
@@ -90,10 +90,11 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   return (
     <>
       <Modal
+        backdropClassName="custom-modal-backdrop"
         dialogClassName="login-modal"
         size="md"
         show={show}
-        backdrop={false}
+        backdrop={true}
         keyboard={false}
       >
         <Modal.Header>

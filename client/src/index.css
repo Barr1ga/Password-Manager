@@ -2410,6 +2410,11 @@ textarea {
   background-color: transparent;
 }
 
+.custom-modal-backdrop.show {
+  background-color: #1a1a1a;
+  opacity: 1;
+}
+
 @media only screen and (min-width: 576px) {
   .login-modal {
     width: 350px;
