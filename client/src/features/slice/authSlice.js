@@ -279,7 +279,7 @@ const userSlice = createSlice({
         state.authErrorCode = "";
         state.authErrorMessage = "";
         state.authUser = action.payload.user;
-        localStorage.setItem("authUser", JSON.stringify(action.payload));
+        localStorage.setItem("authUser", JSON.stringify(action.authUser));
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
