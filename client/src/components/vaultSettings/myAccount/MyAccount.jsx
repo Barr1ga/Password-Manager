@@ -14,7 +14,7 @@ const MyAccount = () => {
   const handleShow = () => setShow(true);
 
   const dispatch = useDispatch();
-  const { authUser, authLoading, authFulfilled, username } = useSelector(
+  const { authUser, authLoading, username } = useSelector(
     (state) => state.auth
   );
 
