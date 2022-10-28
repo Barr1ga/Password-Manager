@@ -11,6 +11,7 @@ const initialState = {
   masterPasswordHint: authProfile ? authProfile.masterPasswordHint : null,
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
+  authSaveAccountLoading: false,
   authLoading: false,
   authFulfilled: false,
   authError: false,
@@ -311,10 +312,10 @@ const userSlice = createSlice({
       })
 
       .addCase(updateUserData.pending, (state) => {
-        state.authLoading = true;
+        state.authSaveAccountLoading = true;
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
-        state.authLoading = false;
+        state.authSaveAccountLoading = false;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -325,7 +326,7 @@ const userSlice = createSlice({
         localStorage.setItem("authProfile", JSON.stringify(authProfile));
       })
       .addCase(updateUserData.rejected, (state, action) => {
-        state.authLoading = false;
+        state.authSaveAccountLoading = false;
         state.authError = true;
       })
 

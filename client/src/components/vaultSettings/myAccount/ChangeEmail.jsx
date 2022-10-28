@@ -168,11 +168,7 @@ const ChangeEmail = () => {
                 className="btn-dark"
                 style={{ width: "140px" }}
               >
-                {authChangedEmailLoading ? (
-                  <SpinnerLoader></SpinnerLoader>
-                ) : (
-                  <>Change Email</>
-                )}
+                Change Email
               </Button>
             </form>
 

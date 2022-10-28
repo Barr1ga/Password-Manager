@@ -14,9 +14,8 @@ const MyAccount = () => {
   const handleShow = () => setShow(true);
 
   const dispatch = useDispatch();
-  const { authUser, authLoading, authFulfilled, username } = useSelector(
-    (state) => state.auth
-  );
+  const { authUser, authSaveAccountLoading, username } =
+    useSelector((state) => state.auth);
 
   const {
     register,
@@ -141,7 +140,11 @@ const MyAccount = () => {
                     type="button"
                     className="btn-dark btn-long"
                   >
-                    {authLoading ? <SpinnerLoader></SpinnerLoader> : <>Save</>}
+                    {authSaveAccountLoading ? (
+                      <SpinnerLoader></SpinnerLoader>
+                    ) : (
+                      <>Save</>
+                    )}
                   </Button>
                 </div>
               </div>

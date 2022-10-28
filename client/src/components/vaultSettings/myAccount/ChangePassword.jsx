@@ -202,11 +202,7 @@ const ChangePassword = () => {
             className="btn-secondary danger"
             style={{ width: "235px" }}
           >
-            {authChangedPasswordLoading ? (
-              <SpinnerLoader></SpinnerLoader>
-            ) : (
-              <>Change Master Password</>
-            )}
+            Change Master Password
           </Button>
         </form>
 

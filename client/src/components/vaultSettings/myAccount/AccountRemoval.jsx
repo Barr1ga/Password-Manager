@@ -36,7 +36,7 @@ const VaultSettings = () => {
   useEffect(() => {
     if (authRemovedAccountReauthFulfilled) {
       dispatch(removeAccount());
-      dispatch(removeUser({uid: authUser.uid}));
+      dispatch(removeUser({ uid: authUser.uid }));
     }
 
     if (authRemovedAccountFulfilled) {
@@ -113,11 +113,7 @@ const VaultSettings = () => {
           className="btn-secondary danger"
           style={{ width: "150px" }}
         >
-          {authRemovedAccountLoading ? (
-            <SpinnerLoader></SpinnerLoader>
-          ) : (
-            <>Delete Account</>
-          )}
+          Delete Account
         </Button>
       </form>
 
