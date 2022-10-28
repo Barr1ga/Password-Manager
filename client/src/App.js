@@ -42,6 +42,11 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
       dispatch(getUserData(user.uid));
+
+      if (user.providerData[0].providerId === "google.com") {
+        const uid = user.uid;
+        createUser({ uid, email: user.email, username, masterPasswordHint });
+      }
     });
 
     return unsubscribe;
