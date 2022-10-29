@@ -24,8 +24,9 @@ import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
-import { createUser, setUser, getUserData } from "./features/slice/authSlice";
+import { createUser, setUser, getUserData, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
+import { useIdleTimer } from "react-idle-timer";
 
 const App = () => {
   const { selectedPassword } = useSelector((state) => state.passwords);
@@ -62,12 +63,23 @@ const App = () => {
   useEffect(() => {
     if (authRegistered && authUser && username) {
       const uid = authUser.uid;
-      dispatch(
+      dispatch( 
         createUser({ uid, email: authUser.email, username, masterPasswordHint })
       );
     }
   }, [authRegistered, authUser, username, masterPasswordHint, dispatch]);
-  
+
+  const handleOnIdle = (event) => {
+    if (authUser) {
+      dispatch(logOut());
+    }
+  };
+
+  useIdleTimer({
+    timeout: 1000 * 60 * 3,
+    onIdle: handleOnIdle,
+  });
+
   return (
     <BrowserRouter>
       {authUser && <Header></Header>}
