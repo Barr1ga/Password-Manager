@@ -6,16 +6,12 @@ import {
   HiOutlineEyeOff,
   HiOutlineRefresh,
   HiPlus,
-  HiOutlineX,
   HiOutlinePencil,
 } from "react-icons/hi";
-import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import ConfirmModal from "../helpers/ConfirmModal";
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
-import { createWifiPasswordItem } from "../../features/slice/passwordSlice";
-import { updateWifiPasswordItem } from "../../features/slice/passwordSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const WifiPassword = ({

@@ -67,7 +67,7 @@ const App = () => {
       );
     }
   }, [authRegistered, authUser, username, masterPasswordHint, dispatch]);
-
+  
   return (
     <BrowserRouter>
       {authUser && <Header></Header>}

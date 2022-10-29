@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import {
   HiOutlineArrowLeft,
   HiOutlineX,
@@ -12,7 +11,6 @@ import {
   HiOutlineWifi,
   HiOutlineClipboardList,
   HiOutlineTrash,
-  HiOutlineCamera,
 } from "react-icons/hi";
 import UploadImage from "./UploadImage";
 import ConfirmModal from "./helpers/ConfirmModal";
@@ -21,7 +19,6 @@ import {
   handleDeletePasswordItem,
   resetSelectedPasswordItem,
 } from "../features/slice/passwordSlice";
-import PasswordGenerator from "./PasswordGenerator";
 import { useNavigate } from "react-router-dom";
 
 import Card from "./addItem/Card";
@@ -45,17 +42,13 @@ const PasswordInformation = ({ currentPassword }) => {
   };
 
   const handleCloseMobile = () => {
-    if (showPasswordGenerator) {
-      setShowPasswordGenerator(false);
-    }
+    setShowPasswordGenerator(false);
     dispatch(resetSelectedPasswordItem());
     navigate(-1);
   };
 
   const handleClose = () => {
-    if (showPasswordGenerator) {
-      setShowPasswordGenerator(false);
-    }
+    setShowPasswordGenerator(false);
     dispatch(resetSelectedPasswordItem());
   };
 
@@ -66,6 +59,7 @@ const PasswordInformation = ({ currentPassword }) => {
   const handleTypeClicked = (value) => {
     setSelectedType(value);
     setShowTypeOptions(false);
+    handleBack();
   };
 
   return (
@@ -239,6 +233,8 @@ const PasswordInformation = ({ currentPassword }) => {
           <WifiPassword
             method={method}
             defaultValues={currentPassword}
+            showPasswordGenerator={showPasswordGenerator}
+            setShowPasswordGenerator={setShowPasswordGenerator}
           ></WifiPassword>
         )}
 

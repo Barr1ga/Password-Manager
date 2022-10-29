@@ -35,6 +35,7 @@ const AddItemModal = () => {
   };
 
   const handleTypeClicked = (value) => {
+    setShowPasswordGenerator(false);
     setSelectedType(value);
     setShowTypeOptions(false);
   };
@@ -163,15 +164,23 @@ const AddItemModal = () => {
             ></Login>
           )}
 
-          {selectedType === "Cards" && <Card method={method} ></Card>}
+          {selectedType === "Cards" && <Card method={method}></Card>}
 
           {selectedType === "Identification" && (
-            <Identification method={method} ></Identification>
+            <Identification method={method}></Identification>
           )}
 
-          {selectedType === "Secure Notes" && <SecureNote method={method} ></SecureNote>}
+          {selectedType === "Secure Notes" && (
+            <SecureNote method={method}></SecureNote>
+          )}
 
-          {selectedType === "Wifi Passwords" && <WifiPassword method={method} ></WifiPassword>}
+          {selectedType === "Wifi Passwords" && (
+            <WifiPassword
+              method={method}
+              showPasswordGenerator={showPasswordGenerator}
+              setShowPasswordGenerator={setShowPasswordGenerator}
+            ></WifiPassword>
+          )}
         </Modal.Body>
       </Modal>
     </>

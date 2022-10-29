@@ -11,8 +11,6 @@ import {
 import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
-import { createPasswordItem } from "../../features/slice/passwordSlice";
-import { updatePasswordItem } from "../../features/slice/passwordSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Logins = ({
@@ -259,7 +257,7 @@ const Logins = ({
                     onKeyDown={(e) => handleKeyDown(e)}
                     onChange={(e) => setSearch(e.target.value)}
                     className="form-control-borderless"
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                 </div>
                 {showFolder && (

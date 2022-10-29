@@ -1,22 +1,15 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { HiPlus, HiPlusSm } from "react-icons/hi";
+import { HiPlus } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import {
   HiOutlineArrowLeft,
   HiOutlineX,
   HiOutlineGlobe,
-  HiGlobe,
   HiOutlineCreditCard,
-  HiCreditCard,
   HiOutlineIdentification,
-  HiIdentification,
   HiOutlineDocumentText,
-  HiDocumentText,
   HiOutlineWifi,
-  HiWifi,
-  HiOutlineUsers,
-  HiUsers,
 } from "react-icons/hi";
 import ConfirmModal from "./helpers/ConfirmModal";
 import Card from "./addItem/Card";
@@ -30,6 +23,9 @@ const AddItemModal = () => {
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
+
+  const method = "add";
+
   const handleBack = () => {
     setShowPasswordGenerator(false);
   };
@@ -168,15 +164,23 @@ const AddItemModal = () => {
             ></Login>
           )}
 
-          {selectedType === "Cards" && <Card></Card>}
+          {selectedType === "Cards" && <Card method={method}></Card>}
 
           {selectedType === "Identification" && (
-            <Identification></Identification>
+            <Identification method={method}></Identification>
           )}
 
-          {selectedType === "Secure Notes" && <SecureNote></SecureNote>}
+          {selectedType === "Secure Notes" && (
+            <SecureNote method={method}></SecureNote>
+          )}
 
-          {selectedType === "Wifi Passwords" && <WifiPassword></WifiPassword>}
+          {selectedType === "Wifi Passwords" && (
+            <WifiPassword
+              method={method}
+              showPasswordGenerator={showPasswordGenerator}
+              setShowPasswordGenerator={setShowPasswordGenerator}
+            ></WifiPassword>
+          )}
         </Modal.Body>
       </Modal>
     </>
