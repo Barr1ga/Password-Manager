@@ -7,7 +7,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
-const Identifications = ({ method, defaultValues }) => {
+const Identifications = ({ setCurrentImageLetter, method, defaultValues }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -26,6 +26,7 @@ const Identifications = ({ method, defaultValues }) => {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "all",
@@ -37,6 +38,8 @@ const Identifications = ({ method, defaultValues }) => {
     },
   });
 
+  const watchName = watch("name");
+
   useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
@@ -47,6 +50,12 @@ const Identifications = ({ method, defaultValues }) => {
       reset();
     };
   }, [defaultValues, reset]);
+
+  useEffect(() => {
+    if (watchName !== "") {
+      setCurrentImageLetter(watchName?.charAt(0));
+    }
+  }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
     console.log(data);

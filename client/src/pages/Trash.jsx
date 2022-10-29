@@ -36,6 +36,11 @@ const Trash = () => {
     setSearchStatus(true);
   };
 
+  const handleResetSearch = () => {
+    setSearchValue("");
+    setSearchStatus(false);
+  };
+
   return (
     <div className="margin-content">
       <div
@@ -62,7 +67,7 @@ const Trash = () => {
           {searchStatus && (
             <div>
               <HiOutlineX
-                onClick={() => setSearchStatus(false)}
+                onClick={handleResetSearch}
                 className="btn-close"
               ></HiOutlineX>
             </div>
@@ -157,7 +162,7 @@ const Trash = () => {
                 ))}
               </div>
             </div>
-            <div className="page-footer padding-side">
+            <div className="page-footer">
               <AddItemButton></AddItemButton>
             </div>
           </div>

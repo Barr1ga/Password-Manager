@@ -17,12 +17,15 @@ import Login from "./addItem/Login";
 import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
+import UploadImage from "./UploadImage";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
+  const [currentImage, setCurrentImage] = useState("");
+  const [currentImageLetter, setCurrentImageLetter] = useState("");
 
   const method = "add";
 
@@ -87,7 +90,18 @@ const AddItemModal = () => {
         </Modal.Header>
         <Modal.Body className="add-item-modal standard-stack gap-10">
           <h5>Item Information</h5>
-
+          <div className="item-image">
+            <div className="image">
+              {currentImage !== "" ? (
+                <img src={currentImage} alt={currentImage}></img>
+              ) : (
+                <div className="default">{currentImageLetter}</div>
+              )}
+              <div className="btn-circle update-image" htmlFor="upload-photo">
+                <UploadImage setCurrentImage={setCurrentImage} mode={"item"}></UploadImage>
+              </div>
+            </div>
+          </div>
           <div className="item-type">
             <label>
               Item Type <span className="error-message">*</span>

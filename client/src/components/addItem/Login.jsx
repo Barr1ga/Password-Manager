@@ -14,6 +14,7 @@ import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
 const Logins = ({
+  setCurrentImageLetter,
   method,
   showPasswordGenerator,
   setShowPasswordGenerator,
@@ -55,6 +56,13 @@ const Logins = ({
   }, [defaultValues, reset]);
 
   const watchPassword = watch("password");
+  const watchName = watch("name");
+
+  useEffect(() => {
+    if (watchName !== "") {
+      setCurrentImageLetter(watchName?.charAt(0));
+    }
+  }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -98,7 +106,9 @@ const Logins = ({
   );
   filteredFolders =
     search !== ""
-      ? filteredFolders.filter((folder) => folder.toLowerCase().includes(search.toLowerCase()))
+      ? filteredFolders.filter((folder) =>
+          folder.toLowerCase().includes(search.toLowerCase())
+        )
       : filteredFolders;
 
   return (

@@ -12,11 +12,11 @@ import {
 } from "../features/slice/passwordSlice";
 import SpinnerLoader from "./SpinnerLoader";
 
-const UploadImage = ({ mode }) => {
+const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
   const [modalShow, setModalShow] = useState(false);
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState();
+  const [preview, setPreview] = useState(currentImage);
 
   const { brandLoading, brandPhotoLink } = useSelector(
     (state) => state.passwords
@@ -47,6 +47,27 @@ const UploadImage = ({ mode }) => {
   const handleCloseModal = () => {
     setModalShow(false);
   };
+
+  const handleUseImage = () => {
+    if (brandPhotoLink !== "") {
+      setCurrentImage(brandPhotoLink);
+      handleCloseModal();
+      return;
+    }
+
+    if (preview) {
+      setCurrentImage(preview);
+      handleCloseModal();
+      return;
+    }
+
+    setCurrentImage("");
+    handleCloseModal();
+  };
+
+  // useEffect(() => {
+  //   setCurrentImage(currentImage);
+  // }, [currentImage]);
 
   useEffect(() => {
     return () => {
@@ -94,7 +115,7 @@ const UploadImage = ({ mode }) => {
           {/* <Modal.Title>Modal heading</Modal.Title> */}
           <div className="page-header-with-close">
             <div className="back-enabled">
-              <h4>Update {mode} picture</h4>
+              <h4>Update {mode} image</h4>
             </div>
             <ConfirmModal
               proceedInteraction={
@@ -115,12 +136,12 @@ const UploadImage = ({ mode }) => {
           </div>
         </Modal.Header>
         <Modal.Body className="upload-photo-modal standard-stack gap-10">
-          {selectedFile && (
+          {preview && (
             <>
               <div className="padding-side uploaded-image">
                 <img src={preview} alt={preview} />
                 <Button className="btn-secondary" onClick={removePhoto}>
-                  Remove Photo
+                  Remove Image
                 </Button>
               </div>
             </>
@@ -130,7 +151,7 @@ const UploadImage = ({ mode }) => {
               <div className="padding-side uploaded-image">
                 <img src={brandPhotoLink} alt={brandPhotoLink} />
                 <Button className="btn-secondary" onClick={removePhoto}>
-                  Remove Photo
+                  Remove Image
                 </Button>
               </div>
             </>
@@ -138,7 +159,7 @@ const UploadImage = ({ mode }) => {
           {/* <div className="default"></div> */}
           <p>You can upload your own photo or get a brand logo from an API</p>
           <label htmlFor="upload-photo" className="btn-secondary btn-with-icon">
-            <HiPlus></HiPlus>Upload Photo
+            <HiPlus></HiPlus>Upload Image
           </label>
           <input
             type="file"
@@ -182,7 +203,28 @@ const UploadImage = ({ mode }) => {
               </small>
             )}
           </form>
-          <Button className="btn-dark">Save Changes</Button>
+          {currentImage !== "" ? (
+            <ConfirmModal
+              proceedInteraction={
+                <Button
+                  type="button"
+                  onClick={handleUseImage}
+                  className="btn-dark btn-long"
+                >
+                  Save
+                </Button>
+              }
+              component={
+                <Button className="btn-dark btn-long">Save Changes</Button>
+              }
+              headerMessage={"Are you sure you want to use this image?"}
+              bodyMessage={
+                "You already have an image for this item, do you want to change it?"
+              }
+            ></ConfirmModal>
+          ) : (
+            <Button className="btn-dark btn-long">Save Changes</Button>
+          )}
         </Modal.Body>
       </Modal>
     </>

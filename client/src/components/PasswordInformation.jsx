@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import {
@@ -34,8 +34,16 @@ const PasswordInformation = ({ currentPassword }) => {
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
+  const [currentImage, setCurrentImage] = useState(currentPassword.image);
+  const [currentImageLetter, setCurrentImageLetter] = useState(
+    currentPassword.name.charAt(0)
+  );
 
   const method = "update";
+
+  useEffect(() => {
+    setCurrentImage(currentPassword.image);
+  }, [currentPassword]);
 
   const handleDeletePassword = (id) => {
     dispatch(handleDeletePasswordItem(id));
@@ -126,13 +134,13 @@ const PasswordInformation = ({ currentPassword }) => {
         <h5>Item Information</h5>
         <div className="item-image">
           <div className="image">
-            {currentPassword.image !== "" ? (
-              <img src={currentPassword.image} alt={currentPassword.name}></img>
+            {currentImage !== "" ? (
+              <img src={currentImage} alt={currentPassword.name}></img>
             ) : (
-              <div className="default">{currentPassword.name.charAt(0)}</div>
+              <div className="default">{currentImageLetter}</div>
             )}
             <div className="btn-circle update-image" htmlFor="upload-photo">
-              <UploadImage mode={"item"}></UploadImage>
+              <UploadImage setCurrentImage={setCurrentImage} mode={"item"} currentImage={currentImage}></UploadImage>
             </div>
           </div>
         </div>
@@ -207,6 +215,7 @@ const PasswordInformation = ({ currentPassword }) => {
 
         {selectedType === "Login" && (
           <Login
+            setCurrentImageLetter={setCurrentImageLetter}
             method={method}
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}

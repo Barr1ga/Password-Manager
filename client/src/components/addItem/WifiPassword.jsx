@@ -15,6 +15,7 @@ import { HiStar, HiOutlineStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
 const WifiPassword = ({
+  setCurrentImageLetter,
   method,
   showPasswordGenerator,
   setShowPasswordGenerator,
@@ -43,6 +44,8 @@ const WifiPassword = ({
     mode: "all",
   });
 
+  const watchName = watch("name");
+
   useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
@@ -53,6 +56,12 @@ const WifiPassword = ({
       reset();
     };
   }, [defaultValues, reset]);
+
+  useEffect(() => {
+    if (watchName !== "") {
+      setCurrentImageLetter(watchName?.charAt(0));
+    }
+  }, [setCurrentImageLetter, watchName]);
 
   const watchPassword = watch("password");
 

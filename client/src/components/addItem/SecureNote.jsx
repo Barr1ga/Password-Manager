@@ -6,7 +6,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
-const SecureNote = ({ method, defaultValues }) => {
+const SecureNote = ({ setCurrentImageLetter, method, defaultValues }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [favorite, setFavorite] = useState(false);
@@ -23,7 +23,6 @@ const SecureNote = ({ method, defaultValues }) => {
     handleSubmit,
     watch,
     reset,
-    setValue,
     formState: { errors },
   } = useForm({
     mode: "all",
@@ -32,6 +31,8 @@ const SecureNote = ({ method, defaultValues }) => {
       folder: "",
     },
   });
+
+  const watchName = watch("name");
 
   useEffect(() => {
     if (defaultValues) {
@@ -45,6 +46,12 @@ const SecureNote = ({ method, defaultValues }) => {
   }, [defaultValues, reset]);
 
   const watchPassword = watch("password");
+
+  useEffect(() => {
+    if (watchName !== "") {
+      setCurrentImageLetter(watchName?.charAt(0));
+    }
+  }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
     console.log(data);

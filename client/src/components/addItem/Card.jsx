@@ -13,7 +13,7 @@ import { createCardItem } from "../../features/slice/passwordSlice";
 import { updateCardItem } from "../../features/slice/passwordSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const Card = ({ method, defaultValues }) => {
+const Card = ({ setCurrentImageLetter, method, defaultValues }) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
@@ -24,18 +24,21 @@ const Card = ({ method, defaultValues }) => {
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  
+
   const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "all",
     defaultValues: defaultValues,
   });
+
+  const watchName = watch("name");
 
   useEffect(() => {
     if (defaultValues) {
@@ -49,10 +52,10 @@ const Card = ({ method, defaultValues }) => {
   }, [defaultValues, reset]);
 
   useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, []);
+    if (watchName !== "") {
+      setCurrentImageLetter(watchName?.charAt(0));
+    }
+  }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
     dispatch(createCardItem(data));
@@ -90,7 +93,9 @@ const Card = ({ method, defaultValues }) => {
   );
   filteredFolders =
     search !== ""
-      ? filteredFolders.filter((folder) => folder.toLowerCase().includes(search.toLowerCase()))
+      ? filteredFolders.filter((folder) =>
+          folder.toLowerCase().includes(search.toLowerCase())
+        )
       : filteredFolders;
 
   return (
@@ -220,7 +225,9 @@ const Card = ({ method, defaultValues }) => {
                 },
               })}
               className={
-                errors.expirationMonth ? "form-control form-error" : "form-control "
+                errors.expirationMonth
+                  ? "form-control form-error"
+                  : "form-control "
               }
             />
             {errors.expirationMonth && (
