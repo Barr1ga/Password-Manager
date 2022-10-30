@@ -4,7 +4,7 @@ import Login from "../components/Login";
 import Register from "../components/Register";
 import { resetAuthErrors } from "../features/slice/authSlice";
 
-const LoginRegistration = () => {
+const LoginRegistration = ({ loggedOutInactive, setLoggedOutInactive }) => {
   const [showLogin, setShowLogin] = useState(true);
 
   const { authError, authMessage, authErrorMessage, authErrorCode } =
@@ -39,7 +39,7 @@ const LoginRegistration = () => {
   return (
     <>
       {showLogin ? (
-        <Login handleShowRegistration={handleShowRegistration}></Login>
+        <Login loggedOutInactive={loggedOutInactive} setLoggedOutInactive={setLoggedOutInactive} handleShowRegistration={handleShowRegistration}></Login>
       ) : (
         <Register handleShowLogin={handleShowLogin}></Register>
       )}

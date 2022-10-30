@@ -21,8 +21,9 @@ import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import SpinnerLoader from "./SpinnerLoader";
 import Logo from "../assets/vaulteer_logo.svg";
+import WarningAlert from "./alerts/WarningAlert";
 
-const Login = ({ handleLogin, handleShowRegistration }) => {
+const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleShowRegistration }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
@@ -57,6 +58,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   const watchEmail = watch("email");
 
   const onSubmit = (data) => {
+    setLoggedOutInactive(false);
     const { email, masterPassword } = data;
     const loginData = {
       email,
@@ -110,7 +112,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
         <Modal.Body>
           <div className="standard-stack gap-10">
             <h5 className="login-title">Login to Vaulteer</h5>
-
+            {loggedOutInactive && <WarningAlert message={"You have been logged out of Vaulter due to inactivity. Please re-enter your Vaulteer account in order to sign in again."}></WarningAlert>}
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">

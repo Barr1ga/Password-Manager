@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AllItems from "./pages/AllItems";
 import Favorites from "./pages/Favorites";
@@ -24,11 +24,17 @@ import CurrentPasswordItem from "./components/CurrentPasswordItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
-import { createUser, setUser, getUserData, logOut } from "./features/slice/authSlice";
+import {
+  createUser,
+  setUser,
+  getUserData,
+  logOut,
+} from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 
 const App = () => {
+  const [loggedOutInactive, setLoggedOutInactive] = useState(false);
   const { selectedPassword } = useSelector((state) => state.passwords);
   const { authUser, username, masterPasswordHint, authRegistered } =
     useSelector((state) => state.auth);
@@ -63,7 +69,7 @@ const App = () => {
   useEffect(() => {
     if (authRegistered && authUser && username) {
       const uid = authUser.uid;
-      dispatch( 
+      dispatch(
         createUser({ uid, email: authUser.email, username, masterPasswordHint })
       );
     }
@@ -71,12 +77,13 @@ const App = () => {
 
   const handleOnIdle = (event) => {
     if (authUser) {
+      setLoggedOutInactive(true);
       dispatch(logOut());
     }
   };
 
   useIdleTimer({
-    timeout: 1000 * 60 * 3,
+    timeout: 1000 * 3,
     onIdle: handleOnIdle,
   });
 
@@ -93,7 +100,12 @@ const App = () => {
           <Routes>
             <Route
               path="/LoginRegistration"
-              element={<LoginRegistration></LoginRegistration>}
+              element={
+                <LoginRegistration
+                  loggedOutInactive={loggedOutInactive}
+                  setLoggedOutInactive={setLoggedOutInactive}
+                ></LoginRegistration>
+              }
             ></Route>
             <Route
               path="/"
