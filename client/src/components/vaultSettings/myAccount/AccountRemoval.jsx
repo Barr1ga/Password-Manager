@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import WarningAlert from "../../alerts/WarningAlert";
-import ConfirmModal from "../../helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "../../SpinnerLoader";
 import {
@@ -12,11 +11,12 @@ import {
   removeUser,
 } from "../../../features/slice/authSlice";
 import Modal from "react-bootstrap/Modal";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 const VaultSettings = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState("");
-
+  const [showPassword, setShowPassword] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
 
   const handleClose = () => setShow(false);
@@ -42,13 +42,12 @@ const VaultSettings = () => {
     if (authRemovedAccountFulfilled) {
       dispatch(logOut());
     }
-  }, [authRemovedAccountFulfilled, authRemovedAccountReauthFulfilled, authUser.uid, dispatch]);
+  }, [authRemovedAccountReauthFulfilled]);
 
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {},
@@ -63,6 +62,18 @@ const VaultSettings = () => {
     const { currentMasterPassword } = formData;
     dispatch(accountRemovalReauthentication(currentMasterPassword));
   };
+
+  useEffect(() => {
+    if (
+      authRemovedAccount &&
+      authErrorMessage !== "" &&
+      !authRemovedAccountLoading
+    ) {
+      if (show) {
+        handleClose();
+      }
+    }
+  }, [authRemovedAccount, authErrorMessage, authRemovedAccountLoading]);
 
   return (
     <div className="form-group">
@@ -79,23 +90,37 @@ const VaultSettings = () => {
           <label>
             Enter Master Password <span className="error-message">*</span>
           </label>
+          <span className="password-input">
           <input
-            type="text"
-            {...register("currentMasterPassword", {
+              type={showPassword ? "text" : "password"}
+              {...register("masterPassword", {
               required: {
                 value: true,
-                message: "Current master password is required",
+                  message: "Master Password is required",
               },
             })}
             className={
-              errors.currentMasterPassword ||
-              (authRemovedAccount &&
-                (authErrorCode === "auth/too-many-requests" ||
+                errors.masterPassword ||
+                (authErrorCode !== "" &&
+                  (authErrorCode === "auth/user-not-found" ||
+                    authErrorCode === "auth/too-many-requests" ||
                   authErrorCode === "auth/wrong-password"))
                 ? "form-control form-error"
                 : "form-control "
             }
           />
+            <div className="interactions">
+              {showPassword ? (
+                <HiOutlineEye
+                  onClick={() => setShowPassword(false)}
+                ></HiOutlineEye>
+              ) : (
+                <HiOutlineEyeOff
+                  onClick={() => setShowPassword(true)}
+                ></HiOutlineEyeOff>
+              )}
+            </div>
+          </span>
           {errors.currentMasterPassword && (
             <small className="error-message">
               {errors.currentMasterPassword.message}
@@ -112,8 +137,13 @@ const VaultSettings = () => {
           type="submit"
           className="btn-secondary danger"
           style={{ width: "150px" }}
+          disabled={!isDirty || !isValid}
         >
-          Delete Account
+          {authRemovedAccountLoading ? (
+            <SpinnerLoader></SpinnerLoader>
+          ) : (
+            <>Delete Account</>
+          )}
         </Button>
       </form>
 
