@@ -82,7 +82,6 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
     if (!showPasswordHint) {
       setShowPasswordHint(true);
     }
-
     dispatch(getMasterPasswordHint(watchEmail));
   };
 

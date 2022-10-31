@@ -41,9 +41,11 @@ const ChangePassword = () => {
   useEffect(() => {
     if (authChangedPasswordReauthFulfilled) {
       dispatch(changePassword(password));
-      dispatch(
-        updateUserPasswordHint({ uid: authUser.uid, masterPasswordHint })
-      );
+      if (masterPasswordHint !== "") {
+        dispatch(
+          updateUserPasswordHint({ uid: authUser.uid, masterPasswordHint })
+        );
+      }
     }
 
     if (authChangedPasswordFulfilled) {
@@ -69,7 +71,6 @@ const ChangePassword = () => {
   };
 
   const handleChangePassword = () => {
-    console.log(formData);
     const { currentMasterPassword, newMasterPassword, masterPasswordHint } =
       formData;
     dispatch(changePasswordReauthentication(currentMasterPassword));
@@ -263,11 +264,7 @@ const ChangePassword = () => {
             style={{ width: "235px" }}
             disabled={!isDirty || !isValid}
           >
-            {authChangedPasswordLoading ? (
-              <SpinnerLoader></SpinnerLoader>
-            ) : (
               <>Change Master Password</>
-            )}
           </Button>
         </form>
 

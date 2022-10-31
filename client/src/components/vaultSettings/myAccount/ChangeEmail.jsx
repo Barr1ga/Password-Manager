@@ -157,7 +157,8 @@ const ChangeEmail = () => {
                     })}
                     className={
                       errorsEmail.masterPassword ||
-                      (authChangedEmail && authErrorCode !== "" &&
+                      (authChangedEmail &&
+                        authErrorCode !== "" &&
                         (authErrorCode === "auth/user-not-found" ||
                           authErrorCode === "auth/too-many-requests" ||
                           authErrorCode === "auth/wrong-password"))
@@ -195,11 +196,7 @@ const ChangeEmail = () => {
                 style={{ width: "140px" }}
                 disabled={!isDirty || !isValid}
               >
-                {authChangedEmailLoading ? (
-                  <SpinnerLoader></SpinnerLoader>
-                ) : (
                   <>Change Email</>
-                )}
               </Button>
             </form>
 

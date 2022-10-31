@@ -47,7 +47,6 @@ const VaultSettings = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, isDirty, isValid },
   } = useForm({
     mode: "all",
@@ -61,7 +60,6 @@ const VaultSettings = () => {
 
   const handleDeleteAccount = () => {
     const { masterPassword } = formData;
-    console.log(masterPassword);
     dispatch(accountRemovalReauthentication(masterPassword));
   };
 
@@ -142,11 +140,7 @@ const VaultSettings = () => {
           style={{ width: "150px" }}
           disabled={!isDirty || !isValid}
         >
-          {authRemovedAccountLoading ? (
-            <SpinnerLoader></SpinnerLoader>
-          ) : (
             <>Delete Account</>
-          )}
         </Button>
       </form>
 
