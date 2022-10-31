@@ -14,6 +14,7 @@ import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
 const Logins = ({
+  currentImage,
   setCurrentImageLetter,
   method,
   showPasswordGenerator,
@@ -65,7 +66,15 @@ const Logins = ({
   }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const newData = {
+      ...data,
+      image: currentImage,
+      favorite,
+      folders: assignedFolders,
+    };
+
+    console.log(newData);
+
     // dispatch(createPasswordItem(data));
     // if (method === "update") {
     //   dispatch(updatePasswordItem(data));

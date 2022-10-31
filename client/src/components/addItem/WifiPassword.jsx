@@ -15,6 +15,7 @@ import { HiStar, HiOutlineStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
 const WifiPassword = ({
+  currentImage,
   setCurrentImageLetter,
   method,
   showPasswordGenerator,
@@ -43,8 +44,9 @@ const WifiPassword = ({
   } = useForm({
     mode: "all",
   });
-
-  const watchName = watch("name");
+  
+  const watchPassword = watch("password");
+  const watchSsid = watch("ssid");
 
   useEffect(() => {
     if (defaultValues) {
@@ -58,15 +60,21 @@ const WifiPassword = ({
   }, [defaultValues, reset]);
 
   useEffect(() => {
-    if (watchName !== "") {
-      setCurrentImageLetter(watchName?.charAt(0));
+    if (watchSsid !== "") {
+      setCurrentImageLetter(watchSsid?.charAt(0));
     }
-  }, [setCurrentImageLetter, watchName]);
+  }, [setCurrentImageLetter, watchSsid]);
 
-  const watchPassword = watch("password");
 
   const onSubmit = (data) => {
-    console.log(data);
+    const newData = {
+      ...data,
+      image: currentImage,
+      favorite,
+      folders: assignedFolders,
+    };
+
+    console.log(newData);
     // dispatch(createWifiPasswordItem(data));
     // if (method === "update") {
     //   dispatch(updateWifiPasswordItem(data));

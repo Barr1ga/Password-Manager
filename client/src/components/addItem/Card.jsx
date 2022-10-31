@@ -13,7 +13,12 @@ import { createCardItem } from "../../features/slice/passwordSlice";
 import { updateCardItem } from "../../features/slice/passwordSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const Card = ({ setCurrentImageLetter, method, defaultValues }) => {
+const Card = ({
+  currentImage,
+  setCurrentImageLetter,
+  method,
+  defaultValues,
+}) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
@@ -41,6 +46,12 @@ const Card = ({ setCurrentImageLetter, method, defaultValues }) => {
   const watchName = watch("name");
 
   useEffect(() => {
+    if (watchName !== "") {
+      setCurrentImageLetter(watchName?.charAt(0));
+    }
+  }, [setCurrentImageLetter, watchName]);
+
+  useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
       setAssignedFolders(defaultValues.folders);
@@ -51,18 +62,23 @@ const Card = ({ setCurrentImageLetter, method, defaultValues }) => {
     };
   }, [defaultValues, reset]);
 
-  useEffect(() => {
-    if (watchName !== "") {
-      setCurrentImageLetter(watchName?.charAt(0));
-    }
-  }, [setCurrentImageLetter, watchName]);
+  console.log(currentImage);
 
   const onSubmit = (data) => {
-    dispatch(createCardItem(data));
+    const newData = {
+      ...data,
+      image: currentImage,
+      favorite,
+      folders: assignedFolders,
+    };
+
+    console.log(newData);
+
     if (method === "update") {
       dispatch(updateCardItem(data));
+    } else {
+      dispatch(createCardItem(data));
     }
-    console.log(data);
   };
 
   const handleOnBlurFolder = () => {
@@ -334,7 +350,7 @@ const Card = ({ setCurrentImageLetter, method, defaultValues }) => {
                 onKeyDown={(e) => handleKeyDown(e)}
                 onChange={(e) => setSearch(e.target.value)}
                 className="form-control-borderless"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             {showFolder && (

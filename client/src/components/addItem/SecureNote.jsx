@@ -6,7 +6,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
-const SecureNote = ({ setCurrentImageLetter, method, defaultValues }) => {
+const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [favorite, setFavorite] = useState(false);
@@ -54,7 +54,15 @@ const SecureNote = ({ setCurrentImageLetter, method, defaultValues }) => {
   }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const newData = {
+      ...data,
+      image: currentImage,
+      favorite,
+      folders: assignedFolders,
+    };
+
+    console.log(newData);
+
     // dispatch(createSecureNoteItem(data));
     // if (method === "update") {
     //   dispatch(updateSecureNoteItem(data));

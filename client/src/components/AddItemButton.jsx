@@ -26,7 +26,6 @@ const AddItemModal = () => {
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageLetter, setCurrentImageLetter] = useState("");
-
   const method = "add";
 
   const handleBack = () => {
@@ -34,6 +33,8 @@ const AddItemModal = () => {
   };
 
   const handleCloseModal = () => {
+    setCurrentImage("");
+    setCurrentImage("");
     setModalShow(false);
   };
 
@@ -42,6 +43,8 @@ const AddItemModal = () => {
     setSelectedType(value);
     setShowTypeOptions(false);
   };
+
+  console.log(selectedType)
 
   return (
     <>
@@ -97,7 +100,11 @@ const AddItemModal = () => {
                 <div className="default">{currentImageLetter}</div>
               )}
               <div className="btn-circle update-image" htmlFor="upload-photo">
-                <UploadImage setCurrentImage={setCurrentImage} mode={"item"}></UploadImage>
+                <UploadImage
+                  currentImage={currentImage}
+                  setCurrentImage={setCurrentImage}
+                  mode={"item"}
+                ></UploadImage>
               </div>
             </div>
           </div>
@@ -118,7 +125,7 @@ const AddItemModal = () => {
                   </Button>
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Cards")}
+                    onClick={() => handleTypeClicked("Card")}
                   >
                     <HiOutlineCreditCard></HiOutlineCreditCard>Card
                   </Button>
@@ -133,7 +140,7 @@ const AddItemModal = () => {
                   </Button>
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Secure Notes")}
+                    onClick={() => handleTypeClicked("Secure Note")}
                   >
                     <HiOutlineDocumentText></HiOutlineDocumentText>Secure Note
                   </Button>
@@ -141,7 +148,7 @@ const AddItemModal = () => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Wifi Passwords")}
+                    onClick={() => handleTypeClicked("Wifi Password")}
                   >
                     <HiOutlineWifi></HiOutlineWifi>Wifi Password
                   </Button>
@@ -153,16 +160,16 @@ const AddItemModal = () => {
                 onClick={() => setShowTypeOptions(true)}
               >
                 {selectedType === "Login" && <HiOutlineGlobe></HiOutlineGlobe>}
-                {selectedType === "Cards" && (
+                {selectedType === "Card" && (
                   <HiOutlineCreditCard></HiOutlineCreditCard>
                 )}
                 {selectedType === "Identification" && (
                   <HiOutlineIdentification></HiOutlineIdentification>
                 )}
-                {selectedType === "Secure Notes" && (
+                {selectedType === "Secure Note" && (
                   <HiOutlineDocumentText></HiOutlineDocumentText>
                 )}
-                {selectedType === "Wifi Passwords" && (
+                {selectedType === "Wifi Password" && (
                   <HiOutlineWifi></HiOutlineWifi>
                 )}
                 {selectedType}
@@ -172,6 +179,7 @@ const AddItemModal = () => {
 
           {selectedType === "Login" && (
             <Login
+              currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
               method={method}
               showPasswordGenerator={showPasswordGenerator}
@@ -179,24 +187,27 @@ const AddItemModal = () => {
             ></Login>
           )}
 
-          {selectedType === "Cards" && <Card method={method}></Card>}
-
+          {selectedType === "Card" && <Card currentImage={currentImage} method={method} setCurrentImageLetter={setCurrentImageLetter}></Card>}
+            {console.log(currentImage)}
           {selectedType === "Identification" && (
             <Identification
+              currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
               method={method}
             ></Identification>
           )}
 
-          {selectedType === "Secure Notes" && (
+          {selectedType === "Secure Note" && (
             <SecureNote
+              currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
               method={method}
             ></SecureNote>
           )}
 
-          {selectedType === "Wifi Passwords" && (
+          {selectedType === "Wifi Password" && (
             <WifiPassword
+              currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
               method={method}
               showPasswordGenerator={showPasswordGenerator}

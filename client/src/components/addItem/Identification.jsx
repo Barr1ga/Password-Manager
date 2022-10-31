@@ -7,7 +7,12 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 
-const Identifications = ({ setCurrentImageLetter, method, defaultValues }) => {
+const Identifications = ({
+  currentImage,
+  setCurrentImageLetter,
+  method,
+  defaultValues,
+}) => {
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -58,7 +63,14 @@ const Identifications = ({ setCurrentImageLetter, method, defaultValues }) => {
   }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    const newData = {
+      ...data,
+      image: currentImage,
+      favorite,
+      folders: assignedFolders,
+    };
+
+    console.log(newData);
     // dispatch(createIdentificationItem(data));
     // if (method === "update") {
     //   dispatch(updateIdentificationItem(data));

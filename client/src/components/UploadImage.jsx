@@ -99,6 +99,8 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
     setSelectedFile(e.target.files[0]);
   };
 
+  console.log(currentImage);
+
   return (
     <>
       <HiOutlineCamera onClick={() => setModalShow(true)}></HiOutlineCamera>
@@ -169,7 +171,7 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
           />
 
           <form onSubmit={handleSubmit(onSubmit)}>
-            <label for="files">
+            <label htmlFor="files">
               Brand Name <span className="error-message">*</span>
             </label>
             <div className="form-group-horizontal">
@@ -223,7 +225,7 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
               }
             ></ConfirmModal>
           ) : (
-            <Button className="btn-dark btn-long">Save Changes</Button>
+            <Button onClick={handleUseImage} className="btn-dark btn-long">Save Changes</Button>
           )}
         </Modal.Body>
       </Modal>
