@@ -46,12 +46,9 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      //   sex: "",
-    },
   });
 
   const watchEmail = watch("email");
@@ -80,7 +77,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
   }, [authFulfilled]);
 
   const handleMasterPasswordHint = () => {
-    if (!showPasswordHint) {
+    if (!showPasswordHint && watchEmail !== "") {
       setShowPasswordHint(true);
     }
 
@@ -197,7 +194,7 @@ const Login = ({ handleLogin, handleShowRegistration }) => {
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
-                    disabled={watchEmail === "" ? true : false}
+                    disabled={!isDirty || !isValid && watchEmail === "" ? true : false}
                     onClick={handleMasterPasswordHint}
                   >
                     {authLoading ? (
