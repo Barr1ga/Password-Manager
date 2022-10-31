@@ -47,6 +47,7 @@ const VaultSettings = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isDirty, isValid },
   } = useForm({
     mode: "all",
@@ -91,24 +92,24 @@ const VaultSettings = () => {
             Enter Master Password <span className="error-message">*</span>
           </label>
           <span className="password-input">
-          <input
+            <input
               type={showPassword ? "text" : "password"}
               {...register("masterPassword", {
-              required: {
-                value: true,
+                required: {
+                  value: true,
                   message: "Master Password is required",
-              },
-            })}
-            className={
+                },
+              })}
+              className={
                 errors.masterPassword ||
                 (authErrorCode !== "" &&
                   (authErrorCode === "auth/user-not-found" ||
                     authErrorCode === "auth/too-many-requests" ||
-                  authErrorCode === "auth/wrong-password"))
-                ? "form-control form-error"
-                : "form-control "
-            }
-          />
+                    authErrorCode === "auth/wrong-password"))
+                  ? "form-control form-error"
+                  : "form-control "
+              }
+            />
             <div className="interactions">
               {showPassword ? (
                 <HiOutlineEye

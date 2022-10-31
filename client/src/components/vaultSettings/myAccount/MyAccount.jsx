@@ -21,7 +21,7 @@ const MyAccount = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors: errorsAccount },
+    formState: { errors: errorsAccount, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -54,7 +54,7 @@ const MyAccount = () => {
             <img
               className="image"
               src={authUser.photoURL}
-              alt={"you"}
+              alt={authUser.photoURL}
             ></img>
           ) : (
             <div className="image">{username?.charAt(0)}</div>
@@ -108,7 +108,11 @@ const MyAccount = () => {
               information.
             </small>
           </div>
-          <Button type="submit" className="btn-dark">
+          <Button
+            type="submit"
+            className="btn-dark"
+            disabled={!isDirty || !isValid}
+          >
             Save Account
           </Button>
           <Modal

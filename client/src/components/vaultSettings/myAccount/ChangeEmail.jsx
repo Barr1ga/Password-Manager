@@ -11,10 +11,12 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import SpinnerLoader from "../../SpinnerLoader";
 import Modal from "react-bootstrap/Modal";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 const ChangeEmail = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { authUser } = useSelector((state) => state.auth);
 
@@ -43,12 +45,12 @@ const ChangeEmail = () => {
     if (authChangedEmailFulfilled) {
       dispatch(logOut());
     }
-  }, [authChangedEmailReauthFulfilled, authChangedEmailFulfilled, email, dispatch, authUser.uid]);
+  }, [authChangedEmailReauthFulfilled]);
 
   const {
     register: emailField,
     handleSubmit: handleSubmitEmail,
-    formState: { errors: errorsEmail },
+    formState: { errors: errorsEmail, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {},
@@ -73,6 +75,16 @@ const ChangeEmail = () => {
   const handleUndoEmailChange = () => {
     setVerificationSent(false);
   };
+
+  useEffect(() => {
+    if (
+      (authChangedEmail, authErrorMessage !== "" && !authChangedEmailLoading)
+    ) {
+      if (show) {
+        handleClose();
+      }
+    }
+  }, [authChangedEmail, authErrorMessage, authChangedEmailLoading]);
 
   return (
     <div className="standard-stack">
@@ -134,23 +146,37 @@ const ChangeEmail = () => {
                 <label>
                   Enter Master Password <span className="error-message">*</span>
                 </label>
-                <input
-                  type="text"
-                  {...emailField("masterPassword", {
-                    required: {
-                      value: true,
-                      message: "Master password is required",
-                    },
-                  })}
-                  className={
-                    errorsEmail.masterPassword ||
-                    (authChangedEmail &&
-                      (authErrorCode === "auth/too-many-requests" ||
-                        authErrorCode === "auth/wrong-password"))
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
+                <span className="password-input">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    {...emailField("masterPassword", {
+                      required: {
+                        value: true,
+                        message: "Master Password is required",
+                      },
+                    })}
+                    className={
+                      errorsEmail.masterPassword ||
+                      (authErrorCode !== "" &&
+                        (authErrorCode === "auth/user-not-found" ||
+                          authErrorCode === "auth/too-many-requests" ||
+                          authErrorCode === "auth/wrong-password"))
+                        ? "form-control form-error"
+                        : "form-control "
+                    }
+                  />
+                  <div className="interactions">
+                    {showPassword ? (
+                      <HiOutlineEye
+                        onClick={() => setShowPassword(false)}
+                      ></HiOutlineEye>
+                    ) : (
+                      <HiOutlineEyeOff
+                        onClick={() => setShowPassword(true)}
+                      ></HiOutlineEyeOff>
+                    )}
+                  </div>
+                </span>
                 {errorsEmail.masterPassword && (
                   <small className="error-message">
                     {errorsEmail.masterPassword.message}
@@ -167,8 +193,13 @@ const ChangeEmail = () => {
                 type="submit"
                 className="btn-dark"
                 style={{ width: "140px" }}
+                disabled={!isDirty || !isValid}
               >
-                Change Email
+                {authChangedEmailLoading ? (
+                  <SpinnerLoader></SpinnerLoader>
+                ) : (
+                  <>Change Email</>
+                )}
               </Button>
             </form>
 
