@@ -322,7 +322,7 @@ label {
 .danger:hover {
   background-color: #ff4949;
   border: 1px solid #ff4949;
-  color: #fff;
+  color: #fff !important;
 }
 
 .btn-link {

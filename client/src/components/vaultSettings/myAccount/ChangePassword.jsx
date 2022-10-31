@@ -10,11 +10,16 @@ import {
 } from "../../../features/slice/authSlice";
 import SpinnerLoader from "../../SpinnerLoader";
 import Modal from "react-bootstrap/Modal";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 const ChangePassword = () => {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState("");
-
+  const [showCurrentMasterPassword, setShowCurrentMasterPassword] =
+    useState(false);
+  const [showNewMasterPassword, setShowNewMasterPassword] = useState(false);
+  const [showReTypeNewMasterPassword, setShowReTypeNewMasterPassword] =
+    useState(false);
   const { authUser } = useSelector((state) => state.auth);
 
   const handleClose = () => setShow(false);
@@ -64,13 +69,20 @@ const ChangePassword = () => {
   };
 
   const handleChangePassword = () => {
-    console.log(formData);
     const { currentMasterPassword, newMasterPassword, masterPasswordHint } =
       formData;
     dispatch(changePasswordReauthentication(currentMasterPassword));
     setPassword(newMasterPassword);
     setMasterPasswordHint(masterPasswordHint);
   };
+
+  useEffect(() => {
+    if (authChangedPassword && authErrorMessage !== "" && !authChangedPasswordLoading) {
+      if (show) {
+        handleClose();
+      }
+    }
+  }, [authChangedPassword, authErrorMessage, authChangedPasswordLoading]);
 
   return (
     <div className="standard-stack">
@@ -82,23 +94,37 @@ const ChangePassword = () => {
             <label>
               Current Master Password <span className="error-message">*</span>
             </label>
-            <input
-              type="text"
-              {...masterField("currentMasterPassword", {
-                required: {
-                  value: true,
-                  message: "Current master password is required",
-                },
-              })}
-              className={
-                errorsMaster.currentMasterPassword ||
-                (authChangedPassword &&
-                  (authErrorCode === "auth/too-many-requests" ||
-                    authErrorCode === "auth/wrong-password"))
-                  ? "form-control form-error"
-                  : "form-control "
-              }
-            />
+            <span className="password-input">
+              <input
+                type={showCurrentMasterPassword ? "text" : "password"}
+                {...masterField("currentMasterPassword", {
+                  required: {
+                    value: true,
+                    message: "Current master password is required",
+                  },
+                })}
+                className={
+                  errorsMaster.currentMasterPassword ||
+                  (authChangedPassword &&
+                    (authErrorCode === "auth/too-many-requests" ||
+                      authErrorCode === "auth/wrong-password"))
+                    ? "form-control form-error"
+                    : "form-control "
+                }
+              />
+              <div className="interactions">
+                {showCurrentMasterPassword ? (
+                  <HiOutlineEye
+                    onClick={() => setShowCurrentMasterPassword(false)}
+                  ></HiOutlineEye>
+                ) : (
+                  <HiOutlineEyeOff
+                    onClick={() => setShowCurrentMasterPassword(true)}
+                  ></HiOutlineEyeOff>
+                )}
+              </div>
+            </span>
+
             {errorsMaster.currentMasterPassword && (
               <small className="error-message">
                 {errorsMaster.currentMasterPassword.message}
@@ -122,20 +148,34 @@ const ChangePassword = () => {
             <label>
               New Master Password <span className="error-message">*</span>
             </label>
-            <input
-              type="text"
-              {...masterField("newMasterPassword", {
-                required: {
-                  value: true,
-                  message: "New master password is required",
-                },
-              })}
-              className={
-                errorsMaster.newMasterPassword
-                  ? "form-control form-error"
-                  : "form-control "
-              }
-            />
+            <span className="password-input">
+              <input
+                type={showNewMasterPassword ? "text" : "password"}
+                {...masterField("newMasterPassword", {
+                  required: {
+                    value: true,
+                    message: "New master password is required",
+                  },
+                })}
+                className={
+                  errorsMaster.newMasterPassword
+                    ? "form-control form-error"
+                    : "form-control "
+                }
+              />
+              <div className="interactions">
+                {showNewMasterPassword ? (
+                  <HiOutlineEye
+                    onClick={() => setShowNewMasterPassword(false)}
+                  ></HiOutlineEye>
+                ) : (
+                  <HiOutlineEyeOff
+                    onClick={() => setShowNewMasterPassword(true)}
+                  ></HiOutlineEyeOff>
+                )}
+              </div>
+            </span>
+
             {errorsMaster.newMasterPassword && (
               <small className="error-message">
                 {errorsMaster.newMasterPassword.message}
@@ -146,24 +186,39 @@ const ChangePassword = () => {
           <div className="form-group">
             <div className="form-group">
               <label>
-                Re-type Master Password <span className="error-message">*</span>
+                Re-type New Master Password{" "}
+                <span className="error-message">*</span>
               </label>
-              <input
-                type="text"
-                {...masterField("reTypeMasterPassword", {
-                  required: {
-                    value: true,
-                    message: "Re-typing master password is required",
-                  },
-                  validate: (value) =>
-                    watchNewPassword === value || "Passwords do not match",
-                })}
-                className={
-                  errorsMaster.reTypeMasterPassword
-                    ? "form-control form-error"
-                    : "form-control "
-                }
-              />
+              <span className="password-input">
+                <input
+                  type={showReTypeNewMasterPassword ? "text" : "password"}
+                  {...masterField("reTypeMasterPassword", {
+                    required: {
+                      value: true,
+                      message: "Re-typing master password is required",
+                    },
+                    validate: (value) =>
+                      watchNewPassword === value || "Passwords do not match",
+                  })}
+                  className={
+                    errorsMaster.reTypeMasterPassword
+                      ? "form-control form-error"
+                      : "form-control "
+                  }
+                />
+                <div className="interactions">
+                  {showReTypeNewMasterPassword ? (
+                    <HiOutlineEye
+                      onClick={() => setShowReTypeNewMasterPassword(false)}
+                    ></HiOutlineEye>
+                  ) : (
+                    <HiOutlineEyeOff
+                      onClick={() => setShowReTypeNewMasterPassword(true)}
+                    ></HiOutlineEyeOff>
+                  )}
+                </div>
+              </span>
+
               {errorsMaster.reTypeMasterPassword && (
                 <small className="error-message">
                   {errorsMaster.reTypeMasterPassword.message}
