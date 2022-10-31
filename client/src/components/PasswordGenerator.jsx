@@ -53,7 +53,7 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const length = watchPass("length");
 
   const onSubmitGenerate = (data) => {
-    const { lowercase, uppercase, numbers, symbols, length } = data;
+    const { lowercase, uppercase, numbers, symbols } = data;
     if (!lowercase && !uppercase && !numbers && !symbols) {
       setGenerateEmptyCriteria(true);
       return;
@@ -69,17 +69,17 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
 
   const handlePasswordCopied = () => {
     setShowToolTip(true);
-    navigator.clipboard.writeText(password);
+    console.log(generatedPassword);
+    navigator.clipboard.writeText(generatedPassword);
   };
 
   const onSubmit = () => {
-    console.log(generatedPassword);
     handleUsePassword(generatedPassword);
   };
 
   const incrementBy = 5;
   const increment = () => {
-    if (length + incrementBy <= 30) {
+    if (length + incrementBy <= 100) {
       setValuePassword("length", length + incrementBy);
     }
   };
@@ -196,52 +196,52 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
             <label>
               Include Uppercase Letters <span className="error-message">*</span>
             </label>
-            <div class="toggle-pill-color">
+            <div className="toggle-pill-color">
               <input
                 type="checkbox"
                 {...registerPassword("uppercase")}
                 id="uppercase"
               ></input>
-              <label for="uppercase"></label>
+              <label htmlFor="uppercase"></label>
             </div>
           </div>
           <div className="form-group form-group-horizontal">
             <label>
               Include Lowercase Letters <span className="error-message">*</span>
             </label>
-            <div class="toggle-pill-color">
+            <div className="toggle-pill-color">
               <input
                 type="checkbox"
                 {...registerPassword("lowercase")}
                 id="lowercase"
               ></input>
-              <label for="lowercase"></label>
+              <label htmlFor="lowercase"></label>
             </div>
           </div>
           <div className="form-group form-group-horizontal">
             <label>
               Include Numbers <span className="error-message">*</span>
             </label>
-            <div class="toggle-pill-color">
+            <div className="toggle-pill-color">
               <input
                 type="checkbox"
                 {...registerPassword("numbers")}
                 id="numbers"
               ></input>
-              <label for="numbers"></label>
+              <label htmlFor="numbers"></label>
             </div>
           </div>
           <div className="form-group form-group-horizontal">
             <label>
               Include Symbols <span className="error-message">*</span>
             </label>
-            <div class="toggle-pill-color">
+            <div className="toggle-pill-color">
               <input
                 type="checkbox"
                 {...registerPassword("symbols")}
                 id="symbols"
               ></input>
-              <label for="symbols"></label>
+              <label htmlFor="symbols"></label>
             </div>
           </div>
         </div>

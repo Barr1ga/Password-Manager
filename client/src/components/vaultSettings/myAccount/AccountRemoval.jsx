@@ -101,7 +101,8 @@ const VaultSettings = () => {
               })}
               className={
                 errors.masterPassword ||
-                (authErrorCode !== "" &&
+                (authRemovedAccount &&
+                  authErrorCode !== "" &&
                   (authErrorCode === "auth/user-not-found" ||
                     authErrorCode === "auth/too-many-requests" ||
                     authErrorCode === "auth/wrong-password"))
