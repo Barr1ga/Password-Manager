@@ -59,8 +59,8 @@ const VaultSettings = () => {
   };
 
   const handleDeleteAccount = () => {
-    const { currentMasterPassword } = formData;
-    dispatch(accountRemovalReauthentication(currentMasterPassword));
+    const { masterPassword } = formData;
+    dispatch(accountRemovalReauthentication(masterPassword));
   };
 
   useEffect(() => {
@@ -140,11 +140,7 @@ const VaultSettings = () => {
           style={{ width: "150px" }}
           disabled={!isDirty || !isValid}
         >
-          {authRemovedAccountLoading ? (
-            <SpinnerLoader></SpinnerLoader>
-          ) : (
-            <>Delete Account</>
-          )}
+          <>Delete Account</>
         </Button>
       </form>
 
