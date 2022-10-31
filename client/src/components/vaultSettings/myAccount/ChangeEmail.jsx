@@ -157,7 +157,7 @@ const ChangeEmail = () => {
                     })}
                     className={
                       errorsEmail.masterPassword ||
-                      (authErrorCode !== "" &&
+                      (authChangedEmail && authErrorCode !== "" &&
                         (authErrorCode === "auth/user-not-found" ||
                           authErrorCode === "auth/too-many-requests" ||
                           authErrorCode === "auth/wrong-password"))

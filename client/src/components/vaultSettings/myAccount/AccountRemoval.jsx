@@ -60,8 +60,9 @@ const VaultSettings = () => {
   };
 
   const handleDeleteAccount = () => {
-    const { currentMasterPassword } = formData;
-    dispatch(accountRemovalReauthentication(currentMasterPassword));
+    const { masterPassword } = formData;
+    console.log(masterPassword);
+    dispatch(accountRemovalReauthentication(masterPassword));
   };
 
   useEffect(() => {
@@ -102,7 +103,8 @@ const VaultSettings = () => {
               })}
               className={
                 errors.masterPassword ||
-                (authErrorCode !== "" &&
+                (authRemovedAccount &&
+                  authErrorCode !== "" &&
                   (authErrorCode === "auth/user-not-found" ||
                     authErrorCode === "auth/too-many-requests" ||
                     authErrorCode === "auth/wrong-password"))

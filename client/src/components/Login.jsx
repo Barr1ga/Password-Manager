@@ -47,12 +47,9 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      //   sex: "",
-    },
   });
 
   const watchEmail = watch("email");
@@ -78,8 +75,8 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
 
     return () => {
       dispatch(resetAuthErrors());
-    };
-  }, [authFulfilled, dispatch, navigate]);
+    }
+  }, [authFulfilled]);
 
   const handleMasterPasswordHint = () => {
     if (!showPasswordHint) {
@@ -199,7 +196,7 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
-                    disabled={watchEmail === "" ? true : false}
+                    disabled={!isDirty || !isValid && watchEmail === "" ? true : false}
                     onClick={handleMasterPasswordHint}
                   >
                     {authLoading ? (
