@@ -36,7 +36,7 @@ const VaultSettings = () => {
   useEffect(() => {
     if (authRemovedAccountReauthFulfilled) {
       dispatch(removeAccount());
-      dispatch(removeUser({uid: authUser.uid}));
+      dispatch(removeUser({ uid: authUser.uid }));
     }
 
     if (authRemovedAccountFulfilled) {
@@ -48,7 +48,7 @@ const VaultSettings = () => {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {},
@@ -112,6 +112,7 @@ const VaultSettings = () => {
           type="submit"
           className="btn-secondary danger"
           style={{ width: "150px" }}
+          disabled={!isDirty || !isValid}
         >
           {authRemovedAccountLoading ? (
             <SpinnerLoader></SpinnerLoader>

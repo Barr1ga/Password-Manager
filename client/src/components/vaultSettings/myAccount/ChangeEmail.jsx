@@ -48,7 +48,7 @@ const ChangeEmail = () => {
   const {
     register: emailField,
     handleSubmit: handleSubmitEmail,
-    formState: { errors: errorsEmail },
+    formState: { errors: errorsEmail, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {},
@@ -167,6 +167,7 @@ const ChangeEmail = () => {
                 type="submit"
                 className="btn-dark"
                 style={{ width: "140px" }}
+                disabled={!isDirty || !isValid}
               >
                 {authChangedEmailLoading ? (
                   <SpinnerLoader></SpinnerLoader>

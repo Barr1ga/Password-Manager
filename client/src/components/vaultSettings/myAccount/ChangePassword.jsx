@@ -50,7 +50,7 @@ const ChangePassword = () => {
     register: masterField,
     handleSubmit: handleSubmitMaster,
     watch,
-    formState: { errors: errorsMaster },
+    formState: { errors: errorsMaster, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {},
@@ -201,6 +201,7 @@ const ChangePassword = () => {
             type="submit"
             className="btn-secondary danger"
             style={{ width: "235px" }}
+            disabled={!isDirty || !isValid}
           >
             {authChangedPasswordLoading ? (
               <SpinnerLoader></SpinnerLoader>

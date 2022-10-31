@@ -255,6 +255,11 @@ label {
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1) !important;
 }
 
+.btn-secondary:disabled {
+  background-color: rgb(61, 61, 61);
+  border: 1px solid transparent;
+}
+
 .btn-user-image {
   background-color: #1a1a1a;
   font-size: 1rem;
@@ -299,13 +304,19 @@ label {
   border: 1px solid rgb(59, 30, 112);
 }
 
+.btn-dark:disabled {
+  background-color: #9e58e0;
+  border: 1px solid transparent;
+}
+
 .btn-secondary,
 .btn-dark {
   border-radius: 3px;
 }
 
-.danger {
-  color: #ff4949;
+.danger,
+.danger:hover {
+  color: #ff4949 !important;
 }
 
 .danger:hover {

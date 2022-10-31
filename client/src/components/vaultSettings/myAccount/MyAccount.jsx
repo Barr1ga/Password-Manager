@@ -22,7 +22,7 @@ const MyAccount = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors: errorsAccount },
+    formState: { errors: errorsAccount, isDirty, isValid },
   } = useForm({
     mode: "all",
     defaultValues: {
@@ -109,7 +109,11 @@ const MyAccount = () => {
               information.
             </small>
           </div>
-          <Button type="submit" className="btn-dark">
+          <Button
+            type="submit"
+            className="btn-dark"
+            disabled={!isDirty || !isValid}
+          >
             Save Account
           </Button>
           <Modal
