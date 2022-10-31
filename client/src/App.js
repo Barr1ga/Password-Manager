@@ -83,7 +83,7 @@ const App = () => {
   };
 
   useIdleTimer({
-    timeout: 1000 * 3,
+    timeout: 1000 * 60 * 3,
     onIdle: handleOnIdle,
   });
 
