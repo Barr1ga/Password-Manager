@@ -79,7 +79,7 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
 
   const incrementBy = 5;
   const increment = () => {
-    if (length + incrementBy <= 30) {
+    if (length + incrementBy <= 100) {
       setValuePassword("length", length + incrementBy);
     }
   };
