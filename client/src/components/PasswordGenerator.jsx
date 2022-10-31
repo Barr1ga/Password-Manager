@@ -1,19 +1,16 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
-  HiCheckCircle,
   HiOutlineDuplicate,
   HiMinusSm,
   HiPlusSm,
-  HiCheck,
 } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
 import WarningAlert from "./alerts/WarningAlert";
 import ConfirmModal from "./helpers/ConfirmModal";
 import getPassword from "../utils/getPassword";
-import PasswordHistory from "./PasswordHistory";
 
 const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const [showToolTip, setShowToolTip] = useState(false);
@@ -26,7 +23,6 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
     watch,
   } = useForm({
     mode: "all",
@@ -40,7 +36,6 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const {
     register: registerPassword,
     handleSubmit: handlePasswordSubmit,
-    formState: { errors: errorsPassword },
     setValue: setValuePassword,
     watch: watchPass,
   } = useForm({
@@ -53,7 +48,7 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const length = watchPass("length");
 
   const onSubmitGenerate = (data) => {
-    const { lowercase, uppercase, numbers, symbols, length } = data;
+    const { lowercase, uppercase, numbers, symbols } = data;
     if (!lowercase && !uppercase && !numbers && !symbols) {
       setGenerateEmptyCriteria(true);
       return;
@@ -69,11 +64,11 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
 
   const handlePasswordCopied = () => {
     setShowToolTip(true);
-    navigator.clipboard.writeText(password);
+    console.log(generatedPassword);
+    navigator.clipboard.writeText(generatedPassword);
   };
 
   const onSubmit = () => {
-    console.log(generatedPassword);
     handleUsePassword(generatedPassword);
   };
 
