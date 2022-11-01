@@ -23,7 +23,12 @@ import SpinnerLoader from "./SpinnerLoader";
 import Logo from "../assets/vaulteer_logo.svg";
 import WarningAlert from "./alerts/WarningAlert";
 
-const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleShowRegistration }) => {
+const Login = ({
+  loggedOutInactive,
+  setLoggedOutInactive,
+  handleLogin,
+  handleShowRegistration,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordHint, setShowPasswordHint] = useState(false);
   const [show, setShow] = useState(true);
@@ -75,7 +80,7 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
 
     return () => {
       dispatch(resetAuthErrors());
-    }
+    };
   }, [authFulfilled]);
 
   const handleMasterPasswordHint = () => {
@@ -108,7 +113,13 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
         <Modal.Body>
           <div className="standard-stack gap-10">
             <h5 className="login-title">Login to Vaulteer</h5>
-            {loggedOutInactive && <WarningAlert message={"You have been logged out of Vaulter due to inactivity. Please re-enter your Vaulteer account in order to sign in again."}></WarningAlert>}
+            {loggedOutInactive && (
+              <WarningAlert
+                message={
+                  "You have been logged out of Vaulter due to inactivity. Please re-enter your Vaulteer account in order to sign in again."
+                }
+              ></WarningAlert>
+            )}
             <div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
@@ -150,6 +161,7 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
                   </label>
                   <span className="password-input">
                     <input
+                      autoComplete="off"
                       type={showPassword ? "text" : "password"}
                       {...register("masterPassword", {
                         required: {
@@ -195,7 +207,9 @@ const Login = ({ loggedOutInactive, setLoggedOutInactive, handleLogin, handleSho
                   <Button
                     type="button"
                     className="btn-secondary btn-with-icon btn-long"
-                    disabled={!isDirty || !isValid && watchEmail === "" ? true : false}
+                    disabled={
+                      !isDirty || (!isValid && watchEmail === "") ? true : false
+                    }
                     onClick={handleMasterPasswordHint}
                   >
                     {authLoading ? (

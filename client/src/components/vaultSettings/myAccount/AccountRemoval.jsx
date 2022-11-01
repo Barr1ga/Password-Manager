@@ -92,6 +92,7 @@ const VaultSettings = () => {
           </label>
           <span className="password-input">
             <input
+              autoComplete="off"
               type={showPassword ? "text" : "password"}
               {...register("masterPassword", {
                 required: {
@@ -140,7 +141,7 @@ const VaultSettings = () => {
           style={{ width: "150px" }}
           disabled={!isDirty || !isValid}
         >
-            <>Delete Account</>
+          <>Delete Account</>
         </Button>
       </form>
 

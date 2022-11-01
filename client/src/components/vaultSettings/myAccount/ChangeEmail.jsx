@@ -148,6 +148,7 @@ const ChangeEmail = () => {
                 </label>
                 <span className="password-input">
                   <input
+                    autoComplete="off"
                     type={showPassword ? "text" : "password"}
                     {...emailField("masterPassword", {
                       required: {
@@ -196,7 +197,7 @@ const ChangeEmail = () => {
                 style={{ width: "140px" }}
                 disabled={!isDirty || !isValid}
               >
-                  <>Change Email</>
+                <>Change Email</>
               </Button>
             </form>
 

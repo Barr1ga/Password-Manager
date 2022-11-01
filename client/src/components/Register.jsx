@@ -247,6 +247,7 @@ const Register = ({ handleShowLogin }) => {
                       </label>
                       <span className="password-input">
                         <input
+                          autoComplete="off"
                           type={showPassword ? "text" : "password"}
                           {...register("masterPassword", {
                             required: {
@@ -300,6 +301,7 @@ const Register = ({ handleShowLogin }) => {
                         </label>
                         <span className="password-input">
                           <input
+                            autoComplete="off"
                             type={showReTypePassword ? "text" : "password"}
                             {...register("reTypeMasterPassword", {
                               required: {

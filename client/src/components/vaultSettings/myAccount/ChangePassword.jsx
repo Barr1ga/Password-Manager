@@ -20,13 +20,13 @@ const ChangePassword = () => {
   const [showNewMasterPassword, setShowNewMasterPassword] = useState(false);
   const [showReTypeNewMasterPassword, setShowReTypeNewMasterPassword] =
     useState(false);
-  const { authUser } = useSelector((state) => state.auth);
+  const { authUser, masterPasswordHint } = useSelector((state) => state.auth);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
   const [password, setPassword] = useState("");
-  const [masterPasswordHint, setMasterPasswordHint] = useState("");
+  const [newMmasterPasswordHint, setNewMasterPasswordHint] = useState("");
   const dispatch = useDispatch();
 
   const {
@@ -41,9 +41,12 @@ const ChangePassword = () => {
   useEffect(() => {
     if (authChangedPasswordReauthFulfilled) {
       dispatch(changePassword(password));
-      if (masterPasswordHint !== "") {
+      if (newMmasterPasswordHint !== "") {
         dispatch(
-          updateUserPasswordHint({ uid: authUser.uid, masterPasswordHint })
+          updateUserPasswordHint({
+            uid: authUser.uid,
+            masterPasswordHint: newMmasterPasswordHint,
+          })
         );
       }
     }
@@ -60,7 +63,9 @@ const ChangePassword = () => {
     formState: { errors: errorsMaster, isDirty, isValid },
   } = useForm({
     mode: "all",
-    defaultValues: {},
+    defaultValues: {
+      masterPasswordHint: masterPasswordHint,
+    },
   });
 
   const watchNewPassword = watch("newMasterPassword");
@@ -75,7 +80,7 @@ const ChangePassword = () => {
       formData;
     dispatch(changePasswordReauthentication(currentMasterPassword));
     setPassword(newMasterPassword);
-    setMasterPasswordHint(masterPasswordHint);
+    setNewMasterPasswordHint(masterPasswordHint);
   };
 
   useEffect(() => {
@@ -102,6 +107,7 @@ const ChangePassword = () => {
             </label>
             <span className="password-input">
               <input
+                autoComplete="off"
                 type={showCurrentMasterPassword ? "text" : "password"}
                 {...masterField("currentMasterPassword", {
                   required: {
@@ -156,6 +162,7 @@ const ChangePassword = () => {
             </label>
             <span className="password-input">
               <input
+                autoComplete="off"
                 type={showNewMasterPassword ? "text" : "password"}
                 {...masterField("newMasterPassword", {
                   required: {
@@ -197,6 +204,7 @@ const ChangePassword = () => {
               </label>
               <span className="password-input">
                 <input
+                  autoComplete="off"
                   type={showReTypeNewMasterPassword ? "text" : "password"}
                   {...masterField("reTypeMasterPassword", {
                     required: {
@@ -264,7 +272,7 @@ const ChangePassword = () => {
             style={{ width: "235px" }}
             disabled={!isDirty || !isValid}
           >
-              <>Change Master Password</>
+            <>Change Master Password</>
           </Button>
         </form>
 
