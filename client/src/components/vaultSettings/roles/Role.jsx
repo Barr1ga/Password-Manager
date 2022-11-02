@@ -1,8 +1,7 @@
 import React from "react";
-import { HiShieldCheck, HiOutlineChevronRight } from "react-icons/hi";
+import { HiOutlineChevronRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
-import ResponsiveDisplay from "../../helpers/ResponsiveDisplay";
 
 const Role = ({ role, count }) => {
   const { members } = useSelector((state) => state.members);
@@ -38,7 +37,7 @@ const Role = ({ role, count }) => {
                       {member.username.charAt(0)}
                     </div>
                   ) : (
-                    <img key={idx} src={member.image} className="member"></img>
+                    <img key={idx} src={member.image} alt={member.username} className="member"></img>
                   )
                 )}
                 {remainingCount > 0 && (

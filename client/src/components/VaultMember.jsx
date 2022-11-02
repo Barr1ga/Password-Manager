@@ -1,7 +1,5 @@
-import React, { useEffect } from "react";
-import useGenerateRandomColor from "../hooks/useGenerateRandomColor";
+import React from "react";
 import {
-  HiDotsVertical,
   HiViewGrid,
   HiStar,
   HiTrash,

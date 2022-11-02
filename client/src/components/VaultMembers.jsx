@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import VaultMember from "./VaultMember";
-import { RiArrowRightSLine } from "react-icons/ri";
+import React from "react";
 import VaultRoles from "./VaultRoles";
 import { useSelector } from "react-redux";
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   HiOutlineViewGrid,
@@ -19,7 +19,6 @@ import {
   HiOutlineClipboardList,
   HiClipboardList,
   HiOutlineLockClosed,
-  HiLockClosed,
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";

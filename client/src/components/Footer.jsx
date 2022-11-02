@@ -1,24 +1,15 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { HiOutlineUserCircle } from "react-icons/hi";
-import { RiShieldFlashFill } from "react-icons/ri";
-import Button from "react-bootstrap/Button";
-import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
-import RoundLoader from "./RoundLoader";
-import BarLoader from "./BarLoader";
-import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
+import { Link } from "react-router-dom";
 import Logo from "../assets/vaulteer_logo.svg";
 
 const Footer = () => {
-  const route = useLocation().pathname;
-
   return (
     <>
       <div className="footer">
         <div className="margin">
           <Link to="/All">
             <div className="logo gap-10">
-              <img src={Logo} className="icon"></img>
+              <img src={Logo} alt={Logo} className="icon"></img>
               <h3>
                 Vaulteer <span className="half">| Securities</span>
               </h3>

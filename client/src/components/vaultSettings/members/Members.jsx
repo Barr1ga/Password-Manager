@@ -1,24 +1,15 @@
-import React, { useState } from "react";
-import VaultMember from "./Member.jsx";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import WarningAlert from "../../alerts/WarningAlert.jsx";
-import Member from "./Member";
 import MembersList from "./MembersList.jsx";
 
 const Members = () => {
   const {
     register,
-    handleSubmit,
-    watch,
-    // reset,
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      //   sex: "",
-    },
   });
   return (
     <div className="standard-stack padding-side gap-10">

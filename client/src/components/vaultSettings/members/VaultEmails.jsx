@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import WarningAlert from "../../alerts/WarningAlert";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import VaultMembers from "../../VaultMembers";
-import { useSelector } from "react-redux";
 
 const VaultEmails = () => {
-  const { members } = useSelector((state) => state.members);
-
   const {
     register,
-    handleSubmit,
-    watch,
-    // reset,
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      //   sex: "",
-    },
   });
 
   return (

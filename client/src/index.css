@@ -2212,7 +2212,7 @@ textarea {
 
 .role-item .members-with-role {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .role-item span {
@@ -2559,11 +2559,11 @@ textarea {
 .conversation-list {
   height: calc(100vh - 182px);
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .conversation-list .scroll-view {
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .conversation-list .date-separator {
@@ -2660,7 +2660,7 @@ textarea {
 
 .message .reply {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   gap: 10px;
 }
 
@@ -2674,8 +2674,8 @@ textarea {
   height: 23px;
   width: 40px;
   display: flex;
-  justify-content: end;
-  align-items: end;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .message .reply .pointer .line {
@@ -2731,7 +2731,7 @@ textarea {
 .form-message-group {
   display: flex;
   gap: 5px;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .message-lazy {

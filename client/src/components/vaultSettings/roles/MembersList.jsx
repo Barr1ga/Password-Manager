@@ -66,7 +66,7 @@ const MembersList = () => {
               {member.image === "" ? (
                 <div className="image">{member.username.charAt(0)}</div>
               ) : (
-                <img src={member.image} className="image"></img>
+                <img src={member.image} alt={member.username} className="image"></img>
               )}
               <div className="name">
                 <p>{member.username}</p>

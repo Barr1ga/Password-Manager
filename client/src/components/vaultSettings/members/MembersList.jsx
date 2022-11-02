@@ -8,15 +8,9 @@ const MembersList = () => {
   const { members } = useSelector((state) => state.members);
   const {
     register,
-    handleSubmit,
-    watch,
-    // reset,
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      //   sex: "",
-    },
   });
   return (
     <>

@@ -16,7 +16,6 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
   const [showToolTip, setShowToolTip] = useState(false);
   const [generateEmptyCriteria, setGenerateEmptyCriteria] = useState(false);
   const [generatedEmpty, setGeneratedEmpty] = useState(false);
-  const [password, setPassword] = useState("");
   const clipBoard = useRef(null);
 
   const {

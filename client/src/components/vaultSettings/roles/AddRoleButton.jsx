@@ -3,20 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import AddButton from "../../helpers/AddButton";
 import Button from "react-bootstrap/Button";
 import {
-  HiOutlineArrowLeft,
   HiOutlineX,
-  HiOutlineGlobe,
-  HiGlobe,
-  HiOutlineCreditCard,
-  HiCreditCard,
-  HiOutlineIdentification,
-  HiIdentification,
-  HiOutlineDocumentText,
-  HiDocumentText,
-  HiOutlineWifi,
-  HiWifi,
-  HiOutlineUsers,
-  HiUsers,
 } from "react-icons/hi";
 import ConfirmModal from "../../helpers/ConfirmModal";
 import RoleInformation from "../../roles/RoleInformation";
@@ -24,19 +11,10 @@ import MembersList from "./MembersList";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
-  const [selectedType, setSelectedType] = useState("Logins");
-  const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [tab, setTab] = useState(1);
-
-  const method = "add";
 
   const handleCloseModal = () => {
     setModalShow(false);
-  };
-
-  const handleTypeClicked = (value) => {
-    setSelectedType(value);
-    setShowTypeOptions(false);
   };
 
   return (

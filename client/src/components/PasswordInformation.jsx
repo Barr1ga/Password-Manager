@@ -30,7 +30,6 @@ import Identification from "./addItem/Identification";
 const PasswordInformation = ({ currentPassword }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);

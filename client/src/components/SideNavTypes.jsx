@@ -11,8 +11,6 @@ import {
   HiDocumentText,
   HiOutlineWifi,
   HiWifi,
-  HiOutlineUsers,
-  HiUsers,
 } from "react-icons/hi";
 import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
 import AddItemButtonSm from "./AddItemButtonSm";

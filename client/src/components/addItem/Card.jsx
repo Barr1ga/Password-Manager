@@ -9,7 +9,7 @@ import {
 } from "react-icons/hi";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
-import { createCardItem } from "../../features/slice/itemSlice";
+import { createCardItem, createItem } from "../../features/slice/itemSlice";
 import { updateCardItem } from "../../features/slice/itemSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";

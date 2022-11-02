@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
-import { HiPlusSm } from "react-icons/hi";
 import SideNavFolderContent from "./SideNavFolderContent";
 import AddFolderModal from "./folders/AddFolderModal";
-import ResponsiveDisplay from "./helpers/ResponsiveDisplay";
 import { useSelector } from "react-redux";
 
 const SideNavFolders = ({ folder, items }) => {

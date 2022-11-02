@@ -32,8 +32,6 @@ const Register = ({ handleShowLogin }) => {
   const navigate = useNavigate();
 
   const {
-    authError,
-    authMessage,
     authFulfilled,
     authErrorCode,
     authErrorMessage,

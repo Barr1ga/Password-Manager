@@ -6,9 +6,6 @@ import TextareaAutosize from "react-textarea-autosize";
 const EnterMessage = () => {
   const {
     register,
-    handleSubmit,
-    watch,
-    formState: { errors },
   } = useForm({
     mode: "all",
     defaultValues: {

@@ -1,13 +1,9 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import AddButton from "../helpers/AddButton";
 import Button from "react-bootstrap/Button";
 import {
   HiOutlineX,
-  HiFolder,
-  HiPlusSm,
   HiPlus,
-  HiOutlineLockClosed,
 } from "react-icons/hi";
 import ConfirmModal from "../helpers/ConfirmModal";
 import { useForm } from "react-hook-form";
@@ -21,9 +17,6 @@ const AddItemModal = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    reset,
-    setValue,
     formState: { errors },
   } = useForm({
     mode: "all",

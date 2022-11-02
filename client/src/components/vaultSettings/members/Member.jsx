@@ -1,23 +1,6 @@
 import React from "react";
-import {
-  HiViewGrid,
-  HiStar,
-  HiTrash,
-  HiUserGroup,
-  HiShieldCheck,
-  HiClipboardList,
-  HiGlobe,
-  HiCreditCard,
-  HiIdentification,
-  HiDocumentText,
-  HiWifi,
-  HiUsers,
-  HiFolder,
-  HiPlusSm,
-  HiPlus,
-} from "react-icons/hi";
+import { HiPlus } from "react-icons/hi";
 import { FaCrown } from "react-icons/fa";
-import { RiSettings2Line } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import Role from "./Role";
 import Button from "react-bootstrap/esm/Button";
@@ -50,7 +33,9 @@ const Member = ({ member }) => {
           {member.rolesID.map((roleID, idx) => (
             <Role key={idx} roleID={roleID}></Role>
           ))}
-          <Button className="btn-secondary btn-add-role"><HiPlus></HiPlus></Button>
+          <Button className="btn-secondary btn-add-role">
+            <HiPlus></HiPlus>
+          </Button>
         </div>
       </div>
 

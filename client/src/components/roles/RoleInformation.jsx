@@ -14,10 +14,6 @@ const RoleInformation = ({ method, defaultValues }) => {
 
   const {
     register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
     formState: { errors },
   } = useForm({
     mode: "all",
