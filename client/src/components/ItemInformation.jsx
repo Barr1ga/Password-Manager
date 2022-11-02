@@ -15,10 +15,7 @@ import {
 import UploadImage from "./UploadImage";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch } from "react-redux";
-import {
-  handleDeletePasswordItem,
-  resetSelectedPasswordItem,
-} from "../features/slice/itemSlice";
+import { resetSelectedItem } from "../features/slice/itemSlice";
 import { useNavigate } from "react-router-dom";
 
 import Card from "./addItem/Card";
@@ -27,36 +24,36 @@ import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
 
-const PasswordInformation = ({ currentPassword }) => {
+const ItemInformation = ({ currentItem }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
-  const [currentImage, setCurrentImage] = useState(currentPassword.image);
+  const [currentImage, setCurrentImage] = useState(currentItem.image);
   const [currentImageLetter, setCurrentImageLetter] = useState(
-    currentPassword.name.charAt(0)
+    currentItem.name.charAt(0)
   );
-
+  console.log("test");
   const method = "update";
 
   useEffect(() => {
-    setCurrentImage(currentPassword.image);
-  }, [currentPassword]);
+    setCurrentImage(currentItem.image);
+  }, [currentItem]);
 
-  const handleDeletePassword = (id) => {
-    dispatch(handleDeletePasswordItem(id));
+  const handleDeleteItem = (uid) => {
+    // dispatch(handleDeleteItemItem(uid));
   };
 
   const handleCloseMobile = () => {
     setShowPasswordGenerator(false);
-    dispatch(resetSelectedPasswordItem());
+    dispatch(resetSelectedItem());
     navigate(-1);
   };
 
   const handleClose = () => {
     setShowPasswordGenerator(false);
-    dispatch(resetSelectedPasswordItem());
+    dispatch(resetSelectedItem());
   };
 
   const handleBack = () => {
@@ -134,12 +131,16 @@ const PasswordInformation = ({ currentPassword }) => {
         <div className="item-image">
           <div className="image">
             {currentImage !== "" ? (
-              <img src={currentImage} alt={currentPassword.name}></img>
+              <img src={currentImage} alt={currentItem.name}></img>
             ) : (
               <div className="default">{currentImageLetter}</div>
             )}
             <div className="btn-circle update-image" htmlFor="upload-photo">
-              <UploadImage setCurrentImage={setCurrentImage} mode={"item"} currentImage={currentImage}></UploadImage>
+              <UploadImage
+                currentImage={currentImage}
+                setCurrentImage={setCurrentImage}
+                mode={"item"}
+              ></UploadImage>
             </div>
           </div>
         </div>
@@ -214,33 +215,48 @@ const PasswordInformation = ({ currentPassword }) => {
 
         {selectedType === "Login" && (
           <Login
+            currentImage={currentImage}
             setCurrentImageLetter={setCurrentImageLetter}
             method={method}
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
-            defaultValues={currentPassword}
+            defaultValues={currentItem}
           ></Login>
         )}
 
         {selectedType === "Card" && (
-          <Card method={method} defaultValues={currentPassword}></Card>
+          <Card
+            currentImage={currentImage}
+            method={method}
+            setCurrentImageLetter={setCurrentImageLetter}
+            defaultValues={currentItem}
+          ></Card>
         )}
 
         {selectedType === "Identification" && (
-          <Identification method={method}></Identification>
+          <Identification
+            currentImage={currentImage}
+            method={method}
+            setCurrentImageLetter={setCurrentImageLetter}
+            defaultValues={currentItem}
+          ></Identification>
         )}
 
         {selectedType === "Secure Note" && (
           <SecureNote
+            currentImage={currentImage}
             method={method}
-            defaultValues={currentPassword}
+            setCurrentImageLetter={setCurrentImageLetter}
+            defaultValues={currentItem}
           ></SecureNote>
         )}
 
         {selectedType === "Wifi Password" && (
           <WifiPassword
+            currentImage={currentImage}
             method={method}
-            defaultValues={currentPassword}
+            setCurrentImageLetter={setCurrentImageLetter}
+            defaultValues={currentItem}
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
           ></WifiPassword>
@@ -251,7 +267,7 @@ const PasswordInformation = ({ currentPassword }) => {
             proceedInteraction={
               <Button
                 className="btn-dark btn-long"
-                onClick={() => handleDeletePassword(currentPassword.id)}
+                onClick={() => handleDeleteItem(currentItem.uid)}
               >
                 Yes
               </Button>
@@ -287,4 +303,4 @@ const PasswordInformation = ({ currentPassword }) => {
   );
 };
 
-export default PasswordInformation;
+export default ItemInformation;

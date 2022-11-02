@@ -65,13 +65,14 @@ const Identifications = ({
   const onSubmit = (data) => {
     const newData = {
       ...data,
+      type: "identification",
       title: titleRef?.current?.value,
       image: currentImage,
       favorite,
       folders: assignedFolders,
+      trash: false,
     };
 
-    console.log(newData);
     if (method === "create") {
       dispatch(createItem(newData));
     }

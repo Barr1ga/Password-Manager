@@ -5,86 +5,86 @@ import authErrorMessage from "../utils/authErrorMessage";
 
 const initialState = {
   items: [
-    {
-      id: 1,
-      name: "Snapchat",
-      image: "https://asset.brandfetch.io/id4VHp4_C_/idaypEjWtg_s.webp",
-      userName: "horreb.mendez.barr1ga@gmail.com",
-      domain: "https://www.snapchat.com/",
-      password: "hello123",
-      type: "login",
-      folders: ["familyFriendly", "school"],
-      favorite: false,
-      trash: false,
-      lastOpened: new Date().toString(),
-      lastOpenedBy: 2,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
-    },
-    {
-      id: 2,
-      name: "Apple",
-      image: "https://asset.brandfetch.io/idnrCPuv87/idwtRbtIxQ_s.webp",
-      userName: "horebbariga@gmail.com",
-      domain: "https://www.apple.com/",
-      password: "hello123",
-      type: "login",
-      folders: ["familyFriendly", "school"],
-      favorite: true,
-      trash: false,
-      lastOpened: new Date().toString(),
-      lastOpenedBy: 2,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
-    },
-    {
-      id: 3,
-      name: "Instagram",
-      image: "https://asset.brandfetch.io/ido5G85nya/idnsPRMIrl_s.webp",
-      userName: "hor.barr1ga@gmail.com",
-      domain: "https://www.instagram.com/",
-      password: "hello123",
-      type: "login",
-      folders: ["school"],
-      favorite: false,
-      trash: false,
-      lastOpened: new Date().toString(),
-      lastOpenedBy: 2,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
-    },
-    {
-      id: 4,
-      name: "Behance",
-      image: "https://asset.brandfetch.io/idxhowbknc/idErmeHtPp_s.webp",
-      userName: "barrigahoreb123@gmail.com",
-      domain: "https://www.behance.com/",
-      password: "hello123",
-      type: "login",
-      folders: ["school"],
-      favorite: false,
-      trash: true,
-      lastOpened: new Date().toString(),
-      lastOpenedBy: 2,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
-    },
-    {
-      id: 5,
-      name: "USC_Wifi",
-      image: "",
-      userName: "barrigahoreb123@gmail.com",
-      domain: "",
-      password: "hello123",
-      type: "wifiPassword",
-      folders: ["familyFriendly", "school"],
-      favorite: false,
-      trash: false,
-      lastOpened: new Date().toString(),
-      lastOpenedBy: 2,
-      createdAt: new Date().toString(),
-      updatedAt: new Date().toString(),
-    },
+    // {
+    //   id: 1,
+    //   name: "Snapchat",
+    //   image: "https://asset.brandfetch.io/id4VHp4_C_/idaypEjWtg_s.webp",
+    //   userName: "horreb.mendez.barr1ga@gmail.com",
+    //   domain: "https://www.snapchat.com/",
+    //   password: "hello123",
+    //   type: "login",
+    //   folders: ["familyFriendly", "school"],
+    //   favorite: false,
+    //   trash: false,
+    //   lastOpened: new Date().toString(),
+    //   lastOpenedBy: 2,
+    //   createdAt: new Date().toString(),
+    //   updatedAt: new Date().toString(),
+    // },
+    // {
+    //   id: 2,
+    //   name: "Apple",
+    //   image: "https://asset.brandfetch.io/idnrCPuv87/idwtRbtIxQ_s.webp",
+    //   userName: "horebbariga@gmail.com",
+    //   domain: "https://www.apple.com/",
+    //   password: "hello123",
+    //   type: "login",
+    //   folders: ["familyFriendly", "school"],
+    //   favorite: true,
+    //   trash: false,
+    //   lastOpened: new Date().toString(),
+    //   lastOpenedBy: 2,
+    //   createdAt: new Date().toString(),
+    //   updatedAt: new Date().toString(),
+    // },
+    // {
+    //   id: 3,
+    //   name: "Instagram",
+    //   image: "https://asset.brandfetch.io/ido5G85nya/idnsPRMIrl_s.webp",
+    //   userName: "hor.barr1ga@gmail.com",
+    //   domain: "https://www.instagram.com/",
+    //   password: "hello123",
+    //   type: "login",
+    //   folders: ["school"],
+    //   favorite: false,
+    //   trash: false,
+    //   lastOpened: new Date().toString(),
+    //   lastOpenedBy: 2,
+    //   createdAt: new Date().toString(),
+    //   updatedAt: new Date().toString(),
+    // },
+    // {
+    //   id: 4,
+    //   name: "Behance",
+    //   image: "https://asset.brandfetch.io/idxhowbknc/idErmeHtPp_s.webp",
+    //   userName: "barrigahoreb123@gmail.com",
+    //   domain: "https://www.behance.com/",
+    //   password: "hello123",
+    //   type: "login",
+    //   folders: ["school"],
+    //   favorite: false,
+    //   trash: true,
+    //   lastOpened: new Date().toString(),
+    //   lastOpenedBy: 2,
+    //   createdAt: new Date().toString(),
+    //   updatedAt: new Date().toString(),
+    // },
+    // {
+    //   id: 5,
+    //   name: "USC_Wifi",
+    //   image: "",
+    //   userName: "barrigahoreb123@gmail.com",
+    //   domain: "",
+    //   password: "hello123",
+    //   type: "wifiPassword",
+    //   folders: ["familyFriendly", "school"],
+    //   favorite: false,
+    //   trash: false,
+    //   lastOpened: new Date().toString(),
+    //   lastOpenedBy: 2,
+    //   createdAt: new Date().toString(),
+    //   updatedAt: new Date().toString(),
+    // },
   ],
   itemLoading: false,
   itemFulfilled: false,
@@ -98,11 +98,11 @@ const initialState = {
   brandFulfilled: false,
   brandError: false,
   brandMessage: "",
-  selectedPassword: null,
+  selectedItem: null,
 };
 
 export const getBrandDetails = createAsyncThunk(
-  "password/getBrands",
+  "item/getBrands",
   async (data, ThunkAPI) => {
     try {
       return await brandService.getBrandDetails(data);
@@ -113,11 +113,11 @@ export const getBrandDetails = createAsyncThunk(
   }
 );
 
-export const initializeVault = createAsyncThunk(
-  "password/initializeVault",
+export const getAllItems = createAsyncThunk(
+  "item/getAllItems",
   async (data, ThunkAPI) => {
     try {
-      return await itemService.initializeVault(data);
+      return await itemService.getAllItems(data);
     } catch (error) {
       const message = error.toString();
       return ThunkAPI.rejectWithValue(message);
@@ -126,7 +126,7 @@ export const initializeVault = createAsyncThunk(
 );
 
 export const createItem = createAsyncThunk(
-  "password/createItem",
+  "item/createItem",
   async (data, ThunkAPI) => {
     try {
       return await itemService.createItem(data);
@@ -141,47 +141,26 @@ const passwordSlice = createSlice({
   name: "password",
   initialState,
   reducers: {
-    resetPasswords: (state) => initialState,
-    createPasswordItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
+    resetItems: (state) => {
+      state.items = initialState.items;
+      state.itemLoading = initialState.itemLoading;
+      state.itemFulfilled = initialState.itemFulfilled;
+      state.itemError = initialState.itemError;
+      state.authMessage = initialState.authMessage;
+      state.authErrorMessage = initialState.authErrorMessage;
+      state.authErrorCode = initialState.authErrorCode;
+      state.brandPhotoLink = initialState.brandPhotoLink;
+      state.brandLoading = initialState.brandLoading;
+      state.brandFulfilled = initialState.brandFulfilled;
+      state.brandError = initialState.brandError;
+      state.brandMessage = initialState.brandMessage;
     },
-    createCardItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    createIdentificationItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    createSecureNoteItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    createWifiPasswordItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    updatePasswordItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    updateCardItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    updateIdentificationItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    updateSecureNoteItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    updateWifiPasswordItem: (state, action) => {
-      state.passwords = [...state.passwords, action.payload];
-    },
-    handleDeletePasswordItem: (state, action) => {
-      state.passwords = state.passwords.filter(
-        (password) => password.id !== action.payload
-      );
-    },
-    resetSelectedPasswordItem: (state) => {
-      state.selectedPassword = null;
+
+    resetSelectedItem: (state) => {
+      state.selectedItem = null;
     },
     selectPasswordItem: (state, action) => {
-      state.selectedPassword = action.payload;
+      state.selectedItem = action.payload;
     },
     resetBrandPhotoLink: (state) => {
       state.brandPhotoLink = "";
@@ -206,6 +185,22 @@ const passwordSlice = createSlice({
         state.brandMessage = action.payload.data;
       })
 
+      .addCase(getAllItems.pending, (state) => {
+        state.itemLoading = true;
+      })
+      .addCase(getAllItems.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.items = action.payload;
+      })
+      .addCase(getAllItems.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
       .addCase(createItem.pending, (state) => {
         state.itemLoading = true;
       })
@@ -225,19 +220,8 @@ const passwordSlice = createSlice({
 });
 
 export const {
-  resetPasswords,
-  createPasswordItem,
-  createCardItem,
-  createIdentificationItem,
-  createSecureNoteItem,
-  createWifiPasswordItem,
-  updateCardItem,
-  updatePasswordItem,
-  updateSecureNoteItem,
-  updateWifiPasswordItem,
-  updateIdentificationItem,
-  handleDeletePasswordItem,
-  resetSelectedPasswordItem,
+  resetItems,
+  resetSelectedItem,
   selectPasswordItem,
   resetBrandPhotoLink,
 } = passwordSlice.actions;

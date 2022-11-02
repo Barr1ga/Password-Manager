@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddItemButton from "../components/AddItemButton";
-import PasswordItem from "../components/PasswordItem";
-import PasswordCard from "../components/PasswordCard";
+import Item from "../components/Item";
+import Card from "../components/Card";
 import { useSelector } from "react-redux";
 import {
   HiOutlineViewGrid,
@@ -120,11 +120,11 @@ const Identifications = () => {
                   </div>
                 )}
                 {filteredPasswords.map((password, idx) => (
-                  <PasswordItem
+                  <Item
                     key={idx}
                     route={route}
                     password={password}
-                  ></PasswordItem>
+                  ></Item>
                 ))}
               </div>
               <div className="page-footer padding-side">
@@ -154,11 +154,11 @@ const Identifications = () => {
                   </div>
                 )}
                 {filteredPasswords.map((password, idx) => (
-                  <PasswordCard
+                  <Card
                     key={idx}
                     route={route}
                     password={password}
-                  ></PasswordCard>
+                  ></Card>
                 ))}
               </div>
             </div>

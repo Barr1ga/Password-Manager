@@ -1219,6 +1219,7 @@ textarea {
   width: 7px;
   border-radius: 50%;
   background-color: #ffffff;
+  opacity: .5;
 }
 
 .sidenav-button:hover {
@@ -2003,7 +2004,7 @@ textarea {
   }
 }
 
-.password-item-selected .name small,
+.password-item-selected .name,
 .password-item-selected {
   color: #b970ff !important;
 }
@@ -2030,8 +2031,12 @@ textarea {
   width: 0;
 }
 
+.password-item .name span {
+  display: flex;
+  gap: 5px;
+}
+
 .password-item .name .siteName {
-  color: rgb(77, 154, 255);
   font-weight: 600;
 }
 

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddItemButton from "../components/AddItemButton";
-import PasswordItem from "../components/PasswordItem";
-import PasswordCard from "../components/PasswordCard";
-import { useSelector } from "react-redux";
+import Item from "../components/Item";
+import Card from "../components/Card";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HiOutlineViewGrid,
   HiOutlineServer,
@@ -11,6 +11,7 @@ import {
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import EmptyList from "../assets/empty-list.svg";
+import { getAllItems, resetItems } from "../features/slice/itemSlice";
 
 const AllItems = () => {
   const route = "";
@@ -19,18 +20,25 @@ const AllItems = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  let filteredPasswords = items.filter(
-    (password) => password.trash === false
-  );
+  
+  const { authUser } = useSelector((state) => state.auth);
 
-  filteredPasswords =
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllItems({ uid: authUser.uid }));
+  }, []);
+
+  let filteredItems = items.filter((item) => item.trash === false);
+
+  filteredItems =
     searchValue !== ""
-      ? filteredPasswords.filter((password) =>
-          password.name.toLowerCase().includes(searchValue.toLowerCase())
+      ? filteredItems.filter((item) =>
+          item.name.toLowerCase().includes(searchValue.toLowerCase())
         )
-      : filteredPasswords;
+      : filteredItems;
 
-  const count = filteredPasswords.length;
+  const count = filteredItems.length;
 
   const handleSearch = () => {
     setSearchStatus(true);
@@ -40,6 +48,9 @@ const AllItems = () => {
     setSearchValue("");
     setSearchStatus(false);
   };
+
+  console.log(items);
+  console.log(filteredItems);
 
   return (
     <div className="margin-content">
@@ -99,13 +110,13 @@ const AllItems = () => {
           )}
         </div>
       </div>
-      {filteredPasswords.length > 0 && listView ? (
+      {filteredItems.length > 0 && listView ? (
         <>
           <div className="password-list standard-stack">
             <div className="scroll-view">
               <span className="padding-side count">{count} Items</span>
               <div>
-                {filteredPasswords.length === 0 && (
+                {filteredItems.length === 0 && (
                   <div className="empty-list">
                     <img src={EmptyList} alt={EmptyList}></img>
                     <p>
@@ -119,12 +130,12 @@ const AllItems = () => {
                     </p>
                   </div>
                 )}
-                {filteredPasswords.map((password, idx) => (
-                  <PasswordItem
+                {filteredItems.map((item, idx) => (
+                  <Item
                     key={idx}
                     route={route}
-                    password={password}
-                  ></PasswordItem>
+                    item={item}
+                  ></Item>
                 ))}
               </div>
               <div className="page-footer padding-side">
@@ -139,7 +150,7 @@ const AllItems = () => {
             <div className="scroll-view">
               <span className="count">{count} Items</span>
               <div className="contents">
-                {filteredPasswords.length === 0 && (
+                {filteredItems.length === 0 && (
                   <div className="empty-list">
                     <img src={EmptyList} alt={EmptyList}></img>
                     <p>
@@ -153,12 +164,12 @@ const AllItems = () => {
                     </p>
                   </div>
                 )}
-                {filteredPasswords.map((password, idx) => (
-                  <PasswordCard
+                {filteredItems.map((item, idx) => (
+                  <Card
                     key={idx}
                     route={route}
-                    password={password}
-                  ></PasswordCard>
+                    item={item}
+                  ></Card>
                 ))}
               </div>
             </div>

@@ -44,7 +44,7 @@ const AddItemModal = () => {
     setShowTypeOptions(false);
   };
 
-  console.log(selectedType)
+  console.log(selectedType);
 
   return (
     <>
@@ -187,8 +187,14 @@ const AddItemModal = () => {
             ></Login>
           )}
 
-          {selectedType === "Card" && <Card currentImage={currentImage} method={method} setCurrentImageLetter={setCurrentImageLetter}></Card>}
-            {console.log(currentImage)}
+          {selectedType === "Card" && (
+            <Card
+              currentImage={currentImage}
+              method={method}
+              setCurrentImageLetter={setCurrentImageLetter}
+            ></Card>
+          )}
+          {console.log(currentImage)}
           {selectedType === "Identification" && (
             <Identification
               currentImage={currentImage}
@@ -208,8 +214,8 @@ const AddItemModal = () => {
           {selectedType === "Wifi Password" && (
             <WifiPassword
               currentImage={currentImage}
-              setCurrentImageLetter={setCurrentImageLetter}
               method={method}
+              setCurrentImageLetter={setCurrentImageLetter}
               showPasswordGenerator={showPasswordGenerator}
               setShowPasswordGenerator={setShowPasswordGenerator}
             ></WifiPassword>

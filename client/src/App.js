@@ -5,14 +5,14 @@ import Favorites from "./pages/Favorites";
 import Trash from "./pages/Trash";
 import Card from "./pages/Card";
 import Identifications from "./pages/Identifications";
-import SecureNote from "./pages/SecureNote";
+import SecureNotes from "./pages/SecureNotes";
 import WifiPasswords from "./pages/WifiPasswords";
 import SharingCenter from "./pages/SharingCenter";
 import MyAccount from "./pages/MyAccount";
 import Members from "./pages/Members";
 import Roles from "./pages/Roles";
 import LoginRegistration from "./pages/LoginRegistration";
-import CurrentPasswordItemPage from "./pages/CurrentPasswordItem";
+import CurrentItemPage from "./pages/CurrentItem";
 import AuditLog from "./pages/AuditLog";
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
@@ -20,7 +20,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
 import VaultMembers from "./components/VaultMembers";
-import CurrentPasswordItem from "./components/CurrentPasswordItem";
+import CurrentItem from "./components/CurrentItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
@@ -35,7 +35,7 @@ import { useIdleTimer } from "react-idle-timer";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
-  const { selectedPassword } = useSelector((state) => state.items);
+  const { selectedItem } = useSelector((state) => state.items);
   const { authUser, username, masterPasswordHint, authRegistered } =
     useSelector((state) => state.auth);
 
@@ -123,7 +123,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<AllItems />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -146,7 +146,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Favorites />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -169,7 +169,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Trash />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -192,7 +192,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<SharingCenter />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -215,7 +215,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Logins />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -234,7 +234,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Card />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -257,7 +257,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Identifications />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -268,7 +268,7 @@ const App = () => {
               path="Types/SecureNotes"
               element={
                 authUser ? (
-                  <SecureNote></SecureNote>
+                  <SecureNotes></SecureNotes>
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
@@ -279,8 +279,8 @@ const App = () => {
               element={
                 authUser ? (
                   <ResponsiveDisplay
-                    nonMobile={<SecureNote />}
-                    mobile={<CurrentPasswordItemPage />}
+                    nonMobile={<SecureNotes />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -303,7 +303,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<WifiPasswords />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -326,7 +326,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<MyAccount />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -349,7 +349,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Members />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -372,7 +372,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Roles />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -395,7 +395,7 @@ const App = () => {
                 authUser ? (
                   <AuditLog
                     nonMobile={<Roles />}
-                    mobile={<CurrentPasswordItemPage />}
+                    mobile={<CurrentItemPage />}
                   ></AuditLog>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -407,13 +407,13 @@ const App = () => {
         {authUser && (
           <div className="right-margin">
             <div className="scroll-view standard-stack gap-10">
-              {selectedPassword && (
+              {selectedItem && (
                 <>
-                  <CurrentPasswordItem></CurrentPasswordItem>
+                  <CurrentItem></CurrentItem>
                 </>
               )}
 
-              {!selectedPassword && (
+              {!selectedItem && (
                 <>
                   <SiteWarning></SiteWarning>
 

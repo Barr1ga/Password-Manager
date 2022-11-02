@@ -74,16 +74,18 @@ const Logins = ({
       uid: authUser.uid,
       itemData: {
         ...data,
+        type: "login",
         image: currentImage,
         favorite,
         folders: assignedFolders,
+        trash: false,
       },
     };
 
     console.log(newData);
 
     if (method === "create") {
-      dispatch(createItem(newData));
+      // dispatch(createItem(newData));
     }
 
     if (method === "update") {
@@ -189,7 +191,7 @@ const Logins = ({
               </label>
               <input
                 type="text"
-                {...register("userName", {
+                {...register("username", {
                   required: {
                     value: true,
                     message: "Username is required",

@@ -72,9 +72,11 @@ const WifiPassword = ({
   const onSubmit = (data) => {
     const newData = {
       ...data,
+      type: "wifiPassword",
       image: currentImage,
       favorite,
       folders: assignedFolders,
+      trash: false,
     };
 
     console.log(newData);
@@ -131,6 +133,30 @@ const WifiPassword = ({
       {!showPasswordGenerator && (
         <>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-group">
+              <label>
+                Name of the Item <span className="error-message">*</span>
+              </label>
+              <input
+                type="text"
+                {...register("name", {
+                  required: {
+                    value: true,
+                    message: "Name is required",
+                  },
+                })}
+                className={
+                  errors.name ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.name && (
+                <small className="error-message">
+                  {errors.name.message}
+                  <br></br>
+                </small>
+              )}
+            </div>
+
             <div className="form-group">
               <label>
                 SSID<span className="error-message">*</span>

@@ -2,15 +2,15 @@ const asyncHandler = require("express-async-handler");
 const { db, admin } = require("../util/admin");
 const User = db.collection("Users");
 
-const getAllUser = asyncHandler(async (req, res) => {
-  const user = await User.get();
-  User.onSnapshot((snapshot) => {
-    console.log("this is a test");
-    snapshot.docs.map((doc) => {
-      console.log(doc.data());
-    });
-  });
-});
+// const getAllUser = asyncHandler(async (req, res) => {
+//   const user = await User.get();
+//   User.onSnapshot((snapshot) => {
+//     console.log("this is a test");
+//     snapshot.docs.map((doc) => {
+//       console.log(doc.data());
+//     });
+//   });
+// });
 
 const updateUserEmail = asyncHandler(async (req, res) => {
   const { uid, email } = req.body;
@@ -83,15 +83,12 @@ const updateUserPasswordHint = asyncHandler(async (req, res) => {
 
 const getUserData = asyncHandler(async (req, res) => {
   const { data } = req.body;
-  console.log("getUserData");
-  console.log(data);
   const result = await User.doc(data).get();
   if (result.empty) {
     res.status(400);
     throw new Error("User not found!");
   }
 
-  console.log(result.data());
   res.status(200).json(result.data());
 });
 
@@ -141,7 +138,7 @@ const removeUser = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getAllUser,
+  // getAllUser,
   updateUserEmail,
   updateUserData,
   updateUserPasswordHint,

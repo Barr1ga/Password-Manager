@@ -106,11 +106,13 @@ const Card = ({
   const onSubmit = (data) => {
     const newData = {
       ...data,
+      type: "card",
       brand: brandRef?.current?.value,
       expirationMonth: expirationMonthRef?.current?.value,
       image: currentImage,
       favorite,
       folders: assignedFolders,
+      trash: false,
     };
 
     console.log(newData);

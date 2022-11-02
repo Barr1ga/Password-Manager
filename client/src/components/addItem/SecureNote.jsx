@@ -56,9 +56,11 @@ const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues
   const onSubmit = (data) => {
     const newData = {
       ...data,
+      type: "secureNote",
       image: currentImage,
       favorite,
       folders: assignedFolders,
+      trash: false,
     };
 
     console.log(newData);
