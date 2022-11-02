@@ -1,12 +1,12 @@
 import React from "react";
 import { HiOutlineChevronRight, HiLink, HiStar } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
-import { selectPasswordItem } from "../features/slice/passwordSlice";
+import { selectPasswordItem } from "../features/slice/itemSlice";
 import { Link } from "react-router-dom";
 
 const PasswordItem = ({ route, password }) => {
   const dispatch = useDispatch();
-  const { selectedPassword } = useSelector((state) => state.passwords);
+  const { selectedPassword } = useSelector((state) => state.items);
   // const { color, generateColor } = useGenerateRandomColor();
 
   const handleItemClicked = () => {

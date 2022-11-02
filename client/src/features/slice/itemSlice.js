@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import brandService from "../services/brandService";
+import itemService from "../services/itemService";
+import authErrorMessage from "../utils/authErrorMessage";
 
 const initialState = {
-  passwords: [
+  items: [
     {
       id: 1,
       name: "Snapchat",
@@ -84,15 +86,18 @@ const initialState = {
       updatedAt: new Date().toString(),
     },
   ],
-  loading: false,
-  fulfilled: false,
-  error: false,
+  itemLoading: false,
+  itemFulfilled: false,
+  itemError: false,
+  authMessage: "",
+  authErrorMessage: "",
+  authErrorCode: "",
+
   brandPhotoLink: "",
   brandLoading: false,
   brandFulfilled: false,
   brandError: false,
   brandMessage: "",
-  message: "",
   selectedPassword: null,
 };
 
@@ -101,6 +106,30 @@ export const getBrandDetails = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await brandService.getBrandDetails(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const initializeVault = createAsyncThunk(
+  "password/initializeVault",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.initializeVault(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const createItem = createAsyncThunk(
+  "password/createItem",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.createItem(data);
     } catch (error) {
       const message = error.toString();
       return ThunkAPI.rejectWithValue(message);
@@ -175,6 +204,22 @@ const passwordSlice = createSlice({
         state.brandLoading = false;
         state.brandError = true;
         state.brandMessage = action.payload.data;
+      })
+
+      .addCase(createItem.pending, (state) => {
+        state.itemLoading = true;
+      })
+      .addCase(createItem.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        console.log(action.payload);
+      })
+      .addCase(createItem.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
       });
   },
 });

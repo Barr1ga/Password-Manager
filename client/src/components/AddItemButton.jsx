@@ -26,7 +26,7 @@ const AddItemModal = () => {
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageLetter, setCurrentImageLetter] = useState("");
-  const method = "add";
+  const method = "create";
 
   const handleBack = () => {
     setShowPasswordGenerator(false);

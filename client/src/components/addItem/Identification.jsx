@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { HiPlus, HiOutlinePencil } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { createItem } from "../../features/slice/itemSlice";
+
+const titles = ["Mr", "Mrs", "Ms", "Dr"];
 
 const Identifications = ({
   currentImage,
@@ -16,14 +19,16 @@ const Identifications = ({
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [titles, setTitles] = useState(["Mr", "Mrs", "Ms", "Dr"]);
   const [favorite, setFavorite] = useState(false);
-  const titleRef = useRef();
   const [assignedFolders, setAssignedFolders] = useState(
     defaultValues?.folders || []
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
+  const [titleError, setTitleError] = useState(false);
+
+  const titleRef = useRef();
+  const folderRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -35,12 +40,7 @@ const Identifications = ({
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      userName: "",
-      password: "",
-      folder: "",
-    },
+    defaultValues: defaultValues,
   });
 
   const watchName = watch("name");
@@ -65,16 +65,20 @@ const Identifications = ({
   const onSubmit = (data) => {
     const newData = {
       ...data,
+      title: titleRef?.current?.value,
       image: currentImage,
       favorite,
       folders: assignedFolders,
     };
 
     console.log(newData);
-    // dispatch(createIdentificationItem(data));
-    // if (method === "update") {
-    //   dispatch(updateIdentificationItem(data));
-    // }
+    if (method === "create") {
+      dispatch(createItem(newData));
+    }
+
+    if (method === "update") {
+      // dispatch(updatePasswordItem(data));
+    }
   };
 
   const handleOnBlurFolder = () => {
@@ -83,8 +87,15 @@ const Identifications = ({
     }
   };
 
+  const handleFocusTitle = () => {
+    setShowTitle(true);
+  };
+
   const handleOnBlurTitle = () => {
     if (!hovering) {
+      if (!titleRef?.current.value || titleRef?.current.value === "") {
+        setTitleError(true);
+      }
       setShowTitle(false);
     }
   };
@@ -144,15 +155,20 @@ const Identifications = ({
         </div>
 
         <div className="form-group form-select-group">
-          <label>Title</label>
+          <label>
+            Title <span className="error-message">*</span>
+          </label>
           <div className="input">
             <input
+              placeholder="Select Title"
               type="text"
               readOnly
-              {...register("folder")}
+              {...register("title")}
               ref={titleRef}
-              className="form-control"
-              onFocus={() => setShowTitle(true)}
+              className={
+                titleError ? "form-control form-error" : "form-control "
+              }
+              onFocus={handleFocusTitle}
               onBlur={handleOnBlurTitle}
             />
             {showTitle ? (
@@ -163,23 +179,29 @@ const Identifications = ({
           </div>
           {showTitle && (
             <div className="select-options title-options">
-              {titles.length !== 0 &&
-                titles.map((title, idx) => (
-                  <div
-                    key={idx}
-                    className="option padding-side "
-                    onMouseEnter={() => setHovering(true)}
-                    onMouseLeave={() => setHovering(false)}
-                    onClick={() => {
-                      titleRef.current.value = title;
-                      setShowTitle(false);
-                      setHovering(false);
-                    }}
-                  >
-                    {title}
-                  </div>
-                ))}
+              {titles.map((title, idx) => (
+                <div
+                  key={idx}
+                  className="option padding-side "
+                  onMouseEnter={() => setHovering(true)}
+                  onMouseLeave={() => setHovering(false)}
+                  onClick={() => {
+                    titleRef.current.value = title;
+                    setShowTitle(false);
+                    setHovering(false);
+                    setTitleError(false);
+                  }}
+                >
+                  {title}
+                </div>
+              ))}
             </div>
+          )}
+          {titleError && (
+            <small className="error-message">
+              {"Title is required"}
+              <br></br>
+            </small>
           )}
         </div>
 
@@ -262,19 +284,19 @@ const Identifications = ({
             </label>
             <input
               type="text"
-              {...register("userName", {
+              {...register("username", {
                 required: {
                   value: true,
                   message: "Username is required",
                 },
               })}
               className={
-                errors.userName ? "form-control form-error" : "form-control "
+                errors.username ? "form-control form-error" : "form-control "
               }
             />
-            {errors.userName && (
+            {errors.username && (
               <small className="error-message">
-                {errors.userName.message}
+                {errors.username.message}
                 <br></br>
               </small>
             )}
@@ -557,11 +579,16 @@ const Identifications = ({
 
         <div className="form-group form-select-group">
           <label>Folder</label>
-          <div className="form-group">
+          <div
+            className="form-group"
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+          >
             <div
               className={
                 showFolder ? "form-pills form-pills-active" : "form-pills"
               }
+              onBlur={handleOnBlurFolder}
             >
               {assignedFolders.map((folder, idx) => (
                 <div key={idx} className="pill">
@@ -577,14 +604,17 @@ const Identifications = ({
                 </div>
               ))}
               <input
-                placeholder={assignedFolders.length === 0 ? "Enter Folder" : ""}
+                ref={folderRef}
+                placeholder={
+                  assignedFolders.length === 0 ? "Select Folder" : ""
+                }
                 type="text"
                 onFocus={() => setShowFolder(true)}
                 onBlur={handleOnBlurFolder}
                 onKeyDown={(e) => handleKeyDown(e)}
                 onChange={(e) => setSearch(e.target.value)}
                 className="form-control-borderless"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             {showFolder && (
@@ -597,12 +627,9 @@ const Identifications = ({
                     <div
                       key={idx}
                       className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
                       onClick={() => {
                         handleSelectFolder(folder);
-                        setShowFolder(false);
-                        setHovering(false);
+                        folderRef?.current.focus();
                       }}
                     >
                       {folder}

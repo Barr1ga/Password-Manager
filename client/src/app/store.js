@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import passwordReducer from "../features/slice/passwordSlice";
+import itemReducer from "../features/slice/itemSlice";
 import authReducer from "../features/slice/authSlice";
 import memberReducer from "../features/slice/memberSlice";
 import sharingReducer from "../features/slice/sharingSlice";
@@ -9,7 +9,7 @@ import folderReducer from "../features/slice/folderSlice";
 
 export const store = configureStore({
   reducer: {
-    passwords: passwordReducer,
+    items: itemReducer,
     auth: authReducer,
     members: memberReducer,
     sharing: sharingReducer,

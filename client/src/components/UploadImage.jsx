@@ -9,7 +9,7 @@ import ConfirmModal from "./helpers/ConfirmModal";
 import {
   getBrandDetails,
   resetBrandPhotoLink,
-} from "../features/slice/passwordSlice";
+} from "../features/slice/itemSlice";
 import SpinnerLoader from "./SpinnerLoader";
 
 const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
@@ -19,7 +19,7 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
   const [preview, setPreview] = useState(currentImage);
 
   const { brandLoading, brandPhotoLink } = useSelector(
-    (state) => state.passwords
+    (state) => state.items
   );
 
   const {

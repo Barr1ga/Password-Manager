@@ -13,6 +13,7 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { createItem } from "../../features/slice/itemSlice";
 
 const WifiPassword = ({
   currentImage,
@@ -32,6 +33,8 @@ const WifiPassword = ({
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
 
+  const folderRef = useRef();
+
   const dispatch = useDispatch();
 
   const {
@@ -43,8 +46,9 @@ const WifiPassword = ({
     formState: { errors },
   } = useForm({
     mode: "all",
+    defaultValues: defaultValues,
   });
-  
+
   const watchPassword = watch("password");
   const watchSsid = watch("ssid");
 
@@ -65,7 +69,6 @@ const WifiPassword = ({
     }
   }, [setCurrentImageLetter, watchSsid]);
 
-
   const onSubmit = (data) => {
     const newData = {
       ...data,
@@ -75,10 +78,13 @@ const WifiPassword = ({
     };
 
     console.log(newData);
-    // dispatch(createWifiPasswordItem(data));
-    // if (method === "update") {
-    //   dispatch(updateWifiPasswordItem(data));
-    // }
+    if (method === "create") {
+      dispatch(createItem(newData));
+    }
+
+    if (method === "update") {
+      // dispatch(updatePasswordItem(data));
+    }
   };
 
   const handleOnBlurFolder = () => {
@@ -115,7 +121,9 @@ const WifiPassword = ({
   );
   filteredFolders =
     search !== ""
-      ? filteredFolders.filter((folder) => folder.toLowerCase().includes(search.toLowerCase()))
+      ? filteredFolders.filter((folder) =>
+          folder.toLowerCase().includes(search.toLowerCase())
+        )
       : filteredFolders;
 
   return (
@@ -192,11 +200,16 @@ const WifiPassword = ({
 
             <div className="form-group form-select-group">
               <label>Folder</label>
-              <div className="form-group">
+              <div
+                className="form-group"
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => setHovering(false)}
+              >
                 <div
                   className={
                     showFolder ? "form-pills form-pills-active" : "form-pills"
                   }
+                  onBlur={handleOnBlurFolder}
                 >
                   {assignedFolders.map((folder, idx) => (
                     <div key={idx} className="pill">
@@ -212,8 +225,9 @@ const WifiPassword = ({
                     </div>
                   ))}
                   <input
+                    ref={folderRef}
                     placeholder={
-                      assignedFolders.length === 0 ? "Enter Folder" : ""
+                      assignedFolders.length === 0 ? "Select Folder" : ""
                     }
                     type="text"
                     onFocus={() => setShowFolder(true)}
@@ -221,7 +235,7 @@ const WifiPassword = ({
                     onKeyDown={(e) => handleKeyDown(e)}
                     onChange={(e) => setSearch(e.target.value)}
                     className="form-control-borderless"
-                    autocomplete="off"
+                    autoComplete="off"
                   />
                 </div>
                 {showFolder && (
@@ -234,12 +248,9 @@ const WifiPassword = ({
                         <div
                           key={idx}
                           className="option padding-side "
-                          onMouseEnter={() => setHovering(true)}
-                          onMouseLeave={() => setHovering(false)}
                           onClick={() => {
                             handleSelectFolder(folder);
-                            setShowFolder(false);
-                            setHovering(false);
+                            folderRef?.current.focus();
                           }}
                         >
                           {folder}

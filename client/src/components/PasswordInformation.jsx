@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import {
   handleDeletePasswordItem,
   resetSelectedPasswordItem,
-} from "../features/slice/passwordSlice";
+} from "../features/slice/itemSlice";
 import { useNavigate } from "react-router-dom";
 
 import Card from "./addItem/Card";

@@ -905,6 +905,11 @@ input:placeholder-shown {
 
 .form-control:focus::placeholder {
   color: rgb(157, 104, 255);
+  opacity: 1;
+}
+
+.form-control::placeholder {
+  /* color: #fff; */
 }
 
 input::-webkit-outer-spin-button,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
@@ -9,9 +9,39 @@ import {
 } from "react-icons/hi";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
-import { createCardItem } from "../../features/slice/passwordSlice";
-import { updateCardItem } from "../../features/slice/passwordSlice";
+import { createCardItem } from "../../features/slice/itemSlice";
+import { updateCardItem } from "../../features/slice/itemSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
+
+const expirationMonths = [
+  "01 - January",
+  "02 - February",
+  "03 - March",
+  "04 - April",
+  "05 - May",
+  "06 - June",
+  "07 - July",
+  "08 - August",
+  "09 - September",
+  "10 - October",
+  "11 - November",
+  "12 - December",
+];
+
+const brands = [
+  "Visa",
+  "Mastercard",
+  "American Express",
+  "Discover",
+  "Diners Club",
+  "JCB",
+  "Maestro",
+  "UnionPay",
+  "RuPay",
+  "Mir",
+  "Other",
+];
 
 const Card = ({
   currentImage,
@@ -29,6 +59,15 @@ const Card = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
+  const folderRef = useRef();
+
+  const [showBrands, setShowBrands] = useState(false);
+  const [brandError, setBrandError] = useState(false);
+  const brandRef = useRef();
+
+  const [showExpirationMonths, setShowExpirationMonths] = useState(false);
+  const [expirationMonthError, setExpirationMonthError] = useState(false);
+  const expirationMonthRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -67,6 +106,8 @@ const Card = ({
   const onSubmit = (data) => {
     const newData = {
       ...data,
+      brand: brandRef?.current?.value,
+      expirationMonth: expirationMonthRef?.current?.value,
       image: currentImage,
       favorite,
       folders: assignedFolders,
@@ -74,10 +115,12 @@ const Card = ({
 
     console.log(newData);
 
+    if (method === "create") {
+      dispatch(createItem(newData));
+    }
+
     if (method === "update") {
-      dispatch(updateCardItem(data));
-    } else {
-      dispatch(createCardItem(data));
+      // dispatch(updatePasswordItem(data));
     }
   };
 
@@ -114,6 +157,37 @@ const Card = ({
         )
       : filteredFolders;
 
+  // brand
+  const handleFocusBrand = () => {
+    setShowBrands(true);
+  };
+
+  const handleOnBlurBrand = () => {
+    if (!hovering) {
+      if (!brandRef?.current.value || brandRef?.current.value === "") {
+        setBrandError(true);
+      }
+      setShowBrands(false);
+    }
+  };
+
+  // expirationMonth
+  const handleFocusExpirationMonth = () => {
+    setShowExpirationMonths(true);
+  };
+
+  const handleOnBlurExpirationMonth = () => {
+    if (!hovering) {
+      if (
+        !expirationMonthRef?.current.value ||
+        expirationMonthRef?.current.value === ""
+      ) {
+        setExpirationMonthError(true);
+      }
+      setShowExpirationMonths(false);
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -147,43 +221,73 @@ const Card = ({
           </label>
           <input
             type="text"
-            {...register("cardHolder", {
+            {...register("cardHolderName", {
               required: {
                 value: true,
                 message: "Card Holder Name is required",
               },
             })}
             className={
-              errors.cardHolder ? "form-control form-error" : "form-control "
+              errors.cardHolderName
+                ? "form-control form-error"
+                : "form-control "
             }
           />
-          {errors.cardHolder && (
+          {errors.cardHolderName && (
             <small className="error-message">
-              {errors.cardHolder.message}
+              {errors.cardHolderName.message}
               <br></br>
             </small>
           )}
         </div>
 
-        <div className="form-group">
+        <div className="form-group form-select-group">
           <label>
             Brand <span className="error-message">*</span>
           </label>
-          <input
-            type="text"
-            {...register("brand", {
-              required: {
-                value: true,
-                message: "Brand is required",
-              },
-            })}
-            className={
-              errors.brand ? "form-control form-error" : "form-control "
-            }
-          />
-          {errors.brand && (
+          <div className="input">
+            <input
+              placeholder="Select Brand"
+              type="text"
+              readOnly
+              {...register("brand")}
+              ref={brandRef}
+              className={
+                brandError ? "form-control form-error" : "form-control "
+              }
+              onFocus={handleFocusBrand}
+              onBlur={handleOnBlurBrand}
+            />
+            {showBrands ? (
+              <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+            ) : (
+              <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+            )}
+          </div>
+
+          {showBrands && (
+            <div className="select-options title-options">
+              {brands.map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="option padding-side "
+                  onMouseEnter={() => setHovering(true)}
+                  onMouseLeave={() => setHovering(false)}
+                  onClick={() => {
+                    brandRef.current.value = brand;
+                    setShowBrands(false);
+                    setHovering(false);
+                    setBrandError(false);
+                  }}
+                >
+                  {brand}
+                </div>
+              ))}
+            </div>
+          )}
+          {brandError && (
             <small className="error-message">
-              {errors.brand.message}
+              {"Expiration Month is required"}
               <br></br>
             </small>
           )}
@@ -227,28 +331,55 @@ const Card = ({
         </div>
 
         <div className="form-group-horizontal">
-          <div className="form-group">
+          <div className="form-group form-select-group">
             <label>
               Expiration Month <span className="error-message">*</span>
             </label>
-            <input
-              type="text"
-              placeholder="mm - month"
-              {...register("expirationMonth", {
-                required: {
-                  value: true,
-                  message: "Expiration Month is required",
-                },
-              })}
-              className={
-                errors.expirationMonth
-                  ? "form-control form-error"
-                  : "form-control "
-              }
-            />
-            {errors.expirationMonth && (
+            <div className="input">
+              <input
+                placeholder="Select Month"
+                type="text"
+                readOnly
+                {...register("expirationMonth")}
+                ref={expirationMonthRef}
+                className={
+                  expirationMonthError
+                    ? "form-control form-error"
+                    : "form-control "
+                }
+                onFocus={handleFocusExpirationMonth}
+                onBlur={handleOnBlurExpirationMonth}
+              />
+              {showExpirationMonths ? (
+                <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+              ) : (
+                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+              )}
+            </div>
+
+            {showExpirationMonths && (
+              <div className="select-options title-options">
+                {expirationMonths.map((expirationMonth, idx) => (
+                  <div
+                    key={idx}
+                    className="option padding-side "
+                    onMouseEnter={() => setHovering(true)}
+                    onMouseLeave={() => setHovering(false)}
+                    onClick={() => {
+                      expirationMonthRef.current.value = expirationMonth;
+                      setShowExpirationMonths(false);
+                      setHovering(false);
+                      setExpirationMonthError(false);
+                    }}
+                  >
+                    {expirationMonth}
+                  </div>
+                ))}
+              </div>
+            )}
+            {expirationMonthError && (
               <small className="error-message">
-                {errors.expirationMonth.message}
+                {"Expiration Month is required"}
                 <br></br>
               </small>
             )}
@@ -323,11 +454,16 @@ const Card = ({
 
         <div className="form-group form-select-group">
           <label>Folder</label>
-          <div className="form-group">
+          <div
+            className="form-group"
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+          >
             <div
               className={
                 showFolder ? "form-pills form-pills-active" : "form-pills"
               }
+              onBlur={handleOnBlurFolder}
             >
               {assignedFolders.map((folder, idx) => (
                 <div key={idx} className="pill">
@@ -343,7 +479,10 @@ const Card = ({
                 </div>
               ))}
               <input
-                placeholder={assignedFolders.length === 0 ? "Enter Folder" : ""}
+                ref={folderRef}
+                placeholder={
+                  assignedFolders.length === 0 ? "Select Folder" : ""
+                }
                 type="text"
                 onFocus={() => setShowFolder(true)}
                 onBlur={handleOnBlurFolder}
@@ -363,12 +502,9 @@ const Card = ({
                     <div
                       key={idx}
                       className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
                       onClick={() => {
                         handleSelectFolder(folder);
-                        setShowFolder(false);
-                        setHovering(false);
+                        folderRef?.current.focus();
                       }}
                     >
                       {folder}

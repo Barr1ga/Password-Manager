@@ -6,16 +6,16 @@ import { useParams } from "react-router-dom";
 const CurrentPasswordItemPage = () => {
   const { id } = useParams();
 
-  const { passwords, selectedPassword } = useSelector(
-    (state) => state.passwords
+  const { items, selectedPassword } = useSelector(
+    (state) => state.items
   );
 
-  let currentPassword = passwords.find(
+  let currentPassword = items.find(
     (password) => password.id === selectedPassword
   );
 
   useEffect(() => {
-    currentPassword = passwords.find(
+    currentPassword = items.find(
       (password) => password.id === selectedPassword
     );
   }, [selectedPassword]);

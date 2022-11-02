@@ -35,7 +35,7 @@ import { useIdleTimer } from "react-idle-timer";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
-  const { selectedPassword } = useSelector((state) => state.passwords);
+  const { selectedPassword } = useSelector((state) => state.items);
   const { authUser, username, masterPasswordHint, authRegistered } =
     useSelector((state) => state.auth);
 

@@ -14,11 +14,11 @@ import EmptyList from "../assets/empty-list.svg";
 const Logins = () => {
   const route = "/Logins";
   const [listView, setListView] = useState(true);
-  const { passwords } = useSelector((state) => state.passwords);
+  const { items } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  let filteredPasswords = passwords
+  let filteredPasswords = items
     .filter((password) => password.trash === false)
     .filter((password) => password.type === "login");
 

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { HiPlus, HiOutlinePencil } from "react-icons/hi";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { createItem } from "../../features/slice/itemSlice";
 
 const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues }) => {
   const [showFolder, setShowFolder] = useState(false);
@@ -16,6 +17,8 @@ const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
 
+  const folderRef = useRef();
+
   const dispatch = useDispatch();
 
   const {
@@ -26,10 +29,7 @@ const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      name: "",
-      folder: "",
-    },
+    defaultValues: defaultValues,
   });
 
   const watchName = watch("name");
@@ -63,10 +63,13 @@ const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues
 
     console.log(newData);
 
-    // dispatch(createSecureNoteItem(data));
-    // if (method === "update") {
-    //   dispatch(updateSecureNoteItem(data));
-    // }
+    if (method === "create") {
+      dispatch(createItem(newData));
+    }
+
+    if (method === "update") {
+      // dispatch(updatePasswordItem(data));
+    }
   };
 
   const handleOnBlurFolder = () => {
@@ -130,62 +133,67 @@ const SecureNote = ({ currentImage, setCurrentImageLetter, method, defaultValues
         </div>
 
         <div className="form-group form-select-group">
-          <label>Folder</label>
-          <div className="form-group">
-            <div
-              className={
-                showFolder ? "form-pills form-pills-active" : "form-pills"
-              }
-            >
-              {assignedFolders.map((folder, idx) => (
-                <div key={idx} className="pill">
-                  <small>{folder}</small>
-                  <HiPlus
-                    className="btn-delete"
-                    onClick={() =>
-                      setAssignedFolders(
-                        assignedFolders.filter((_, i) => i !== idx)
-                      )
-                    }
-                  ></HiPlus>
-                </div>
-              ))}
-              <input
-                placeholder={assignedFolders.length === 0 ? "Enter Folder" : ""}
-                type="text"
-                onFocus={() => setShowFolder(true)}
-                onBlur={handleOnBlurFolder}
-                onKeyDown={(e) => handleKeyDown(e)}
-                onChange={(e) => setSearch(e.target.value)}
-                className="form-control-borderless"
-                autocomplete="off"
-              />
-            </div>
-            {showFolder && (
-              <div className="select-options folder-options">
-                {filteredFolders.length === 0 && (
-                  <div className="option disabled">No folders found</div>
-                )}
-                {filteredFolders.length !== 0 &&
-                  filteredFolders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onMouseEnter={() => setHovering(true)}
-                      onMouseLeave={() => setHovering(false)}
-                      onClick={() => {
-                        handleSelectFolder(folder);
-                        setShowFolder(false);
-                        setHovering(false);
-                      }}
-                    >
-                      {folder}
+              <label>Folder</label>
+              <div
+                className="form-group"
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => setHovering(false)}
+              >
+                <div
+                  className={
+                    showFolder ? "form-pills form-pills-active" : "form-pills"
+                  }
+                  onBlur={handleOnBlurFolder}
+                >
+                  {assignedFolders.map((folder, idx) => (
+                    <div key={idx} className="pill">
+                      <small>{folder}</small>
+                      <HiPlus
+                        className="btn-delete"
+                        onClick={() =>
+                          setAssignedFolders(
+                            assignedFolders.filter((_, i) => i !== idx)
+                          )
+                        }
+                      ></HiPlus>
                     </div>
                   ))}
+                  <input
+                    ref={folderRef}
+                    placeholder={
+                      assignedFolders.length === 0 ? "Select Folder" : ""
+                    }
+                    type="text"
+                    onFocus={() => setShowFolder(true)}
+                    onBlur={handleOnBlurFolder}
+                    onKeyDown={(e) => handleKeyDown(e)}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="form-control-borderless"
+                    autoComplete="off"
+                  />
+                </div>
+                {showFolder && (
+                  <div className="select-options folder-options">
+                    {filteredFolders.length === 0 && (
+                      <div className="option disabled">No folders found</div>
+                    )}
+                    {filteredFolders.length !== 0 &&
+                      filteredFolders.map((folder, idx) => (
+                        <div
+                          key={idx}
+                          className="option padding-side "
+                          onClick={() => {
+                            handleSelectFolder(folder);
+                            folderRef?.current.focus();
+                          }}
+                        >
+                          {folder}
+                        </div>
+                      ))}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
+            </div>
 
         <div className="form-group">
           <label>Notes</label>

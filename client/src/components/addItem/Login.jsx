@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import {
@@ -12,6 +12,7 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
+import { createItem } from "../../features/slice/itemSlice";
 
 const Logins = ({
   currentImage,
@@ -30,6 +31,9 @@ const Logins = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
+  const { authUser } = useSelector((state) => state.auth);
+
+  const folderRef = useRef();
 
   const {
     register,
@@ -67,18 +71,24 @@ const Logins = ({
 
   const onSubmit = (data) => {
     const newData = {
-      ...data,
-      image: currentImage,
-      favorite,
-      folders: assignedFolders,
+      uid: authUser.uid,
+      itemData: {
+        ...data,
+        image: currentImage,
+        favorite,
+        folders: assignedFolders,
+      },
     };
 
     console.log(newData);
 
-    // dispatch(createPasswordItem(data));
-    // if (method === "update") {
-    //   dispatch(updatePasswordItem(data));
-    // }
+    if (method === "create") {
+      dispatch(createItem(newData));
+    }
+
+    if (method === "update") {
+      // dispatch(updatePasswordItem(data));
+    }
   };
 
   const handleOnBlurFolder = () => {
@@ -247,11 +257,16 @@ const Logins = ({
 
             <div className="form-group form-select-group">
               <label>Folder</label>
-              <div className="form-group">
+              <div
+                className="form-group"
+                onMouseEnter={() => setHovering(true)}
+                onMouseLeave={() => setHovering(false)}
+              >
                 <div
                   className={
                     showFolder ? "form-pills form-pills-active" : "form-pills"
                   }
+                  onBlur={handleOnBlurFolder}
                 >
                   {assignedFolders.map((folder, idx) => (
                     <div key={idx} className="pill">
@@ -267,8 +282,9 @@ const Logins = ({
                     </div>
                   ))}
                   <input
+                    ref={folderRef}
                     placeholder={
-                      assignedFolders.length === 0 ? "Enter Folder" : ""
+                      assignedFolders.length === 0 ? "Select Folder" : ""
                     }
                     type="text"
                     onFocus={() => setShowFolder(true)}
@@ -289,12 +305,9 @@ const Logins = ({
                         <div
                           key={idx}
                           className="option padding-side "
-                          onMouseEnter={() => setHovering(true)}
-                          onMouseLeave={() => setHovering(false)}
                           onClick={() => {
                             handleSelectFolder(folder);
-                            setShowFolder(false);
-                            setHovering(false);
+                            folderRef?.current.focus();
                           }}
                         >
                           {folder}
