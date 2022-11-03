@@ -21,7 +21,7 @@ import UploadImage from "./UploadImage";
 import { resetQueryFulfilled } from "../features/slice/itemSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const AddItemModal = () => {
+const AddItemModal = ({ currentPage }) => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("Login");

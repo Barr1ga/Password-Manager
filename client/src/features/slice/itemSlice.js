@@ -44,6 +44,54 @@ export const getAllItems = createAsyncThunk(
   }
 );
 
+export const getFavorites = createAsyncThunk(
+  "item/getFavorites",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.getFavorites(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getTrash = createAsyncThunk(
+  "item/getTrash",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.getTrash(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getTypeSpecific = createAsyncThunk(
+  "item/getTypeSpecific",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.getTypeSpecific(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getFolderSpecific = createAsyncThunk(
+  "item/getFolderSpecific",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.getFolderSpecific(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const createItem = createAsyncThunk(
   "item/createItem",
   async (data, ThunkAPI) => {
@@ -121,6 +169,70 @@ const passwordSlice = createSlice({
         state.items = action.payload;
       })
       .addCase(getAllItems.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+      
+      .addCase(getFavorites.pending, (state) => {
+        state.itemLoading = true;
+      })
+      .addCase(getFavorites.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.items = action.payload;
+      })
+      .addCase(getFavorites.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(getTrash.pending, (state) => {
+        state.itemLoading = true;
+      })
+      .addCase(getTrash.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.items = action.payload;
+      })
+      .addCase(getTrash.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(getTypeSpecific.pending, (state) => {
+        state.itemLoading = true;
+      })
+      .addCase(getTypeSpecific.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.items = action.payload;
+      })
+      .addCase(getTypeSpecific.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(getFolderSpecific.pending, (state) => {
+        state.itemLoading = true;
+      })
+      .addCase(getFolderSpecific.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.items = action.payload;
+      })
+      .addCase(getFolderSpecific.rejected, (state, action) => {
         state.itemLoading = false;
         const { code, message } = action.payload;
         state.authMessage = message;

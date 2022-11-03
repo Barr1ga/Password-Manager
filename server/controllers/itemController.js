@@ -9,9 +9,53 @@ const getAllItems = asyncHandler(async (req, res) => {
   const items = await (
     await User.doc(uid).collection("items").get()
   ).docs.map((doc) => {
-    return {...doc.data(), uid: doc.id};
+    return { ...doc.data(), uid: doc.id };
   });
 
+  res.status(201).json(items);
+});
+
+const getFavorites = asyncHandler(async (req, res) => {
+  const { uid } = req.body;
+  const items = await (
+    await User.doc(uid).collection("items").where("favorite", "==", true).get()
+  ).docs.map((doc) => {
+    return { ...doc.data(), uid: doc.id };
+  });
+
+  res.status(201).json(items);
+});
+
+const getTrash = asyncHandler(async (req, res) => {
+  const { uid } = req.body;
+  const items = await (
+    await User.doc(uid).collection("items").where("trash", "==", true).get()
+  ).docs.map((doc) => {
+    return { ...doc.data(), uid: doc.id };
+  });
+
+  res.status(201).json(items);
+});
+
+const getTypeSpecific = asyncHandler(async (req, res) => {
+  const { uid, type } = req.body;
+  const items = await (
+    await User.doc(uid).collection("items").where("type", "==", type).get()
+  ).docs.map((doc) => {
+    return { ...doc.data(), uid: doc.id };
+  });
+
+  res.status(201).json(items);
+});
+
+const getFolderSpecific = asyncHandler(async (req, res) => {
+  const { uid } = req.body;
+  // const items = await (
+  //   await User.doc(uid).collection("items").where("folder", "==", type).get()
+  // ).docs.map((doc) => {
+  //   return { ...doc.data(), uid: doc.id };
+  // });
+  const items ="test";
   res.status(201).json(items);
 });
 
@@ -30,5 +74,9 @@ const createItem = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllItems,
+  getFavorites,
+  getTrash,
+  getTypeSpecific,
+  getFolderSpecific,
   createItem,
 };

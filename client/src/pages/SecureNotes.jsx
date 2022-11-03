@@ -8,26 +8,29 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems } from "../features/slice/itemSlice";
+import { getAllItems, getTypeSpecific } from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/CardsListLazyLoad";
 import ItemsList from "../components/ItemsList";
 import CardsList from "../components/CardsList";
 
 const SecureNote = () => {
-  const route = "/SecureNote";
+  const route = "/Types/SecureNote";
   const [listView, setListView] = useState(true);
   const { items, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const currentPage = "secureNote";
 
   const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  let filteredItems = items
-    .filter((password) => password.trash === false)
-    .filter((password) => password.type === "secureNote");
+  useEffect(() => {
+    dispatch(getTypeSpecific({ uid: authUser.uid, type: "secureNote" }));
+  }, []);
+
+  let filteredItems = items.filter((password) => password.trash === false);
 
   filteredItems =
     searchValue !== ""
@@ -100,7 +103,7 @@ const SecureNote = () => {
               >
                 <HiOutlineServer></HiOutlineServer>
               </Button>
-              <AddItemButton></AddItemButton>
+              <AddItemButton currentPage={currentPage}></AddItemButton>
             </>
           )}
         </div>

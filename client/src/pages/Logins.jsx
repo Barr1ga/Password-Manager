@@ -8,14 +8,14 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems } from "../features/slice/itemSlice";
+import { getAllItems, getTypeSpecific } from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/CardsListLazyLoad";
 import ItemsList from "../components/ItemsList";
 import CardsList from "../components/CardsList";
 
 const Logins = () => {
-  const route = "/Logins";
+  const route = "/Types/Logins";
   const [listView, setListView] = useState(true);
   const { items, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
@@ -24,9 +24,11 @@ const Logins = () => {
   const dispatch = useDispatch();
   const currentPage = "login";
 
-  let filteredItems = items
-    .filter((password) => password.trash === false)
-    .filter((password) => password.type === "login");
+  useEffect(() => {
+    dispatch(getTypeSpecific({ uid: authUser.uid, type: "login" }));
+  }, []);
+
+  let filteredItems = items.filter((password) => password.trash === false);
 
   filteredItems =
     searchValue !== ""
