@@ -11,16 +11,16 @@ const SideNavFolder = ({ folder }) => {
     <Link
       to={`/${folder}`}
       className={
-        notification && route === `/${folder}`
+        notification && route.includes(folder)
           ? "sidenav-button new-notif selected"
-          : route === `/${folder}`
+          : route.includes(folder)
           ? "sidenav-button selected"
           : notification
           ? "sidenav-button new-notif"
           : "sidenav-button"
       }
     >
-      {route === `/${folder}` ? (
+      {route.includes(folder) ? (
         <HiFolder></HiFolder>
       ) : (
         <HiOutlineFolder></HiOutlineFolder>

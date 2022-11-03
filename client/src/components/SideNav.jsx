@@ -25,14 +25,14 @@ import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
 import SideNavTypes from "./SideNavTypes";
 import SideNavFolder from "./SideNavFolder";
 import ConfirmModal from "./helpers/ConfirmModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/slice/authSlice";
 import Button from "react-bootstrap/Button";
 
 const SideNav = () => {
   const dispatch = useDispatch();
   const route = useLocation().pathname;
-  console.log(route);
+  const { selectedItem } = useSelector((state) => state.items);
 
   const notifications = {
     allItems: true,
@@ -73,16 +73,17 @@ const SideNav = () => {
               <Link
                 to="/"
                 className={
-                  notifications.allItems && route === "/"
+                  notifications.allItems &&
+                  (route === "/" || route === `/${selectedItem}`)
                     ? "sidenav-button new-notif selected"
-                    : route === "/"
+                    : route === "/" || route === `/${selectedItem}`
                     ? "sidenav-button selected"
                     : notifications.allItems
                     ? "sidenav-button new-notif"
                     : "sidenav-button"
                 }
               >
-                {route.includes("/") ? (
+                {route === "/" || route === `/${selectedItem}` ? (
                   <HiViewGrid></HiViewGrid>
                 ) : (
                   <HiOutlineViewGrid></HiOutlineViewGrid>
