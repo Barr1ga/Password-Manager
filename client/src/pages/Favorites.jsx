@@ -8,11 +8,12 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems } from "../features/slice/itemSlice";
+import { getAllItems, getFavorites } from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/CardsListLazyLoad";
 import ItemsList from "../components/ItemsList";
 import CardsList from "../components/CardsList";
+import { useParams } from "react-router-dom";
 
 const Favorites = () => {
   const route = "/Favorites";
@@ -20,10 +21,17 @@ const Favorites = () => {
   const { items, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const { uid } = useParams();
 
   const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!uid) {
+      dispatch(getFavorites({ uid: authUser.uid }));
+    }
+  }, []);
 
   let filteredItems = items
     .filter((password) => password.trash === false)

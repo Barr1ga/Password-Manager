@@ -29,7 +29,7 @@ const Trash = () => {
 
   useEffect(() => {
     if (!uid) {
-    // dispatch(getTrash({ uid: authUser.uid }));
+      dispatch(getTrash({ uid: authUser.uid }));
     }
   }, []);
 
