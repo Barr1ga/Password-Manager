@@ -49,13 +49,13 @@ const getTypeSpecific = asyncHandler(async (req, res) => {
 });
 
 const getFolderSpecific = asyncHandler(async (req, res) => {
-  const { uid } = req.body;
-  // const items = await (
-  //   await User.doc(uid).collection("items").where("folder", "==", type).get()
-  // ).docs.map((doc) => {
-  //   return { ...doc.data(), uid: doc.id };
-  // });
-  const items ="test";
+  const { uid, folder } = req.body;
+  const items = await (
+    await User.doc(uid).collection("items").where("folders", "array-contains", folder).get()
+  ).docs.map((doc) => {
+    return { ...doc.data(), uid: doc.id };
+  });
+  
   res.status(201).json(items);
 });
 

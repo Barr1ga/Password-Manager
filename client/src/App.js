@@ -32,6 +32,7 @@ import {
 } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
+import Folder from "./pages/Folder";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
@@ -303,6 +304,30 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<WifiPasswords />}
+                    mobile={<CurrentItemPage />}
+                  ></ResponsiveDisplay>
+                ) : (
+                  <Navigate to="/LoginRegistration" />
+                )
+              }
+            ></Route>
+            <Route
+              // exact
+              path="Folders/:folder/:uid"
+              element={
+                authUser ? (
+                  <Folder></Folder>
+                ) : (
+                  <Navigate to="/LoginRegistration" />
+                )
+              }
+            ></Route>
+            <Route
+              path="Folders/:folder/"
+              element={
+                authUser ? (
+                  <ResponsiveDisplay
+                    nonMobile={<Folder />}
                     mobile={<CurrentItemPage />}
                   ></ResponsiveDisplay>
                 ) : (

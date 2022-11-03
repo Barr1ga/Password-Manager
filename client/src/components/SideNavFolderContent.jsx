@@ -9,7 +9,7 @@ const SideNavFolder = ({ folder }) => {
 
   return (
     <Link
-      to={`/${folder}`}
+      to={`Folders/${folder}`}
       className={
         notification && route.includes(folder)
           ? "sidenav-button new-notif selected"
