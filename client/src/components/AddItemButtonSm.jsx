@@ -55,7 +55,6 @@ const AddItemModal = () => {
     }
   }, [itemFulfilled]);
 
-  console.log(selectedType);
 
   return (
     <>
@@ -207,7 +206,6 @@ const AddItemModal = () => {
               setCurrentImageLetter={setCurrentImageLetter}
             ></Card>
           )}
-          {console.log(currentImage)}
           {selectedType === "Identification" && (
             <Identification
               currentImage={currentImage}

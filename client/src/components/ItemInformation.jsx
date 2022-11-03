@@ -34,7 +34,6 @@ const ItemInformation = ({ currentItem }) => {
   const [currentImageLetter, setCurrentImageLetter] = useState(
     currentItem.name.charAt(0)
   );
-  console.log("test");
   const method = "update";
 
   useEffect(() => {

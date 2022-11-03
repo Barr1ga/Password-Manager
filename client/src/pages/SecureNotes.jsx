@@ -17,7 +17,7 @@ import CardsList from "../components/CardsList";
 const SecureNote = () => {
   const route = "/Types/SecureNote";
   const [listView, setListView] = useState(true);
-  const { items, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const currentPage = "secureNote";
@@ -27,7 +27,9 @@ const SecureNote = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTypeSpecific({ uid: authUser.uid, type: "secureNote" }));
+    if (selectedItem === "") {
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: "secureNote" }));
+    }
   }, []);
 
   let filteredItems = items.filter((password) => password.trash === false);

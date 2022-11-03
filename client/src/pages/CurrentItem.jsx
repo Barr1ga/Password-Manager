@@ -1,35 +1,24 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ItemInformation from "../components/ItemInformation";
-import { useParams } from "react-router-dom";
 
 const CurrentItemPage = () => {
-  const { id } = useParams();
+  const { items, selectedItem } = useSelector((state) => state.items);
 
-  const { items, selectedItem } = useSelector(
-    (state) => state.items
-  );
-
-  let currentItem = items.find(
-    (password) => password.id === selectedItem
-  );
+  let currentItem = items.find((password) => password.uid === selectedItem);
 
   useEffect(() => {
-    currentItem = items.find(
-      (password) => password.id === selectedItem
-    );
+    currentItem = items.find((password) => password.uid === selectedItem);
   }, [selectedItem]);
 
   if (!currentItem) {
     return <></>;
   }
-
+  
   return (
     <>
       <div className="margin-content padding-side">
-        <ItemInformation
-          currentItem={currentItem}
-        ></ItemInformation>
+        <ItemInformation currentItem={currentItem}></ItemInformation>
       </div>
     </>
   );

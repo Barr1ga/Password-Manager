@@ -48,8 +48,6 @@ const AddItemModal = ({ currentPage }) => {
     setShowTypeOptions(false);
   };
 
-  console.log(selectedType);
-
   useEffect(() => {
     if (itemFulfilled) {
       handleCloseModal();
@@ -205,7 +203,6 @@ const AddItemModal = ({ currentPage }) => {
               setCurrentImageLetter={setCurrentImageLetter}
             ></Card>
           )}
-          {console.log(currentImage)}
           {selectedType === "Identification" && (
             <Identification
               currentImage={currentImage}

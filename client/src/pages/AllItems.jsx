@@ -17,7 +17,7 @@ import CardsList from "../components/CardsList";
 const AllItems = () => {
   const route = "";
   const [listView, setListView] = useState(true);
-  const { items, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
@@ -26,7 +26,9 @@ const AllItems = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllItems({ uid: authUser.uid }));
+    if (selectedItem === "") {
+      dispatch(getAllItems({ uid: authUser.uid }));
+    }
   }, []);
 
   let filteredItems = items.filter((item) => item.trash === false);

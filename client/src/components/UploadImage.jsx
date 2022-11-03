@@ -98,8 +98,6 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
     setSelectedFile(e.target.files[0]);
   };
 
-  console.log(currentImage);
-
   return (
     <>
       <HiOutlineCamera onClick={() => setModalShow(true)}></HiOutlineCamera>

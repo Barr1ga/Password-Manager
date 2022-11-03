@@ -17,7 +17,7 @@ import CardsList from "../components/CardsList";
 const Card = () => {
   const route = "/Types/Cards";
   const [listView, setListView] = useState(true);
-  const { items, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const currentPage = "card";
@@ -27,7 +27,9 @@ const Card = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTypeSpecific({ uid: authUser.uid, type: "card" }));
+    if (selectedItem === "") {
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: "card" }));
+    }
   }, []);
 
   let filteredItems = items.filter((password) => password.trash === false);

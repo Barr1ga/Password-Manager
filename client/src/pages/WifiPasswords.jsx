@@ -17,7 +17,7 @@ import CardsList from "../components/CardsList";
 const WifiPasswords = () => {
   const route = "/Types/WifiPasswords";
   const [listView, setListView] = useState(true);
-  const { items, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const currentPage = "wifiPassword";
@@ -27,7 +27,9 @@ const WifiPasswords = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getTypeSpecific({ uid: authUser.uid, type: "wifiPassword" }));
+    if (selectedItem === "") {
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: "wifiPassword" }));
+    }
   }, []);
 
   let filteredItems = items.filter((password) => password.trash === false);

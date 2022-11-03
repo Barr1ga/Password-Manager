@@ -105,7 +105,7 @@ export const createItem = createAsyncThunk(
 );
 
 const passwordSlice = createSlice({
-  name: "password",
+  name: "item",
   initialState,
   reducers: {
     resetItems: (state) => {
