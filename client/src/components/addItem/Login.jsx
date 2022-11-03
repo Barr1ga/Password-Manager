@@ -13,6 +13,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { createItem } from "../../features/slice/itemSlice";
+import SpinnerLoader from "../SpinnerLoader";
 
 const Logins = ({
   currentImage,
@@ -31,6 +32,7 @@ const Logins = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
+  const { itemLoading } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
 
   const folderRef = useRef();
@@ -346,14 +348,26 @@ const Logins = ({
                   type="submit"
                   className="btn-dark btn-long btn-with-icon"
                 >
-                  <HiOutlinePencil></HiOutlinePencil>Update Item
+                  {itemLoading ? (
+                    <SpinnerLoader></SpinnerLoader>
+                  ) : (
+                    <>
+                      <HiOutlinePencil></HiOutlinePencil>Update Item
+                    </>
+                  )}
                 </Button>
               ) : (
                 <Button
                   type="submit"
                   className="btn-dark btn-long btn-with-icon"
                 >
-                  <HiPlus></HiPlus>Add Item
+                  {itemLoading ? (
+                    <SpinnerLoader></SpinnerLoader>
+                  ) : (
+                    <>
+                      <HiPlus></HiPlus>Add Item
+                    </>
+                  )}
                 </Button>
               )}
             </div>

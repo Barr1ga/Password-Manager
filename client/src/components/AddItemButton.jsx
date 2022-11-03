@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 import AddButton from "./helpers/AddButton";
 import Button from "react-bootstrap/Button";
@@ -18,6 +18,8 @@ import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
 import UploadImage from "./UploadImage";
+import { resetQueryFulfilled } from "../features/slice/itemSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -26,6 +28,8 @@ const AddItemModal = () => {
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageLetter, setCurrentImageLetter] = useState("");
+  const { itemFulfilled } = useSelector((state) => state.items);
+  const dispatch = useDispatch();
   const method = "create";
 
   const handleBack = () => {
@@ -45,6 +49,13 @@ const AddItemModal = () => {
   };
 
   console.log(selectedType);
+
+  useEffect(() => {
+    if (itemFulfilled) {
+      handleCloseModal();
+      dispatch(resetQueryFulfilled());
+    }
+  }, [itemFulfilled]);
 
   return (
     <>

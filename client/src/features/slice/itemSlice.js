@@ -75,6 +75,14 @@ const passwordSlice = createSlice({
       state.brandMessage = initialState.brandMessage;
     },
 
+    resetQueryFulfilled: (state) => {
+      state.itemLoading = initialState.itemLoading;
+      state.itemFulfilled = initialState.itemFulfilled;
+      state.itemError = initialState.itemError;
+      state.authMessage = initialState.authMessage;
+      state.authErrorMessage = initialState.authErrorMessage;
+      state.authErrorCode = initialState.authErrorCode;
+    },
     resetSelectedItem: (state) => {
       state.selectedItem = null;
     },
@@ -140,6 +148,7 @@ const passwordSlice = createSlice({
 
 export const {
   resetItems,
+  resetQueryFulfilled,
   resetSelectedItem,
   selectPasswordItem,
   resetBrandPhotoLink,

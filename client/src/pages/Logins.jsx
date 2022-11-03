@@ -20,10 +20,9 @@ const Logins = () => {
   const { items, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-
   const { authUser } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
+  const currentPage = "login";
 
   let filteredItems = items
     .filter((password) => password.trash === false)
@@ -100,7 +99,7 @@ const Logins = () => {
               >
                 <HiOutlineServer></HiOutlineServer>
               </Button>
-              <AddItemButton></AddItemButton>
+              <AddItemButton currentPage={currentPage}></AddItemButton>
             </>
           )}
         </div>

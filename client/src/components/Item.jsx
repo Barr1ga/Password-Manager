@@ -14,7 +14,7 @@ const PasswordItem = ({ route, item }) => {
   };
 
   const handleLinkClicked = () => {
-    window.open(item.domain, "_blank");
+    window.open("https://" + item.domain, "_blank");
   };
 
   const title = item.name;
@@ -61,12 +61,16 @@ const PasswordItem = ({ route, item }) => {
 
         <div className="name standard-stack">
           <span>
-            <div
-              onClick={handleLinkClicked}
-              className={item.trash ? "trashed" : "siteName"}
-            >
-              {title}
-            </div>
+            {item.type === "login" ? (
+              <div
+                onClick={handleLinkClicked}
+                className={item.trash ? "trashed" : "siteName"}
+              >
+                {title}
+              </div>
+            ) : (
+              <div className={item.trash ? "trashed" : "siteName"}>{title}</div>
+            )}
             {item.type === "login" && <HiLink className="link-icon"></HiLink>}
             {item.favorite && <HiStar className="favorited"></HiStar>}
           </span>
