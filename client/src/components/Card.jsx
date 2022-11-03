@@ -34,15 +34,19 @@ const ItemCard = ({ route, item }) => {
         )}
       </div>
       <span className="name">
-        <a
-          className={item.trash ? "trashed btn-link" : "siteName btn-link"}
-          href={item.domain}
-          onClick={handleLinkClicked}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {item.name}
-        </a>{" "}
+        {item.type === "login" ? (
+          <a
+            className={item.trash ? "trashed" : "siteName"}
+            href={item.domain}
+            onClick={handleLinkClicked}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {item.name}
+          </a>
+        ) : (
+          <div className={item.trash ? "trashed" : "siteName"}>{item.name}</div>
+        )}
       </span>
     </Link>
   );

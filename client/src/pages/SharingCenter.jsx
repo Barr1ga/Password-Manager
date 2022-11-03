@@ -4,11 +4,13 @@ import Message from "../components/sharingCenter/Message";
 import { formatToMonthDayYearDate, daysDifference } from "../utils/Date";
 import EnterMessage from "../components/sharingCenter/EnterMessage";
 import EmptyList from "../assets/empty-list.svg";
+import MessageLazyLoad from "../components/sharingCenter/MessageLazyLoad";
 
 const SharingCenter = () => {
   const route = "/SharingCenter";
   const dispatch = useDispatch();
   const { conversations } = useSelector((state) => state.sharing);
+  const loading = true;
 
   const scrollRef = useRef();
 
@@ -26,12 +28,14 @@ const SharingCenter = () => {
           {conversations.length === 0 && (
             <div className="empty-list">
               <img src={EmptyList}></img>
-              <p>
-                No messages yet
-              </p>
+              <p>No messages yet</p>
             </div>
           )}
           {conversations.map((message, idx) => {
+            if (loading) {
+              return <MessageLazyLoad></MessageLazyLoad>;
+            }
+
             let sameSender = false;
             if (
               idx !== 0 &&

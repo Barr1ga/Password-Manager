@@ -16,12 +16,12 @@ const MessageLazyLoad = () => {
       <div className="message-text">
         <div className="name" style={{ width: `${nameLength}%` }}></div>
         <div className="text" style={{ width: `${firstParagraphLength}%` }}>
-          {[...Array(firstLineLength)].map((_, i) => (
+          {[...Array(firstLineLength)].map((_, idx) => (
             <p></p>
           ))}
         </div>
         <div className="text" style={{ width: `${secondParagraphLength}%` }}>
-          {[...Array(secondLineLength)].map((_, i) => (
+          {[...Array(secondLineLength)].map((_, idx) => (
             <p></p>
           ))}
         </div>

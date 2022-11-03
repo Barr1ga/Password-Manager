@@ -5,8 +5,13 @@
   --primary: #9e58e0;
   --primary-text: #b970ff;
   --p: rgba(19, 8, 8, 0.5);
+  --primary-dark: #1a1a1a;
   --primary-background: rgb(34, 34, 34);
   --secondary-background: rgb(45, 45, 45);
+
+  /* lazy loading */
+  --lazy-primary-color: rgb(61, 61, 61);
+  --lazy-secondary-color: rgb(45, 45, 45);
 }
 
 * {
@@ -1219,7 +1224,7 @@ textarea {
   width: 7px;
   border-radius: 50%;
   background-color: #ffffff;
-  opacity: .5;
+  opacity: 0.5;
 }
 
 .sidenav-button:hover {
@@ -1873,31 +1878,30 @@ textarea {
 }
 
 /* password list css */
+.lazy-grid,
+.lazy-list,
 .password-list,
 .password-grid {
   height: calc(100% - 70px);
 }
 
+.lazy-grid .count,
+.lazy-list .count,
 .password-list .count,
 .password-grid .count {
   margin: 10px 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 5px;
 }
 
-/* .password-list .scroll-view div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-} */
-
 /* password grid css */
+.lazy-grid .contents,
 .password-grid .contents {
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: start;
   flex-wrap: wrap;
   gap: 2px;
@@ -1926,11 +1930,6 @@ textarea {
   transition: 0.2s ease-out 0s;
 }
 
-.password-card .name .siteName {
-  color: rgb(49, 138, 255);
-  font-weight: 600;
-}
-
 .password-card .name .trashed {
   color: #ff4949;
   font-weight: 600;
@@ -1956,12 +1955,13 @@ textarea {
 }
 
 .password-card .empty-icon {
+  background-color: var(--primary-dark);
   text-transform: uppercase;
   height: 60px;
   min-height: 60px;
   width: 60px;
   min-width: 60px;
-  border-radius: 3px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1971,10 +1971,36 @@ textarea {
 }
 
 .password-card .name .siteName {
-  color: rgb(77, 154, 255);
-  font-weight: 600;
   font-size: 0.9rem;
 }
+
+.lazy-card {
+  padding: 10px;
+  border-radius: 3px;
+  width: calc(25% - 2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.2s ease-out 0s;
+}
+
+.lazy-card .lazy-icon {
+  background-color: var(--lazy-secondary-color);
+  height: 60px;
+  min-height: 60px;
+  width: 60px;
+  min-width: 60px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.lazy-card .title {
+  height: 15px;
+  border-radius: 10px;
+  background-color: var(--lazy-primary-color);
+}
+
+
 
 /* password item css */
 .list-view-btn {
@@ -2076,6 +2102,79 @@ textarea {
   align-items: center;
   font-size: 1.8rem;
   color: #fff;
+}
+
+.lazy-item {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  margin-bottom: 2px;
+  transition: 0.2s ease-out 0s;
+}
+
+.lazy-item .lazy-icon {
+  text-transform: uppercase;
+  background-color: var(--lazy-secondary-color);
+  height: 60px;
+  min-height: 60px;
+  width: 60px;
+  min-width: 60px;
+  border-radius: 10px;
+}
+
+.lazy-item .name {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+}
+
+.lazy-item .name .title {
+  height: 15px;
+  border-radius: 10px;
+  background-color: var(--lazy-primary-color);
+}
+
+.lazy-item .name .subTitle {
+  height: 15px;
+  border-radius: 10px;
+  background-color: var(--lazy-secondary-color);
+}
+
+.lazy-item .dots {
+  background-color: var(--lazy-secondary-color);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.lazy-grid .count,
+.lazy-list .count {
+  display: flex;
+  align-items: flex-end;
+  height: 24px;
+}
+
+.lazy-grid .count div:first-child,
+.lazy-list .count div:first-child {
+  background-color: var(--lazy-primary-color);
+  width: 15px;
+  height: 15px;
+  border-radius: 10px;
+}
+
+.lazy-grid .count div:last-child,
+.lazy-list .count div:last-child {
+  background-color: var(--lazy-primary-color);
+  width: 70px;
+  height: 15px;
+  border-radius: 10px;
 }
 
 .last-updated {

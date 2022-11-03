@@ -13,6 +13,10 @@ const PasswordItem = ({ route, item }) => {
     dispatch(selectPasswordItem(item.uid));
   };
 
+  const handleLinkClicked = () => {
+    window.open(item.domain, "_blank");
+  };
+
   const title = item.name;
   console.log(item);
 
@@ -37,7 +41,7 @@ const PasswordItem = ({ route, item }) => {
     subTitle = item?.ssid;
   }
 
-  console.log(item.username)
+  console.log(item.username);
   return (
     <>
       <Link
@@ -58,11 +62,12 @@ const PasswordItem = ({ route, item }) => {
         <div className="name standard-stack">
           <span>
             <div
+              onClick={handleLinkClicked}
               className={item.trash ? "trashed" : "siteName"}
             >
               {title}
             </div>
-            <HiLink className="link-icon"></HiLink>
+            {item.type === "login" && <HiLink className="link-icon"></HiLink>}
             {item.favorite && <HiStar className="favorited"></HiStar>}
           </span>
           <small>{subTitle}</small>

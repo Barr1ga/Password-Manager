@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import AddItemButton from "../components/AddItemButton";
-import Item from "../components/Item";
-import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import {
   HiOutlineViewGrid,
@@ -10,17 +8,19 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import EmptyList from "../assets/empty-list.svg";
-import { getAllItems, resetItems } from "../features/slice/itemSlice";
+import { getAllItems } from "../features/slice/itemSlice";
+import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
+import CardsListLazyLoad from "../components/CardsListLazyLoad";
+import ItemsList from "../components/ItemsList";
+import CardsList from "../components/CardsList";
 
 const AllItems = () => {
   const route = "";
   const [listView, setListView] = useState(true);
-  const { items } = useSelector((state) => state.items);
+  const { items, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  
   const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -48,9 +48,6 @@ const AllItems = () => {
     setSearchValue("");
     setSearchStatus(false);
   };
-
-  console.log(items);
-  console.log(filteredItems);
 
   return (
     <div className="margin-content">
@@ -110,75 +107,29 @@ const AllItems = () => {
           )}
         </div>
       </div>
-      {filteredItems.length > 0 && listView ? (
-        <>
-          <div className="password-list standard-stack">
-            <div className="scroll-view">
-              <span className="padding-side count">{count} Items</span>
-              <div>
-                {filteredItems.length === 0 && (
-                  <div className="empty-list">
-                    <img src={EmptyList} alt={EmptyList}></img>
-                    <p>
-                      {searchValue === "" ? (
-                        <>
-                          You havent added<br></br>any item yet
-                        </>
-                      ) : (
-                        <>No items Found</>
-                      )}
-                    </p>
-                  </div>
-                )}
-                {filteredItems.map((item, idx) => (
-                  <Item
-                    key={idx}
-                    route={route}
-                    item={item}
-                  ></Item>
-                ))}
-              </div>
-              <div className="page-footer padding-side">
-                <AddItemButton></AddItemButton>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="password-grid padding-side standard-stack">
-            <div className="scroll-view">
-              <span className="count">{count} Items</span>
-              <div className="contents">
-                {filteredItems.length === 0 && (
-                  <div className="empty-list">
-                    <img src={EmptyList} alt={EmptyList}></img>
-                    <p>
-                      {searchValue === "" ? (
-                        <>
-                          You havent added<br></br>any item yet
-                        </>
-                      ) : (
-                        <>No items Found</>
-                      )}
-                    </p>
-                  </div>
-                )}
-                {filteredItems.map((item, idx) => (
-                  <Card
-                    key={idx}
-                    route={route}
-                    item={item}
-                  ></Card>
-                ))}
-              </div>
-            </div>
-            <div className="page-footer">
-              <AddItemButton></AddItemButton>
-            </div>
-          </div>
-        </>
-      )}
+      {itemLoading &&
+        (listView ? (
+          <ItemsListLazyLoad></ItemsListLazyLoad>
+        ) : (
+          <CardsListLazyLoad></CardsListLazyLoad>
+        ))}
+
+      {!itemLoading &&
+        (listView ? (
+          <ItemsList
+            filteredItems={filteredItems}
+            route={route}
+            searchValue={searchValue}
+            count={count}
+          ></ItemsList>
+        ) : (
+          <CardsList
+            filteredItems={filteredItems}
+            route={route}
+            searchValue={searchValue}
+            count={count}
+          ></CardsList>
+        ))}
     </div>
   );
 };

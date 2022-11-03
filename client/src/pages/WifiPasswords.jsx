@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddItemButton from "../components/AddItemButton";
-import Item from "../components/Item";
-import Card from "../components/Card";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   HiOutlineViewGrid,
   HiOutlineServer,
@@ -10,27 +8,35 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import EmptyList from "../assets/empty-list.svg";
+import { getAllItems } from "../features/slice/itemSlice";
+import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
+import CardsListLazyLoad from "../components/CardsListLazyLoad";
+import ItemsList from "../components/ItemsList";
+import CardsList from "../components/CardsList";
 
 const WifiPasswords = () => {
   const route = "/WifiPasswords";
   const [listView, setListView] = useState(true);
-  const { items } = useSelector((state) => state.items);
+  const { items, itemLoading } = useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  let filteredPasswords = items
+  const { authUser } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  let filteredItems = items
     .filter((password) => password.trash === false)
     .filter((password) => password.type === "wifiPassword");
 
-  filteredPasswords =
+  filteredItems =
     searchValue !== ""
-      ? filteredPasswords.filter((password) =>
+      ? filteredItems.filter((password) =>
           password.name.toLowerCase().includes(searchValue.toLowerCase())
         )
-      : filteredPasswords;
+      : filteredItems;
 
-  const count = filteredPasswords.length;
+  const count = filteredItems.length;
 
   const handleSearch = () => {
     setSearchStatus(true);
@@ -99,75 +105,29 @@ const WifiPasswords = () => {
           )}
         </div>
       </div>
-      {filteredPasswords.length > 0 && listView ? (
-        <>
-          <div className="password-list standard-stack">
-            <div className="scroll-view">
-              <span className="padding-side count">{count} Items</span>
-              <div>
-                {filteredPasswords.length === 0 && (
-                  <div className="empty-list">
-                    <img src={EmptyList} alt={EmptyList}></img>
-                    <p>
-                      {searchValue === "" ? (
-                        <>
-                          You havent added<br></br>any item yet
-                        </>
-                      ) : (
-                        <>No items Found</>
-                      )}
-                    </p>
-                  </div>
-                )}
-                {filteredPasswords.map((password, idx) => (
-                  <Item
-                    key={idx}
-                    route={route}
-                    password={password}
-                  ></Item>
-                ))}
-              </div>
-              <div className="page-footer padding-side">
-                <AddItemButton></AddItemButton>
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="password-grid padding-side standard-stack">
-            <div className="scroll-view">
-              <span className="count">{count} Items</span>
-              <div className="contents">
-                {filteredPasswords.length === 0 && (
-                  <div className="empty-list">
-                    <img src={EmptyList} alt={EmptyList}></img>
-                    <p>
-                      {searchValue === "" ? (
-                        <>
-                          You havent added<br></br>any item yet
-                        </>
-                      ) : (
-                        <>No items Found</>
-                      )}
-                    </p>
-                  </div>
-                )}
-                {filteredPasswords.map((password, idx) => (
-                  <Card
-                    key={idx}
-                    route={route}
-                    password={password}
-                  ></Card>
-                ))}
-              </div>
-            </div>
-            <div className="page-footer">
-              <AddItemButton></AddItemButton>
-            </div>
-          </div>
-        </>
-      )}
+      {itemLoading &&
+        (listView ? (
+          <ItemsListLazyLoad></ItemsListLazyLoad>
+        ) : (
+          <CardsListLazyLoad></CardsListLazyLoad>
+        ))}
+
+      {!itemLoading &&
+        (listView ? (
+          <ItemsList
+            filteredItems={filteredItems}
+            route={route}
+            searchValue={searchValue}
+            count={count}
+          ></ItemsList>
+        ) : (
+          <CardsList
+            filteredItems={filteredItems}
+            route={route}
+            searchValue={searchValue}
+            count={count}
+          ></CardsList>
+        ))}
     </div>
   );
 };
