@@ -18,7 +18,6 @@ const PasswordItem = ({ route, item }) => {
   };
 
   const title = item.name;
-  console.log(item);
 
   let subTitle = "";
   if (item.type === "card") {
@@ -41,7 +40,6 @@ const PasswordItem = ({ route, item }) => {
     subTitle = item?.ssid;
   }
 
-  console.log(item.username);
   return (
     <>
       <Link

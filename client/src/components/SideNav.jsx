@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import {
   HiOutlineViewGrid,
   HiViewGrid,
@@ -32,6 +32,7 @@ import Button from "react-bootstrap/Button";
 const SideNav = () => {
   const dispatch = useDispatch();
   const route = useLocation().pathname;
+  console.log(route);
 
   const notifications = {
     allItems: true,
@@ -81,7 +82,7 @@ const SideNav = () => {
                     : "sidenav-button"
                 }
               >
-                {route === "/" ? (
+                {route.includes("/") ? (
                   <HiViewGrid></HiViewGrid>
                 ) : (
                   <HiOutlineViewGrid></HiOutlineViewGrid>
@@ -97,16 +98,16 @@ const SideNav = () => {
             <Link
               to="/Favorites"
               className={
-                notifications.favorites && route === "/Favorites"
+                notifications.favorites && route.includes("/Favorites")
                   ? "sidenav-button new-notif selected"
-                  : route === "/Favorites"
+                  : route.includes("/Favorites")
                   ? "sidenav-button selected"
                   : notifications.favorites
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/Favorites" ? (
+              {route.includes("/Favorites") ? (
                 <HiStar></HiStar>
               ) : (
                 <HiOutlineStar></HiOutlineStar>
@@ -121,16 +122,16 @@ const SideNav = () => {
             <Link
               to="/Trash"
               className={
-                notifications.trash && route === "/Trash"
+                notifications.trash && route.includes("/Trash")
                   ? "sidenav-button new-notif selected"
-                  : route === "/Trash"
+                  : route.includes("/Trash")
                   ? "sidenav-button selected"
                   : notifications.trash
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/Trash" ? (
+              {route.includes("/Trash") ? (
                 <HiTrash></HiTrash>
               ) : (
                 <HiOutlineTrash></HiOutlineTrash>
@@ -143,16 +144,16 @@ const SideNav = () => {
             <Link
               to="/SharingCenter"
               className={
-                notifications.sharingCenter && route === "/SharingCenter"
+                notifications.sharingCenter && route.includes("/SharingCenter")
                   ? "sidenav-button new-notif selected"
-                  : route === "/SharingCenter"
+                  : route.includes("/SharingCenter")
                   ? "sidenav-button selected"
                   : notifications.sharingCenter
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/SharingCenter" ? (
+              {route.includes("/SharingCenter") ? (
                 <HiUsers></HiUsers>
               ) : (
                 <HiOutlineUsers></HiOutlineUsers>
@@ -175,12 +176,12 @@ const SideNav = () => {
           <Link
             to="/MyAccount"
             className={
-              route === "/VaultSettings"
+              route.includes("/VaultSettings")
                 ? "sidenav-button selected"
                 : "sidenav-button"
             }
           >
-            {route === "/MyAccount" ? (
+            {route.includes("/MyAccount") ? (
               <RiSettings2Fill></RiSettings2Fill>
             ) : (
               <RiSettings2Line></RiSettings2Line>
@@ -202,16 +203,16 @@ const SideNav = () => {
             <Link
               to="/MyAccount"
               className={
-                notifications.myAccount && route === "/MyAccount"
+                notifications.myAccount && route.includes("/MyAccount")
                   ? "sidenav-button new-notif selected"
-                  : route === "/MyAccount"
+                  : route.includes("/MyAccount")
                   ? "sidenav-button selected"
                   : notifications.myAccount
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/MyAccount" ? (
+              {route.includes("/MyAccount") ? (
                 <HiUser></HiUser>
               ) : (
                 <HiOutlineUser></HiOutlineUser>
@@ -221,16 +222,16 @@ const SideNav = () => {
             <Link
               to="/Members"
               className={
-                notifications.members && route === "/Members"
+                notifications.members && route.includes("/Members")
                   ? "sidenav-button new-notif selected"
-                  : route === "/Members"
+                  : route.includes("/Members")
                   ? "sidenav-button selected"
                   : notifications.members
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/Members" ? (
+              {route.includes("/Members") ? (
                 <HiUserGroup></HiUserGroup>
               ) : (
                 <HiOutlineUserGroup></HiOutlineUserGroup>
@@ -241,16 +242,16 @@ const SideNav = () => {
             <Link
               to="/Roles"
               className={
-                notifications.roles && route === "/Roles"
+                notifications.roles && route.includes("/Roles")
                   ? "sidenav-button new-notif selected"
-                  : route === "/Roles"
+                  : route.includes("/Roles")
                   ? "sidenav-button selected"
                   : notifications.roles
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route === "/Roles" ? (
+              {route.includes("/Roles") ? (
                 <HiShieldCheck></HiShieldCheck>
               ) : (
                 <HiOutlineShieldCheck></HiOutlineShieldCheck>
@@ -263,12 +264,12 @@ const SideNav = () => {
               className={
                 true
                   ? "sidenav-button new-notif"
-                  : route === "/AuditLog"
+                  : route.includes("/AuditLog")
                   ? "sidenav-button selected"
                   : "sidenav-button"
               }
             >
-              {route === "/Roles" ? (
+              {route.includes("/Roles") ? (
                 <HiClipboardList></HiClipboardList>
               ) : (
                 <HiOutlineClipboardList></HiOutlineClipboardList>

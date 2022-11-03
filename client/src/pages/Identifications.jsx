@@ -13,6 +13,7 @@ import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/CardsListLazyLoad";
 import ItemsList from "../components/ItemsList";
 import CardsList from "../components/CardsList";
+import { useParams } from "react-router-dom";
 
 const Identifications = () => {
   const route = "/Types/Identifications";
@@ -21,13 +22,14 @@ const Identifications = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const currentPage = "identification";
+  const { uid } = useParams();
 
   const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (selectedItem === "") {
+    if (!uid) {
       dispatch(getTypeSpecific({ uid: authUser.uid, type: "identification" }));
     }
   }, []);

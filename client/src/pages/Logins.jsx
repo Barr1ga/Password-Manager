@@ -13,19 +13,23 @@ import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/CardsListLazyLoad";
 import ItemsList from "../components/ItemsList";
 import CardsList from "../components/CardsList";
+import { useParams } from "react-router-dom";
 
 const Logins = () => {
   const route = "/Types/Logins";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector(
+    (state) => state.items
+  );
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const currentPage = "login";
+  const { uid } = useParams();
 
   useEffect(() => {
-    if (selectedItem === "") {
+    if (!uid) {
       dispatch(getTypeSpecific({ uid: authUser.uid, type: "login" }));
     }
   }, []);

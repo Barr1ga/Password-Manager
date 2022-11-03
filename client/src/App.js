@@ -118,7 +118,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/:id"
+              path="/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -141,7 +141,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Favorites/:id"
+              path="/Favorites/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -164,7 +164,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Trash/:id"
+              path="/Trash/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -187,7 +187,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/SharingCenter/:id"
+              path="/SharingCenter/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -210,7 +210,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="Types/Logins/:id"
+              path="Types/Logins/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -229,7 +229,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="Types/Cards/:id"
+              path="Types/Cards/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -252,7 +252,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="Types/Identifications/:id"
+              path="Types/Identifications/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -275,7 +275,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="Types/SecureNotes/:id"
+              path="Types/SecureNotes/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -298,7 +298,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="Types/WifiPasswords/:id"
+              path="Types/WifiPasswords/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -321,7 +321,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/MyAccount/:id"
+              path="/MyAccount/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -344,7 +344,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Members/:id"
+              path="/Members/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -367,7 +367,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Roles/:id"
+              path="/Roles/:uid"
               element={
                 authUser ? (
                   <ResponsiveDisplay
@@ -390,7 +390,7 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/AuditLog/:id"
+              path="/AuditLog/:uid"
               element={
                 authUser ? (
                   <AuditLog
