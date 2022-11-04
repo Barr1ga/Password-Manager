@@ -24,13 +24,22 @@ import { useDispatch, useSelector } from "react-redux";
 const AddItemModal = ({ currentPage }) => {
   const [modalShow, setModalShow] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
-  const [selectedType, setSelectedType] = useState("Login");
+  const [selectedType, setSelectedType] = useState(
+    currentPage ? currentPage : "login"
+  );
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageLetter, setCurrentImageLetter] = useState("");
   const { itemFulfilled } = useSelector((state) => state.items);
   const dispatch = useDispatch();
   const method = "create";
+
+  const selectedTypeFormatted =
+    selectedType === "wifiPassword"
+      ? "Wifi Password"
+      : selectedType === "secureNote"
+      ? "Secure Note"
+      : selectedType.charAt(0).toUpperCase().concat(selectedType.slice(1));
 
   const handleBack = () => {
     setShowPasswordGenerator(false);
@@ -128,13 +137,13 @@ const AddItemModal = ({ currentPage }) => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Login")}
+                    onClick={() => handleTypeClicked("login")}
                   >
                     <HiOutlineGlobe></HiOutlineGlobe>Login
                   </Button>
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Card")}
+                    onClick={() => handleTypeClicked("card")}
                   >
                     <HiOutlineCreditCard></HiOutlineCreditCard>Card
                   </Button>
@@ -142,14 +151,14 @@ const AddItemModal = ({ currentPage }) => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Identification")}
+                    onClick={() => handleTypeClicked("identification")}
                   >
                     <HiOutlineIdentification></HiOutlineIdentification>
                     Identification
                   </Button>
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Secure Note")}
+                    onClick={() => handleTypeClicked("secureNote")}
                   >
                     <HiOutlineDocumentText></HiOutlineDocumentText>Secure Note
                   </Button>
@@ -157,7 +166,7 @@ const AddItemModal = ({ currentPage }) => {
                 <div className="options">
                   <Button
                     className="btn-secondary btn-with-icon"
-                    onClick={() => handleTypeClicked("Wifi Password")}
+                    onClick={() => handleTypeClicked("wifiPassword")}
                   >
                     <HiOutlineWifi></HiOutlineWifi>Wifi Password
                   </Button>
@@ -168,25 +177,25 @@ const AddItemModal = ({ currentPage }) => {
                 className="btn-secondary btn-with-icon btn-long"
                 onClick={() => setShowTypeOptions(true)}
               >
-                {selectedType === "Login" && <HiOutlineGlobe></HiOutlineGlobe>}
-                {selectedType === "Card" && (
+                {selectedType === "login" && <HiOutlineGlobe></HiOutlineGlobe>}
+                {selectedType === "card" && (
                   <HiOutlineCreditCard></HiOutlineCreditCard>
                 )}
-                {selectedType === "Identification" && (
+                {selectedType === "identification" && (
                   <HiOutlineIdentification></HiOutlineIdentification>
                 )}
-                {selectedType === "Secure Note" && (
+                {selectedType === "secureNote" && (
                   <HiOutlineDocumentText></HiOutlineDocumentText>
                 )}
-                {selectedType === "Wifi Password" && (
+                {selectedType === "wifiPassword" && (
                   <HiOutlineWifi></HiOutlineWifi>
                 )}
-                {selectedType}
+                {selectedTypeFormatted}
               </Button>
             )}
           </div>
 
-          {selectedType === "Login" && (
+          {selectedType === "login" && (
             <Login
               currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
@@ -196,14 +205,14 @@ const AddItemModal = ({ currentPage }) => {
             ></Login>
           )}
 
-          {selectedType === "Card" && (
+          {selectedType === "card" && (
             <Card
               currentImage={currentImage}
               method={method}
               setCurrentImageLetter={setCurrentImageLetter}
             ></Card>
           )}
-          {selectedType === "Identification" && (
+          {selectedType === "identification" && (
             <Identification
               currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
@@ -211,7 +220,7 @@ const AddItemModal = ({ currentPage }) => {
             ></Identification>
           )}
 
-          {selectedType === "Secure Note" && (
+          {selectedType === "secureNote" && (
             <SecureNote
               currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
@@ -219,7 +228,7 @@ const AddItemModal = ({ currentPage }) => {
             ></SecureNote>
           )}
 
-          {selectedType === "Wifi Password" && (
+          {selectedType === "wifiPassword" && (
             <WifiPassword
               currentImage={currentImage}
               method={method}

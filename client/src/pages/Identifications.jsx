@@ -32,13 +32,13 @@ const Identifications = () => {
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getTypeSpecific({ uid: authUser.uid, type: "identification" }));
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
     }
   }, []);
 
   let filteredItems = items
     .filter((password) => password.trash === false)
-    .filter((password) => password.type === "identification");
+    .filter((password) => password.type === currentPage);
 
   filteredItems =
     searchValue !== ""

@@ -32,13 +32,13 @@ const Card = () => {
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getTypeSpecific({ uid: authUser.uid, type: "card" }));
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
     }
   }, []);
 
   let filteredItems = items
     .filter((password) => password.trash === false)
-    .filter((password) => password.type === "card");
+    .filter((password) => password.type === currentPage);
 
   filteredItems =
     searchValue !== ""

@@ -30,11 +30,13 @@ const Logins = () => {
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getTypeSpecific({ uid: authUser.uid, type: "login" }));
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
     }
   }, []);
 
-  let filteredItems = items.filter((password) => password.trash === false).filter((password) => password.type === "login");
+  let filteredItems = items
+    .filter((password) => password.trash === false)
+    .filter((password) => password.type === currentPage);
 
   filteredItems =
     searchValue !== ""

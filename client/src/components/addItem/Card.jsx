@@ -121,8 +121,6 @@ const Card = ({
       },
     };
 
-    console.log(newData);
-
     if (method === "create") {
       dispatch(createItem(newData));
     }

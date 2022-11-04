@@ -18,7 +18,9 @@ import { useParams } from "react-router-dom";
 const WifiPasswords = () => {
   const route = "/Types/WifiPasswords";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector(
+    (state) => state.items
+  );
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const currentPage = "wifiPassword";
@@ -30,11 +32,13 @@ const WifiPasswords = () => {
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getTypeSpecific({ uid: authUser.uid, type: "wifiPassword" }));
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
     }
   }, []);
 
-  let filteredItems = items.filter((password) => password.trash === false).filter((password) => password.type === "wifiPassword");
+  let filteredItems = items
+    .filter((password) => password.trash === false)
+    .filter((password) => password.type === currentPage);
 
   filteredItems =
     searchValue !== ""
@@ -107,7 +111,7 @@ const WifiPasswords = () => {
               >
                 <HiOutlineServer></HiOutlineServer>
               </Button>
-              <AddItemButton></AddItemButton>
+              <AddItemButton currentPage={currentPage}></AddItemButton>
             </>
           )}
         </div>
