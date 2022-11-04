@@ -187,6 +187,7 @@ const Identifications = ({
     } else {
       setIsDropDownsDirty(true);
     }
+    
     titleRef.current.value = title;
     setShowTitle(false);
     setHovering(false);

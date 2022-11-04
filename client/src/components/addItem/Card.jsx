@@ -210,10 +210,17 @@ const Card = ({
     }
   };
 
-  const handleSelectBrand = (brand) => {
-    if (brand === defaultValues.brand) {
+  useEffect(() => {
+    if (
+      brandRef?.current?.value === defaultValues.brand &&
+      expirationMonthRef?.current?.value === defaultValues.expirationMonth
+    ) {
       setIsDropDownsDirty(false);
-    } else {
+    }
+  }, [brandRef?.current?.value, expirationMonthRef?.current?.value]);
+
+  const handleSelectBrand = (brand) => {
+    if (brand !== defaultValues.brand) {
       setIsDropDownsDirty(true);
     }
     brandRef.current.value = brand;
@@ -221,11 +228,9 @@ const Card = ({
     setHovering(false);
     setBrandError(false);
   };
-
+  console.log(isDropdownsDirty);
   const handleSelectExpirationMonth = (expirationMonth) => {
-    if (expirationMonth === defaultValues.expirationMonth) {
-      setIsDropDownsDirty(false);
-    } else {
+    if (expirationMonth !== defaultValues.expirationMonth) {
       setIsDropDownsDirty(true);
     }
     expirationMonthRef.current.value = expirationMonth;
