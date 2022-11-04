@@ -348,6 +348,7 @@ const WifiPassword = ({
 
       {showPasswordGenerator && (
         <PasswordGenerator
+          method={method}
           watchPassword={watchPassword}
           handleUsePassword={handleUsePassword}
         ></PasswordGenerator>

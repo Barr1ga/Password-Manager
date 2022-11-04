@@ -377,6 +377,7 @@ const Logins = ({
 
       {showPasswordGenerator && (
         <PasswordGenerator
+          method={method}
           watchPassword={watchPassword}
           handleUsePassword={handleUsePassword}
         ></PasswordGenerator>

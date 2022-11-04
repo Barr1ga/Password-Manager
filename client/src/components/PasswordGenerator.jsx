@@ -12,7 +12,7 @@ import WarningAlert from "./alerts/WarningAlert";
 import ConfirmModal from "./helpers/ConfirmModal";
 import getPassword from "../utils/getPassword";
 
-const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
+const PasswordGenerator = ({ method, watchPassword, handleUsePassword }) => {
   const [showToolTip, setShowToolTip] = useState(false);
   const [generateEmptyCriteria, setGenerateEmptyCriteria] = useState(false);
   const [generatedEmpty, setGeneratedEmpty] = useState(false);
@@ -194,9 +194,9 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
               <input
                 type="checkbox"
                 {...registerPassword("uppercase")}
-                id="uppercase"
+                id={`${method}-uppercase`}
               ></input>
-              <label htmlFor="uppercase"></label>
+              <label htmlFor={`${method}-uppercase`}></label>
             </div>
           </div>
           <div className="form-group form-group-horizontal">
@@ -207,9 +207,9 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
               <input
                 type="checkbox"
                 {...registerPassword("lowercase")}
-                id="lowercase"
+                id={`${method}-lowercase`}
               ></input>
-              <label htmlFor="lowercase"></label>
+              <label htmlFor={`${method}-lowercase`}></label>
             </div>
           </div>
           <div className="form-group form-group-horizontal">
@@ -220,9 +220,9 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
               <input
                 type="checkbox"
                 {...registerPassword("numbers")}
-                id="numbers"
+                id={`${method}-numbers`}
               ></input>
-              <label htmlFor="numbers"></label>
+              <label htmlFor={`${method}-numbers`}></label>
             </div>
           </div>
           <div className="form-group form-group-horizontal">
@@ -233,9 +233,9 @@ const PasswordGenerator = ({ watchPassword, handleUsePassword }) => {
               <input
                 type="checkbox"
                 {...registerPassword("symbols")}
-                id="symbols"
+                id={`${method}-symbols`}
               ></input>
-              <label htmlFor="symbols"></label>
+              <label htmlFor={`${method}-symbols`}></label>
             </div>
           </div>
         </div>
