@@ -9,7 +9,11 @@ import {
 } from "react-icons/hi";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
-import { createCardItem, createItem } from "../../features/slice/itemSlice";
+import {
+  createCardItem,
+  createItem,
+  updateItem,
+} from "../../features/slice/itemSlice";
 import { updateCardItem } from "../../features/slice/itemSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
@@ -58,9 +62,11 @@ const Card = ({
   const [assignedFolders, setAssignedFolders] = useState(
     defaultValues?.folders || []
   );
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemLoading } = useSelector((state) => state.items);
+  const { itemFulfilled } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
   const folderRef = useRef();
 
@@ -94,6 +100,13 @@ const Card = ({
   }, [setCurrentImageLetter, watchName]);
 
   useEffect(() => {
+    if (itemFulfilled) {
+      setUpdateLoading(false);
+      setCreateLoading(false);
+    }
+  }, [itemFulfilled]);
+
+  useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
       setAssignedFolders(defaultValues.folders);
@@ -122,11 +135,14 @@ const Card = ({
     };
 
     if (method === "create") {
+      setCreateLoading(true);
       dispatch(createItem(newData));
     }
 
     if (method === "update") {
-      // dispatch(updatePasswordItem(data));
+      setUpdateLoading(true);
+      newData.itemUid = defaultValues.uid;
+      dispatch(updateItem(newData));
     }
   };
 
@@ -544,7 +560,7 @@ const Card = ({
         <div className="form-group">
           {method === "update" ? (
             <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              {itemLoading ? (
+              {updateLoading ? (
                 <SpinnerLoader></SpinnerLoader>
               ) : (
                 <>
@@ -554,7 +570,7 @@ const Card = ({
             </Button>
           ) : (
             <Button type="submit" className="btn-dark btn-long btn-with-icon">
-              {itemLoading ? (
+              {createLoading ? (
                 <SpinnerLoader></SpinnerLoader>
               ) : (
                 <>

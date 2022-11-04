@@ -51,11 +51,14 @@ const getTypeSpecific = asyncHandler(async (req, res) => {
 const getFolderSpecific = asyncHandler(async (req, res) => {
   const { uid, folder } = req.body;
   const items = await (
-    await User.doc(uid).collection("items").where("folders", "array-contains", folder).get()
+    await User.doc(uid)
+      .collection("items")
+      .where("folders", "array-contains", folder)
+      .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
-  
+
   res.status(201).json(items);
 });
 
@@ -84,6 +87,34 @@ const createItem = asyncHandler(async (req, res) => {
   res.status(201).json(item);
 });
 
+const updateItem = asyncHandler(async (req, res) => {
+  const { uid, itemUid, itemData } = req.body;
+  console.log("itemUid", itemUid)
+
+  const result = await User.doc(uid)
+    .collection("items")
+    .doc(itemUid)
+    .update(itemData);
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this item!");
+  }
+
+  const item = await (
+    await User.doc(uid).collection("items").doc(itemUid).get()
+  ).data();
+
+  if (item.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created item!");
+  }
+
+  item.uid = itemUid;
+  console.log(item)
+  res.status(201).json(item);
+});
+
 module.exports = {
   getAllItems,
   getFavorites,
@@ -91,4 +122,5 @@ module.exports = {
   getTypeSpecific,
   getFolderSpecific,
   createItem,
+  updateItem,
 };

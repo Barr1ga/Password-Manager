@@ -12,7 +12,7 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { createItem } from "../../features/slice/itemSlice";
+import { createItem, updateItem } from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
 
 const Logins = ({
@@ -27,12 +27,14 @@ const Logins = ({
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [favorite, setFavorite] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [createLoading, setCreateLoading] = useState(false);
   const [assignedFolders, setAssignedFolders] = useState(
     defaultValues?.folders || []
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemLoading } = useSelector((state) => state.items);
+  const { itemFulfilled } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
 
   const folderRef = useRef();
@@ -71,6 +73,13 @@ const Logins = ({
     }
   }, [setCurrentImageLetter, watchName]);
 
+  useEffect(() => {
+    if (itemFulfilled) {
+      setUpdateLoading(false);
+      setCreateLoading(false);
+    }
+  }, [itemFulfilled]);
+
   const onSubmit = (data) => {
     const newData = {
       uid: authUser.uid,
@@ -85,11 +94,14 @@ const Logins = ({
     };
 
     if (method === "create") {
+      setCreateLoading(true);
       dispatch(createItem(newData));
     }
 
     if (method === "update") {
-      // dispatch(updatePasswordItem(data));
+      setUpdateLoading(true);
+      newData.itemUid = defaultValues.uid;
+      dispatch(updateItem(newData));
     }
   };
 
@@ -346,7 +358,7 @@ const Logins = ({
                   type="submit"
                   className="btn-dark btn-long btn-with-icon"
                 >
-                  {itemLoading ? (
+                  {updateLoading ? (
                     <SpinnerLoader></SpinnerLoader>
                   ) : (
                     <>
@@ -359,7 +371,7 @@ const Logins = ({
                   type="submit"
                   className="btn-dark btn-long btn-with-icon"
                 >
-                  {itemLoading ? (
+                  {createLoading ? (
                     <SpinnerLoader></SpinnerLoader>
                   ) : (
                     <>

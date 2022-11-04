@@ -105,6 +105,18 @@ export const createItem = createAsyncThunk(
   }
 );
 
+export const updateItem = createAsyncThunk(
+  "item/updateItem",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.updateItem(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const passwordSlice = createSlice({
   name: "item",
   initialState,
@@ -177,7 +189,7 @@ const passwordSlice = createSlice({
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
       })
-      
+
       .addCase(getFavorites.pending, (state) => {
         state.itemLoading = true;
       })
@@ -252,6 +264,26 @@ const passwordSlice = createSlice({
         state.items = [...state.items, action.payload];
       })
       .addCase(createItem.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(updateItem.pending, (state) => {
+        // state.itemLoading = true;
+      })
+      .addCase(updateItem.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.itemCreatedFullfilled = true;
+        const idx = state.items.findIndex(
+          (item) => item.uid === action.payload.uid
+        );
+        state.items[idx] = action.payload;
+      })
+      .addCase(updateItem.rejected, (state, action) => {
         state.itemLoading = false;
         const { code, message } = action.payload;
         state.authMessage = message;

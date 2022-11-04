@@ -33,6 +33,11 @@ const createItem = async (data) => {
   return response.data;
 };
 
+const updateItem = async (data) => {
+  const response = await axios.post(API_URL + "/updateItem", data);
+  return response.data;
+};
+
 const passwordService = {
   getAllItems,
   getFavorites,
@@ -40,6 +45,7 @@ const passwordService = {
   getTypeSpecific,
   getFolderSpecific,
   createItem,
+  updateItem,
 };
 
 export default passwordService;
