@@ -246,7 +246,7 @@ const passwordSlice = createSlice({
       .addCase(createItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
-        console.log(action.payload);
+        state.items = [...state.items, action.payload];
       })
       .addCase(createItem.rejected, (state, action) => {
         state.itemLoading = false;

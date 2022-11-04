@@ -69,7 +69,19 @@ const createItem = asyncHandler(async (req, res) => {
     throw new Error("There was an error creating this item!");
   }
 
-  res.status(201).json(result);
+  const createdItemUid = result.id;
+  console.log(uid);
+
+  const item = await (
+    await User.doc(uid).collection("items").doc(createdItemUid).get()
+  ).data();
+
+  if (item.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created item!");
+  }
+
+  res.status(201).json(item);
 });
 
 module.exports = {

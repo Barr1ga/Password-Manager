@@ -18,7 +18,9 @@ import { useParams } from "react-router-dom";
 const Card = () => {
   const route = "/Types/Cards";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading } = useSelector(
+    (state) => state.items
+  );
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const currentPage = "card";
@@ -34,7 +36,9 @@ const Card = () => {
     }
   }, []);
 
-  let filteredItems = items.filter((password) => password.trash === false);
+  let filteredItems = items
+    .filter((password) => password.trash === false)
+    .filter((password) => password.type === "card");
 
   filteredItems =
     searchValue !== ""

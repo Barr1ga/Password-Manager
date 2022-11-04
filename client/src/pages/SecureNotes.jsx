@@ -36,7 +36,7 @@ const SecureNote = () => {
     }
   }, []);
 
-  let filteredItems = items.filter((password) => password.trash === false);
+  let filteredItems = items.filter((password) => password.trash === false).filter((password) => password.type === "secureNote");
 
   filteredItems =
     searchValue !== ""
