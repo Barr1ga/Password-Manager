@@ -7,6 +7,7 @@ const initialState = {
   items: [],
   itemLoading: false,
   itemFulfilled: false,
+  itemCreatedFullfilled: false,
   itemError: false,
   authMessage: "",
   authErrorMessage: "",
@@ -126,6 +127,7 @@ const passwordSlice = createSlice({
     resetQueryFulfilled: (state) => {
       state.itemLoading = initialState.itemLoading;
       state.itemFulfilled = initialState.itemFulfilled;
+      state.itemCreatedFullfilled = initialState.itemCreatedFullfilled;
       state.itemError = initialState.itemError;
       state.authMessage = initialState.authMessage;
       state.authErrorMessage = initialState.authErrorMessage;
@@ -246,6 +248,7 @@ const passwordSlice = createSlice({
       .addCase(createItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
+        state.itemCreatedFullfilled = true;
         state.items = [...state.items, action.payload];
       })
       .addCase(createItem.rejected, (state, action) => {

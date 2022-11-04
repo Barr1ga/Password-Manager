@@ -30,7 +30,7 @@ const AddItemModal = ({ currentPage }) => {
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [currentImage, setCurrentImage] = useState("");
   const [currentImageLetter, setCurrentImageLetter] = useState("");
-  const { itemFulfilled } = useSelector((state) => state.items);
+  const { itemCreatedFullfilled } = useSelector((state) => state.items);
   const dispatch = useDispatch();
   const method = "create";
 
@@ -58,11 +58,11 @@ const AddItemModal = ({ currentPage }) => {
   };
 
   useEffect(() => {
-    if (itemFulfilled) {
+    if (itemCreatedFullfilled) {
       handleCloseModal();
       dispatch(resetQueryFulfilled());
     }
-  }, [itemFulfilled]);
+  }, [itemCreatedFullfilled]);
 
   return (
     <>
