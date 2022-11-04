@@ -1,13 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { HiPlus, HiOutlinePencil } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { createItem, updateItem } from "../../features/slice/itemSlice";
+import {
+  createItem,
+  resetItemQueryFulfilled,
+  updateItem,
+} from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
+import { createItemLog } from "../../features/slice/auditLogSlice";
 
 const titles = ["Mr", "Mrs", "Ms", "Dr"];
 
@@ -28,9 +33,11 @@ const Identifications = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemFulfilled } = useSelector((state) => state.items);
+  const { itemFulfilled, itemUpdatedFullfilled, itemCreatedFullfilled } =
+    useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
   const [titleError, setTitleError] = useState(false);
+  const [isDropdownsDirty, setIsDropDownsDirty] = useState(false);
 
   const titleRef = useRef();
   const folderRef = useRef();
@@ -42,7 +49,7 @@ const Identifications = ({
     handleSubmit,
     reset,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
     defaultValues: defaultValues,
@@ -51,9 +58,16 @@ const Identifications = ({
   const watchName = watch("name");
 
   useEffect(() => {
+    if (defaultValues && defaultValues.type === "identification") {
+      titleRef.current.value = defaultValues?.title;
+    }
+  }, [titleRef]);
+
+  useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
       setAssignedFolders(defaultValues.folders);
+      titleRef.current.value = defaultValues?.title;
     }
 
     return () => {
@@ -62,10 +76,41 @@ const Identifications = ({
   }, [defaultValues, reset]);
 
   useEffect(() => {
+    if (isDirty) {
+      if (itemUpdatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          itemLogData: {
+            actorUid: authUser.uid,
+            action: "item/update",
+            description: "updated the item",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createItemLog(auditData));
+      }
+
+      if (itemCreatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          itemLogData: {
+            actorUid: authUser.uid,
+            action: "item/create",
+            description: "created the item",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createItemLog(auditData));
+      }
+    }
+
     if (itemFulfilled) {
       setUpdateLoading(false);
       setCreateLoading(false);
     }
+    dispatch(resetItemQueryFulfilled());
   }, [itemFulfilled]);
 
   useEffect(() => {
@@ -136,6 +181,18 @@ const Identifications = ({
     }
   };
 
+  const handleSelectTitle = (title) => {
+    if (title === defaultValues.title) {
+      setIsDropDownsDirty(false);
+    } else {
+      setIsDropDownsDirty(true);
+    }
+    titleRef.current.value = title;
+    setShowTitle(false);
+    setHovering(false);
+    setTitleError(false);
+  };
+
   let filteredFolders = folders.filter(
     (folder) => !assignedFolders.includes(folder)
   );
@@ -204,12 +261,7 @@ const Identifications = ({
                   className="option padding-side "
                   onMouseEnter={() => setHovering(true)}
                   onMouseLeave={() => setHovering(false)}
-                  onClick={() => {
-                    titleRef.current.value = title;
-                    setShowTitle(false);
-                    setHovering(false);
-                    setTitleError(false);
-                  }}
+                  onClick={() => handleSelectTitle(title)}
                 >
                   {title}
                 </div>
@@ -681,7 +733,13 @@ const Identifications = ({
         </div>
         <div className="form-group">
           {method === "update" ? (
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
+            <Button
+              type="submit"
+              className="btn-dark btn-long btn-with-icon"
+              disabled={
+                (!isDirty || !isValid) && !isDropdownsDirty && !titleError
+              }
+            >
               {updateLoading ? (
                 <SpinnerLoader></SpinnerLoader>
               ) : (
@@ -691,7 +749,13 @@ const Identifications = ({
               )}
             </Button>
           ) : (
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
+            <Button
+              type="submit"
+              className="btn-dark btn-long btn-with-icon"
+              disabled={
+                (!isDirty || !isValid) && !isDropdownsDirty && !titleError
+              }
+            >
               {createLoading ? (
                 <SpinnerLoader></SpinnerLoader>
               ) : (

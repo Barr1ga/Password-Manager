@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Filters from "../components/Filters";
 import AuditLogItem from "../components/AuditLogItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllLogs } from "../features/slice/auditLogSlice";
 
 const AuditLog = () => {
   const { auditLogs } = useSelector((state) => state.auditLogs);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // dispatch(getAllLogs());
+  }, []);
 
   return (
     <div className="margin-content">

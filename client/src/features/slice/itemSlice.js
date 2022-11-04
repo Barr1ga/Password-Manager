@@ -8,6 +8,8 @@ const initialState = {
   itemLoading: false,
   itemFulfilled: false,
   itemCreatedFullfilled: false,
+  itemUpdatedFullfilled: false,
+  itemDeletedFullfilled: false,
   itemError: false,
   authMessage: "",
   authErrorMessage: "",
@@ -117,29 +119,29 @@ export const updateItem = createAsyncThunk(
   }
 );
 
+export const deleteItem = createAsyncThunk(
+  "item/deleteItem",
+  async (data, ThunkAPI) => {
+    try {
+      return await itemService.deleteItem(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const passwordSlice = createSlice({
   name: "item",
   initialState,
   reducers: {
-    resetItems: (state) => {
-      state.items = initialState.items;
-      state.itemLoading = initialState.itemLoading;
-      state.itemFulfilled = initialState.itemFulfilled;
-      state.itemError = initialState.itemError;
-      state.authMessage = initialState.authMessage;
-      state.authErrorMessage = initialState.authErrorMessage;
-      state.authErrorCode = initialState.authErrorCode;
-      state.brandPhotoLink = initialState.brandPhotoLink;
-      state.brandLoading = initialState.brandLoading;
-      state.brandFulfilled = initialState.brandFulfilled;
-      state.brandError = initialState.brandError;
-      state.brandMessage = initialState.brandMessage;
-    },
-
-    resetQueryFulfilled: (state) => {
+    resetItems: (state) => initialState,
+    resetItemQueryFulfilled: (state) => {
       state.itemLoading = initialState.itemLoading;
       state.itemFulfilled = initialState.itemFulfilled;
       state.itemCreatedFullfilled = initialState.itemCreatedFullfilled;
+      state.itemUpdatedFullfilled = initialState.itemUpdatedFullfilled;
+      state.itemDeletedFullfilled = initialState.itemDeletedFullfilled;
       state.itemError = initialState.itemError;
       state.authMessage = initialState.authMessage;
       state.authErrorMessage = initialState.authErrorMessage;
@@ -271,13 +273,10 @@ const passwordSlice = createSlice({
         state.authErrorMessage = authErrorMessage(code);
       })
 
-      .addCase(updateItem.pending, (state) => {
-        // state.itemLoading = true;
-      })
       .addCase(updateItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
-        state.itemCreatedFullfilled = true;
+        state.itemUpdatedFullfilled = true;
         const idx = state.items.findIndex(
           (item) => item.uid === action.payload.uid
         );
@@ -289,13 +288,27 @@ const passwordSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(deleteItem.fulfilled, (state, action) => {
+        state.itemLoading = false;
+        state.itemFulfilled = true;
+        state.itemDeletedFullfilled = true;
+        state.items = state.items.filter((item) => item.uid !== action.payload);
+      })
+      .addCase(deleteItem.rejected, (state, action) => {
+        state.itemLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
       });
   },
 });
 
 export const {
   resetItems,
-  resetQueryFulfilled,
+  resetItemQueryFulfilled,
   resetSelectedItem,
   selectPasswordItem,
   resetBrandPhotoLink,

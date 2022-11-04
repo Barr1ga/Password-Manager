@@ -4,14 +4,9 @@ import { useSelector } from "react-redux";
 const AuditLogItem = ({ auditLog }) => {
   const { members } = useSelector((state) => state.members);
 
-  const [currentMember, setCurrentMember] = useState(
-    members.find((member) => member.id === auditLog.actorID)
+  const currentMember = members.find(
+    (member) => member.id === auditLog.actorUid
   );
-
-  const benefactor = auditLog.description.slice(
-    auditLog.description.lastIndexOf(" ")
-  );
-
   return (
     <div className="audit-log-item padding-side gap-10">
       <div className="image">{currentMember.username.charAt(0)}</div>
@@ -24,7 +19,7 @@ const AuditLogItem = ({ auditLog }) => {
               auditLog.description.lastIndexOf(" ")
             )}{" "}
           </span>
-          {benefactor}
+          {"benefactor"}
         </p>
         <small>{auditLog.date}</small>
       </div>

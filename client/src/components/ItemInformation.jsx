@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
 import {
@@ -15,7 +16,7 @@ import {
 import UploadImage from "./UploadImage";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
-import { resetSelectedItem } from "../features/slice/itemSlice";
+import { deleteItem, resetSelectedItem, updateItem } from "../features/slice/itemSlice";
 import { useNavigate } from "react-router-dom";
 
 import Card from "./addItem/Card";
@@ -23,6 +24,8 @@ import Login from "./addItem/Login";
 import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
+import SpinnerLoader from "./SpinnerLoader";
+import { createItemLog } from "../features/slice/auditLogSlice";
 
 const ItemInformation = ({ currentItem }) => {
   const navigate = useNavigate();
@@ -30,11 +33,22 @@ const ItemInformation = ({ currentItem }) => {
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState("login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [currentImage, setCurrentImage] = useState(currentItem.image);
   const [currentImageLetter, setCurrentImageLetter] = useState(
     currentItem.name.charAt(0)
   );
+  const { authUser } = useSelector((state) => state.auth);
+  const { itemFulfilled, itemDeletedFullfilled } = useSelector(
+    (state) => state.items
+  );
   const method = "update";
+
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleCloseConfirmation = () => setShow(false);
+  const handleShowConfirmation = () => setShow(true);
 
   const selectedTypeFormatted =
     selectedType === "wifiPassword"
@@ -44,16 +58,43 @@ const ItemInformation = ({ currentItem }) => {
       : selectedType.charAt(0).toUpperCase().concat(selectedType.slice(1));
 
   useEffect(() => {
-    setShowTypeOptions(false);
-    setSelectedType(currentItem.type);
-  }, [currentItem]);
+    if (itemDeletedFullfilled) {
+      const auditData = {
+        uid: authUser.uid,
+        itemLogData: {
+          actorUid: authUser.uid,
+          action: "item/trash",
+          description: "trashed the item",
+          benefactorUid: currentItem.uid,
+          date: new Date(),
+        },
+      };
+      dispatch(createItemLog(auditData));
+    }
+  }, [itemDeletedFullfilled]);
 
   useEffect(() => {
+    setShowTypeOptions(false);
+    setSelectedType(currentItem.type);
     setCurrentImage(currentItem.image);
   }, [currentItem]);
 
+  useEffect(() => {
+    setDeleteLoading(false);
+    handleCloseConfirmation();
+  }, [itemFulfilled]);
+
   const handleDeleteItem = (uid) => {
-    // dispatch(handleDeleteItemItem(uid));
+    const newData = {
+      uid: authUser.uid,
+      itemUid: currentItem.uid,
+      itemData: {
+        trash: true,
+      },
+    };
+
+    setDeleteLoading(true);
+    dispatch(updateItem(newData));
   };
 
   const handleCloseMobile = () => {
@@ -274,7 +315,56 @@ const ItemInformation = ({ currentItem }) => {
         )}
 
         <div className="form-group">
-          <ConfirmModal
+          <Button
+            type="submit"
+            className="btn-secondary danger btn-long btn-with-icon"
+            onClick={handleShowConfirmation}
+          >
+            <HiOutlineTrash></HiOutlineTrash>Delete Item
+          </Button>
+          <Modal
+            size="sm"
+            show={show}
+            onHide={handleCloseConfirmation}
+            backdrop="static"
+            keyboard={false}
+            centered
+          >
+            <Modal.Body className="confirmation-modal-body">
+              <div className="confirmation-modal">
+                <h5>
+                  {"Are you sure you want to save and update your profile?"}
+                </h5>
+                <small>
+                  {"This will change the information you use for your account."}
+                </small>
+                <div className="options gap-10">
+                  <Button
+                    type="button"
+                    className="btn-secondary btn-long"
+                    onClick={handleCloseConfirmation}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => handleDeleteItem(currentItem.uid)}
+                    type="button"
+                    className="btn-dark btn-long"
+                  >
+                    {deleteLoading ? (
+                      <SpinnerLoader></SpinnerLoader>
+                    ) : (
+                      <>Delete</>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal>
+
+          {/*  */}
+
+          {/* <ConfirmModal
             proceedInteraction={
               <Button
                 className="btn-dark btn-long"
@@ -295,7 +385,7 @@ const ItemInformation = ({ currentItem }) => {
             bodyMessage={
               "Once you delete this item, there is no going back. Please be certain."
             }
-          ></ConfirmModal>
+          ></ConfirmModal> */}
         </div>
 
         <div className="last-updated">

@@ -89,7 +89,7 @@ const createItem = asyncHandler(async (req, res) => {
 
 const updateItem = asyncHandler(async (req, res) => {
   const { uid, itemUid, itemData } = req.body;
-  console.log("itemUid", itemUid)
+  console.log("itemUid", itemUid);
 
   const result = await User.doc(uid)
     .collection("items")
@@ -98,7 +98,7 @@ const updateItem = asyncHandler(async (req, res) => {
 
   if (result.empty) {
     res.status(400);
-    throw new Error("There was an error creating this item!");
+    throw new Error("There was an error updating this item!");
   }
 
   const item = await (
@@ -111,8 +111,21 @@ const updateItem = asyncHandler(async (req, res) => {
   }
 
   item.uid = itemUid;
-  console.log(item)
+  console.log(item);
   res.status(201).json(item);
+});
+
+const deleteItem = asyncHandler(async (req, res) => {
+  const { uid, itemUid } = req.body;
+  console.log("itemUid", itemUid);
+  const result = await User.doc(uid).collection("items").doc(itemUid).delete();
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error deleting this item!");
+  }
+
+  res.status(201).json(itemUid);
 });
 
 module.exports = {
@@ -123,4 +136,5 @@ module.exports = {
   getFolderSpecific,
   createItem,
   updateItem,
+  deleteItem,
 };

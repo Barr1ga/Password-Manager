@@ -18,7 +18,7 @@ import SecureNote from "./addItem/SecureNote";
 import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
 import UploadImage from "./UploadImage";
-import { resetQueryFulfilled } from "../features/slice/itemSlice";
+import { resetItemQueryFulfilled } from "../features/slice/itemSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const AddItemModal = ({ currentPage }) => {
@@ -60,7 +60,7 @@ const AddItemModal = ({ currentPage }) => {
   useEffect(() => {
     if (itemCreatedFullfilled) {
       handleCloseModal();
-      dispatch(resetQueryFulfilled());
+      dispatch(resetItemQueryFulfilled());
     }
   }, [itemCreatedFullfilled]);
 

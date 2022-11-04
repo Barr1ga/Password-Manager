@@ -10,14 +10,14 @@ import {
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar } from "react-icons/hi";
 import {
-  createCardItem,
   createItem,
+  resetItemQueryFulfilled,
   updateItem,
 } from "../../features/slice/itemSlice";
-import { updateCardItem } from "../../features/slice/itemSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import SpinnerLoader from "../SpinnerLoader";
+import { createItemLog } from "../../features/slice/auditLogSlice";
 
 const expirationMonths = [
   "01 - January",
@@ -66,7 +66,8 @@ const Card = ({
   const [createLoading, setCreateLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemFulfilled } = useSelector((state) => state.items);
+  const { itemFulfilled, itemUpdatedFullfilled, itemCreatedFullfilled } =
+    useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
   const folderRef = useRef();
 
@@ -78,6 +79,8 @@ const Card = ({
   const [expirationMonthError, setExpirationMonthError] = useState(false);
   const expirationMonthRef = useRef();
 
+  const [isDropdownsDirty, setIsDropDownsDirty] = useState(false);
+
   const dispatch = useDispatch();
 
   const {
@@ -85,7 +88,7 @@ const Card = ({
     handleSubmit,
     reset,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
     defaultValues: defaultValues,
@@ -94,30 +97,68 @@ const Card = ({
   const watchName = watch("name");
 
   useEffect(() => {
+    if (defaultValues && defaultValues.type === "card") {
+      brandRef.current.value = defaultValues?.brand;
+      expirationMonthRef.current.value = defaultValues?.expirationMonth;
+    }
+  }, [brandRef, expirationMonthRef]);
+
+  useEffect(() => {
     if (watchName !== "") {
       setCurrentImageLetter(watchName?.charAt(0));
     }
   }, [setCurrentImageLetter, watchName]);
 
   useEffect(() => {
+    if (isDirty) {
+      if (itemUpdatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          itemLogData: {
+            actorUid: authUser.uid,
+            action: "item/update",
+            description: "updated the item",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createItemLog(auditData));
+      }
+
+      if (itemCreatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          itemLogData: {
+            actorUid: authUser.uid,
+            action: "item/create",
+            description: "created the item",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createItemLog(auditData));
+      }
+    }
+
     if (itemFulfilled) {
       setUpdateLoading(false);
       setCreateLoading(false);
     }
+    dispatch(resetItemQueryFulfilled());
   }, [itemFulfilled]);
 
   useEffect(() => {
     if (defaultValues) {
       reset(defaultValues);
       setAssignedFolders(defaultValues.folders);
+      brandRef.current.value = defaultValues?.brand;
+      expirationMonthRef.current.value = defaultValues?.expirationMonth;
     }
 
     return () => {
       reset();
     };
   }, [defaultValues, reset]);
-
-  console.log(currentImage);
 
   const onSubmit = (data) => {
     const newData = {
@@ -167,6 +208,30 @@ const Card = ({
         setAssignedFolders(assignedFolders.slice(0, -1));
       }
     }
+  };
+
+  const handleSelectBrand = (brand) => {
+    if (brand === defaultValues.brand) {
+      setIsDropDownsDirty(false);
+    } else {
+      setIsDropDownsDirty(true);
+    }
+    brandRef.current.value = brand;
+    setShowBrands(false);
+    setHovering(false);
+    setBrandError(false);
+  };
+
+  const handleSelectExpirationMonth = (expirationMonth) => {
+    if (expirationMonth === defaultValues.expirationMonth) {
+      setIsDropDownsDirty(false);
+    } else {
+      setIsDropDownsDirty(true);
+    }
+    expirationMonthRef.current.value = expirationMonth;
+    setShowExpirationMonths(false);
+    setHovering(false);
+    setExpirationMonthError(false);
   };
 
   let filteredFolders = folders.filter(
@@ -295,12 +360,7 @@ const Card = ({
                   className="option padding-side "
                   onMouseEnter={() => setHovering(true)}
                   onMouseLeave={() => setHovering(false)}
-                  onClick={() => {
-                    brandRef.current.value = brand;
-                    setShowBrands(false);
-                    setHovering(false);
-                    setBrandError(false);
-                  }}
+                  onClick={() => handleSelectBrand(brand)}
                 >
                   {brand}
                 </div>
@@ -387,12 +447,7 @@ const Card = ({
                     className="option padding-side "
                     onMouseEnter={() => setHovering(true)}
                     onMouseLeave={() => setHovering(false)}
-                    onClick={() => {
-                      expirationMonthRef.current.value = expirationMonth;
-                      setShowExpirationMonths(false);
-                      setHovering(false);
-                      setExpirationMonthError(false);
-                    }}
+                    onClick={() => handleSelectExpirationMonth(expirationMonth)}
                   >
                     {expirationMonth}
                   </div>
@@ -559,7 +614,16 @@ const Card = ({
         </div>
         <div className="form-group">
           {method === "update" ? (
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
+            <Button
+              type="submit"
+              className="btn-dark btn-long btn-with-icon"
+              disabled={
+                (!isDirty || !isValid) &&
+                !isDropdownsDirty &&
+                !brandError &&
+                !expirationMonthError
+              }
+            >
               {updateLoading ? (
                 <SpinnerLoader></SpinnerLoader>
               ) : (
@@ -569,7 +633,16 @@ const Card = ({
               )}
             </Button>
           ) : (
-            <Button type="submit" className="btn-dark btn-long btn-with-icon">
+            <Button
+              type="submit"
+              className="btn-dark btn-long btn-with-icon"
+              disabled={
+                (!isDirty || !isValid) &&
+                !isDropdownsDirty &&
+                !brandError &&
+                !expirationMonthError
+              }
+            >
               {createLoading ? (
                 <SpinnerLoader></SpinnerLoader>
               ) : (

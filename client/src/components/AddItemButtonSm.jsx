@@ -19,7 +19,7 @@ import WifiPassword from "./addItem/WifiPassword";
 import Identification from "./addItem/Identification";
 import UploadImage from "./UploadImage";
 import { useDispatch, useSelector } from "react-redux";
-import { resetQueryFulfilled } from "../features/slice/itemSlice";
+import { resetItemQueryFulfilled } from "../features/slice/itemSlice";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -51,7 +51,7 @@ const AddItemModal = () => {
   useEffect(() => {
     if (itemCreatedFullfilled) {
       handleCloseModal();
-      dispatch(resetQueryFulfilled());
+      dispatch(resetItemQueryFulfilled());
     }
   }, [itemCreatedFullfilled]);
 

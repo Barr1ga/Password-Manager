@@ -13,8 +13,13 @@ import PasswordGenerator from "../PasswordGenerator";
 import TextareaAutosize from "react-textarea-autosize";
 import { HiStar, HiOutlineStar } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { createItem, updateItem } from "../../features/slice/itemSlice";
+import {
+  createItem,
+  resetItemQueryFulfilled,
+  updateItem,
+} from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
+import { createItemLog } from "../../features/slice/auditLogSlice";
 
 const WifiPassword = ({
   currentImage,
@@ -35,7 +40,8 @@ const WifiPassword = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemFulfilled } = useSelector((state) => state.items);
+  const { itemFulfilled, itemUpdatedFullfilled, itemCreatedFullfilled } =
+    useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
 
   const folderRef = useRef();
@@ -48,7 +54,7 @@ const WifiPassword = ({
     watch,
     reset,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
     defaultValues: defaultValues,
@@ -75,10 +81,42 @@ const WifiPassword = ({
   }, [setCurrentImageLetter, watchSsid]);
 
   useEffect(() => {
+    if (isDirty) {
+      if (itemUpdatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          itemLogData: {
+            actorUid: authUser.uid,
+            action: "item/update",
+            description: "updated the item",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createItemLog(auditData));
+      }
+
+      if (itemCreatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          itemLogData: {
+            actorUid: authUser.uid,
+            action: "item/create",
+            description: "created the item",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createItemLog(auditData));
+      }
+    }
+
     if (itemFulfilled) {
       setUpdateLoading(false);
       setCreateLoading(false);
     }
+
+    dispatch(resetItemQueryFulfilled());
   }, [itemFulfilled]);
 
   const onSubmit = (data) => {
@@ -329,6 +367,7 @@ const WifiPassword = ({
                 <Button
                   type="submit"
                   className="btn-dark btn-long btn-with-icon"
+                  disabled={!isDirty || !isValid}
                 >
                   {updateLoading ? (
                     <SpinnerLoader></SpinnerLoader>
@@ -342,6 +381,7 @@ const WifiPassword = ({
                 <Button
                   type="submit"
                   className="btn-dark btn-long btn-with-icon"
+                  disabled={!isDirty || !isValid}
                 >
                   {createLoading ? (
                     <SpinnerLoader></SpinnerLoader>

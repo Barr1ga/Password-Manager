@@ -1,75 +1,77 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import auditLogService from "../services/auditLogService";
+import authErrorMessage from "../utils/authErrorMessage";
 
 const initialState = {
   auditLogs: [
     {
-      actorID: 1,
-      action: "password/create",
+      actorUid: 1,
+      action: "ItemLog/create",
       description: "created Facebook",
       date: new Date().toString(),
     },
     {
-      actorID: 1,
-      action: "password/read",
+      actorUid: 1,
+      action: "ItemLog/read",
       description: "opened Facebook",
       date: new Date().toString(),
     },
     {
-      actorID: 1,
-      action: "password/update",
+      actorUid: 1,
+      action: "ItemLog/update",
       description: "made changes to Facebook",
       date: new Date().toString(),
     },
     {
-      actorID: 2,
-      action: "password/delete",
+      actorUid: 2,
+      action: "ItemLog/delete",
       description: "deleted Discord",
       date: new Date().toString(),
     },
     {
-      actorID: 2,
+      actorUid: 2,
       action: "role/create",
       description: "created a role FAMILY",
       date: new Date().toString(),
     },
     {
-      actorID: 1,
+      actorUid: 1,
       action: "role/assign",
       description: "assigned a role FAMILY to a member",
       date: new Date().toString(),
     },
     {
-      actorID: 1,
+      actorUid: 1,
       action: "role/delete",
       description: "deleted the role FAMILY",
       date: new Date().toString(),
     },
     {
-      actorID: 1,
+      actorUid: 1,
       action: "user/joined",
       description: "joined",
       date: new Date().toString(),
     },
     {
-      actorID: 2,
+      actorUid: 2,
       action: "user/invited",
       description: "invited hor.barr1ga@gmail.com",
       date: new Date().toString(),
     },
     {
-      actorID: 2,
+      actorUid: 2,
       action: "user/kicked",
       description: "kicked hor.barr1ga@gmail.com",
       date: new Date().toString(),
     },
     {
-      actorID: 2,
+      actorUid: 2,
       action: "user/logged",
       description: "kicked hor.barr1ga@gmail.com",
       date: new Date().toString(),
     },
     {
-      actorID: 2,
+      actorUid: 2,
       action: "user/kicked",
       description: "kicked hor.barr1ga@gmail.com",
       date: new Date().toString(),
@@ -81,11 +83,71 @@ const initialState = {
   auditLogMessage: "",
 };
 
+export const getAllLogs = createAsyncThunk(
+  "log/getAllLogs",
+  async (data, ThunkAPI) => {
+    try {
+      return await auditLogService.getAllLogs(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const createItemLog = createAsyncThunk(
+  "log/createItemLog",
+  async (data, ThunkAPI) => {
+    try {
+      return await auditLogService.createItemLog(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const auditLogSlice = createSlice({
   name: "audtLog",
   initialState,
   reducers: {
     resetAuditLogs: (state) => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+
+      .addCase(getAllLogs.pending, (state) => {
+        state.ItemLogLoading = true;
+      })
+      .addCase(getAllLogs.fulfilled, (state, action) => {
+        state.ItemLogLoading = false;
+        state.ItemLogFulfilled = true;
+        state.ItemLogs = action.payload;
+      })
+      .addCase(getAllLogs.rejected, (state, action) => {
+        state.ItemLogLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
+
+      .addCase(createItemLog.pending, (state) => {
+        state.ItemLogLoading = true;
+      })
+      .addCase(createItemLog.fulfilled, (state, action) => {
+        state.ItemLogLoading = false;
+        state.ItemLogFulfilled = true;
+        state.ItemLogCreatedFullfilled = true;
+        state.ItemLogs = [...state.ItemLogs, action.payload];
+      })
+      .addCase(createItemLog.rejected, (state, action) => {
+        state.ItemLogLoading = false;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+        state.authErrorMessage = authErrorMessage(code);
+      })
   },
 });
 
