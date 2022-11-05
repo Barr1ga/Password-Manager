@@ -66,9 +66,8 @@ const Register = ({ handleShowLogin }) => {
   const onSubmit = (data) => {
     const { username, masterPassword, masterPasswordHint } = data;
     const registerData = { email, password: masterPassword };
-
-    dispatch(registerWithEmailAndPassword(registerData));
     dispatch(setUserInformation({ username, masterPasswordHint }));
+    dispatch(registerWithEmailAndPassword(registerData));
   };
 
   const handleBack = () => {

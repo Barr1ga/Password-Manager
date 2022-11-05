@@ -17,7 +17,7 @@ const VaultMembers = () => {
 
       {roles.map((role, idx) => {
         const filteredOnlineMembers = onlineMembers.filter(
-          (member) => member.rolesID[0] === role.uid
+          (member) => member.roleUids[0] === role.uid
         );
         if (filteredOnlineMembers.length !== 0) {
           return (

@@ -42,7 +42,7 @@ const deleteItem = async (data) => {
   return response.data;
 };
 
-const passwordService = {
+const itemService = {
   getAllItems,
   getFavorites,
   getTrash,
@@ -53,4 +53,4 @@ const passwordService = {
   deleteItem,
 };
 
-export default passwordService;
+export default itemService;

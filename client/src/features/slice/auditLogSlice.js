@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import auditLogService from "../services/auditLogService";
-import authErrorMessage from "../utils/authErrorMessage";
+import authErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   auditLogs: [
@@ -122,7 +122,7 @@ const auditLogSlice = createSlice({
       .addCase(getAllLogs.fulfilled, (state, action) => {
         state.ItemLogLoading = false;
         state.ItemLogFulfilled = true;
-        state.ItemLogs = action.payload;
+        state.auditLogs = action.payload;
       })
       .addCase(getAllLogs.rejected, (state, action) => {
         state.ItemLogLoading = false;
@@ -139,7 +139,7 @@ const auditLogSlice = createSlice({
         state.ItemLogLoading = false;
         state.ItemLogFulfilled = true;
         state.ItemLogCreatedFullfilled = true;
-        state.ItemLogs = [...state.ItemLogs, action.payload];
+        state.auditLogs = [action.payload, ...state.ItemLogs];
       })
       .addCase(createItemLog.rejected, (state, action) => {
         state.ItemLogLoading = false;
@@ -147,7 +147,7 @@ const auditLogSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
         state.authErrorMessage = authErrorMessage(code);
-      })
+      });
   },
 });
 

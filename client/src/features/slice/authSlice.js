@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
-import authErrorMessage from "../utils/authErrorMessage";
+import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const authUser = JSON.parse(localStorage.getItem("authUser"));
 const authProfile = JSON.parse(localStorage.getItem("authProfile"));
@@ -13,6 +13,7 @@ const initialState = {
   authGoogleLoading: false,
   authSaveAccountLoading: false,
   authLoading: false,
+  authGetUser: false,
   authFulfilled: false,
   authError: false,
   authMessage: "",
@@ -255,6 +256,7 @@ const userSlice = createSlice({
       .addCase(logInWithEmailAndPassword.fulfilled, (state, action) => {
         state.authEmailAndPasswordLoading = false;
         state.authFulfilled = true;
+        state.authGetUser = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
@@ -267,7 +269,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(registerWithEmailAndPassword.pending, (state) => {
@@ -289,7 +291,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(getUserData.pending, (state) => {
@@ -301,6 +303,7 @@ const userSlice = createSlice({
           ? action.payload.username
           : state.username;
         state.masterPasswordHint = action.payload.masterPasswordHint;
+        state.authGetUser = false;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -374,7 +377,7 @@ const userSlice = createSlice({
         state.authLoading = false;
         state.authError = true;
         state.authErrorCode = "auth/user-not-found";
-        state.authErrorMessage = authErrorMessage("auth/user-not-found");
+        state.authErrorMessage = firebaseErrorMessage("auth/user-not-found");
       })
 
       .addCase(createUser.pending, (state) => {
@@ -383,6 +386,7 @@ const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.authEmailAndPasswordLoading = false;
         state.authRegistered = false;
+        state.authGetUser = true;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -411,7 +415,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(changeEmail.pending, (state) => {
@@ -433,7 +437,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(changePasswordReauthentication.pending, (state) => {
@@ -450,7 +454,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(changePassword.pending, (state) => {
@@ -472,7 +476,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(continueWithGoogle.pending, (state) => {
@@ -493,7 +497,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(accountRemovalReauthentication.pending, (state) => {
@@ -510,7 +514,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(removeAccount.pending, (state) => {
@@ -531,7 +535,7 @@ const userSlice = createSlice({
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.authErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(removeUser.pending, (state) => {
@@ -539,7 +543,6 @@ const userSlice = createSlice({
       })
       .addCase(removeUser.fulfilled, (state, action) => {
         state.authEmailAndPasswordLoading = false;
-        state.authRegistered = false;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";

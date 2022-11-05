@@ -21,7 +21,7 @@ const SecureNote = ({
 }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(defaultValues?.favorite || false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const [assignedFolders, setAssignedFolders] = useState(
@@ -29,8 +29,13 @@ const SecureNote = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemFulfilled, itemUpdatedFullfilled, itemCreatedFullfilled } =
-    useSelector((state) => state.items);
+  const {
+    items,
+    itemFulfilled,
+    itemError,
+    itemUpdatedFullfilled,
+    itemCreatedFullfilled,
+  } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
 
   const folderRef = useRef();
@@ -66,7 +71,6 @@ const SecureNote = ({
       setCurrentImageLetter(watchName?.charAt(0));
     }
   }, [setCurrentImageLetter, watchName]);
-  console.log(itemFulfilled);
 
   useEffect(() => {
     if (isDirty) {
@@ -85,13 +89,14 @@ const SecureNote = ({
       }
 
       if (itemCreatedFullfilled) {
+        const recentItemUid = items[0].uid;
         const auditData = {
           uid: authUser.uid,
           itemLogData: {
             actorUid: authUser.uid,
             action: "item/create",
             description: "created the item",
-            benefactorUid: defaultValues.uid,
+            benefactorUid: recentItemUid,
             date: new Date(),
           },
         };
@@ -99,12 +104,12 @@ const SecureNote = ({
       }
     }
 
-    if (itemFulfilled) {
+    if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
     }
     dispatch(resetItemQueryFulfilled());
-  }, [itemFulfilled]);
+  }, [itemFulfilled, itemError]);
 
   const onSubmit = (data) => {
     let newData = {
@@ -278,7 +283,9 @@ const SecureNote = ({
             <Button
               type="submit"
               className="btn-dark btn-long btn-with-icon"
-              disabled={!isDirty || !isValid}
+              disabled={
+                (!isDirty || !isValid) && favorite === defaultValues.favorite
+              }
             >
               {updateLoading ? (
                 <SpinnerLoader></SpinnerLoader>

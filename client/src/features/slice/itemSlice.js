@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import brandService from "../services/brandService";
 import itemService from "../services/itemService";
-import authErrorMessage from "../utils/authErrorMessage";
+import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   items: [],
@@ -11,9 +11,9 @@ const initialState = {
   itemUpdatedFullfilled: false,
   itemDeletedFullfilled: false,
   itemError: false,
-  authMessage: "",
-  authErrorMessage: "",
-  authErrorCode: "",
+  itemMessage: "",
+  itemErrorMessage: "",
+  itemErrorCode: "",
 
   brandPhotoLink: "",
   brandLoading: false,
@@ -143,9 +143,9 @@ const passwordSlice = createSlice({
       state.itemUpdatedFullfilled = initialState.itemUpdatedFullfilled;
       state.itemDeletedFullfilled = initialState.itemDeletedFullfilled;
       state.itemError = initialState.itemError;
-      state.authMessage = initialState.authMessage;
-      state.authErrorMessage = initialState.authErrorMessage;
-      state.authErrorCode = initialState.authErrorCode;
+      state.itemMessage = initialState.itemMessage;
+      state.itemErrorMessage = initialState.itemErrorMessage;
+      state.itemErrorCode = initialState.itemErrorCode;
     },
     resetSelectedItem: (state) => {
       state.selectedItem = null;
@@ -186,10 +186,11 @@ const passwordSlice = createSlice({
       })
       .addCase(getAllItems.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(getFavorites.pending, (state) => {
@@ -202,10 +203,11 @@ const passwordSlice = createSlice({
       })
       .addCase(getFavorites.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(getTrash.pending, (state) => {
@@ -218,10 +220,11 @@ const passwordSlice = createSlice({
       })
       .addCase(getTrash.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(getTypeSpecific.pending, (state) => {
@@ -234,10 +237,11 @@ const passwordSlice = createSlice({
       })
       .addCase(getTypeSpecific.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(getFolderSpecific.pending, (state) => {
@@ -250,27 +254,26 @@ const passwordSlice = createSlice({
       })
       .addCase(getFolderSpecific.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
-      .addCase(createItem.pending, (state) => {
-        state.itemLoading = true;
-      })
       .addCase(createItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
         state.itemCreatedFullfilled = true;
-        state.items = [...state.items, action.payload];
+        state.items = [action.payload, ...state.items];
       })
       .addCase(createItem.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(updateItem.fulfilled, (state, action) => {
@@ -281,13 +284,15 @@ const passwordSlice = createSlice({
           (item) => item.uid === action.payload.uid
         );
         state.items[idx] = action.payload;
+        [state.items[idx], state.items[0]] = [state.items[0], state.items[idx]];
       })
       .addCase(updateItem.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       })
 
       .addCase(deleteItem.fulfilled, (state, action) => {
@@ -298,10 +303,11 @@ const passwordSlice = createSlice({
       })
       .addCase(deleteItem.rejected, (state, action) => {
         state.itemLoading = false;
+        state.itemError = true;
         const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
-        state.authErrorMessage = authErrorMessage(code);
+        state.itemMessage = message;
+        state.itemErrorCode = code;
+        state.itemErrorMessage = firebaseErrorMessage(code);
       });
   },
 });

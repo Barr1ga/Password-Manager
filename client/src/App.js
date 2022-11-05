@@ -33,12 +33,18 @@ import {
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
+import { getAllMembers } from "./features/slice/memberSlice";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
   const { selectedItem } = useSelector((state) => state.items);
-  const { authUser, username, masterPasswordHint, authRegistered } =
-    useSelector((state) => state.auth);
+  const {
+    authUser,
+    username,
+    masterPasswordHint,
+    authRegistered,
+    authGetUser,
+  } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
@@ -47,9 +53,15 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    if (authGetUser) {
+      dispatch(getUserData(authUser.uid));
+      dispatch(getAllMembers({ uid: authUser.uid }));
+    }
+  }, [authGetUser]);
+
+  useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
-      dispatch(getUserData(user.uid));
 
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;
@@ -59,6 +71,7 @@ const App = () => {
             email: user.email,
             username,
             masterPasswordHint,
+            image: user.photoURL ? user.photoURL : "",
           })
         );
       }
@@ -68,13 +81,20 @@ const App = () => {
   }, [dispatch, username, masterPasswordHint]);
 
   useEffect(() => {
+    console.log(username, masterPasswordHint);
     if (authRegistered && authUser && username) {
       const uid = authUser.uid;
       dispatch(
-        createUser({ uid, email: authUser.email, username, masterPasswordHint })
+        createUser({
+          uid,
+          email: authUser.email,
+          username,
+          masterPasswordHint,
+          image: authUser.photoURL ? authUser.photoURL : "",
+        })
       );
     }
-  }, [authRegistered, authUser, username, masterPasswordHint, dispatch]);
+  }, [authRegistered]);
 
   const handleOnIdle = (event) => {
     if (authUser) {

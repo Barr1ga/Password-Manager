@@ -2384,6 +2384,10 @@ textarea {
 
 /* add item */
 
+.right-margin .add-item-modal {
+  padding-left: 1px;
+}
+
 .add-item-modal .options {
   display: flex;
   gap: 10px;

@@ -30,9 +30,9 @@ const VaultMember = ({ member }) => {
         {member.status === "idle" && <div className="idle"></div>}
       </div>
       <div className="name">
-        <p className={member.rolesID[0] === ownerID ? "vault-owner" : ""}>
+        <p className={member.roleUids[0] === ownerID ? "vault-owner" : ""}>
           <b>{member.username}</b>{" "}
-          {member.rolesID[0] === ownerID && (
+          {member.roleUids[0] === ownerID && (
             <small className="vault-owner-tag">
               <FaCrown></FaCrown>VO
             </small>

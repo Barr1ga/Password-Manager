@@ -58,7 +58,7 @@ const Card = ({
   const [showCodeInput, setShowCodeInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(defaultValues?.favorite || false);
   const [assignedFolders, setAssignedFolders] = useState(
     defaultValues?.folders || []
   );
@@ -66,8 +66,13 @@ const Card = ({
   const [createLoading, setCreateLoading] = useState(false);
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemFulfilled, itemUpdatedFullfilled, itemCreatedFullfilled } =
-    useSelector((state) => state.items);
+  const {
+    items,
+    itemFulfilled,
+    itemError,
+    itemUpdatedFullfilled,
+    itemCreatedFullfilled,
+  } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
   const folderRef = useRef();
 
@@ -126,13 +131,14 @@ const Card = ({
       }
 
       if (itemCreatedFullfilled) {
+        const recentItemUid = items[0].uid;
         const auditData = {
           uid: authUser.uid,
           itemLogData: {
             actorUid: authUser.uid,
             action: "item/create",
             description: "created the item",
-            benefactorUid: defaultValues.uid,
+            benefactorUid: recentItemUid,
             date: new Date(),
           },
         };
@@ -140,12 +146,12 @@ const Card = ({
       }
     }
 
-    if (itemFulfilled) {
+    if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
     }
     dispatch(resetItemQueryFulfilled());
-  }, [itemFulfilled]);
+  }, [itemFulfilled, itemError]);
 
   useEffect(() => {
     if (defaultValues) {
@@ -211,27 +217,34 @@ const Card = ({
   };
 
   useEffect(() => {
-    if (
-      brandRef?.current?.value === defaultValues.brand &&
-      expirationMonthRef?.current?.value === defaultValues.expirationMonth
-    ) {
-      setIsDropDownsDirty(false);
+    if (defaultValues) {
+      if (
+        brandRef?.current?.value === defaultValues.brand &&
+        expirationMonthRef?.current?.value === defaultValues.expirationMonth
+      ) {
+        setIsDropDownsDirty(false);
+      }
     }
   }, [brandRef?.current?.value, expirationMonthRef?.current?.value]);
 
   const handleSelectBrand = (brand) => {
-    if (brand !== defaultValues.brand) {
-      setIsDropDownsDirty(true);
+    if (defaultValues) {
+      if (brand !== defaultValues.brand) {
+        setIsDropDownsDirty(true);
+      }
     }
+
     brandRef.current.value = brand;
     setShowBrands(false);
     setHovering(false);
     setBrandError(false);
   };
-  console.log(isDropdownsDirty);
+
   const handleSelectExpirationMonth = (expirationMonth) => {
-    if (expirationMonth !== defaultValues.expirationMonth) {
-      setIsDropDownsDirty(true);
+    if (defaultValues) {
+      if (expirationMonth !== defaultValues.expirationMonth) {
+        setIsDropDownsDirty(true);
+      }
     }
     expirationMonthRef.current.value = expirationMonth;
     setShowExpirationMonths(false);
@@ -626,7 +639,8 @@ const Card = ({
                 (!isDirty || !isValid) &&
                 !isDropdownsDirty &&
                 !brandError &&
-                !expirationMonthError
+                !expirationMonthError &&
+                favorite === defaultValues.favorite
               }
             >
               {updateLoading ? (

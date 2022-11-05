@@ -16,7 +16,7 @@ const Member = ({ member }) => {
         <div>
           <p className={member.rolesID[0] === ownerID ? "vault-owner" : ""}>
             <b>{member.username}</b>{" "}
-            {member.roleID === ownerID && (
+            {member.roleUids[0] === ownerID && (
               <small className="vault-owner-tag">
                 <FaCrown></FaCrown>VO
               </small>
@@ -30,8 +30,8 @@ const Member = ({ member }) => {
               <FaCrown></FaCrown>VO
             </small>
           )}
-          {member.rolesID.map((roleID, idx) => (
-            <Role key={idx} roleID={roleID}></Role>
+          {member.rolesID.map((roleUids, idx) => (
+            <Role key={idx} roleUids={roleUids}></Role>
           ))}
           <Button className="btn-secondary btn-add-role">
             <HiPlus></HiPlus>

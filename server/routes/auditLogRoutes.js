@@ -5,7 +5,7 @@ const {
   createItemLog,
 } = require("../controllers/auditLogController");
 
-router.route("/getAllItemLogs").post(getAllLogs);
+router.route("/getAllLogs").post(getAllLogs);
 router.route("/createItemLog").post(createItemLog);
 
 module.exports = router;

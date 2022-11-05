@@ -6,10 +6,11 @@ import { getAllLogs } from "../features/slice/auditLogSlice";
 
 const AuditLog = () => {
   const { auditLogs } = useSelector((state) => state.auditLogs);
+  const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getAllLogs());
+    dispatch(getAllLogs({ uid: authUser.uid }));
   }, []);
 
   return (

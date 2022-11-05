@@ -13,10 +13,15 @@ import {
   HiOutlineClipboardList,
   HiOutlineTrash,
 } from "react-icons/hi";
+import { MdOutlineRestore } from "react-icons/md";
 import UploadImage from "./UploadImage";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteItem, resetSelectedItem, updateItem } from "../features/slice/itemSlice";
+import {
+  deleteItem,
+  resetSelectedItem,
+  updateItem,
+} from "../features/slice/itemSlice";
 import { useNavigate } from "react-router-dom";
 
 import Card from "./addItem/Card";
@@ -34,12 +39,13 @@ const ItemInformation = ({ currentItem }) => {
   const [selectedType, setSelectedType] = useState("login");
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [restoreLoading, setRestoreLoading] = useState(false);
   const [currentImage, setCurrentImage] = useState(currentItem.image);
   const [currentImageLetter, setCurrentImageLetter] = useState(
     currentItem.name.charAt(0)
   );
   const { authUser } = useSelector((state) => state.auth);
-  const { itemFulfilled, itemDeletedFullfilled } = useSelector(
+  const { itemFulfilled, itemError, itemDeletedFullfilled } = useSelector(
     (state) => state.items
   );
   const method = "update";
@@ -80,20 +86,43 @@ const ItemInformation = ({ currentItem }) => {
   }, [currentItem]);
 
   useEffect(() => {
-    setDeleteLoading(false);
-    handleCloseConfirmation();
-  }, [itemFulfilled]);
+    if (itemFulfilled || itemError) {
+      setDeleteLoading(false);
+      setRestoreLoading(false);
+      handleCloseConfirmation();
+    }
+  }, [itemFulfilled, itemError]);
 
-  const handleDeleteItem = (uid) => {
+  const handleDeleteItem = () => {
+    if (currentItem.trash) {
+      setDeleteLoading(true);
+      dispatch(deleteItem({ uid: authUser.uid, itemUid: currentItem.uid }));
+    }
+
+    if (!currentItem.trash) {
+      const newData = {
+        uid: authUser.uid,
+        itemUid: currentItem.uid,
+        itemData: {
+          trash: true,
+        },
+      };
+
+      setDeleteLoading(true);
+      dispatch(updateItem(newData));
+    }
+  };
+
+  const handleRestoreItem = () => {
     const newData = {
       uid: authUser.uid,
       itemUid: currentItem.uid,
       itemData: {
-        trash: true,
+        trash: false,
       },
     };
 
-    setDeleteLoading(true);
+    setRestoreLoading(true);
     dispatch(updateItem(newData));
   };
 
@@ -313,54 +342,111 @@ const ItemInformation = ({ currentItem }) => {
             setShowPasswordGenerator={setShowPasswordGenerator}
           ></WifiPassword>
         )}
-
+        {currentItem.trash && (
+          <div className="form-group">
+            <Button
+              type="submit"
+              className="btn-secondary btn-long btn-with-icon"
+              onClick={handleRestoreItem}
+            >
+              {restoreLoading ? (
+                <SpinnerLoader></SpinnerLoader>
+              ) : (
+                <>
+                  <MdOutlineRestore></MdOutlineRestore>Restore Item
+                </>
+              )}
+            </Button>
+          </div>
+        )}
         <div className="form-group">
-          <Button
-            type="submit"
-            className="btn-secondary danger btn-long btn-with-icon"
-            onClick={handleShowConfirmation}
-          >
-            <HiOutlineTrash></HiOutlineTrash>Delete Item
-          </Button>
-          <Modal
-            size="sm"
-            show={show}
-            onHide={handleCloseConfirmation}
-            backdrop="static"
-            keyboard={false}
-            centered
-          >
-            <Modal.Body className="confirmation-modal-body">
-              <div className="confirmation-modal">
-                <h5>
-                  {"Are you sure you want to save and update your profile?"}
-                </h5>
-                <small>
-                  {"This will change the information you use for your account."}
-                </small>
-                <div className="options gap-10">
-                  <Button
-                    type="button"
-                    className="btn-secondary btn-long"
-                    onClick={handleCloseConfirmation}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    onClick={() => handleDeleteItem(currentItem.uid)}
-                    type="button"
-                    className="btn-dark btn-long"
-                  >
-                    {deleteLoading ? (
-                      <SpinnerLoader></SpinnerLoader>
+          {currentItem.trash ? (
+            <>
+              <Button
+                type="submit"
+                className="btn-secondary danger btn-long btn-with-icon"
+                onClick={handleShowConfirmation}
+              >
+                <HiOutlineTrash></HiOutlineTrash>Delete Item Permanently
+              </Button>
+              <Modal
+                size="sm"
+                show={show}
+                onHide={handleCloseConfirmation}
+                backdrop="static"
+                keyboard={false}
+                centered
+              >
+                <Modal.Body className="confirmation-modal-body">
+                  <div className="confirmation-modal">
+                    {currentImage.trash ? (
+                      <>
+                        <h5>
+                          {
+                            "Are you sure you want to permanently delete this item?"
+                          }
+                        </h5>
+                        <small>
+                          {
+                            "This item will be deleted immediately, which cannot be undone. Please be certain."
+                          }
+                        </small>
+                      </>
                     ) : (
-                      <>Delete</>
+                      <>
+                        <h5>
+                          {
+                            "Are you sure you want to permanently delete this item?"
+                          }
+                        </h5>
+                        <small>
+                          {
+                            "This will change the information you use for your account."
+                          }
+                        </small>
+                      </>
                     )}
-                  </Button>
-                </div>
-              </div>
-            </Modal.Body>
-          </Modal>
+                    <div className="options gap-10">
+                      <Button
+                        type="button"
+                        className="btn-secondary btn-long"
+                        onClick={handleCloseConfirmation}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleDeleteItem}
+                        type="button"
+                        className="btn-dark btn-long"
+                      >
+                        {deleteLoading ? (
+                          <SpinnerLoader></SpinnerLoader>
+                        ) : (
+                          <>Delete</>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </>
+          ) : (
+            <>
+              <Button
+                type="submit"
+                className="btn-secondary danger btn-long btn-with-icon"
+                onClick={handleDeleteItem}
+              >
+                {deleteLoading ? (
+                  <SpinnerLoader></SpinnerLoader>
+                ) : (
+                  <>
+                    <HiOutlineTrash></HiOutlineTrash>Delete Item
+                  </>
+                )}
+              </Button>
+            </>
+          )}
 
           {/*  */}
 

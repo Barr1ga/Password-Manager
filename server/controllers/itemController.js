@@ -1,13 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const { db, admin } = require("../util/admin");
-const User = db.collection("Users");
+const vault = db.collection("vaults");
 
 const LIMIT_QUERY = 1;
 
 const getAllItems = asyncHandler(async (req, res) => {
   const { uid } = req.body;
   const items = await (
-    await User.doc(uid).collection("items").get()
+    await vault.doc(uid).collection("items").get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -18,7 +18,7 @@ const getAllItems = asyncHandler(async (req, res) => {
 const getFavorites = asyncHandler(async (req, res) => {
   const { uid } = req.body;
   const items = await (
-    await User.doc(uid).collection("items").where("favorite", "==", true).get()
+    await vault.doc(uid).collection("items").where("favorite", "==", true).get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -29,7 +29,7 @@ const getFavorites = asyncHandler(async (req, res) => {
 const getTrash = asyncHandler(async (req, res) => {
   const { uid } = req.body;
   const items = await (
-    await User.doc(uid).collection("items").where("trash", "==", true).get()
+    await vault.doc(uid).collection("items").where("trash", "==", true).get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -40,7 +40,7 @@ const getTrash = asyncHandler(async (req, res) => {
 const getTypeSpecific = asyncHandler(async (req, res) => {
   const { uid, type } = req.body;
   const items = await (
-    await User.doc(uid).collection("items").where("type", "==", type).get()
+    await vault.doc(uid).collection("items").where("type", "==", type).get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -51,7 +51,7 @@ const getTypeSpecific = asyncHandler(async (req, res) => {
 const getFolderSpecific = asyncHandler(async (req, res) => {
   const { uid, folder } = req.body;
   const items = await (
-    await User.doc(uid)
+    await vault.doc(uid)
       .collection("items")
       .where("folders", "array-contains", folder)
       .get()
@@ -65,7 +65,7 @@ const getFolderSpecific = asyncHandler(async (req, res) => {
 const createItem = asyncHandler(async (req, res) => {
   const { uid, itemData } = req.body;
 
-  const result = await User.doc(uid).collection("items").add(itemData);
+  const result = await vault.doc(uid).collection("items").add(itemData);
 
   if (result.empty) {
     res.status(400);
@@ -76,7 +76,7 @@ const createItem = asyncHandler(async (req, res) => {
   console.log(uid);
 
   const item = await (
-    await User.doc(uid).collection("items").doc(createdItemUid).get()
+    await vault.doc(uid).collection("items").doc(createdItemUid).get()
   ).data();
 
   if (item.empty) {
@@ -89,9 +89,8 @@ const createItem = asyncHandler(async (req, res) => {
 
 const updateItem = asyncHandler(async (req, res) => {
   const { uid, itemUid, itemData } = req.body;
-  console.log("itemUid", itemUid);
 
-  const result = await User.doc(uid)
+  const result = await vault.doc(uid)
     .collection("items")
     .doc(itemUid)
     .update(itemData);
@@ -102,7 +101,7 @@ const updateItem = asyncHandler(async (req, res) => {
   }
 
   const item = await (
-    await User.doc(uid).collection("items").doc(itemUid).get()
+    await vault.doc(uid).collection("items").doc(itemUid).get()
   ).data();
 
   if (item.empty) {
@@ -118,7 +117,7 @@ const updateItem = asyncHandler(async (req, res) => {
 const deleteItem = asyncHandler(async (req, res) => {
   const { uid, itemUid } = req.body;
   console.log("itemUid", itemUid);
-  const result = await User.doc(uid).collection("items").doc(itemUid).delete();
+  const result = await vault.doc(uid).collection("items").doc(itemUid).delete();
 
   if (result.empty) {
     res.status(400);

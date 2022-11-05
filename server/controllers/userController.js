@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { db, admin } = require("../util/admin");
 const User = db.collection("Users");
+const vault = db.collection("vaults");
 
 // const getAllUser = asyncHandler(async (req, res) => {
 //   const user = await User.get();
@@ -110,23 +111,77 @@ const getMasterPasswordHint = asyncHandler(async (req, res) => {
 });
 
 const createUser = asyncHandler(async (req, res) => {
-  const { uid, username, masterPasswordHint, email } = req.body;
+  const { uid, username, masterPasswordHint, image, email } = req.body;
 
-  const result = await User.doc(uid).set(
+  const createUserResult = await User.doc(uid).set(
     {
       username,
       masterPasswordHint,
       email,
+      image,
+      roleUids: [],
+      viewing: "",
+      status: "online",
     },
     { merge: true }
   );
 
-  if (result.empty) {
+  if (createUserResult.empty) {
     res.status(400);
     throw new Error("There was an error creating this user!");
   }
 
-  res.status(201).json(result);
+  // create this user vault
+
+  const createVaultResult = await vault.doc(uid).set(
+    {
+      members: [uid],
+    },
+    { merge: true }
+  );
+
+  if (createVaultResult.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this vault!");
+  }
+
+  // create vault owner role
+
+  const roleData = {
+    name: "vaultOwner",
+    abreviation: "VO",
+  };
+
+  const result = await vault.doc(uid).collection("roles").add(roleData);
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error creating the vault owner role!");
+  }
+
+  const createdRoleUid = result.id;
+
+  const role = await (
+    await vault.doc(uid).collection("roles").doc(createdRoleUid).get()
+  ).data();
+
+  if (role.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created role!");
+  }
+
+  // update user default role
+
+  const updateRoleResult = await User.doc(uid).update({
+    roleUids: [createdRoleUid],
+  });
+
+  if (updateRoleResult.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this role!");
+  }
+
+  res.status(201).json(role);
 });
 
 const removeUser = asyncHandler(async (req, res) => {

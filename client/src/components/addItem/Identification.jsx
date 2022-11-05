@@ -25,7 +25,7 @@ const Identifications = ({
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [hovering, setHovering] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(defaultValues?.favorite || false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [createLoading, setCreateLoading] = useState(false);
   const [assignedFolders, setAssignedFolders] = useState(
@@ -33,8 +33,13 @@ const Identifications = ({
   );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
-  const { itemFulfilled, itemUpdatedFullfilled, itemCreatedFullfilled } =
-    useSelector((state) => state.items);
+  const {
+    items,
+    itemFulfilled,
+    itemError,
+    itemUpdatedFullfilled,
+    itemCreatedFullfilled,
+  } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
   const [titleError, setTitleError] = useState(false);
   const [isDropdownsDirty, setIsDropDownsDirty] = useState(false);
@@ -92,13 +97,14 @@ const Identifications = ({
       }
 
       if (itemCreatedFullfilled) {
+        const recentItemUid = items[0].uid;
         const auditData = {
           uid: authUser.uid,
           itemLogData: {
             actorUid: authUser.uid,
             action: "item/create",
             description: "created the item",
-            benefactorUid: defaultValues.uid,
+            benefactorUid: recentItemUid,
             date: new Date(),
           },
         };
@@ -106,12 +112,12 @@ const Identifications = ({
       }
     }
 
-    if (itemFulfilled) {
+    if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
     }
     dispatch(resetItemQueryFulfilled());
-  }, [itemFulfilled]);
+  }, [itemFulfilled, itemError]);
 
   useEffect(() => {
     if (watchName !== "") {
@@ -182,12 +188,14 @@ const Identifications = ({
   };
 
   const handleSelectTitle = (title) => {
-    if (title === defaultValues.title) {
-      setIsDropDownsDirty(false);
-    } else {
-      setIsDropDownsDirty(true);
+    if (defaultValues) {
+      if (title === defaultValues.title) {
+        setIsDropDownsDirty(false);
+      } else {
+        setIsDropDownsDirty(true);
+      }
     }
-    
+    console.log(title);
     titleRef.current.value = title;
     setShowTitle(false);
     setHovering(false);
@@ -738,7 +746,10 @@ const Identifications = ({
               type="submit"
               className="btn-dark btn-long btn-with-icon"
               disabled={
-                (!isDirty || !isValid) && !isDropdownsDirty && !titleError
+                (!isDirty || !isValid) &&
+                !isDropdownsDirty &&
+                !titleError &&
+                favorite === defaultValues.favorite
               }
             >
               {updateLoading ? (
