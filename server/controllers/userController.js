@@ -119,7 +119,6 @@ const createUser = asyncHandler(async (req, res) => {
       masterPasswordHint,
       email,
       image,
-      roleUids: [],
       viewing: "",
       status: "online",
     },
@@ -131,57 +130,49 @@ const createUser = asyncHandler(async (req, res) => {
     throw new Error("There was an error creating this user!");
   }
 
-  // create this user vault
-
-  const createVaultResult = await vault.doc(uid).set(
-    {
-      members: [uid],
-    },
-    { merge: true }
-  );
-
-  if (createVaultResult.empty) {
-    res.status(400);
-    throw new Error("There was an error creating this vault!");
-  }
-
   // create vault owner role
-
-  const roleData = {
+  const createRoleResult = await vault.doc(uid).collection("roles").add({
     name: "vaultOwner",
     abreviation: "VO",
-  };
+  });
 
-  const result = await vault.doc(uid).collection("roles").add(roleData);
-
-  if (result.empty) {
+  if (createRoleResult.empty) {
     res.status(400);
     throw new Error("There was an error creating the vault owner role!");
   }
 
-  const createdRoleUid = result.id;
+  const createdRoleUid = createRoleResult.id;
 
-  const role = await (
-    await vault.doc(uid).collection("roles").doc(createdRoleUid).get()
-  ).data();
+  // create this user vault
+  const createVaultResult = await vault
+    .doc(uid)
+    .collection("members")
+    .add({
+      uid,
+      roleUids: [createdRoleUid],
+    });
 
-  if (role.empty) {
+  if (createVaultResult.empty) {
     res.status(400);
-    throw new Error("There was an error finding the created role!");
+    throw new Error("There was an error creating this vault's members!");
   }
 
-  // update user default role
+  // create audit log for initial creation of vault
 
-  const updateRoleResult = await User.doc(uid).update({
-    roleUids: [createdRoleUid],
+  const auditLogResult = await User.doc(uid).collection("auditLogs").add({
+    actorUid: uid,
+    action: "vault/create",
+    description: "created this vault",
+    benefactorUid: uid,
+    date: new Date(),
   });
 
-  if (updateRoleResult.empty) {
+  if (auditLogResult.empty) {
     res.status(400);
-    throw new Error("There was an error updating this role!");
+    throw new Error("There was an error creating this item log!");
   }
 
-  res.status(201).json(role);
+  res.status(201).json();
 });
 
 const removeUser = asyncHandler(async (req, res) => {

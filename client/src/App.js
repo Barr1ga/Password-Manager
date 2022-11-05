@@ -52,16 +52,21 @@ const App = () => {
     document.title = "Vaulteer";
   }, []);
 
-  useEffect(() => {
-    if (authGetUser) {
-      dispatch(getUserData(authUser.uid));
-      dispatch(getAllMembers({ uid: authUser.uid }));
-    }
-  }, [authGetUser]);
+  // useEffect(() => {
+  //   if (authGetUser) {
+  //     dispatch(getUserData(authUser.uid));
+  //     dispatch(getAllMembers({ uid: authUser.uid }));
+  //   }
+  // }, [authGetUser]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
+
+      if (!authRegistered) {
+        dispatch(getUserData(authUser.uid));
+        dispatch(getAllMembers({ uid: authUser.uid }));
+      }
 
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;
@@ -78,7 +83,7 @@ const App = () => {
     });
 
     return unsubscribe;
-  }, [dispatch, username, masterPasswordHint]);
+  }, []);
 
   useEffect(() => {
     console.log(username, masterPasswordHint);

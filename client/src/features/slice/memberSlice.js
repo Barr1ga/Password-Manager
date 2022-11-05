@@ -4,105 +4,15 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   members: [
-    {
-      uid: 1,
-      username: "horebBarriga",
-      email: "hor.barr1ga@gmail.com",
-      image: "",
-      roleUids: ["1"],
-      viewing: "Cards",
-      status: "online",
-    },
-    {
-      uid: 2,
-      username: "DainSiao",
-      email: "dainalou@gmail.com",
-      roleUids: ["2", "2", "5"],
-      image: "",
-      viewing: "",
-      status: "offline",
-    },
-    {
-      uid: 2,
-      username: "DainSiao",
-      email: "dainalou@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "",
-      status: "offline",
-    },
-    {
-      uid: 2,
-      username: "DainSiao",
-      email: "dainalou@gmail.com",
-      roleUids: ["3", "2", "5", "3", "6", "4", "7", "8"],
-      image: "",
-      viewing: "",
-      status: "offline",
-    },
-    {
-      uid: 3,
-      username: "CJCaburnay",
-      email: "caburnaycj@gmail.com",
-      roleUids: ["3", "2", "5"],
-      image: "",
-      viewing: "",
-      status: "offline",
-    },
-    {
-      uid: 4,
-      username: "Bryll",
-      email: "bryllandales@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "Identifications",
-      status: "idle",
-    },
-    {
-      uid: 5,
-      username: "JemseyAmonsot",
-      email: "jemseyamonsot@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "Secure Notes",
-      status: "online",
-    },
-    {
-      uid: 6,
-      username: "Nicholai",
-      email: "jemseyamonsot@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "Logins",
-      status: "online",
-    },
-    {
-      uid: 7,
-      username: "VanguardiaAJ",
-      email: "jemseyamonsot@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "Cards",
-      status: "online",
-    },
-    {
-      uid: 8,
-      username: "Teddyzb",
-      email: "jemseyamonsot@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "Logins",
-      status: "online",
-    },
-    {
-      uid: 9,
-      username: "Luke",
-      email: "jemseyamonsot@gmail.com",
-      roleUids: ["2"],
-      image: "",
-      viewing: "Logins",
-      status: "online",
-    },
+    // {
+    //   uid: 1,
+    //   username: "horebBarriga",
+    //   email: "hor.barr1ga@gmail.com",
+    //   image: "",
+    //   roleUids: ["1"],
+    //   viewing: "Cards",
+    //   status: "online",
+    // },
   ],
   memberLoading: false,
   memberFulfilled: false,
@@ -173,7 +83,7 @@ const memberSlice = createSlice({
       .addCase(getAllMembers.fulfilled, (state, action) => {
         state.memberLoading = false;
         state.memberFulfilled = true;
-        // state.members = action.payload;
+        state.members = action.payload;
       })
       .addCase(getAllMembers.rejected, (state, action) => {
         state.memberLoading = false;

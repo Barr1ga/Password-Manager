@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { db, admin } = require("../util/admin");
 const vault = db.collection("vaults");
+const User = db.collection("Users");
 
 const LIMIT_QUERY = 1;
 
@@ -15,18 +16,6 @@ const LIMIT_QUERY = 1;
 //   res.status(201).json(members);
 // });
 
-const createvault = asyncHandler(async (req, res) => {
-  const { uid, memberData } = req.body;
-
-  const result = await vault.doc(uid).collection("members").add(memberData);
-
-  if (result.empty) {
-    res.status(400);
-    throw new Error("There was an error creating this vault!");
-  }
-
-  res.status(201).json(result);
-});
 
 // const updatevault = asyncHandler(async (req, res) => {
 //   const { uid, memberUid, memberData } = req.body;
@@ -74,7 +63,6 @@ const createvault = asyncHandler(async (req, res) => {
 
 module.exports = {
   // getAllvaults,
-  createvault,
   // updatevault,
   // deletevault,
 };

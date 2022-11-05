@@ -13,7 +13,6 @@ const initialState = {
   authGoogleLoading: false,
   authSaveAccountLoading: false,
   authLoading: false,
-  authGetUser: false,
   authFulfilled: false,
   authError: false,
   authMessage: "",
@@ -256,7 +255,6 @@ const userSlice = createSlice({
       .addCase(logInWithEmailAndPassword.fulfilled, (state, action) => {
         state.authEmailAndPasswordLoading = false;
         state.authFulfilled = true;
-        state.authGetUser = true;
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
@@ -303,7 +301,6 @@ const userSlice = createSlice({
           ? action.payload.username
           : state.username;
         state.masterPasswordHint = action.payload.masterPasswordHint;
-        state.authGetUser = false;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -386,7 +383,6 @@ const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state, action) => {
         state.authEmailAndPasswordLoading = false;
         state.authRegistered = false;
-        state.authGetUser = true;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
