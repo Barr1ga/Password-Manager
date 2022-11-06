@@ -16,8 +16,6 @@ const getAllMembers = asyncHandler(async (req, res) => {
     return { ...doc.data(), uid: doc.id };
   });
 
-  console.log(members)
-
   const membersData = await (
     await User.where(
       admin.firestore.FieldPath.documentId(),

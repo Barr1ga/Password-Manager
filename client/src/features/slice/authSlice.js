@@ -7,8 +7,10 @@ const authProfile = JSON.parse(localStorage.getItem("authProfile"));
 
 const initialState = {
   authUser: authUser ? authUser : null,
-  username: authProfile ? authProfile.username : null,
-  masterPasswordHint: authProfile ? authProfile.masterPasswordHint : null,
+  username: authProfile ? authProfile.username : "",
+  status: "",
+  viewing: "",
+  masterPasswordHint: authProfile ? authProfile.masterPasswordHint : "",
   authEmailAndPasswordLoading: false,
   authGoogleLoading: false,
   authSaveAccountLoading: false,
@@ -232,7 +234,7 @@ const userSlice = createSlice({
         ? action.payload.displayName
         : state.username;
       state.authUser = action.payload;
-      localStorage.setItem("authUser", JSON.stringify(action.authUser));
+      localStorage.setItem("authUser", JSON.stringify(action.payload));
     },
     resetUser: (state) => initialState,
     resetAuthErrors: (state) => {
@@ -282,7 +284,6 @@ const userSlice = createSlice({
         state.authErrorCode = "";
         state.authErrorMessage = "";
         state.authUser = action.payload.user;
-        // localStorage.setItem("authUser", JSON.stringify(action.authUser));
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
@@ -303,7 +304,6 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        // localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(createUser.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
@@ -322,6 +322,8 @@ const userSlice = createSlice({
           ? action.payload.username
           : state.username;
         state.masterPasswordHint = action.payload.masterPasswordHint;
+        state.status = action.payload.status;
+        state.viewing = action.payload.viewing;
         state.authFulfilled = true;
         state.authMessage = "";
         state.authErrorCode = "";
@@ -342,10 +344,10 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        console.log(action.payload);
-        state.username = action.payload;
-        authProfile.username = action.payload;
-        localStorage.setItem("authProfile", JSON.stringify(authProfile));
+        state.authUser.displayName = action.payload;
+        let tempAuthProfile = JSON.parse(localStorage.getItem("authProfile"));
+        tempAuthProfile.username = action.payload;
+        localStorage.setItem("authProfile", JSON.stringify(tempAuthProfile));
       })
       .addCase(updateUserData.rejected, (state, action) => {
         state.authSaveAccountLoading = false;
@@ -426,7 +428,6 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        // localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(changeEmail.rejected, (state, action) => {
         state.authChangedEmailLoading = false;
@@ -485,8 +486,6 @@ const userSlice = createSlice({
         state.authMessage = "";
         state.authErrorCode = "";
         state.authErrorMessage = "";
-        // state.username = action.payload.displayName;
-        // localStorage.setItem("authUser", JSON.stringify(action.payload));
       })
       .addCase(continueWithGoogle.rejected, (state, action) => {
         state.authGoogleLoading = false;
@@ -558,43 +557,11 @@ const userSlice = createSlice({
       .addCase(logOut.fulfilled, (state) => {
         localStorage.removeItem("authUser");
         localStorage.removeItem("authProfile");
-        state.authUser = initialState.authUser;
-        state.username = initialState.username;
-        state.masterPasswordHint = initialState.masterPasswordHint;
-        state.authRegistered = initialState.authRegistered;
-        state.authEmailAndPasswordLoading =
-          initialState.authEmailAndPasswordLoading;
-        state.authGoogleLoading = initialState.authGoogleLoading;
-        state.authMicrosoftLoading = initialState.authMicrosoftLoading;
-        state.authLoading = initialState.authLoading;
-        state.authFulfilled = initialState.authFulfilled;
-        state.authError = initialState.authError;
-        state.authMessage = initialState.authMessage;
-        state.authErrorMessage = initialState.authErrorMessage;
-        state.authErrorCode = initialState.authErrorCode;
-        state.authRegistered = initialState.authRegistered;
-        state.authEmailAndPasswordLoading =
-          initialState.authEmailAndPasswordLoading;
-        state.authChangedEmail = initialState.authChangedEmail;
-        state.authChangedEmailReauthFulfilled =
-          initialState.authChangedEmailReauthFulfilled;
-        state.authChangedEmailFulfilled =
-          initialState.authChangedEmailFulfilled;
-        state.authChangedEmailLoading = initialState.authChangedEmailLoading;
-        state.authChangedPassword = initialState.authChangedPassword;
-        state.authChangedPasswordReauthFulfilled =
-          initialState.authChangedPasswordReauthFulfilled;
-        state.authChangedPasswordFulfilled =
-          initialState.authChangedPasswordFulfilled;
-        state.authChangedPasswordLoading =
-          initialState.authChangedPasswordLoading;
-        state.authRemovedAccount = initialState.authRemovedAccount;
-        state.authRemovedAccountReauthFulfilled =
-          initialState.authRemovedAccountReauthFulfilled;
-        state.authRemovedAccountFulfilled =
-          initialState.authRemovedAccountFulfilled;
-        state.authRemovedAccountLoading =
-          initialState.authRemovedAccountLoading;
+        state.authUser = null;
+        state.username = null;
+        state.status = "";
+        state.viewing = "";
+        state.masterPasswordHint = "";
       })
       .addCase(logOut.rejected, (state, action) => {
         state.authLoading = false;

@@ -61,6 +61,7 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log(user)
       dispatch(setUser(user));
 
       if (authRegistered === false) {
