@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import folderService from "../services/folderService";
 
 const initialState = {
-  folders: ["familyFriendly", "School", "friends"],
+  folders: ["familyFriendly", "School", "friends", "Cousins", "Teachers", "Me"],
   Loading: false,
   Fulfilled: false,
   Error: false,

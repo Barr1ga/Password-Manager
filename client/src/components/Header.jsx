@@ -15,7 +15,8 @@ import { getAllMembers } from "../features/slice/memberSlice";
 const Header = () => {
   const route = useLocation().pathname;
 
-  const { authUser, username } = useSelector((state) => state.auth);
+  const { authRegistered, authUser, username, authEmailAndPasswordLoading } =
+    useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -23,9 +24,12 @@ const Header = () => {
   };
 
   useEffect(() => {
-    dispatch(getUserData(authUser.uid));
-    dispatch(getAllMembers({ uid: authUser.uid }));
-  }, []);
+    if (authUser && !authRegistered && !authEmailAndPasswordLoading) {
+      console.log(authRegistered);
+      dispatch(getUserData(authUser.uid));
+      dispatch(getAllMembers({ uid: authUser.uid }));
+    }
+  }, [authUser, authRegistered]);
 
   return (
     <>

@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import AddButton from "../../helpers/AddButton";
 import Button from "react-bootstrap/Button";
-import {
-  HiOutlineX,
-} from "react-icons/hi";
+import { HiOutlineX } from "react-icons/hi";
 import ConfirmModal from "../../helpers/ConfirmModal";
 import RoleInformation from "../../roles/RoleInformation";
-import MembersList from "./MembersList";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -56,28 +53,9 @@ const AddItemModal = () => {
           </div>
         </Modal.Header>
         <Modal.Body className="add-role-modal standard-stack gap-10">
-          <div className="form-group">
-            <div className="tab">
-              <div
-                onClick={() => setTab(1)}
-                className={tab === 1 ? "pills selected" : "pills"}
-              >
-                <p>{"Display & Information"}</p>
-              </div>
-              <div
-                onClick={() => setTab(2)}
-                className={tab === 2 ? "pills selected" : "pills"}
-              >
-                <p>Assign Roles</p>
-              </div>
-            </div>
-          </div>
+          <RoleInformation></RoleInformation>
 
-          {tab === 1 && <RoleInformation></RoleInformation>}
-
-          <div className="vault-members">
-            {tab === 2 && <MembersList></MembersList>}
-          </div>
+          
         </Modal.Body>
       </Modal>
     </>
@@ -85,5 +63,3 @@ const AddItemModal = () => {
 };
 
 export default AddItemModal;
-
-

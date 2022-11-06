@@ -2,14 +2,20 @@ import React from "react";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
+import { FaCrown } from "react-icons/fa";
 
-const Role = ({ role, count }) => {
+const Role = ({ role, isVaultOwner }) => {
   const { members } = useSelector((state) => state.members);
-
+  console.log(role.uid);
+  console.log(members);
+  console.log(isVaultOwner)
   let filteredMembers = members.filter((member) => {
-    return member.rolesID.includes(role.uid);
+    if (member.roleUids.includes(role.uid)) {
+      return member;
+    }
   });
 
+  console.log(filteredMembers);
   let length = filteredMembers.length;
 
   filteredMembers = filteredMembers.slice(0, 5);
@@ -20,11 +26,17 @@ const Role = ({ role, count }) => {
     <div className="role-item padding-side">
       <div>
         <div className="name">
-          <span className="role-tag">
-            <small>{role.abreviation}</small>
-          </span>
+          {isVaultOwner ? (
+            <small className="vault-owner-tag">
+              <FaCrown></FaCrown>VO
+            </small>
+          ) : (
+            <span className="role-tag">
+              <small>{role.abreviation}</small>
+            </span>
+          )}
           <div>
-            <p>{role.name}</p>
+            <span>{role.name}</span>
           </div>
         </div>
         <div className="info">
@@ -37,7 +49,12 @@ const Role = ({ role, count }) => {
                       {member.username.charAt(0)}
                     </div>
                   ) : (
-                    <img key={idx} src={member.image} alt={member.username} className="member"></img>
+                    <img
+                      key={idx}
+                      src={member.image}
+                      alt={member.username}
+                      className="member"
+                    ></img>
                   )
                 )}
                 {remainingCount > 0 && (

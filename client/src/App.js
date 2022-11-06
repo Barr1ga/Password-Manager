@@ -19,7 +19,7 @@ import SideNav from "./components/SideNav";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
-import VaultMembers from "./components/VaultMembers";
+import VaultMembers from "./components/members/VaultMembers";
 import CurrentItem from "./components/CurrentItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";

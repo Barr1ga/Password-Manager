@@ -12,7 +12,7 @@ const ItemsList = ({ filteredItems, route, searchValue, count }) => {
             {filteredItems.length === 0 && (
               <div className="empty-list">
                 <img src={EmptyList} alt={EmptyList}></img>
-                <p>
+                <span>
                   {searchValue === "" ? (
                     <>
                       You havent added<br></br>any item yet
@@ -20,7 +20,7 @@ const ItemsList = ({ filteredItems, route, searchValue, count }) => {
                   ) : (
                     <>No items Found</>
                   )}
-                </p>
+                </span>
               </div>
             )}
             {filteredItems.map((item, idx) => (

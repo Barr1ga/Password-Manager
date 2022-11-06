@@ -13,6 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/auditLog", require("./routes/auditLogRoutes"));
 app.use("/api/member", require("./routes/memberRoutes"));
+app.use("/api/role", require("./routes/roleRoutes"));
 app.use("/api/item", require("./routes/itemRoutes"));
 app.use("/Types/api/item", require("./routes/itemTypeRoutes"));
 app.use("/Folders/api/item", require("./routes/itemFolderRoutes"));

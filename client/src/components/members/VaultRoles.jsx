@@ -14,7 +14,7 @@ const VaultRoles = ({ role, members }) => {
 
   return (
     <>
-      <span
+      <p
         className="role-title padding-side"
         onClick={() => setShowMembers((prev) => !prev)}
       >
@@ -24,7 +24,7 @@ const VaultRoles = ({ role, members }) => {
         ) : (
           <RiArrowRightSLine></RiArrowRightSLine>
         )}
-      </span>
+      </p>
 
       {role === "offline" && showMembers && (
         <div className="members-list offline-members">
@@ -36,10 +36,9 @@ const VaultRoles = ({ role, members }) => {
 
       {role !== "offline" && showMembers && (
         <div className="members-list">
-          {members
-            .map((member, idx) => (
-              <VaultMember key={idx} member={member}></VaultMember>
-            ))}
+          {members.map((member, idx) => (
+            <VaultMember key={idx} member={member}></VaultMember>
+          ))}
         </div>
       )}
     </>

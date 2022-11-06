@@ -1,18 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import WarningAlert from "../../alerts/WarningAlert";
 import { useForm } from "react-hook-form";
 import Role from "./Role";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddRoleButton from "./AddRoleButton";
 import { HiOutlineSearch } from "react-icons/hi";
+import { getAllRoles } from "../../../features/slice/roleSlice";
 
 const VaultRoles = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const { authUser } = useSelector((state) => state.auth);
   const { roles } = useSelector((state) => state.roles);
-  const {
-    register,
-  } = useForm({
-    mode: "all",
-  });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!roles) {
+      dispatch(getAllRoles({ uid: authUser.uid }));
+    }
+  }, []);
+
+  const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner").uid;
+
+  let filteredRoles =
+    searchValue !== ""
+      ? roles.filter((item) =>
+          item.name.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      : roles;
 
   return (
     <div className="standard-stack">
@@ -30,9 +45,9 @@ const VaultRoles = () => {
             <div className="form-group form-search">
               <input
                 type="text"
-                {...register("search")}
                 placeholder="Search Role"
                 className="form-control"
+                onChange={(e) => setSearchValue(e.target.value)}
               />
               <HiOutlineSearch className="icon"></HiOutlineSearch>
             </div>
@@ -41,10 +56,18 @@ const VaultRoles = () => {
         </form>
 
         <div className="standard-stack">
-          <span className="role-count padding-side">{roles.length} Roles</span>
+          <span className="role-count padding-side">
+            {filteredRoles.length} Roles
+          </span>
           <div className="form-group">
-            {roles.map((role, idx) => {
-              return <Role key={idx} role={role}></Role>;
+            {filteredRoles.map((role, idx) => {
+              return (
+                <Role
+                  key={idx}
+                  role={role}
+                  isVaultOwner={vaultOwnerUid === role.uid}
+                ></Role>
+              );
             })}
           </div>
         </div>

@@ -558,6 +558,7 @@ const userSlice = createSlice({
       .addCase(logOut.fulfilled, (state) => {
         localStorage.removeItem("authUser");
         localStorage.removeItem("authProfile");
+        state.authLoading = false;
         state.authUser = null;
         state.username = null;
         state.status = "";

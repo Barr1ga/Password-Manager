@@ -1,13 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const { db, admin } = require("../util/admin");
-const User = db.collection("Users");
+const vault = db.collection("vaults");
 
 const LIMIT_QUERY = 1;
 
 const getAllLogs = asyncHandler(async (req, res) => {
   const { uid } = req.body;
   const itemLogs = await (
-    await User.doc(uid).collection("auditLogs").get()
+    await vault.doc(uid).collection("auditLogs").get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -18,7 +18,7 @@ const getAllLogs = asyncHandler(async (req, res) => {
 const createItemLog = asyncHandler(async (req, res) => {
   const { uid, itemLogData } = req.body;
 
-  const result = await User.doc(uid).collection("auditLogs").add(itemLogData);
+  const result = await vault.doc(uid).collection("auditLogs").add(itemLogData);
 
   if (result.empty) {
     res.status(400);
@@ -29,7 +29,7 @@ const createItemLog = asyncHandler(async (req, res) => {
   console.log(uid);
 
   const itemLog = await (
-    await User.doc(uid).collection("auditLogs").doc(createdItemLogUid).get()
+    await vault.doc(uid).collection("auditLogs").doc(createdItemLogUid).get()
   ).data();
 
   if (itemLog.empty) {
@@ -44,7 +44,8 @@ const updateItemLog = asyncHandler(async (req, res) => {
   const { uid, itemLogUid, itemLogData } = req.body;
   console.log("itemLogUid", itemLogUid);
 
-  const result = await User.doc(uid)
+  const result = await vault
+    .doc(uid)
     .collection("auditLogs")
     .doc(itemLogUid)
     .update(itemLogData);
@@ -55,7 +56,7 @@ const updateItemLog = asyncHandler(async (req, res) => {
   }
 
   const itemLog = await (
-    await User.doc(uid).collection("auditLogs").doc(itemLogUid).get()
+    await vault.doc(uid).collection("auditLogs").doc(itemLogUid).get()
   ).data();
 
   if (itemLog.empty) {
@@ -71,7 +72,11 @@ const updateItemLog = asyncHandler(async (req, res) => {
 const deleteItemLog = asyncHandler(async (req, res) => {
   const { uid, itemLogUid } = req.body;
   console.log("itemLogUid", itemLogUid);
-  const result = await User.doc(uid).collection("auditLogs").doc(itemLogUid).delete();
+  const result = await vault
+    .doc(uid)
+    .collection("auditLogs")
+    .doc(itemLogUid)
+    .delete();
 
   if (result.empty) {
     res.status(400);

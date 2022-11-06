@@ -7,14 +7,26 @@ const MembersList = () => {
   const [search, setSearch] = useState("");
   const { members } = useSelector((state) => state.members);
   const [focused, setFocused] = useState(false);
+
   const handleSelectMember = (member) => {
-    const { image, username } = member;
-    setAssignedMembers([...assignedMembers, { image, username }]);
+    if (!assignedMembers.includes(member)) {
+      setAssignedMembers([...assignedMembers, member]);
+    } else {
+      setAssignedMembers(
+        assignedMembers.filter(
+          (assignedMember) => assignedMember.uid !== member.uid
+        )
+      );
+    }
   };
+
+  console.log(assignedMembers);
 
   const filteredMembers =
     search !== ""
-      ? members.filter((member) => member.username.toLowerCase().includes(search.toLowerCase()))
+      ? members.filter((member) =>
+          member.username.toLowerCase().includes(search.toLowerCase())
+        )
       : members;
 
   const handleKeyDown = (e) => {
@@ -61,30 +73,37 @@ const MembersList = () => {
         <div className="standard-stack">
           <span className="member-count">{filteredMembers.length} Members</span>
 
-          {filteredMembers.map((member, idx) => (
-            <div key={idx} className="member">
-              {member.image === "" ? (
-                <div className="image">{member.username.charAt(0)}</div>
-              ) : (
-                <img src={member.image} alt={member.username} className="image"></img>
-              )}
-              <div className="name">
-                <p>{member.username}</p>
-                <small>{member.email}</small>
-              </div>
-              <div class="toggle-pill-color">
-                <input type="checkbox"></input>
-                <div class="toggle-pill-color">
-                  <input
-                    type="checkbox"
-                    id={`checkbox-${idx}`}
-                    onClick={() => handleSelectMember(member)}
-                  ></input>
-                  <label for={`checkbox-${idx}`}></label>
+          {filteredMembers.length === 0 && (
+            <span className="member disabled">No members found</span>
+          )}
+
+          {filteredMembers.length > 0 &&
+            filteredMembers.map((member, idx) => (
+              <div
+                key={idx}
+                className="member"
+                onClick={() => handleSelectMember(member)}
+              >
+                {member.image === "" ? (
+                  <div className="image">{member.username.charAt(0)}</div>
+                ) : (
+                  <img
+                    src={member.image}
+                    alt={member.username}
+                    className="image"
+                  ></img>
+                )}
+                <div className="name">
+                  <p>{member.username}</p>
+                  <small>{member.email}</small>
+                </div>
+                <div className="custom-toggle-pill">
+                  {assignedMembers.includes(member) && (
+                    <div className="custom-toggle-pill-fill"></div>
+                  )}
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </>
