@@ -7,20 +7,31 @@ const LIMIT_QUERY = 1;
 
 const getAllMembers = asyncHandler(async (req, res) => {
   const { uid } = req.body;
-  const membersUids = await (await vault.doc(uid).get()).data().members;
 
+  let membersUids = [];
   const members = await (
+    await vault.doc(uid).collection("members").get()
+  ).docs.map((doc) => {
+    membersUids = [...membersUids, doc.id];
+    return { ...doc.data(), uid: doc.id };
+  });
+
+  console.log(members)
+
+  const membersData = await (
     await User.where(
       admin.firestore.FieldPath.documentId(),
       "in",
       membersUids
     ).get()
   ).docs.map((doc) => {
-    const { email, username, image, viewing, status, rolesID } = doc.data();
-    return { email, username, image, viewing, status, rolesID, uid: doc.id };
+    const { email, username, image, viewing, status } = doc.data();
+    const uid = doc.id;
+    const roleUids = members.find((member) => member.uid === uid).roleUids;
+    return { email, username, image, viewing, status, roleUids, uid };
   });
 
-  res.status(201).json(members);
+  res.status(201).json(membersData);
 });
 
 const createMember = asyncHandler(async (req, res) => {

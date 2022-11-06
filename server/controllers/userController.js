@@ -144,22 +144,22 @@ const createUser = asyncHandler(async (req, res) => {
   const createdRoleUid = createRoleResult.id;
 
   // create this user vault
-  const createVaultResult = await vault
+  const createMemberResult = await vault
     .doc(uid)
     .collection("members")
-    .add({
-      uid,
+    .doc(uid)
+    .set({
       roleUids: [createdRoleUid],
     });
 
-  if (createVaultResult.empty) {
+  if (createMemberResult.empty) {
     res.status(400);
     throw new Error("There was an error creating this vault's members!");
   }
 
   // create audit log for initial creation of vault
 
-  const auditLogResult = await User.doc(uid).collection("auditLogs").add({
+  const auditLogResult = await vault.doc(uid).collection("auditLogs").add({
     actorUid: uid,
     action: "vault/create",
     description: "created this vault",

@@ -12,6 +12,7 @@ import OtherLinks from "./OtherLinks";
 import GoogleIcon from "../assets/icons8-google.svg";
 import {
   continueWithGoogle,
+  createUser,
   registerWithEmailAndPassword,
   resetAuthErrors,
   setUserInformation,
@@ -27,7 +28,8 @@ const Register = ({ handleShowLogin }) => {
   const [showRegistrationForms, setShowRegistrationForms] = useState(false);
   const [show, setShow] = useState(true);
   const [email, setEmail] = useState("");
-
+  const { authUser, username, masterPasswordHint, authRegistered } =
+    useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -69,6 +71,21 @@ const Register = ({ handleShowLogin }) => {
     dispatch(setUserInformation({ username, masterPasswordHint }));
     dispatch(registerWithEmailAndPassword(registerData));
   };
+
+  useEffect(() => {
+    if (authRegistered && authUser) {
+      const uid = authUser.uid;
+      dispatch(
+        createUser({
+          uid,
+          email: authUser.email,
+          username,
+          masterPasswordHint,
+          image: authUser.photoURL ? authUser.photoURL : "",
+        })
+      );
+    }
+  }, [authRegistered]);
 
   const handleBack = () => {
     setShowRegistrationForms(false);

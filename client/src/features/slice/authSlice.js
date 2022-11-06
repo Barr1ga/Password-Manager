@@ -232,6 +232,7 @@ const userSlice = createSlice({
         ? action.payload.displayName
         : state.username;
       state.authUser = action.payload;
+      localStorage.setItem("authUser", JSON.stringify(action.authUser));
     },
     resetUser: (state) => initialState,
     resetAuthErrors: (state) => {
@@ -281,7 +282,7 @@ const userSlice = createSlice({
         state.authErrorCode = "";
         state.authErrorMessage = "";
         state.authUser = action.payload.user;
-        localStorage.setItem("authUser", JSON.stringify(action.authUser));
+        // localStorage.setItem("authUser", JSON.stringify(action.authUser));
       })
       .addCase(registerWithEmailAndPassword.rejected, (state, action) => {
         state.authEmailAndPasswordLoading = false;
@@ -290,6 +291,26 @@ const userSlice = createSlice({
         state.authMessage = message;
         state.authErrorCode = code;
         state.authErrorMessage = firebaseErrorMessage(code);
+      })
+
+      .addCase(createUser.pending, (state) => {
+        state.authEmailAndPasswordLoading = true;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authRegistered = false;
+        state.authFulfilled = true;
+        state.authMessage = "";
+        state.authErrorCode = "";
+        state.authErrorMessage = "";
+        // localStorage.setItem("authUser", JSON.stringify(action.payload));
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
       })
 
       .addCase(getUserData.pending, (state) => {
@@ -375,26 +396,6 @@ const userSlice = createSlice({
         state.authError = true;
         state.authErrorCode = "auth/user-not-found";
         state.authErrorMessage = firebaseErrorMessage("auth/user-not-found");
-      })
-
-      .addCase(createUser.pending, (state) => {
-        state.authEmailAndPasswordLoading = true;
-      })
-      .addCase(createUser.fulfilled, (state, action) => {
-        state.authEmailAndPasswordLoading = false;
-        state.authRegistered = false;
-        state.authFulfilled = true;
-        state.authMessage = "";
-        state.authErrorCode = "";
-        state.authErrorMessage = "";
-        // localStorage.setItem("authUser", JSON.stringify(action.payload));
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.authEmailAndPasswordLoading = false;
-        state.authError = true;
-        const { code, message } = action.payload;
-        state.authMessage = message;
-        state.authErrorCode = code;
       })
 
       .addCase(changeEmailReauthentication.pending, (state) => {

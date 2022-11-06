@@ -63,7 +63,7 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
 
-      if (!authRegistered) {
+      if (authRegistered === false) {
         dispatch(getUserData(authUser.uid));
         dispatch(getAllMembers({ uid: authUser.uid }));
       }
@@ -83,22 +83,6 @@ const App = () => {
     });
 
     return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    console.log(username, masterPasswordHint);
-    if (authRegistered && authUser && username) {
-      const uid = authUser.uid;
-      dispatch(
-        createUser({
-          uid,
-          email: authUser.email,
-          username,
-          masterPasswordHint,
-          image: authUser.photoURL ? authUser.photoURL : "",
-        })
-      );
-    }
   }, [authRegistered]);
 
   const handleOnIdle = (event) => {
