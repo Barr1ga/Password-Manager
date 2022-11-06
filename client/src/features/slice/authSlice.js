@@ -238,6 +238,7 @@ const userSlice = createSlice({
     },
     resetUser: (state) => initialState,
     resetAuthErrors: (state) => {
+      state.authLoading = false;
       state.authError = false;
       state.authFulfilled = false;
       state.authMessage = "";
