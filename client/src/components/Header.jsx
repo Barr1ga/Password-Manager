@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {
@@ -9,7 +9,8 @@ import {
 import Logo from "../assets/vaulteer_logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "./helpers/ConfirmModal";
-import { logOut } from "../features/slice/authSlice";
+import { getUserData, logOut } from "../features/slice/authSlice";
+import { getAllMembers } from "../features/slice/memberSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
@@ -20,6 +21,11 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(logOut());
   };
+
+  useEffect(() => {
+    dispatch(getUserData(authUser.uid));
+    dispatch(getAllMembers({ uid: authUser.uid }));
+  }, []);
 
   return (
     <>

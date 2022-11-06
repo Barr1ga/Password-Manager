@@ -24,27 +24,17 @@ import CurrentItem from "./components/CurrentItem";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
-import {
-  createUser,
-  setUser,
-  getUserData,
-  logOut,
-} from "./features/slice/authSlice";
+import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
-import { getAllMembers } from "./features/slice/memberSlice";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
   const { selectedItem } = useSelector((state) => state.items);
-  const {
-    authUser,
-    username,
-    masterPasswordHint,
-    authRegistered,
-    authGetUser,
-  } = useSelector((state) => state.auth);
+  const { authUser, username, masterPasswordHint } = useSelector(
+    (state) => state.auth
+  );
 
   const dispatch = useDispatch();
 
@@ -61,13 +51,7 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log(user)
       dispatch(setUser(user));
-
-      if (authRegistered === false) {
-        dispatch(getUserData(authUser.uid));
-        dispatch(getAllMembers({ uid: authUser.uid }));
-      }
 
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;
@@ -84,7 +68,7 @@ const App = () => {
     });
 
     return unsubscribe;
-  }, [authRegistered]);
+  }, []);
 
   const handleOnIdle = (event) => {
     if (authUser) {
