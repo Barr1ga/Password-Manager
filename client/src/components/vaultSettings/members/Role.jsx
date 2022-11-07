@@ -7,7 +7,7 @@ const Role = ({ roleUid }) => {
   const name = roles.find((role) => role.uid === roleUid);
   return (
     <div className="role-tag">
-      <small>{name.abreviation} </small>
+      <small>{name.abbreviation} </small>
       <HiPlus className="btn-delete"></HiPlus>
     </div>
   );

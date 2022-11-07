@@ -126,7 +126,7 @@ const Identifications = ({
   }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
-    const newData = {
+    let newData = {
       uid: authUser.uid,
       itemData: {
         ...data,

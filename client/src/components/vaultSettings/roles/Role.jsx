@@ -53,7 +53,7 @@ const Role = ({ role, isVaultOwner }) => {
             </small>
           ) : (
             <span className="role-tag">
-              <small>{role.abreviation}</small>
+              <small>{role.abbreviation}</small>
             </span>
           )}
           <div>

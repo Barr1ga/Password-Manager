@@ -167,7 +167,7 @@ const Card = ({
   }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    const newData = {
+    let newData = {
       uid: authUser.uid,
       itemData: {
         ...data,

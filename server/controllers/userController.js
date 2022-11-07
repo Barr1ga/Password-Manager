@@ -133,7 +133,7 @@ const createUser = asyncHandler(async (req, res) => {
   // create vault owner role
   const createRoleResult = await vault.doc(uid).collection("roles").add({
     name: "Vault Owner",
-    abreviation: "VO",
+    abbreviation: "VO",
   });
 
   if (createRoleResult.empty) {

@@ -17,25 +17,25 @@ const getAllRoles = asyncHandler(async (req, res) => {
 });
 
 const createRole = asyncHandler(async (req, res) => {
-  // const { uid, roleData } = req.body;
+  const { uid, roleData } = req.body;
 
-  // const result = await vault.doc(uid).collection("roles").add(roleData);
+  const result = await vault.doc(uid).collection("roles").add(roleData);
 
-  // if (result.empty) {
-  //   res.status(400);
-  //   throw new Error("There was an error creating this role!");
-  // }
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this role!");
+  }
 
-  // const createdRoleUid = result.id;
+  const createdRoleUid = result.id;
 
-  // const role = await (
-  //   await vault.doc(uid).collection("roles").doc(createdRoleUid).get()
-  // ).data();
+  const role = await (
+    await vault.doc(uid).collection("roles").doc(createdRoleUid).get()
+  ).data();
 
-  // if (role.empty) {
-  //   res.status(400);
-  //   throw new Error("There was an error finding the created role!");
-  // }
+  if (role.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created role!");
+  }
 
   res.status(201).json(role);
 });

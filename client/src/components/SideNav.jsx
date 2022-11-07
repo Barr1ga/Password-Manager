@@ -270,7 +270,7 @@ const SideNav = () => {
                   : "sidenav-button"
               }
             >
-              {route.includes("/Roles") ? (
+              {route.includes("/AuditLog") ? (
                 <HiClipboardList></HiClipboardList>
               ) : (
                 <HiOutlineClipboardList></HiOutlineClipboardList>

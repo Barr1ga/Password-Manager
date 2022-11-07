@@ -4,14 +4,14 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   roles: [
-    // { uid: "role1", name: "Vault Owner", abreviation: "VO" },
-    // { uid: "role2", name: "family", abreviation: "FAM" },
-    // { uid: "role3", name: "employee", abreviation: "EMP" },
-    // { uid: "role4", name: "My programming frien", abreviation: "NEIGH" },
-    // { uid: "role5", name: "BSIT", abreviation: "BSIT" },
-    // { uid: "role6", name: "student", abreviation: "STUD" },
-    // { uid: "role7", name: "professor", abreviation: "PROF" },
-    // { uid: "role8", name: "friend", abreviation: "frd" },
+    // { uid: "role1", name: "Vault Owner", abbreviation: "VO" },
+    // { uid: "role2", name: "family", abbreviation: "FAM" },
+    // { uid: "role3", name: "employee", abbreviation: "EMP" },
+    // { uid: "role4", name: "My programming frien", abbreviation: "NEIGH" },
+    // { uid: "role5", name: "BSIT", abbreviation: "BSIT" },
+    // { uid: "role6", name: "student", abbreviation: "STUD" },
+    // { uid: "role7", name: "professor", abbreviation: "PROF" },
+    // { uid: "role8", name: "friend", abbreviation: "frd" },
   ],
   selectedRole: null,
   roleLoading: false,

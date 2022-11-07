@@ -447,9 +447,8 @@ const ItemInformation = ({ currentItem }) => {
               </Button>
             </>
           )}
-
         </div>
-
+        <hr></hr>
         <div className="last-updated">
           <div>
             <Link to="/AuditLog" type="button">
