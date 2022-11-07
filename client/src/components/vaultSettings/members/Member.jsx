@@ -1,22 +1,21 @@
 import React from "react";
-import { HiPlus } from "react-icons/hi";
 import { FaCrown } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import Role from "./Role";
-import Button from "react-bootstrap/esm/Button";
+import AddRoleButton from "./AssignRoleButton";
 
 const Member = ({ member }) => {
   const { roles } = useSelector((state) => state.roles);
-  const ownerID = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
 
   return (
     <div className="member gap-10">
       <div className="image">{member.username.charAt(0)}</div>
       <div className="name standard-stack gap-10">
         <div>
-          <p className={member.rolesID[0] === ownerID ? "vault-owner" : ""}>
+          <p className={member.roleUids[0] === ownerUid ? "vault-owner" : ""}>
             <b>{member.username}</b>{" "}
-            {member.roleUids[0] === ownerID && (
+            {member.roleUids.includes(ownerUid) && (
               <small className="vault-owner-tag">
                 <FaCrown></FaCrown>VO
               </small>
@@ -25,17 +24,15 @@ const Member = ({ member }) => {
           <small>{member.email}</small>
         </div>
         <div className="roles">
-          {member.rolesID[0] === ownerID && (
+          {member.roleUids.includes(ownerUid) && (
             <small className="vault-owner-tag">
               <FaCrown></FaCrown>VO
             </small>
           )}
-          {member.rolesID.map((roleUids, idx) => (
-            <Role key={idx} roleUids={roleUids}></Role>
+          {member.roleUids.map((roleUid, idx) => (
+            <Role key={idx} roleUid={roleUid}></Role>
           ))}
-          <Button className="btn-secondary btn-add-role">
-            <HiPlus></HiPlus>
-          </Button>
+          <AddRoleButton member={member}></AddRoleButton>
         </div>
       </div>
 

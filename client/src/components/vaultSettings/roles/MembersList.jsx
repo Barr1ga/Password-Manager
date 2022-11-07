@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
 
-const MembersList = () => {
-  const [assignedMembers, setAssignedMembers] = useState([]);
+const MembersList = ({assignedMembers, setAssignedMembers}) => {
+  // const [assignedMembers, setAssignedMembers] = useState([]);
   const [search, setSearch] = useState("");
   const { members } = useSelector((state) => state.members);
   const [focused, setFocused] = useState(false);
@@ -19,8 +19,6 @@ const MembersList = () => {
       );
     }
   };
-
-  console.log(assignedMembers);
 
   const filteredMembers =
     search !== ""

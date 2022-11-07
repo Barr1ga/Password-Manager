@@ -4,14 +4,14 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   roles: [
-    // { uid: "1", name: "Vault Owner", abreviation: "VO" },
-    // { uid: "2", name: "family", abreviation: "FAM" },
-    // { uid: "3", name: "employee", abreviation: "EMP" },
-    // { uid: "4", name: "My programming frien", abreviation: "NEIGH" },
-    // { uid: "5", name: "BSIT", abreviation: "BSIT" },
-    // { uid: "6", name: "student", abreviation: "STUD" },
-    // { uid: "7", name: "professor", abreviation: "PROF" },
-    // { uid: "8", name: "friend", abreviation: "frd" },
+    { uid: "1", name: "Vault Owner", abreviation: "VO" },
+    { uid: "2", name: "family", abreviation: "FAM" },
+    { uid: "3", name: "employee", abreviation: "EMP" },
+    { uid: "4", name: "My programming frien", abreviation: "NEIGH" },
+    { uid: "5", name: "BSIT", abreviation: "BSIT" },
+    { uid: "6", name: "student", abreviation: "STUD" },
+    { uid: "7", name: "professor", abreviation: "PROF" },
+    { uid: "8", name: "friend", abreviation: "frd" },
   ],
   roleLoading: false,
   roleFulfilled: false,
@@ -77,12 +77,12 @@ const roleSlice = createSlice({
     builder
 
       .addCase(getAllRoles.pending, (state) => {
-        state.roleLoading = true;
+        // state.roleLoading = true;
       })
       .addCase(getAllRoles.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
-        state.roles = action.payload;
+        // state.roles = action.payload;
       })
       .addCase(getAllRoles.rejected, (state, action) => {
         state.roleLoading = false;

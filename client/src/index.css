@@ -10,8 +10,8 @@
   --secondary-background: rgb(45, 45, 45);
 
   /* lazy loading */
-  --lazy-primary-color: rgb(61, 61, 61);
-  --lazy-secondary-color: rgb(45, 45, 45);
+  --primary-gray: rgb(61, 61, 61);
+  --secondary-gray: rgb(45, 45, 45);
 
   /* forms */
   --toggle-pill: rgb(90, 90, 90);
@@ -699,10 +699,12 @@ label {
   padding: 10px 15px;
   color: #ffffff;
   cursor: pointer;
+  transition: 0.2s ease-in 0s;
 }
 
 .select-options .option:hover {
-  background-color: rgb(61, 61, 61);
+  background-color: var(--secondary-gray);
+  transition: 0.2s ease-in 0s;
 }
 
 .select-options .disabled {
@@ -1717,6 +1719,7 @@ textarea {
 }
 
 .vault-members .member .name {
+  position: relative;
   flex-grow: 1;
 }
 
@@ -1751,6 +1754,7 @@ textarea {
   background-color: #1a1a1a;
   height: 35px;
   width: 35px;
+  min-width: 35px;
   border-radius: 50%;
   /* color: #ffffff;
   opacity: 50%;
@@ -1836,16 +1840,16 @@ textarea {
 }
 
 .vault-members .lazy-role p {
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
   opacity: 0.5;
 }
 
 .vault-members .lazy-member p {
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
 }
 
 .vault-members .lazy-member .lazy-icon {
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
   height: 35px;
   width: 35px;
   min-height: 35px;
@@ -1857,6 +1861,83 @@ textarea {
   font-size: 0.8rem;
   color: #ffffff;
   opacity: 1;
+}
+
+.assign-role .assign-role-popup {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  top: calc(100% + 10px);
+  background: #1a1a1a;
+  box-shadow: 0 0 10px 5px rgb(0 0 0 / 25%);
+  /* border: 1px solid #474747; */
+  border-radius: 3px;
+  max-height: 200px;
+  overflow-y: scroll;
+  z-index: 2;
+}
+
+.assign-role .assign-role-popup .option {
+  padding: 10px 15px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.2s ease-in 0s;
+  display: flex;
+  gap: 10px;
+}
+
+.assign-role .assign-role-popup .option:hover {
+  background-color: var(--secondary-gray);
+  transition: 0.2s ease-in 0s;
+}
+
+.assign-member .assign-member-popup {
+  position: absolute;
+  left: 15px;
+  width: calc(100% - 30px);
+  top: calc(100% + 10px);
+  background: #1a1a1a;
+  box-shadow: 0 0 10px 5px rgb(0 0 0 / 25%);
+  /* border: 1px solid #474747; */
+  border-radius: 3px;
+  max-height: 200px;
+  overflow-y: scroll;
+  z-index: 2;
+}
+
+.assign-member .assign-member-popup .option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.2s ease-in 0s;
+  display: flex;
+  gap: 10px;
+}
+
+.assign-member .assign-member-popup .option:hover {
+  background-color: var(--secondary-gray);
+  transition: 0.2s ease-in 0s;
+}
+
+.assign-member .assign-member-popup .option .image {
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  background-color: #1a1a1a;
+  height: 35px;
+  width: 35px;
+  min-width: 35px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.assign-member .assign-member-popup .option .name {
+  display: block;
 }
 
 /* other links css */
@@ -2053,7 +2134,7 @@ textarea {
 }
 
 .lazy-card .lazy-icon {
-  background-color: var(--lazy-secondary-color);
+  background-color: var(--secondary-gray);
   height: 60px;
   min-height: 60px;
   width: 60px;
@@ -2065,7 +2146,7 @@ textarea {
 .lazy-card .title {
   height: 15px;
   border-radius: 10px;
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
 }
 
 /* password item css */
@@ -2186,7 +2267,7 @@ textarea {
 
 .lazy-item .lazy-icon {
   text-transform: uppercase;
-  background-color: var(--lazy-secondary-color);
+  background-color: var(--secondary-gray);
   height: 60px;
   min-height: 60px;
   width: 60px;
@@ -2204,17 +2285,17 @@ textarea {
 .lazy-item .name .title {
   height: 15px;
   border-radius: 10px;
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
 }
 
 .lazy-item .name .subTitle {
   height: 15px;
   border-radius: 10px;
-  background-color: var(--lazy-secondary-color);
+  background-color: var(--secondary-gray);
 }
 
 .lazy-item .dots {
-  background-color: var(--lazy-secondary-color);
+  background-color: var(--secondary-gray);
   height: 30px;
   width: 30px;
   border-radius: 50%;
@@ -2229,7 +2310,7 @@ textarea {
 
 .lazy-grid .count div:first-child,
 .lazy-list .count div:first-child {
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
   width: 15px;
   height: 15px;
   border-radius: 10px;
@@ -2237,7 +2318,7 @@ textarea {
 
 .lazy-grid .count div:last-child,
 .lazy-list .count div:last-child {
-  background-color: var(--lazy-primary-color);
+  background-color: var(--primary-gray);
   width: 70px;
   height: 15px;
   border-radius: 10px;
@@ -2331,6 +2412,7 @@ textarea {
 }
 
 .role-item {
+  position: relative;
   display: flex;
   align-items: center;
   padding-top: 10px;
@@ -2354,7 +2436,6 @@ textarea {
 }
 
 .role-item .info {
-  text-transform: uppercase;
   display: flex;
   justify-content: space-between;
   gap: 10px;

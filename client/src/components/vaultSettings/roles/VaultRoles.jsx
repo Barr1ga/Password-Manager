@@ -24,8 +24,8 @@ const VaultRoles = () => {
 
   let filteredRoles =
     searchValue !== ""
-      ? roles.filter((item) =>
-          item.name.toLowerCase().includes(searchValue.toLowerCase())
+      ? roles.filter((role) =>
+          role.name.toLowerCase().includes(searchValue.toLowerCase())
         )
       : roles;
 

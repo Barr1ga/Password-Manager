@@ -2,13 +2,14 @@ import React from "react";
 import { HiOutlineChevronRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
+import AssignMemberButton from "./AssignMemberButton";
 import { FaCrown } from "react-icons/fa";
 
 const Role = ({ role, isVaultOwner }) => {
   const { members } = useSelector((state) => state.members);
   console.log(role.uid);
   console.log(members);
-  console.log(isVaultOwner)
+  console.log(isVaultOwner);
   let filteredMembers = members.filter((member) => {
     if (member.roleUids.includes(role.uid)) {
       return member;
@@ -62,9 +63,10 @@ const Role = ({ role, isVaultOwner }) => {
                 )}
               </div>
             )}
-            <div className="btn-circle">
+            {/* <div className="btn-circle">
               <HiPlus></HiPlus>
-            </div>
+            </div> */}
+            <AssignMemberButton role={role}></AssignMemberButton>
           </span>
         </div>
       </div>

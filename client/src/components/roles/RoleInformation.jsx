@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import MembersList from "../vaultSettings/roles/MembersList";
 
 const RoleInformation = ({ method, defaultValues }) => {
+  const [assignedMembers, setAssignedMembers] = useState([]);
   const [createLoading, setCreateLoading] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -39,12 +40,13 @@ const RoleInformation = ({ method, defaultValues }) => {
       uid: authUser.uid,
       roleData: {
         ...data,
-        folders,
+        folders: assignedFolders,
+        membersUids: assignedMembers.map((member) => member.uid),
       },
     };
 
+    console.log(newData);
     if (method === "create") {
-      console.log(newData);
       // setCreateLoading(true);
       // dispatch(createItem(newData));
     }
@@ -219,7 +221,13 @@ const RoleInformation = ({ method, defaultValues }) => {
       )}
 
       <div className="vault-members">
-        {tab === 2 && <MembersList methor={"create"}></MembersList>}
+        {tab === 2 && (
+          <MembersList
+            methor={"create"}
+            assignedMembers={assignedMembers}
+            setAssignedMembers={setAssignedMembers}
+          ></MembersList>
+        )}
       </div>
     </>
   );
