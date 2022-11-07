@@ -4,15 +4,16 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   roles: [
-    { uid: "1", name: "Vault Owner", abreviation: "VO" },
-    { uid: "2", name: "family", abreviation: "FAM" },
-    { uid: "3", name: "employee", abreviation: "EMP" },
-    { uid: "4", name: "My programming frien", abreviation: "NEIGH" },
-    { uid: "5", name: "BSIT", abreviation: "BSIT" },
-    { uid: "6", name: "student", abreviation: "STUD" },
-    { uid: "7", name: "professor", abreviation: "PROF" },
-    { uid: "8", name: "friend", abreviation: "frd" },
+    // { uid: "role1", name: "Vault Owner", abreviation: "VO" },
+    // { uid: "role2", name: "family", abreviation: "FAM" },
+    // { uid: "role3", name: "employee", abreviation: "EMP" },
+    // { uid: "role4", name: "My programming frien", abreviation: "NEIGH" },
+    // { uid: "role5", name: "BSIT", abreviation: "BSIT" },
+    // { uid: "role6", name: "student", abreviation: "STUD" },
+    // { uid: "role7", name: "professor", abreviation: "PROF" },
+    // { uid: "role8", name: "friend", abreviation: "frd" },
   ],
+  selectedRole: null,
   roleLoading: false,
   roleFulfilled: false,
   roleError: false,
@@ -70,19 +71,25 @@ export const deleteRole = createAsyncThunk(
 const roleSlice = createSlice({
   name: "role",
   initialState,
-  reducer: {
+  reducers: {
     resetRoles: (state) => initialState,
+    selectRole: (state, action) => {
+      state.selectedRole = action.payload;
+    },
+    resetSelectedRole: (state) => {
+      state.selectedRole = null;
+    },
   },
   extraReducers: (builder) => {
     builder
 
       .addCase(getAllRoles.pending, (state) => {
-        // state.roleLoading = true;
+        state.roleLoading = true;
       })
       .addCase(getAllRoles.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
-        // state.roles = action.payload;
+        state.roles = action.payload;
       })
       .addCase(getAllRoles.rejected, (state, action) => {
         state.roleLoading = false;
@@ -144,5 +151,5 @@ const roleSlice = createSlice({
   },
 });
 
-export const { resetRoles } = roleSlice.actions;
+export const { resetRoles, selectRole, resetSelectedRole } = roleSlice.actions;
 export default roleSlice.reducer;

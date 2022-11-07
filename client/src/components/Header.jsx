@@ -25,7 +25,6 @@ const Header = () => {
 
   useEffect(() => {
     if (authUser && !authRegistered && !authEmailAndPasswordLoading) {
-      console.log(authRegistered);
       dispatch(getUserData(authUser.uid));
       dispatch(getAllMembers({ uid: authUser.uid }));
     }

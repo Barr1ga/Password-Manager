@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import ItemInformation from "../components/ItemInformation";
+import ItemInformation from "../components/items/ItemInformation";
 
 const CurrentItemPage = () => {
   const { items, selectedItem } = useSelector((state) => state.items);
@@ -14,10 +14,10 @@ const CurrentItemPage = () => {
   if (!currentItem) {
     return <></>;
   }
-  
+
   return (
     <>
-      <div className="margin-content padding-side">
+      <div className="margin-content padding-left">
         <ItemInformation currentItem={currentItem}></ItemInformation>
       </div>
     </>

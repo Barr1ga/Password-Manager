@@ -1,5 +1,5 @@
 import React from "react";
-import randomIntFromInterval from "../utils/randomIntFromInterval";
+import randomIntFromInterval from "../../utils/randomIntFromInterval";
 
 const ItemCard = () => {
   const titleLength = randomIntFromInterval(50, 100);

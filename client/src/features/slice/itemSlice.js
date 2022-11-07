@@ -4,7 +4,18 @@ import itemService from "../services/itemService";
 import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
-  items: [],
+  items: [
+    // {
+    //   uid: "item1",
+    //   name: "Discord",
+    //   username: "hor.barr1ga@gmail.com",
+    //   type: "login",
+    //   image: "",
+    //   favorite: true,
+    //   folders: [],
+    //   trash: false,
+    // },
+  ],
   itemLoading: false,
   itemFulfilled: false,
   itemCreatedFullfilled: false,
@@ -150,7 +161,7 @@ const passwordSlice = createSlice({
     resetSelectedItem: (state) => {
       state.selectedItem = null;
     },
-    selectPasswordItem: (state, action) => {
+    selectItem: (state, action) => {
       state.selectedItem = action.payload;
     },
     resetBrandPhotoLink: (state) => {
@@ -316,7 +327,7 @@ export const {
   resetItems,
   resetItemQueryFulfilled,
   resetSelectedItem,
-  selectPasswordItem,
+  selectItem,
   resetBrandPhotoLink,
 } = passwordSlice.actions;
 export default passwordSlice.reducer;

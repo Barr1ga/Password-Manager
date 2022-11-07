@@ -492,7 +492,6 @@ label {
 
 .right-margin .scroll-view {
   padding-right: 15px;
-  padding: 0px 15px 0 0;
 }
 
 .center-margin .scroll-view {
@@ -647,11 +646,6 @@ label {
   font-size: 1rem;
   transition: 0.2s ease-out 0s;
   cursor: pointer;
-}
-
-.three-dots:hover {
-  background-color: rgb(61, 61, 61);
-  transition: 0.2s ease-out 0s;
 }
 
 @media only screen and (max-width: 360px) {
@@ -995,6 +989,10 @@ textarea {
   padding-right: 15px;
 }
 
+.padding-left {
+  padding-left: 15px;
+}
+
 .form-error {
   border: 1px solid #ff4949;
 }
@@ -1226,8 +1224,7 @@ textarea {
 
 .side-nav .selected p,
 .side-nav .selected {
-  /* color: #b970ff; */
-  color: #b970ff;
+  color: #ffffff;
 }
 
 .side-nav .selected {
@@ -1235,7 +1232,6 @@ textarea {
 }
 
 .sidenav-button:hover p {
-  /* transition: 0.2s ease-out 0s; */
   color: rgba(255, 255, 255);
 }
 
@@ -1610,7 +1606,7 @@ textarea {
 }
 
 .tab .selected p {
-  color: #b970ff;
+  color: #ffffff;
 }
 
 /* site warning css */
@@ -1707,6 +1703,11 @@ textarea {
 .center-margin .vault-members .member {
   cursor: default;
   align-items: flex-start;
+  border-radius: 0 3px 3px 0;
+}
+
+.center-margin .vault-members .member:hover {
+  background-color: var(--secondary-gray);
 }
 
 .vault-members .member .vault-owner {
@@ -1746,7 +1747,6 @@ textarea {
 }
 
 .vault-members .image {
-  text-transform: uppercase;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1756,10 +1756,6 @@ textarea {
   width: 35px;
   min-width: 35px;
   border-radius: 50%;
-  /* color: #ffffff;
-  opacity: 50%;
-  height: 20px;
-  width: 20px; */
   position: relative;
 }
 
@@ -2179,7 +2175,7 @@ textarea {
 
 .password-item-selected .name,
 .password-item-selected {
-  color: #b970ff !important;
+  color: #ffffff;
 }
 
 .password-item-selected,
@@ -2402,6 +2398,10 @@ textarea {
 }
 
 /* roles css */
+.right-margin .role-information{
+  padding-left: 1px;
+}
+
 .roles-list-header {
   display: flex;
   justify-content: space-between;
@@ -2423,6 +2423,7 @@ textarea {
   /* flex-wrap: wrap; */
 }
 
+.role-item-selected,
 .role-item:hover {
   background-color: rgb(45, 45, 45);
   transition: 0.2s ease-out 0s;
@@ -2473,8 +2474,7 @@ textarea {
 .role-item .members-with-role .member {
   height: 35px;
   width: 35px;
-  background-color: #1a1a1a;
-  outline: 2px solid rgb(34, 34, 34);
+  background-color: var(--primary-dark);
   color: #ffffff;
   border-radius: 50%;
   display: flex;
@@ -2490,12 +2490,15 @@ textarea {
 }
 
 .role-item:hover .members-with-role .member {
-  outline: 2px solid rgb(45, 45, 45);
   transition: 0.2s ease-out 0s;
 }
 
 .role-count {
   margin: 0 0 10px 0;
+}
+
+.role-item-selected {
+  color: #ffffff;
 }
 
 /* filters css */

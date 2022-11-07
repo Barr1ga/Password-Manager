@@ -20,7 +20,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import SiteWarning from "./components/SiteWarning";
 import VaultMembers from "./components/members/VaultMembers";
-import CurrentItem from "./components/CurrentItem";
+import CurrentItem from "./components/items/CurrentItem";
+import CurrentRole from "./components/roles/CurrentRole";
 import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
@@ -28,10 +29,12 @@ import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
+import CurrentRolePage from "./pages/CurrentRole";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
   const { selectedItem } = useSelector((state) => state.items);
+  const { selectedRole } = useSelector((state) => state.roles);
   const { authUser, username, masterPasswordHint } = useSelector(
     (state) => state.auth
   );
@@ -391,7 +394,7 @@ const App = () => {
                 authUser ? (
                   <ResponsiveDisplay
                     nonMobile={<Roles />}
-                    mobile={<CurrentItemPage />}
+                    mobile={<CurrentRolePage />}
                   ></ResponsiveDisplay>
                 ) : (
                   <Navigate to="/LoginRegistration" />
@@ -432,10 +435,15 @@ const App = () => {
                 </>
               )}
 
-              {!selectedItem && (
+              {selectedRole && (
+                <>
+                  <CurrentRole></CurrentRole>
+                </>
+              )}
+
+              {!selectedItem && !selectedRole && (
                 <>
                   <SiteWarning></SiteWarning>
-
                   <div className="right-vault-members">
                     <VaultMembers></VaultMembers>
                   </div>

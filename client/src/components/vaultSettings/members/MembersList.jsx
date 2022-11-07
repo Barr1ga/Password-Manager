@@ -20,7 +20,7 @@ const MembersList = () => {
   return (
     <>
       <div className="vault-members">
-        <div className="form-group form-search">
+        <div className="form-group form-search padding-side">
           <input
             placeholder="Search Member"
             type="text"
@@ -30,7 +30,7 @@ const MembersList = () => {
           <HiOutlineSearch className="icon"></HiOutlineSearch>
         </div>
         <div className="standard-stack">
-          <span className="member-count">{filteredMembers.length} Members</span>
+          <span className="member-count padding-side">{filteredMembers.length} Members</span>
 
           {filteredMembers.map((member, idx) => (
             <Member key={idx} member={member}></Member>

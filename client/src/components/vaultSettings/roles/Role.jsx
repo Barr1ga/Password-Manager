@@ -1,22 +1,34 @@
 import React from "react";
 import { HiOutlineChevronRight } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
 import AssignMemberButton from "./AssignMemberButton";
 import { FaCrown } from "react-icons/fa";
+import { selectRole } from "../../../features/slice/roleSlice";
+import { Link } from "react-router-dom";
+import { resetSelectedItem } from "../../../features/slice/itemSlice";
 
 const Role = ({ role, isVaultOwner }) => {
   const { members } = useSelector((state) => state.members);
-  console.log(role.uid);
-  console.log(members);
-  console.log(isVaultOwner);
+  const { selectedRole } = useSelector((state) => state.roles);
+  const { selectedItem } = useSelector((state) => state.items);
+  const route = "/Roles";
+
+  const dispatch = useDispatch();
+
+  const handleRoleClicked = () => {
+    if (selectedItem !== "") {
+      dispatch(resetSelectedItem());
+    }
+    dispatch(selectRole(role.uid));
+  };
+
   let filteredMembers = members.filter((member) => {
     if (member.roleUids.includes(role.uid)) {
       return member;
     }
   });
 
-  console.log(filteredMembers);
   let length = filteredMembers.length;
 
   filteredMembers = filteredMembers.slice(0, 5);
@@ -24,7 +36,15 @@ const Role = ({ role, isVaultOwner }) => {
   const remainingCount = length - filteredMembers.length;
 
   return (
-    <div className="role-item padding-side">
+    <Link
+      to={`${route}/${role.uid}`}
+      className={
+        selectedRole === role.uid
+          ? "role-item role-item-selected padding-side"
+          : "role-item padding-side"
+      }
+      onClick={handleRoleClicked}
+    >
       <div>
         <div className="name">
           {isVaultOwner ? (
@@ -71,7 +91,7 @@ const Role = ({ role, isVaultOwner }) => {
         </div>
       </div>
       <HiOutlineChevronRight className="three-dots"></HiOutlineChevronRight>
-    </div>
+    </Link>
   );
 };
 

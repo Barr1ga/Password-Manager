@@ -11,8 +11,6 @@ const AssignMemberButton = ({ role }) => {
     (member) => !member.roleUids.includes(role.uid)
   );
 
-  console.log(unassignedMembers);
-
   const handleAssignMember = (member) => {
     console.log(member);
     setPopupShow(false);

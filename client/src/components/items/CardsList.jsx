@@ -1,18 +1,21 @@
 import React from "react";
-import Item from "./Item";
-import EmptyList from "../assets/empty-list.svg";
+import Card from "./Card";
+import EmptyList from "../../assets/empty-list.svg";
 
-const ItemsList = ({ filteredItems, route, searchValue, count }) => {
+const CardsList = ({ filteredItems, route, searchValue, count }) => {
   return (
     <>
-      <div className="password-list standard-stack">
+      <div className="password-grid padding-side standard-stack">
         <div className="scroll-view">
-          <span className="padding-side count">{count} Items</span>
-          <div className="contents" style={{height: count === 0 ? "100%" : "auto"}}>
+          <span className="count">{count} Items</span>
+          <div
+            className="contents"
+            style={{ height: count === 0 ? "100%" : "auto" }}
+          >
             {filteredItems.length === 0 && (
               <div className="empty-list">
                 <img src={EmptyList} alt={EmptyList}></img>
-                <span>
+                <p>
                   {searchValue === "" ? (
                     <>
                       You havent added<br></br>any item yet
@@ -20,11 +23,11 @@ const ItemsList = ({ filteredItems, route, searchValue, count }) => {
                   ) : (
                     <>No items Found</>
                   )}
-                </span>
+                </p>
               </div>
             )}
             {filteredItems.map((item, idx) => (
-              <Item key={idx} route={route} item={item}></Item>
+              <Card key={idx} route={route} item={item}></Card>
             ))}
           </div>
         </div>
@@ -33,4 +36,4 @@ const ItemsList = ({ filteredItems, route, searchValue, count }) => {
   );
 };
 
-export default ItemsList;
+export default CardsList;

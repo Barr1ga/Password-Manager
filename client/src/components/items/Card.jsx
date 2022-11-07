@@ -1,15 +1,19 @@
 import React from "react";
-import { HiOutlineChevronRight, HiLink, HiStar } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
-import { selectedItem } from "../features/slice/itemSlice";
+import { selectItem } from "../../features/slice/itemSlice";
 import { Link } from "react-router-dom";
+import { resetSelectedRole } from "../../features/slice/roleSlice";
 
 const ItemCard = ({ route, item }) => {
   const dispatch = useDispatch();
   const { selectedItem } = useSelector((state) => state.items);
+  const { selectedRole } = useSelector((state) => state.roles);
 
   const handleItemClicked = () => {
-    dispatch(selectedItem(item.id));
+    if (selectedRole !== "") {
+      dispatch(resetSelectedRole());
+    }
+    dispatch(selectItem(item.id));
   };
 
   const handleLinkClicked = () => {

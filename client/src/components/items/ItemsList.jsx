@@ -1,19 +1,18 @@
 import React from "react";
-import AddItemButton from "./AddItemButton";
-import Card from "./Card";
-import EmptyList from "../assets/empty-list.svg";
+import Item from "./Item";
+import EmptyList from "../../assets/empty-list.svg";
 
-const CardsList = ({ filteredItems, route, searchValue, count }) => {
+const ItemsList = ({ filteredItems, route, searchValue, count }) => {
   return (
     <>
-      <div className="password-grid padding-side standard-stack">
+      <div className="password-list standard-stack">
         <div className="scroll-view">
-          <span className="count">{count} Items</span>
+          <span className="padding-side count">{count} Items</span>
           <div className="contents" style={{height: count === 0 ? "100%" : "auto"}}>
             {filteredItems.length === 0 && (
               <div className="empty-list">
                 <img src={EmptyList} alt={EmptyList}></img>
-                <p>
+                <span>
                   {searchValue === "" ? (
                     <>
                       You havent added<br></br>any item yet
@@ -21,11 +20,11 @@ const CardsList = ({ filteredItems, route, searchValue, count }) => {
                   ) : (
                     <>No items Found</>
                   )}
-                </p>
+                </span>
               </div>
             )}
             {filteredItems.map((item, idx) => (
-              <Card key={idx} route={route} item={item}></Card>
+              <Item key={idx} route={route} item={item}></Item>
             ))}
           </div>
         </div>
@@ -34,4 +33,4 @@ const CardsList = ({ filteredItems, route, searchValue, count }) => {
   );
 };
 
-export default CardsList;
+export default ItemsList;

@@ -53,9 +53,7 @@ const AddItemModal = () => {
           </div>
         </Modal.Header>
         <Modal.Body className="add-role-modal standard-stack gap-10">
-          <RoleInformation></RoleInformation>
-
-          
+          <RoleInformation method={"create"}></RoleInformation>
         </Modal.Body>
       </Modal>
     </>

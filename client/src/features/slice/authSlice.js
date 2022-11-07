@@ -6,12 +6,7 @@ const authUser = JSON.parse(localStorage.getItem("authUser"));
 const authProfile = JSON.parse(localStorage.getItem("authProfile"));
 
 const initialState = {
-  // authUser: authUser ? authUser : null,
-  authUser: {
-    uid: "1",
-    displayName: "horeb",
-    photoURL: "",
-  },
+  authUser: authUser ? authUser : null,
   username: authProfile ? authProfile.username : "",
   status: "",
   viewing: "",

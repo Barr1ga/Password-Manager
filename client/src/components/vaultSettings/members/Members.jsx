@@ -12,16 +12,18 @@ const Members = () => {
     mode: "all",
   });
   return (
-    <div className="standard-stack padding-side gap-10">
-      <h5>Invite People</h5>
-      <div className="form-group">
+    <div className="standard-stack gap-10">
+      <div className="padding-side">
+        <h5>Invite People</h5>
+      </div>
+      <div className="form-group padding-side">
         <WarningAlert
           message={
             "Please note that inviting users to this vault may lead to unauthorized access to sensitive information. Assign proper authorizations to new and existing users by giving them appropriate roles."
           }
         ></WarningAlert>
       </div>
-      <form>
+      <form className="padding-side">
         <div className="form-group">
           <label>Email Address</label>
 
@@ -48,7 +50,9 @@ const Members = () => {
           <Button className="btn-dark">Invite Email</Button>
         </div>
       </form>
-      <hr></hr>
+      <div className="padding-side">
+        <hr></hr>
+      </div>
 
       <MembersList></MembersList>
     </div>

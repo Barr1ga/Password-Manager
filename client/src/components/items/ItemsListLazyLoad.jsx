@@ -1,6 +1,5 @@
 import React from "react";
 import ItemLazyLoad from "./ItemLazyLoad";
-import CardLazyLoad from "./CardLazyLoad";
 
 const linesCount = 5;
 

@@ -9,10 +9,10 @@ import {
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
 import { getAllItems } from "../features/slice/itemSlice";
-import ItemsListLazyLoad from "../components/ItemsListLazyLoad";
-import CardsListLazyLoad from "../components/CardsListLazyLoad";
-import ItemsList from "../components/ItemsList";
-import CardsList from "../components/CardsList";
+import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
+import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
+import ItemsList from "../components/items/ItemsList";
+import CardsList from "../components/items/CardsList";
 import { useParams } from "react-router-dom";
 
 const AllItems = () => {
@@ -31,7 +31,7 @@ const AllItems = () => {
 
   useEffect(() => {
     if (!uid) {
-    dispatch(getAllItems({ uid: authUser.uid }));
+      dispatch(getAllItems({ uid: authUser.uid }));
     }
   }, []);
 

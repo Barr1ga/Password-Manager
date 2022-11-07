@@ -14,23 +14,23 @@ import {
   HiOutlineTrash,
 } from "react-icons/hi";
 import { MdOutlineRestore } from "react-icons/md";
-import UploadImage from "./UploadImage";
-import ConfirmModal from "./helpers/ConfirmModal";
+import UploadImage from "../UploadImage";
+import ConfirmModal from "../helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItem,
   resetSelectedItem,
   updateItem,
-} from "../features/slice/itemSlice";
+} from "../../features/slice/itemSlice";
 import { useNavigate } from "react-router-dom";
 
-import Card from "./addItem/Card";
-import Login from "./addItem/Login";
-import SecureNote from "./addItem/SecureNote";
-import WifiPassword from "./addItem/WifiPassword";
-import Identification from "./addItem/Identification";
-import SpinnerLoader from "./SpinnerLoader";
-import { createItemLog } from "../features/slice/auditLogSlice";
+import Card from "../addItem/Card";
+import Login from "../addItem/Login";
+import SecureNote from "../addItem/SecureNote";
+import WifiPassword from "../addItem/WifiPassword";
+import Identification from "../addItem/Identification";
+import SpinnerLoader from "../SpinnerLoader";
+import { createItemLog } from "../../features/slice/auditLogSlice";
 
 const ItemInformation = ({ currentItem }) => {
   const navigate = useNavigate();
@@ -158,7 +158,7 @@ const ItemInformation = ({ currentItem }) => {
                 onClick={handleBack}
               ></HiOutlineArrowLeft>
             )}
-            <h4>Update Password</h4>
+            <h4>Update Item</h4>
           </div>
           <ConfirmModal
             proceedInteraction={
@@ -448,30 +448,6 @@ const ItemInformation = ({ currentItem }) => {
             </>
           )}
 
-          {/*  */}
-
-          {/* <ConfirmModal
-            proceedInteraction={
-              <Button
-                className="btn-dark btn-long"
-                onClick={() => handleDeleteItem(currentItem.uid)}
-              >
-                Yes
-              </Button>
-            }
-            component={
-              <Button
-                type="submit"
-                className="btn-secondary danger btn-long btn-with-icon"
-              >
-                <HiOutlineTrash></HiOutlineTrash>Delete Item
-              </Button>
-            }
-            headerMessage={"Are you sure you want to delete this item?"}
-            bodyMessage={
-              "Once you delete this item, there is no going back. Please be certain."
-            }
-          ></ConfirmModal> */}
         </div>
 
         <div className="last-updated">

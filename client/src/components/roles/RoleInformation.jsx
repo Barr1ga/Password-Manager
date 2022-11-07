@@ -1,14 +1,19 @@
 import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
-import { HiPlus } from "react-icons/hi";
+import { HiOutlinePencil, HiOutlineX, HiPlus } from "react-icons/hi";
 import WarningAlert from "../alerts/WarningAlert";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MembersList from "../vaultSettings/roles/MembersList";
+import ConfirmModal from "../helpers/ConfirmModal";
+import { createRole, resetSelectedRole } from "../../features/slice/roleSlice";
+import { useNavigate } from "react-router-dom";
 
 const RoleInformation = ({ method, defaultValues }) => {
   const [assignedMembers, setAssignedMembers] = useState([]);
   const [createLoading, setCreateLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
@@ -19,6 +24,8 @@ const RoleInformation = ({ method, defaultValues }) => {
     defaultValues?.folders || []
   );
   const [tab, setTab] = useState(1);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -45,17 +52,17 @@ const RoleInformation = ({ method, defaultValues }) => {
       },
     };
 
-    console.log(newData);
     if (method === "create") {
-      // setCreateLoading(true);
-      // dispatch(createItem(newData));
+      console.log(newData);
+      setCreateLoading(true);
+      dispatch(createRole(newData));
     }
 
-    // if (method === "update") {
-    //   setUpdateLoading(true);
-    //   newData.itemUid = defaultValues.uid;
-    //   dispatch(updateItem(newData));
-    // }
+    if (method === "update") {
+      setUpdateLoading(true);
+      // newData.itemUid = defaultValues.uid;
+      // dispatch(updateItem(newData));
+    }
   };
 
   // folders
@@ -81,15 +88,74 @@ const RoleInformation = ({ method, defaultValues }) => {
     }
   };
 
+  const handleCloseMobile = () => {
+    dispatch(resetSelectedRole());
+    navigate(-1);
+  };
+
+  const handleClose = () => {
+    dispatch(resetSelectedRole());
+  };
+
   return (
-    <>
-      <div className="form-group">
+    <div className="role-information standard-stack gap-10">
+      <div className="page-header">
+        <div className="back-enabled">
+          <h4>Update Role</h4>
+        </div>
+        <ConfirmModal
+          proceedInteraction={
+            <Button
+              type="button"
+              onClick={handleCloseMobile}
+              className="btn-dark btn-long"
+            >
+              Leave
+            </Button>
+          }
+          component={
+            <div className="screen-version">
+              <div className="mobile">
+                <HiOutlineX className="btn-close"></HiOutlineX>
+              </div>
+            </div>
+          }
+          headerMessage={"Are you sure you want to leave this section?"}
+          bodyMessage={
+            "You have unsaved content, and will be lost unless you save it."
+          }
+        ></ConfirmModal>
+        <ConfirmModal
+          proceedInteraction={
+            <Button
+              type="button"
+              onClick={handleClose}
+              className="btn-dark btn-long"
+            >
+              Leave
+            </Button>
+          }
+          component={
+            <div className="screen-version">
+              <div className="non-mobile">
+                <HiOutlineX className="btn-close"></HiOutlineX>
+              </div>
+            </div>
+          }
+          headerMessage={"Are you sure you want to leave this section?"}
+          bodyMessage={
+            "You have unsaved content, and will be lost unless you save it."
+          }
+          continueMessage={"Leave"}
+        ></ConfirmModal>
+      </div>
+      <div>
         <div className="tab">
           <div
             onClick={() => setTab(1)}
             className={tab === 1 ? "pills selected" : "pills"}
           >
-            <p>{"Display & Information"}</p>
+            <p>Display Information</p>
           </div>
           <div
             onClick={() => setTab(2)}
@@ -104,10 +170,6 @@ const RoleInformation = ({ method, defaultValues }) => {
         <div className="standard-stack gap-10">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="standard-stack">
-              <h5>Display Information</h5>
-
-              <div className="form-group"></div>
-
               <div className="form-group">
                 <label>
                   Name of the Role<span className="error-message">*</span>
@@ -135,7 +197,6 @@ const RoleInformation = ({ method, defaultValues }) => {
 
             <div className="standard-stack">
               <h5>Permissions</h5>
-
               <div className="form-group">
                 <WarningAlert
                   message={
@@ -143,7 +204,6 @@ const RoleInformation = ({ method, defaultValues }) => {
                   }
                 ></WarningAlert>
               </div>
-
               <div className="form-group form-select-group">
                 <label>Folder</label>
                 <div
@@ -206,30 +266,40 @@ const RoleInformation = ({ method, defaultValues }) => {
                   )}
                 </div>
               </div>
-
               <div className="form-group">
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                >
-                  <HiPlus></HiPlus>Add Role
-                </Button>
+                {method === "create" ? (
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-long btn-with-icon"
+                  >
+                    <HiPlus></HiPlus>Add Role
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-long btn-with-icon"
+                  >
+                    <HiOutlinePencil></HiOutlinePencil>Update Role
+                  </Button>
+                )}
               </div>
             </div>
           </form>
         </div>
       )}
 
-      <div className="vault-members">
-        {tab === 2 && (
-          <MembersList
-            methor={"create"}
-            assignedMembers={assignedMembers}
-            setAssignedMembers={setAssignedMembers}
-          ></MembersList>
-        )}
-      </div>
-    </>
+      {tab === 2 && (
+        <>
+          <div className="vault-members">
+            <MembersList
+              methor={"create"}
+              assignedMembers={assignedMembers}
+              setAssignedMembers={setAssignedMembers}
+            ></MembersList>
+          </div>
+        </>
+      )}
+    </div>
   );
 };
 

@@ -4,42 +4,42 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   members: [
-    {
-      uid: 1,
-      username: "horebBarriga",
-      email: "hor.barr1ga@gmail.com",
-      image: "",
-      roleUids: ["1"],
-      viewing: "Cards",
-      status: "online",
-    },
-    {
-      uid: 1,
-      username: "daina",
-      email: "red@gmail.com",
-      image: "",
-      roleUids: ["3", "2", "4"],
-      viewing: "Cards",
-      status: "online",
-    },
-    {
-      uid: 1,
-      username: "caburnayCj",
-      email: "cjcaburnay@gmail.com",
-      image: "",
-      roleUids: ["4", "5", "3", "6", "5", "2", "7", "8"],
-      viewing: "Cards",
-      status: "online",
-    },
-    {
-      uid: 1,
-      username: "rhel",
-      email: "rhelbarina@gmail.com",
-      image: "",
-      roleUids: ["3", "2", "4"],
-      viewing: "Cards",
-      status: "online",
-    },
+    // {
+    //   uid: 1,
+    //   username: "horebBarriga",
+    //   email: "hor.barr1ga@gmail.com",
+    //   image: "",
+    //   roleUids: ["1"],
+    //   viewing: "Cards",
+    //   status: "online",
+    // },
+    // {
+    //   uid: 2,
+    //   username: "daina",
+    //   email: "red@gmail.com",
+    //   image: "",
+    //   roleUids: ["3", "2", "4"],
+    //   viewing: "Cards",
+    //   status: "online",
+    // },
+    // {
+    //   uid: 3,
+    //   username: "caburnayCj",
+    //   email: "cjcaburnay@gmail.com",
+    //   image: "",
+    //   roleUids: ["4", "5", "3", "6", "5", "2", "7", "8"],
+    //   viewing: "Cards",
+    //   status: "online",
+    // },
+    // {
+    //   uid: 4,
+    //   username: "rhel",
+    //   email: "rhelbarina@gmail.com",
+    //   image: "",
+    //   roleUids: ["3", "2", "4"],
+    //   viewing: "Cards",
+    //   status: "online",
+    // },
   ],
   memberLoading: false,
   memberFulfilled: false,
@@ -105,12 +105,12 @@ const memberSlice = createSlice({
     builder
 
       .addCase(getAllMembers.pending, (state) => {
-        // state.memberLoading = true;
+        state.memberLoading = true;
       })
       .addCase(getAllMembers.fulfilled, (state, action) => {
         state.memberLoading = false;
         state.memberFulfilled = true;
-        // state.members = action.payload;
+        state.members = action.payload;
       })
       .addCase(getAllMembers.rejected, (state, action) => {
         state.memberLoading = false;
