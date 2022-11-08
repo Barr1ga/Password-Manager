@@ -118,35 +118,31 @@ const Card = ({
   }, [setCurrentImageLetter, watchName]);
 
   useEffect(() => {
-    if (isDirty) {
-      if (itemUpdatedFullfilled) {
-        const auditData = {
-          uid: authUser.uid,
-          itemLogData: {
-            actorUid: authUser.uid,
-            action: "item/update",
-            description: "updated the item",
-            benefactorUid: defaultValues.uid,
-            date: new Date(),
-          },
-        };
-        dispatch(createLog(auditData));
-      }
+    if (itemUpdatedFullfilled) {
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/update",
+          description: "updated the item",
+          benefactorUid: defaultValues.uid,
+        },
+      };
+      dispatch(createLog(auditData));
+    }
 
-      if (itemCreatedFullfilled) {
-        const recentItemUid = items[0].uid;
-        const auditData = {
-          uid: authUser.uid,
-          itemLogData: {
-            actorUid: authUser.uid,
-            action: "item/create",
-            description: "created the item",
-            benefactorUid: recentItemUid,
-            date: new Date(),
-          },
-        };
-        dispatch(createLog(auditData));
-      }
+    if (itemCreatedFullfilled) {
+      const recentItemUid = items[0].uid;
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/create",
+          description: "created the item",
+          benefactorUid: recentItemUid,
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (itemFulfilled || itemError) {
@@ -651,7 +647,8 @@ const Card = ({
                 disabled={
                   (!isDirty || !isValid) &&
                   favorite === defaultValues.favorite &&
-                  !isDropdownsDirty && assignedFolders === defaultValues.folders
+                  !isDropdownsDirty &&
+                  assignedFolders === defaultValues.folders
                 }
               >
                 <HiOutlinePencil></HiOutlinePencil>Update Item

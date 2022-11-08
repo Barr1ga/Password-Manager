@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { formatToMonthDayYearDate, formatToTimeDate } from "../../utils/Date";
+import { formatToMonthDayYearDate, formatToTimeDate } from "../../utils/date";
 import MessageLazyLoad from "./MessageLazyLoad";
 
 const Message = ({ sameSender, message }) => {

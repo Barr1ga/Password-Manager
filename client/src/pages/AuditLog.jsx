@@ -23,8 +23,7 @@ const AuditLog = () => {
       </div>
       <div className="scroll-view">
         {auditLogs.map((auditLog, idx) => (
-          <></>
-          // <AuditLogItem key={idx} auditLog={auditLog}></AuditLogItem>
+          <AuditLogItem key={idx} auditLog={auditLog}></AuditLogItem>
         ))}
       </div>
     </div>

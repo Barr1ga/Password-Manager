@@ -1,14 +1,14 @@
-import { format, formatDistanceToNow, differenceInDays  } from "date-fns";
+import { format, formatDistanceToNow, differenceInDays } from "date-fns";
 
 export const formatToMonthDayYearDate = (date) => {
-  const formattedDate = format(new Date(date), 'PP')
+  const formattedDate = format(new Date(date), "PP");
   return formattedDate;
 };
 
 export const formatToTimeDate = (date) => {
-    const formattedDate = format(new Date(date), 'p')
-    return formattedDate;
-  };
+  const formattedDate = format(new Date(date), "p");
+  return formattedDate;
+};
 
 export const formatToNowDate = (date) => {
   const formattedDate = formatDistanceToNow(new Date(date));
@@ -16,12 +16,7 @@ export const formatToNowDate = (date) => {
 };
 
 export const daysDifference = (startDate, endDate) => {
-  const difference = differenceInDays(
-    new Date(endDate),
-    new Date(startDate)
-  );
+  const difference = differenceInDays(new Date(endDate), new Date(startDate));
 
   return difference;
-}
-
-
+};

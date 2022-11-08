@@ -20,6 +20,13 @@ app.use("/Folders/api/item", require("./routes/itemFolderRoutes"));
 app.use("/Roles/api/role", require("./routes/roleRoutes"));
 app.use("/Trash/api/item", require("./routes/itemFolderRoutes"));
 
+// audit logs
+app.use("/Types/api/auditLog", require("./routes/auditLogRoutes"));
+app.use("/Folders/api/auditLog", require("./routes/auditLogRoutes"));
+app.use("/Roles/api/auditLog", require("./routes/auditLogRoutes"));
+app.use("/Trash/api/auditLog", require("./routes/auditLogRoutes"));
+
+
 app.use(errorHandler);
 
 if (process.env.NODE_ENV === "production") {

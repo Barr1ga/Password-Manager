@@ -117,35 +117,31 @@ const RoleInformation = ({ method, defaultValues }) => {
 
   // audit log
   useEffect(() => {
-    if (isDirty) {
-      if (roleUpdatedFullfilled) {
-        const auditData = {
-          uid: authUser.uid,
-          roleLogData: {
-            actorUid: authUser.uid,
-            action: "role/update",
-            description: "updated the role",
-            benefactorUid: defaultValues.uid,
-            date: new Date(),
-          },
-        };
-        dispatch(createLog(auditData));
-      }
+    if (roleUpdatedFullfilled) {
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "role/update",
+          description: "updated the role",
+          benefactorUid: defaultValues.uid,
+        },
+      };
+      dispatch(createLog(auditData));
+    }
 
-      if (roleCreatedFullfilled) {
-        const recentRoleUid = roles[roles.length - 1].uid;
-        const auditData = {
-          uid: authUser.uid,
-          roleLogData: {
-            actorUid: authUser.uid,
-            action: "role/create",
-            description: "created the role",
-            benefactorUid: recentRoleUid,
-            date: new Date(),
-          },
-        };
-        dispatch(createLog(auditData));
-      }
+    if (roleCreatedFullfilled) {
+      const recentRoleUid = roles[roles.length - 1].uid;
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "role/create",
+          description: "created the role",
+          benefactorUid: recentRoleUid,
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (roleFulfilled || roleError) {
@@ -182,7 +178,7 @@ const RoleInformation = ({ method, defaultValues }) => {
   const handleDeleteRole = () => {
     setDeleteLoading(true);
     console.log(defaultValues.uid);
-    dispatch(deleteRole({uid: authUser.uid, roleUid: defaultValues.uid}));
+    dispatch(deleteRole({ uid: authUser.uid, roleUid: defaultValues.uid }));
   };
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharingCenter/Message";
-import { formatToMonthDayYearDate, daysDifference } from "../utils/Date";
+import { formatToMonthDayYearDate, daysDifference } from "../utils/date";
 import EnterMessage from "../components/sharingCenter/EnterMessage";
 import EmptyList from "../assets/empty-list.svg";
 import MessageLazyLoad from "../components/sharingCenter/MessageLazyLoad";

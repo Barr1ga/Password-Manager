@@ -6,6 +6,7 @@ const LIMIT_QUERY = 1;
 
 const getAllLogs = asyncHandler(async (req, res) => {
   const { uid } = req.body;
+
   const itemLogs = await (
     await vault.doc(uid).collection("auditLogs").get()
   ).docs.map((doc) => {
@@ -16,79 +17,49 @@ const getAllLogs = asyncHandler(async (req, res) => {
 });
 
 const createLog = asyncHandler(async (req, res) => {
-  const { uid, itemLogData } = req.body;
+  const { uid, auditLogData } = req.body;
 
-  const result = await vault.doc(uid).collection("auditLogs").add(itemLogData);
+  auditLogData.date = new Date();
+
+  const result = await vault.doc(uid).collection("auditLogs").add(auditLogData);
 
   if (result.empty) {
     res.status(400);
     throw new Error("There was an error creating this item log!");
   }
 
-  const createdItemLogUid = result.id;
-  console.log(uid);
+  const createdLogUid = result.id;
 
-  const itemLog = await (
-    await vault.doc(uid).collection("auditLogs").doc(createdItemLogUid).get()
+  const log = await (
+    await vault.doc(uid).collection("auditLogs").doc(createdLogUid).get()
   ).data();
 
-  if (itemLog.empty) {
+  if (log.empty) {
     res.status(400);
     throw new Error("There was an error finding the created item log!");
   }
 
-  res.status(201).json(itemLog);
+  res.status(201).json(log);
 });
 
-const updateItemLog = asyncHandler(async (req, res) => {
-  const { uid, itemLogUid, itemLogData } = req.body;
-  console.log("itemLogUid", itemLogUid);
+// const deleteItemLog = asyncHandler(async (req, res) => {
+//   const { uid, itemLogUid } = req.body;
+//   console.log("itemLogUid", itemLogUid);
+//   const result = await vault
+//     .doc(uid)
+//     .collection("auditLogs")
+//     .doc(itemLogUid)
+//     .delete();
 
-  const result = await vault
-    .doc(uid)
-    .collection("auditLogs")
-    .doc(itemLogUid)
-    .update(itemLogData);
+//   if (result.empty) {
+//     res.status(400);
+//     throw new Error("There was an error deleting this item log!");
+//   }
 
-  if (result.empty) {
-    res.status(400);
-    throw new Error("There was an error updating this item log!");
-  }
-
-  const itemLog = await (
-    await vault.doc(uid).collection("auditLogs").doc(itemLogUid).get()
-  ).data();
-
-  if (itemLog.empty) {
-    res.status(400);
-    throw new Error("There was an error finding the created item log!");
-  }
-
-  itemLog.uid = itemLogUid;
-  console.log(itemLog);
-  res.status(201).json(itemLog);
-});
-
-const deleteItemLog = asyncHandler(async (req, res) => {
-  const { uid, itemLogUid } = req.body;
-  console.log("itemLogUid", itemLogUid);
-  const result = await vault
-    .doc(uid)
-    .collection("auditLogs")
-    .doc(itemLogUid)
-    .delete();
-
-  if (result.empty) {
-    res.status(400);
-    throw new Error("There was an error deleting this item log!");
-  }
-
-  res.status(201).json(itemLogUid);
-});
+//   res.status(201).json(itemLogUid);
+// });
 
 module.exports = {
   getAllLogs,
   createLog,
-  updateItemLog,
-  deleteItemLog,
 };
