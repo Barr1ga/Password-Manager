@@ -37,46 +37,48 @@ const createRole = asyncHandler(async (req, res) => {
     throw new Error("There was an error finding the created role!");
   }
 
+  role.uid = createdRoleUid;
+
   res.status(201).json(role);
 });
 
 const updateRole = asyncHandler(async (req, res) => {
-  // const { uid, roleUid, roleData } = req.body;
-  // console.log("roleUid", roleUid);
+  const { uid, roleUid, roleData } = req.body;
 
-  // const result = await vault.doc(uid)
-  //   .collection("roles")
-  //   .doc(roleUid)
-  //   .update(roleData);
+  const result = await vault.doc(uid)
+    .collection("roles")
+    .doc(roleUid)
+    .update(roleData);
 
-  // if (result.empty) {
-  //   res.status(400);
-  //   throw new Error("There was an error updating this role!");
-  // }
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this role!");
+  }
 
-  // const role = await (
-  //   await vault.doc(uid).collection("roles").doc(roleUid).get()
-  // ).data();
+  const role = await (
+    await vault.doc(uid).collection("roles").doc(roleUid).get()
+  ).data();
 
-  // if (role.empty) {
-  //   res.status(400);
-  //   throw new Error("There was an error finding the created role!");
-  // }
+  if (role.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created role!");
+  }
 
-  // role.uid = roleUid;
-  // console.log(role);
+  role.uid = roleUid;
+
   res.status(201).json(role);
 });
 
 const deleteRole = asyncHandler(async (req, res) => {
-  // const { uid, roleUid } = req.body;
-  // console.log("roleUid", roleUid);
-  // const result = await vault.doc(uid).collection("roles").doc(roleUid).delete();
-  // if (result.empty) {
-  //   res.status(400);
-  //   throw new Error("There was an error deleting this role!");
-  // }
-  // res.status(201).json(roleUid);
+  const { uid, roleUid } = req.body;
+  
+  const result = await vault.doc(uid).collection("roles").doc(roleUid).delete();
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error deleting this role!");
+  }
+  res.status(201).json(roleUid);
 });
 
 module.exports = {

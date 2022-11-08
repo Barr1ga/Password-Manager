@@ -30,7 +30,7 @@ import SecureNote from "../addItem/SecureNote";
 import WifiPassword from "../addItem/WifiPassword";
 import Identification from "../addItem/Identification";
 import SpinnerLoader from "../SpinnerLoader";
-import { createItemLog } from "../../features/slice/auditLogSlice";
+import { createLog } from "../../features/slice/auditLogSlice";
 
 const ItemInformation = ({ currentItem }) => {
   const navigate = useNavigate();
@@ -51,7 +51,6 @@ const ItemInformation = ({ currentItem }) => {
   const method = "update";
 
   const [show, setShow] = useState(false);
-  const [formData, setFormData] = useState("");
 
   const handleCloseConfirmation = () => setShow(false);
   const handleShowConfirmation = () => setShow(true);
@@ -75,7 +74,7 @@ const ItemInformation = ({ currentItem }) => {
           date: new Date(),
         },
       };
-      dispatch(createItemLog(auditData));
+      dispatch(createLog(auditData));
     }
   }, [itemDeletedFullfilled]);
 
@@ -362,73 +361,37 @@ const ItemInformation = ({ currentItem }) => {
         <div className="form-group">
           {currentItem.trash ? (
             <>
-              <Button
-                type="submit"
-                className="btn-secondary danger btn-long btn-with-icon"
-                onClick={handleShowConfirmation}
-              >
-                <HiOutlineTrash></HiOutlineTrash>Delete Item Permanently
-              </Button>
-              <Modal
-                size="sm"
-                show={show}
-                onHide={handleCloseConfirmation}
-                backdrop="static"
-                keyboard={false}
-                centered
-              >
-                <Modal.Body className="confirmation-modal-body">
-                  <div className="confirmation-modal">
-                    {currentImage.trash ? (
-                      <>
-                        <h5>
-                          {
-                            "Are you sure you want to permanently delete this item?"
-                          }
-                        </h5>
-                        <small>
-                          {
-                            "This item will be deleted immediately, which cannot be undone. Please be certain."
-                          }
-                        </small>
-                      </>
+              <ConfirmModal
+                proceedInteraction={
+                  <Button
+                    type="button"
+                    onClick={handleDeleteItem}
+                    className="btn-dark btn-long"
+                  >
+                    {deleteLoading ? (
+                      <SpinnerLoader></SpinnerLoader>
                     ) : (
-                      <>
-                        <h5>
-                          {
-                            "Are you sure you want to permanently delete this item?"
-                          }
-                        </h5>
-                        <small>
-                          {
-                            "This will change the information you use for your account."
-                          }
-                        </small>
-                      </>
+                      <>Delete</>
                     )}
-                    <div className="options gap-10">
-                      <Button
-                        type="button"
-                        className="btn-secondary btn-long"
-                        onClick={handleCloseConfirmation}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={handleDeleteItem}
-                        type="button"
-                        className="btn-dark btn-long"
-                      >
-                        {deleteLoading ? (
-                          <SpinnerLoader></SpinnerLoader>
-                        ) : (
-                          <>Delete</>
-                        )}
-                      </Button>
-                    </div>
+                  </Button>
+                }
+                component={
+                  <div className="form-group">
+                    <Button
+                      type="button"
+                      className="btn-secondary danger btn-long btn-with-icon"
+                    >
+                      <HiOutlineTrash></HiOutlineTrash>Delete Role Permanently
+                    </Button>
                   </div>
-                </Modal.Body>
-              </Modal>
+                }
+                headerMessage={
+                  "Are you sure you want to permanently delete this item?"
+                }
+                bodyMessage={
+                  "This item will be deleted immediately. You can't undo this action."
+                }
+              ></ConfirmModal>
             </>
           ) : (
             <>

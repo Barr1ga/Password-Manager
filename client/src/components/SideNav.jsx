@@ -55,10 +55,10 @@ const SideNav = () => {
 
   return (
     <div className="side-nav standard-stack gap-10">
-      {route !== "/MyAccount" &&
-      route !== "/Members" &&
-      route !== "/Roles" &&
-      route !== "/AuditLog" ? (
+      {route.includes("/MyAccount") &&
+      route.includes("/Members") &&
+      route.includes("/Roles") &&
+      route.includes("/AuditLog") ? (
         <>
           <h5>My Vault</h5>
           <form>

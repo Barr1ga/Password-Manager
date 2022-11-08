@@ -134,6 +134,7 @@ const createUser = asyncHandler(async (req, res) => {
   const createRoleResult = await vault.doc(uid).collection("roles").add({
     name: "Vault Owner",
     abbreviation: "VO",
+    color: "#b970ff",
   });
 
   if (createRoleResult.empty) {

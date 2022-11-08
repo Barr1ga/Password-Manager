@@ -73,9 +73,8 @@ const createItem = asyncHandler(async (req, res) => {
   }
 
   const createdItemUid = result.id;
-  console.log(uid);
 
-  const item = await (
+  let item = await (
     await vault.doc(uid).collection("items").doc(createdItemUid).get()
   ).data();
 
@@ -83,6 +82,8 @@ const createItem = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("There was an error finding the created item!");
   }
+
+  item.uid = createdItemUid;
 
   res.status(201).json(item);
 });
@@ -110,13 +111,13 @@ const updateItem = asyncHandler(async (req, res) => {
   }
 
   item.uid = itemUid;
-  console.log(item);
+
   res.status(201).json(item);
 });
 
 const deleteItem = asyncHandler(async (req, res) => {
   const { uid, itemUid } = req.body;
-  console.log("itemUid", itemUid);
+  
   const result = await vault.doc(uid).collection("items").doc(itemUid).delete();
 
   if (result.empty) {

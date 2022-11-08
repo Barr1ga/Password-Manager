@@ -95,11 +95,11 @@ export const getAllLogs = createAsyncThunk(
   }
 );
 
-export const createItemLog = createAsyncThunk(
-  "log/createItemLog",
+export const createLog = createAsyncThunk(
+  "log/createLog",
   async (data, ThunkAPI) => {
     try {
-      return await auditLogService.createItemLog(data);
+      return await auditLogService.createLog(data);
     } catch (error) {
       const message = error.toString();
       return ThunkAPI.rejectWithValue(message);
@@ -132,16 +132,16 @@ const auditLogSlice = createSlice({
         state.authErrorMessage = authErrorMessage(code);
       })
 
-      .addCase(createItemLog.pending, (state) => {
+      .addCase(createLog.pending, (state) => {
         state.ItemLogLoading = true;
       })
-      .addCase(createItemLog.fulfilled, (state, action) => {
+      .addCase(createLog.fulfilled, (state, action) => {
         state.ItemLogLoading = false;
         state.ItemLogFulfilled = true;
         state.ItemLogCreatedFullfilled = true;
         state.auditLogs = [action.payload, ...state.ItemLogs];
       })
-      .addCase(createItemLog.rejected, (state, action) => {
+      .addCase(createLog.rejected, (state, action) => {
         state.ItemLogLoading = false;
         const { code, message } = action.payload;
         state.authMessage = message;

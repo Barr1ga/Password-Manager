@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { HiPlus, HiOutlinePencil } from "react-icons/hi";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
@@ -12,7 +13,7 @@ import {
   updateItem,
 } from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
-import { createItemLog } from "../../features/slice/auditLogSlice";
+import { createLog } from "../../features/slice/auditLogSlice";
 
 const titles = ["Mr", "Mrs", "Ms", "Dr"];
 
@@ -43,7 +44,11 @@ const Identifications = ({
   const { authUser } = useSelector((state) => state.auth);
   const [titleError, setTitleError] = useState(false);
   const [isDropdownsDirty, setIsDropDownsDirty] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [formData, setFormData] = useState("");
 
+  const handleClose = () => setShowConfirmationModal(false);
+  const handleShow = () => setShowConfirmationModal(true);
   const titleRef = useRef();
   const folderRef = useRef();
 
@@ -93,7 +98,7 @@ const Identifications = ({
             date: new Date(),
           },
         };
-        dispatch(createItemLog(auditData));
+        dispatch(createLog(auditData));
       }
 
       if (itemCreatedFullfilled) {
@@ -108,15 +113,16 @@ const Identifications = ({
             date: new Date(),
           },
         };
-        dispatch(createItemLog(auditData));
+        dispatch(createLog(auditData));
       }
     }
 
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
+      dispatch(resetItemQueryFulfilled());
+      handleClose();
     }
-    dispatch(resetItemQueryFulfilled());
   }, [itemFulfilled, itemError]);
 
   useEffect(() => {
@@ -126,6 +132,9 @@ const Identifications = ({
   }, [setCurrentImageLetter, watchName]);
 
   const onSubmit = (data) => {
+    if (data.uid) {
+      delete data.uid;
+    }
     let newData = {
       uid: authUser.uid,
       itemData: {
@@ -145,10 +154,15 @@ const Identifications = ({
     }
 
     if (method === "update") {
-      setUpdateLoading(true);
       newData.itemUid = defaultValues.uid;
-      dispatch(updateItem(newData));
+      setFormData(newData);
+      handleShow();
     }
+  };
+
+  const handleUpdateItemData = () => {
+    setUpdateLoading(true);
+    dispatch(updateItem(formData));
   };
 
   const handleOnBlurFolder = () => {
@@ -742,24 +756,61 @@ const Identifications = ({
         </div>
         <div className="form-group">
           {method === "update" ? (
-            <Button
-              type="submit"
-              className="btn-dark btn-long btn-with-icon"
-              disabled={
-                (!isDirty || !isValid) &&
-                !isDropdownsDirty &&
-                !titleError &&
-                favorite === defaultValues.favorite
-              }
-            >
-              {updateLoading ? (
-                <SpinnerLoader></SpinnerLoader>
-              ) : (
-                <>
-                  <HiOutlinePencil></HiOutlinePencil>Update Item
-                </>
-              )}
-            </Button>
+            <>
+              <Button
+                type="submit"
+                className="btn-dark btn-long btn-with-icon"
+                disabled={
+                  (!isDirty || !isValid) &&
+                  favorite === defaultValues.favorite &&
+                  !isDropdownsDirty &&
+                  assignedFolders === defaultValues.folders
+                }
+              >
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+              <Modal
+                size="sm"
+                show={showConfirmationModal}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+                centered
+              >
+                <Modal.Body className="confirmation-modal-body">
+                  <div className="confirmation-modal">
+                    <h5>
+                      {"Are you sure you want to save and update this item?"}
+                    </h5>
+                    <small>
+                      {
+                        "This will update the information you use for this item."
+                      }
+                    </small>
+                    <div className="options gap-10">
+                      <Button
+                        type="button"
+                        className="btn-secondary btn-long"
+                        onClick={handleClose}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleUpdateItemData}
+                        type="button"
+                        className="btn-dark btn-long"
+                      >
+                        {updateLoading ? (
+                          <SpinnerLoader></SpinnerLoader>
+                        ) : (
+                          <>Save</>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </>
           ) : (
             <Button
               type="submit"

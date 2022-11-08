@@ -15,6 +15,9 @@ const initialState = {
   ],
   selectedRole: null,
   roleLoading: false,
+  roleUpdatedFullfilled: false,
+  roleCreatedFullfilled: false,
+  roleDeletedFullfilled: false,
   roleFulfilled: false,
   roleError: false,
   roleMessage: "",
@@ -79,6 +82,17 @@ const roleSlice = createSlice({
     resetSelectedRole: (state) => {
       state.selectedRole = null;
     },
+    resetRoleQueryFulfilled: (state) => {
+      state.roleLoading = initialState.roleLoading;
+      state.roleFulfilled = initialState.roleFulfilled;
+      state.roleCreatedFullfilled = initialState.roleCreatedFullfilled;
+      state.roleUpdatedFullfilled = initialState.roleUpdatedFullfilled;
+      state.roleDeletedFullfilled = initialState.roleDeletedFullfilled;
+      state.roleError = initialState.roleError;
+      state.roleMessage = initialState.roleMessage;
+      state.roleErrorMessage = initialState.roleErrorMessage;
+      state.roleErrorCode = initialState.roleErrorCode;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -90,6 +104,10 @@ const roleSlice = createSlice({
         state.roleLoading = false;
         state.roleFulfilled = true;
         state.roles = action.payload;
+        const idx = state.roles.findIndex(
+          (role) => role.name === "Vault Owner"
+        );
+        [state.roles[0], state.roles[idx]] = [state.roles[idx], state.roles[0]];
       })
       .addCase(getAllRoles.rejected, (state, action) => {
         state.roleLoading = false;
@@ -104,7 +122,7 @@ const roleSlice = createSlice({
         state.roleLoading = false;
         state.roleFulfilled = true;
         state.roleCreatedFullfilled = true;
-        state.roles = [action.payload, ...state.roles];
+        state.roles = [...state.roles, action.payload];
       })
       .addCase(createRole.rejected, (state, action) => {
         state.roleLoading = false;
@@ -151,5 +169,10 @@ const roleSlice = createSlice({
   },
 });
 
-export const { resetRoles, selectRole, resetSelectedRole } = roleSlice.actions;
+export const {
+  resetRoles,
+  selectRole,
+  resetSelectedRole,
+  resetRoleQueryFulfilled,
+} = roleSlice.actions;
 export default roleSlice.reducer;

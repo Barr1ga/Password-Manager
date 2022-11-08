@@ -7,14 +7,14 @@ const getAllLogs = async (data) => {
   return response.data;
 };
 
-const createItemLog = async (data) => {
-  const response = await axios.post(API_URL + "/createItemLog", data);
+const createLog = async (data) => {
+  const response = await axios.post(API_URL + "/createLog", data);
   return response.data;
 };
 
 const passwordService = {
   getAllLogs,
-  createItemLog,
+  createLog,
 };
 
 export default passwordService;

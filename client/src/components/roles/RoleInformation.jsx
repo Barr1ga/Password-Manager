@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import {
   HiOutlineClipboardList,
   HiOutlinePencil,
   HiOutlineTrash,
-  HiOutlineX,
   HiPlus,
   HiViewGrid,
 } from "react-icons/hi";
@@ -13,9 +13,16 @@ import WarningAlert from "../alerts/WarningAlert";
 import { useDispatch, useSelector } from "react-redux";
 import MembersList from "../vaultSettings/roles/MembersList";
 import ConfirmModal from "../helpers/ConfirmModal";
-import { createRole, resetSelectedRole, updateRole } from "../../features/slice/roleSlice";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  createRole,
+  resetSelectedRole,
+  resetRoleQueryFulfilled,
+  updateRole,
+  deleteRole,
+} from "../../features/slice/roleSlice";
+import { Link } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
+import { createLog } from "../../features/slice/auditLogSlice";
 
 const defaultColorOne = "#ffffff";
 const defaultColorTwo = "#b970ff";
@@ -23,14 +30,25 @@ const colorPresetsOne = ["#88a0b8", "#e3ca3b", "#fa6328", "#e0388f", "#f2293d"];
 const colorPresetsTwo = ["#48d973", "#15a35f", "#219afc", "#667dff", "#daa3ff"];
 
 const RoleInformation = ({ method, defaultValues }) => {
+  const [show, setShow] = useState(false);
   const [assignedMembers, setAssignedMembers] = useState([]);
   const [createLoading, setCreateLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("#9e58e0");
+  const [selectedColor, setSelectedColor] = useState(
+    defaultValues?.color || "#ffffff"
+  );
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
+  const {
+    roles,
+    roleUpdatedFullfilled,
+    roleCreatedFullfilled,
+    roleDeletedFullfilled,
+    roleFulfilled,
+    roleError,
+  } = useSelector((state) => state.roles);
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
   const folderRef = useRef();
@@ -38,17 +56,23 @@ const RoleInformation = ({ method, defaultValues }) => {
     defaultValues?.folders || []
   );
   const [tab, setTab] = useState(1);
-  const navigate = useNavigate();
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleCloseConfirmation = () => setShowConfirmationModal(false);
+  const handleShowConfirmation = () => setShowConfirmationModal(true);
   const dispatch = useDispatch();
+
+  const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner").uid;
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
-    defaultValues: (({ uid, ...data }) => data)(defaultValues),
+    defaultValues: defaultValues,
   });
 
   const watchName = watch("name");
@@ -61,71 +85,76 @@ const RoleInformation = ({ method, defaultValues }) => {
   };
 
   const onSubmit = (data) => {
+    if (data.uid) {
+      delete data.uid;
+    }
     let newData = {
       uid: authUser.uid,
       roleData: {
-        abbreviation: data.abbreviation,
+        ...data,
         color: selectedColor,
         folders: assignedFolders,
-        membersUids: assignedMembers.map((member) => member.uid),
-        name: data.name,
+        // membersUids: assignedMembers.map((member) => member.uid),
       },
     };
 
     if (method === "create") {
-      console.log(newData);
       setCreateLoading(true);
       dispatch(createRole(newData));
     }
 
     if (method === "update") {
       newData.roleUid = defaultValues.uid;
-      console.log(newData);
-      setUpdateLoading(true);
-      dispatch(updateRole(newData));
+      setFormData(newData);
+      handleShowConfirmation();
     }
   };
 
+  const handleUpdateRoleData = () => {
+    setUpdateLoading(true);
+    dispatch(updateRole(formData));
+  };
+
   // audit log
-  // useEffect(() => {
-  //   if (isDirty) {
-  //     if (itemUpdatedFullfilled) {
-  //       const recentItemUid = items[0].uid;
-  //       const auditData = {
-  //         uid: authUser.uid,
-  //         itemLogData: {
-  //           actorUid: authUser.uid,
-  //           action: "item/update",
-  //           description: "updated the item",
-  //           benefactorUid: recentItemUid,
-  //           date: new Date(),
-  //         },
-  //       };
-  //       dispatch(createItemLog(auditData));
-  //     }
+  useEffect(() => {
+    if (isDirty) {
+      if (roleUpdatedFullfilled) {
+        const auditData = {
+          uid: authUser.uid,
+          roleLogData: {
+            actorUid: authUser.uid,
+            action: "role/update",
+            description: "updated the role",
+            benefactorUid: defaultValues.uid,
+            date: new Date(),
+          },
+        };
+        dispatch(createLog(auditData));
+      }
 
-  //     if (itemCreatedFullfilled) {
-  //       const auditData = {
-  //         uid: authUser.uid,
-  //         itemLogData: {
-  //           actorUid: authUser.uid,
-  //           action: "item/create",
-  //           description: "created the item",
-  //           benefactorUid: defaultValues.uid,
-  //           date: new Date(),
-  //         },
-  //       };
-  //       dispatch(createItemLog(auditData));
-  //     }
-  //   }
+      if (roleCreatedFullfilled) {
+        const recentRoleUid = roles[roles.length - 1].uid;
+        const auditData = {
+          uid: authUser.uid,
+          roleLogData: {
+            actorUid: authUser.uid,
+            action: "role/create",
+            description: "created the role",
+            benefactorUid: recentRoleUid,
+            date: new Date(),
+          },
+        };
+        dispatch(createLog(auditData));
+      }
+    }
 
-  //   if (itemFulfilled || itemError) {
-  //     setUpdateLoading(false);
-  //     setCreateLoading(false);
-  //   }
-
-  //   dispatch(resetItemQueryFulfilled());
-  // }, [itemFulfilled, itemError]);
+    if (roleFulfilled || roleError) {
+      setUpdateLoading(false);
+      setCreateLoading(false);
+      handleCloseConfirmation();
+      dispatch(resetRoleQueryFulfilled());
+    }
+  }, [roleFulfilled, roleError]);
 
   // folders
   let filteredFolders = folders.filter(
@@ -150,71 +179,21 @@ const RoleInformation = ({ method, defaultValues }) => {
     }
   };
 
-  const handleCloseMobile = () => {
-    dispatch(resetSelectedRole());
-    navigate(-1);
-  };
-
-  const handleClose = () => {
-    dispatch(resetSelectedRole());
-  };
-
   const handleDeleteRole = () => {
+    setDeleteLoading(true);
     console.log(defaultValues.uid);
+    dispatch(deleteRole({uid: authUser.uid, roleUid: defaultValues.uid}));
   };
+
+  useEffect(() => {
+    if (roleDeletedFullfilled) {
+      setDeleteLoading(false);
+      dispatch(resetRoleQueryFulfilled());
+    }
+  }, [roleDeletedFullfilled]);
 
   return (
     <div className="role-information standard-stack gap-10">
-      <div className="page-header">
-        <div className="back-enabled">
-          <h4>Update Role</h4>
-        </div>
-        <ConfirmModal
-          proceedInteraction={
-            <Button
-              type="button"
-              onClick={handleCloseMobile}
-              className="btn-dark btn-long"
-            >
-              Leave
-            </Button>
-          }
-          component={
-            <div className="screen-version">
-              <div className="mobile">
-                <HiOutlineX className="btn-close"></HiOutlineX>
-              </div>
-            </div>
-          }
-          headerMessage={"Are you sure you want to leave this section?"}
-          bodyMessage={
-            "You have unsaved content, and will be lost unless you save it."
-          }
-        ></ConfirmModal>
-        <ConfirmModal
-          proceedInteraction={
-            <Button
-              type="button"
-              onClick={handleClose}
-              className="btn-dark btn-long"
-            >
-              Leave
-            </Button>
-          }
-          component={
-            <div className="screen-version">
-              <div className="non-mobile">
-                <HiOutlineX className="btn-close"></HiOutlineX>
-              </div>
-            </div>
-          }
-          headerMessage={"Are you sure you want to leave this section?"}
-          bodyMessage={
-            "You have unsaved content, and will be lost unless you save it."
-          }
-          continueMessage={"Leave"}
-        ></ConfirmModal>
-      </div>
       <div>
         <div className="tab">
           <div
@@ -236,56 +215,74 @@ const RoleInformation = ({ method, defaultValues }) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           {tab === 1 && (
             <>
-              <div className="form-group">
-                <label>
-                  Name of the Role<span className="error-message">*</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("name", {
-                    required: {
-                      value: true,
-                      message: "Name is required",
-                    },
-                  })}
-                  className={
-                    errors.name ? "form-control form-error" : "form-control "
-                  }
-                />
-                {errors.name && (
-                  <small className="error-message">
-                    {errors.name.message}
-                    <br></br>
-                  </small>
-                )}
-              </div>
+              {defaultValues && defaultValues.uid === vaultOwnerUid ? (
+                <>
+                  <div className="form-group">
+                    <label>Name of the Role</label>
+                    <div className="form-control-disabled">{"Vault Owner"}</div>
+                    <small></small>
+                  </div>
 
-              <div className="form-group">
-                <label>
-                  Abbreviation<span className="error-message">*</span>
-                </label>
-                <input
-                  type="text"
-                  {...register("abbreviation", {
-                    required: {
-                      value: true,
-                      message: "Abbreviation is required",
-                    },
-                  })}
-                  className={
-                    errors.abbreviation
-                      ? "form-control form-error"
-                      : "form-control "
-                  }
-                />
-                {errors.abbreviation && (
-                  <small className="error-message">
-                    {errors.abbreviation.message}
-                    <br></br>
-                  </small>
-                )}
-              </div>
+                  <div className="form-group">
+                    <label>Abbreviation</label>
+                    <div className="form-control-disabled">{"VO"}</div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="form-group">
+                    <label>
+                      Name of the Role <span className="error-message">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      {...register("name", {
+                        required: {
+                          value: true,
+                          message: "Name is required",
+                        },
+                      })}
+                      className={
+                        errors.name
+                          ? "form-control form-error"
+                          : "form-control "
+                      }
+                    />
+                    {errors.name && (
+                      <small className="error-message">
+                        {errors.name.message}
+                        <br></br>
+                      </small>
+                    )}
+                  </div>
 
+                  <div className="form-group">
+                    <label>
+                      Abbreviation <span className="error-message">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      {...register("abbreviation", {
+                        required: {
+                          value: true,
+                          message: "Abbreviation is required",
+                        },
+                      })}
+                      className={
+                        errors.abbreviation
+                          ? "form-control form-error"
+                          : "form-control "
+                      }
+                    />
+                    {errors.abbreviation && (
+                      <small className="error-message">
+                        {errors.abbreviation.message}
+                        <br></br>
+                      </small>
+                    )}
+                  </div>
+                </>
+              )}
               <div className="form-group role-preview">
                 <div className="image">V</div>
                 <div className="name standard-stack">
@@ -293,16 +290,16 @@ const RoleInformation = ({ method, defaultValues }) => {
                     Vaulteer
                   </span>
                   <small className="name">
-                    Viewing <b>All Items</b> <HiViewGrid></HiViewGrid>
+                    Viewing <b>All Roles</b> <HiViewGrid></HiViewGrid>
                   </small>
                 </div>
               </div>
 
               <div className="form-group role-preview">
-                <span className="role-tag" style={{ color: selectedColor }}>
-                  {watchAbbreviation}
-                </span>
-                {watchName}
+                <small className="role-tag" style={{ color: selectedColor }}>
+                  {watchAbbreviation !== "" ? watchAbbreviation : "VT"}
+                </small>
+                {watchName !== "" ? watchName : "Vaulteer Team"}
               </div>
 
               <div className="standard-stack">
@@ -312,6 +309,7 @@ const RoleInformation = ({ method, defaultValues }) => {
                   </label>
                   <div className="presets">
                     <button
+                      type="button"
                       className="default-color white"
                       onClick={() => setSelectedColor(defaultColorOne)}
                       style={{ backgroundColor: defaultColorOne }}
@@ -321,6 +319,7 @@ const RoleInformation = ({ method, defaultValues }) => {
                       )}
                     </button>
                     <button
+                      type="button"
                       className="default-color"
                       onClick={() => setSelectedColor(defaultColorTwo)}
                       style={{ backgroundColor: defaultColorTwo }}
@@ -333,6 +332,7 @@ const RoleInformation = ({ method, defaultValues }) => {
                       <div className="preset-row">
                         {colorPresetsOne.map((color) => (
                           <button
+                            type="button"
                             className="color"
                             onClick={() => setSelectedColor(color)}
                             style={{ backgroundColor: color }}
@@ -346,6 +346,7 @@ const RoleInformation = ({ method, defaultValues }) => {
                       <div className="preset-row">
                         {colorPresetsTwo.map((color) => (
                           <button
+                            type="button"
                             className="color"
                             onClick={() => setSelectedColor(color)}
                             style={{ backgroundColor: color }}
@@ -378,76 +379,95 @@ const RoleInformation = ({ method, defaultValues }) => {
                     }
                   ></WarningAlert>
                 </div>
-                <div className="form-group form-select-group">
-                  <label>Folders Accessed</label>
-                  <div
-                    className="form-group"
-                    onMouseEnter={() => setHovering(true)}
-                    onMouseLeave={() => setHovering(false)}
-                  >
-                    <div
-                      className={
-                        showFolder
-                          ? "form-pills form-pills-active"
-                          : "form-pills"
-                      }
-                      onBlur={handleOnBlurFolder}
-                    >
-                      {assignedFolders.map((folder, idx) => (
-                        <div key={idx} className="pill">
-                          <small>{folder}</small>
-                          <HiPlus
-                            className="btn-delete"
-                            onClick={() =>
-                              setAssignedFolders(
-                                assignedFolders.filter((_, i) => i !== idx)
-                              )
-                            }
-                          ></HiPlus>
-                        </div>
-                      ))}
-                      <input
-                        ref={folderRef}
-                        placeholder={
-                          assignedFolders.length === 0 ? "Select Folder" : ""
-                        }
-                        type="text"
-                        onFocus={() => setShowFolder(true)}
-                        onBlur={handleOnBlurFolder}
-                        onKeyDown={(e) => handleKeyDown(e)}
-                        onChange={(e) => setSearch(e.target.value)}
-                        className="form-control-borderless"
-                        autoComplete="off"
-                      />
+
+                {defaultValues && defaultValues.uid === vaultOwnerUid ? (
+                  <>
+                    <div className="form-group">
+                      <label>Folders Accessed</label>
+                      <div className="form-control-disabled"></div>
+                      <small>
+                        Vault owners have access to all created folders in this
+                        vault.
+                      </small>
                     </div>
-                    <small>
-                      The folders selected in this field determines which
-                      folders this role has access to.
-                    </small>
-                    {showFolder && (
-                      <div className="select-options folder-options">
-                        {filteredFolders.length === 0 && (
-                          <div className="option disabled">
-                            No folders found
-                          </div>
-                        )}
-                        {filteredFolders.length !== 0 &&
-                          filteredFolders.map((folder, idx) => (
-                            <div
-                              key={idx}
-                              className="option padding-side "
-                              onClick={() => {
-                                handleSelectFolder(folder);
-                                folderRef?.current.focus();
-                              }}
-                            >
-                              {folder}
+                  </>
+                ) : (
+                  <>
+                    <div className="form-group form-select-group">
+                      <label>Folders Accessed</label>
+                      <div
+                        className=""
+                        onMouseEnter={() => setHovering(true)}
+                        onMouseLeave={() => setHovering(false)}
+                      >
+                        <div
+                          className={
+                            showFolder
+                              ? "form-pills form-pills-active"
+                              : "form-pills"
+                          }
+                          onBlur={handleOnBlurFolder}
+                        >
+                          {assignedFolders.map((folder, idx) => (
+                            <div key={idx} className="pill">
+                              <small>{folder}</small>
+                              <HiPlus
+                                className="btn-delete"
+                                onClick={() =>
+                                  setAssignedFolders(
+                                    assignedFolders.filter((_, i) => i !== idx)
+                                  )
+                                }
+                              ></HiPlus>
                             </div>
                           ))}
+                          <input
+                            ref={folderRef}
+                            placeholder={
+                              assignedFolders.length === 0
+                                ? "Select Folder"
+                                : ""
+                            }
+                            type="text"
+                            onFocus={() => setShowFolder(true)}
+                            onBlur={handleOnBlurFolder}
+                            onKeyDown={(e) => handleKeyDown(e)}
+                            onChange={(e) => setSearch(e.target.value)}
+                            className="form-control-borderless"
+                            autoComplete="off"
+                          />
+                        </div>
+
+                        <small>
+                          The folders selected in this field determines which
+                          folders this role has access to.
+                        </small>
+                        {showFolder && (
+                          <div className="select-options folder-options">
+                            {filteredFolders.length === 0 && (
+                              <div className="option disabled">
+                                No folders found
+                              </div>
+                            )}
+                            {filteredFolders.length !== 0 &&
+                              filteredFolders.map((folder, idx) => (
+                                <div
+                                  key={idx}
+                                  className="option padding-side "
+                                  onClick={() => {
+                                    handleSelectFolder(folder);
+                                    folderRef?.current.focus();
+                                  }}
+                                >
+                                  {folder}
+                                </div>
+                              ))}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </div>
+                    </div>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -468,7 +488,11 @@ const RoleInformation = ({ method, defaultValues }) => {
 
           <div className="form-group">
             {method === "create" ? (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
+              <Button
+                type="submit"
+                className="btn-dark btn-long btn-with-icon"
+                disabled={!isDirty || !isValid}
+              >
                 {createLoading ? (
                   <SpinnerLoader></SpinnerLoader>
                 ) : (
@@ -478,47 +502,120 @@ const RoleInformation = ({ method, defaultValues }) => {
                 )}
               </Button>
             ) : (
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                {updateLoading ? (
-                  <SpinnerLoader></SpinnerLoader>
-                ) : (
-                  <>
-                    <HiOutlinePencil></HiOutlinePencil>Update Role
-                  </>
-                )}
-              </Button>
+              <>
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                  disabled={
+                    (!isDirty || !isValid) &&
+                    selectedColor === defaultValues?.color
+                  }
+                >
+                  <HiOutlinePencil></HiOutlinePencil>Update Role
+                </Button>
+                <Modal
+                  size="sm"
+                  show={showConfirmationModal}
+                  onHide={handleCloseConfirmation}
+                  backdrop="static"
+                  keyboard={false}
+                  centered
+                >
+                  <Modal.Body className="confirmation-modal-body">
+                    <div className="confirmation-modal">
+                      <h5>
+                        {"Are you sure you want to save and update this role?"}
+                      </h5>
+                      <small>
+                        {
+                          "This will update the information you use for this role."
+                        }
+                      </small>
+                      <div className="options gap-10">
+                        <Button
+                          type="button"
+                          className="btn-secondary btn-long"
+                          onClick={handleCloseConfirmation}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          onClick={handleUpdateRoleData}
+                          type="button"
+                          className="btn-dark btn-long"
+                        >
+                          {updateLoading ? (
+                            <SpinnerLoader></SpinnerLoader>
+                          ) : (
+                            <>Save</>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </Modal.Body>
+                </Modal>
+              </>
             )}
           </div>
-          <div className="form-group">
-            <Button
-              type="button"
-              className="btn-secondary danger btn-long btn-with-icon"
-              onClick={handleDeleteRole}
-            >
-              {deleteLoading ? (
-                <SpinnerLoader></SpinnerLoader>
-              ) : (
-                <>
-                  <HiOutlineTrash></HiOutlineTrash>Delete Role
-                </>
-              )}
-            </Button>
-          </div>
+
+          <ConfirmModal
+            proceedInteraction={
+              <Button
+                type="button"
+                onClick={handleDeleteRole}
+                className="btn-dark btn-long"
+              >
+                Delete
+              </Button>
+            }
+            component={
+              <div className="form-group">
+                <Button
+                  type="button"
+                  className="btn-secondary danger btn-long btn-with-icon"
+                  disabled={
+                    defaultValues && defaultValues.uid === vaultOwnerUid
+                      ? true
+                      : false
+                  }
+                >
+                  {deleteLoading ? (
+                    <SpinnerLoader></SpinnerLoader>
+                  ) : (
+                    <>
+                      <HiOutlineTrash></HiOutlineTrash>Delete Role
+                    </>
+                  )}
+                </Button>
+              </div>
+            }
+            headerMessage={
+              "Are you sure you want to permanently delete this role?"
+            }
+            bodyMessage={
+              "This role will be deleted immediately, which cannot be undone. Please be certain."
+            }
+          ></ConfirmModal>
         </form>
       </div>
 
-      <hr></hr>
-      <div className="last-updated">
-        <div>
-          <Link to="/AuditLog" type="button">
-            <HiOutlineClipboardList></HiOutlineClipboardList>
-          </Link>
-        </div>
-        <small>
-          Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard
-          Time)
-        </small>
-      </div>
+      {method === "update" && (
+        <>
+          <hr></hr>
+          <div className="last-updated">
+            <div>
+              <Link to="/AuditLog" type="button">
+                <HiOutlineClipboardList></HiOutlineClipboardList>
+              </Link>
+            </div>
+
+            <small>
+              Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine
+              Standard Time)
+            </small>
+          </div>
+        </>
+      )}
     </div>
   );
 };

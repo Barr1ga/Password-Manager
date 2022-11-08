@@ -15,7 +15,7 @@ const getAllLogs = asyncHandler(async (req, res) => {
   res.status(201).json(itemLogs);
 });
 
-const createItemLog = asyncHandler(async (req, res) => {
+const createLog = asyncHandler(async (req, res) => {
   const { uid, itemLogData } = req.body;
 
   const result = await vault.doc(uid).collection("auditLogs").add(itemLogData);
@@ -88,7 +88,7 @@ const deleteItemLog = asyncHandler(async (req, res) => {
 
 module.exports = {
   getAllLogs,
-  createItemLog,
+  createLog,
   updateItemLog,
   deleteItemLog,
 };

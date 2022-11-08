@@ -21,7 +21,9 @@ import { useSelector } from "react-redux";
 const VaultMember = ({ member }) => {
   const { roles } = useSelector((state) => state.roles);
   const ownerID = roles.find((role) => role.name === "Vault Owner").uid;
-
+  const nameColor = roles.find(
+    (role) => role.uid === member.roleUids[0]
+  )?.color;
   return (
     <div className="member padding-side gap-10">
       <div className="image">
@@ -31,7 +33,7 @@ const VaultMember = ({ member }) => {
       </div>
       <div className="name">
         <p className={member.roleUids[0] === ownerID ? "vault-owner" : ""}>
-          <b>{member.username}</b>{" "}
+          <b style={{ color: nameColor }}>{member.username}</b>{" "}
           {member.roleUids[0] === ownerID && (
             <small className="vault-owner-tag">
               <FaCrown></FaCrown>VO

@@ -12,7 +12,9 @@ const Roles = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllRoles({ uid: authUser.uid }));
+    if (roles.length === 0) {
+      dispatch(getAllRoles({ uid: authUser.uid }));
+    }
   }, []);
 
   return (

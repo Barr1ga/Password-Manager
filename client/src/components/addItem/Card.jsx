@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import {
   HiOutlineEye,
@@ -17,7 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import SpinnerLoader from "../SpinnerLoader";
-import { createItemLog } from "../../features/slice/auditLogSlice";
+import { createLog } from "../../features/slice/auditLogSlice";
 
 const expirationMonths = [
   "01 - January",
@@ -75,17 +76,19 @@ const Card = ({
   } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
   const folderRef = useRef();
-
   const [showBrands, setShowBrands] = useState(false);
   const [brandError, setBrandError] = useState(false);
   const brandRef = useRef();
-
   const [showExpirationMonths, setShowExpirationMonths] = useState(false);
   const [expirationMonthError, setExpirationMonthError] = useState(false);
   const expirationMonthRef = useRef();
-
   const [isDropdownsDirty, setIsDropDownsDirty] = useState(false);
 
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleClose = () => setShowConfirmationModal(false);
+  const handleShow = () => setShowConfirmationModal(true);
   const dispatch = useDispatch();
 
   const {
@@ -127,7 +130,7 @@ const Card = ({
             date: new Date(),
           },
         };
-        dispatch(createItemLog(auditData));
+        dispatch(createLog(auditData));
       }
 
       if (itemCreatedFullfilled) {
@@ -142,15 +145,16 @@ const Card = ({
             date: new Date(),
           },
         };
-        dispatch(createItemLog(auditData));
+        dispatch(createLog(auditData));
       }
     }
 
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
+      dispatch(resetItemQueryFulfilled());
+      handleClose();
     }
-    dispatch(resetItemQueryFulfilled());
   }, [itemFulfilled, itemError]);
 
   useEffect(() => {
@@ -167,6 +171,9 @@ const Card = ({
   }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
+    if (data.uid) {
+      delete data.uid;
+    }
     let newData = {
       uid: authUser.uid,
       itemData: {
@@ -187,10 +194,15 @@ const Card = ({
     }
 
     if (method === "update") {
-      setUpdateLoading(true);
       newData.itemUid = defaultValues.uid;
-      dispatch(updateItem(newData));
+      setFormData(newData);
+      handleShow();
     }
+  };
+
+  const handleUpdateItemData = () => {
+    setUpdateLoading(true);
+    dispatch(updateItem(formData));
   };
 
   const handleOnBlurFolder = () => {
@@ -632,25 +644,60 @@ const Card = ({
         </div>
         <div className="form-group">
           {method === "update" ? (
-            <Button
-              type="submit"
-              className="btn-dark btn-long btn-with-icon"
-              disabled={
-                (!isDirty || !isValid) &&
-                !isDropdownsDirty &&
-                !brandError &&
-                !expirationMonthError &&
-                favorite === defaultValues.favorite
-              }
-            >
-              {updateLoading ? (
-                <SpinnerLoader></SpinnerLoader>
-              ) : (
-                <>
-                  <HiOutlinePencil></HiOutlinePencil>Update Item
-                </>
-              )}
-            </Button>
+            <>
+              <Button
+                type="submit"
+                className="btn-dark btn-long btn-with-icon"
+                disabled={
+                  (!isDirty || !isValid) &&
+                  favorite === defaultValues.favorite &&
+                  !isDropdownsDirty && assignedFolders === defaultValues.folders
+                }
+              >
+                <HiOutlinePencil></HiOutlinePencil>Update Item
+              </Button>
+              <Modal
+                size="sm"
+                show={showConfirmationModal}
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}
+                centered
+              >
+                <Modal.Body className="confirmation-modal-body">
+                  <div className="confirmation-modal">
+                    <h5>
+                      {"Are you sure you want to save and update this item?"}
+                    </h5>
+                    <small>
+                      {
+                        "This will update the information you use for this item."
+                      }
+                    </small>
+                    <div className="options gap-10">
+                      <Button
+                        type="button"
+                        className="btn-secondary btn-long"
+                        onClick={handleClose}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        onClick={handleUpdateItemData}
+                        type="button"
+                        className="btn-dark btn-long"
+                      >
+                        {updateLoading ? (
+                          <SpinnerLoader></SpinnerLoader>
+                        ) : (
+                          <>Save</>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+            </>
           ) : (
             <Button
               type="submit"

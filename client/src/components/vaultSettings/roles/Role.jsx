@@ -1,5 +1,5 @@
 import React from "react";
-import { HiOutlineChevronRight } from "react-icons/hi";
+import { HiLockClosed, HiOutlineChevronRight } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
 import AssignMemberButton from "./AssignMemberButton";
@@ -57,7 +57,9 @@ const Role = ({ role, isVaultOwner }) => {
             </span>
           )}
           <div>
-            <span>{role.name}</span>
+            <span>
+              {role.name} {isVaultOwner && <HiLockClosed></HiLockClosed>}
+            </span>
           </div>
         </div>
         <div className="info">

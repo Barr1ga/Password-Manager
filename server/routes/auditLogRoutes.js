@@ -2,10 +2,10 @@ const express = require("express");
 const router = express.Router();
 const {
   getAllLogs,
-  createItemLog,
+  createLog,
 } = require("../controllers/auditLogController");
 
 router.route("/getAllLogs").post(getAllLogs);
-router.route("/createItemLog").post(createItemLog);
+router.route("/createLog").post(createLog);
 
 module.exports = router;

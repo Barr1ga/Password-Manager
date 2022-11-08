@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import {
   HiOutlineEye,
@@ -18,18 +19,19 @@ import {
   updateItem,
 } from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
-import { createItemLog } from "../../features/slice/auditLogSlice";
+import { createLog } from "../../features/slice/auditLogSlice";
 
 const Logins = ({
   currentImage,
   setCurrentImageLetter,
   method,
   showPasswordGenerator,
-  setShowPasswordGenerator,
+  setShowConfirmationModalPasswordGenerator,
   defaultValues,
 }) => {
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [showFolder, setShowFolder] = useState(false);
+  const [showPasswordInput, setShowConfirmationModalPasswordInput] =
+    useState(false);
+  const [showFolder, setShowConfirmationModalFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const [favorite, setFavorite] = useState(defaultValues?.favorite || false);
   const [updateLoading, setUpdateLoading] = useState(false);
@@ -47,6 +49,13 @@ const Logins = ({
     itemCreatedFullfilled,
   } = useSelector((state) => state.items);
   const { authUser } = useSelector((state) => state.auth);
+  const [isDropdownsDirty, setIsDropDownsDirty] = useState(false);
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [formData, setFormData] = useState("");
+
+  const handleClose = () => setShowConfirmationModal(false);
+  const handleShow = () => setShowConfirmationModal(true);
 
   const folderRef = useRef();
 
@@ -97,7 +106,7 @@ const Logins = ({
             date: new Date(),
           },
         };
-        dispatch(createItemLog(auditData));
+        dispatch(createLog(auditData));
       }
 
       if (itemCreatedFullfilled) {
@@ -112,18 +121,23 @@ const Logins = ({
             date: new Date(),
           },
         };
-        dispatch(createItemLog(auditData));
+        dispatch(createLog(auditData));
       }
     }
 
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
+      dispatch(resetItemQueryFulfilled());
+      handleClose();
     }
-    dispatch(resetItemQueryFulfilled());
+
   }, [itemFulfilled, itemError]);
 
   const onSubmit = (data) => {
+    if (data.uid) {
+      delete data.uid;
+    }
     let newData = {
       uid: authUser.uid,
       itemData: {
@@ -142,21 +156,26 @@ const Logins = ({
     }
 
     if (method === "update") {
-      setUpdateLoading(true);
       newData.itemUid = defaultValues.uid;
-      dispatch(updateItem(newData));
+      setFormData(newData);
+      handleShow();
     }
+  };
+
+  const handleUpdateItemData = () => {
+    setUpdateLoading(true);
+    dispatch(updateItem(formData));
   };
 
   const handleOnBlurFolder = () => {
     if (!hovering) {
-      setShowFolder(false);
+      setShowConfirmationModalFolder(false);
     }
   };
 
   const handleUsePassword = (password) => {
     console.log(password);
-    setShowPasswordGenerator(false);
+    setShowConfirmationModalPasswordGenerator(false);
     setValue("password", password);
   };
 
@@ -290,17 +309,23 @@ const Logins = ({
                 <div className="interactions">
                   {showPasswordInput ? (
                     <HiOutlineEye
-                      onClick={() => setShowPasswordInput(false)}
+                      onClick={() =>
+                        setShowConfirmationModalPasswordInput(false)
+                      }
                     ></HiOutlineEye>
                   ) : (
                     <HiOutlineEyeOff
-                      onClick={() => setShowPasswordInput(true)}
+                      onClick={() =>
+                        setShowConfirmationModalPasswordInput(true)
+                      }
                     ></HiOutlineEyeOff>
                   )}
 
                   <HiOutlineRefresh
                     className="generate-password"
-                    onClick={() => setShowPasswordGenerator(true)}
+                    onClick={() =>
+                      setShowConfirmationModalPasswordGenerator(true)
+                    }
                   ></HiOutlineRefresh>
                 </div>
               </span>
@@ -344,7 +369,7 @@ const Logins = ({
                       assignedFolders.length === 0 ? "Select Folder" : ""
                     }
                     type="text"
-                    onFocus={() => setShowFolder(true)}
+                    onFocus={() => setShowConfirmationModalFolder(true)}
                     onBlur={handleOnBlurFolder}
                     onKeyDown={(e) => handleKeyDown(e)}
                     onChange={(e) => setSearch(e.target.value)}
@@ -397,22 +422,63 @@ const Logins = ({
             </div>
             <div className="form-group">
               {method === "update" ? (
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                  disabled={
-                    (!isDirty || !isValid) &&
-                    favorite === defaultValues.favorite
-                  }
-                >
-                  {updateLoading ? (
-                    <SpinnerLoader></SpinnerLoader>
-                  ) : (
-                    <>
-                      <HiOutlinePencil></HiOutlinePencil>Update Item
-                    </>
-                  )}
-                </Button>
+                <>
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-long btn-with-icon"
+                    disabled={
+                      (!isDirty || !isValid) &&
+                      favorite === defaultValues.favorite &&
+                      !isDropdownsDirty &&
+                      assignedFolders === defaultValues.folders
+                    }
+                  >
+                    <HiOutlinePencil></HiOutlinePencil>Update Item
+                  </Button>
+                  <Modal
+                    size="sm"
+                    show={showConfirmationModal}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                    centered
+                  >
+                    <Modal.Body className="confirmation-modal-body">
+                      <div className="confirmation-modal">
+                        <h5>
+                          {
+                            "Are you sure you want to save and update this item?"
+                          }
+                        </h5>
+                        <small>
+                          {
+                            "This will update the information you use for this item."
+                          }
+                        </small>
+                        <div className="options gap-10">
+                          <Button
+                            type="button"
+                            className="btn-secondary btn-long"
+                            onClick={handleClose}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={handleUpdateItemData}
+                            type="button"
+                            className="btn-dark btn-long"
+                          >
+                            {updateLoading ? (
+                              <SpinnerLoader></SpinnerLoader>
+                            ) : (
+                              <>Save</>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                </>
               ) : (
                 <Button
                   type="submit"
