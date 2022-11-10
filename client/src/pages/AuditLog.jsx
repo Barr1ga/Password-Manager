@@ -14,14 +14,11 @@ const AuditLog = () => {
   }, []);
 
   return (
-    <div className="margin-content">
-      <div className="page-header page-header-long page-header-fixed padding-side">
-        <h4>Audit Log</h4>{" "}
-        {/* <div>
-          <Filters></Filters>
-        </div> */}
+    <div className="scroll-view-long">
+      <div className="page-header page-header-with-close padding-side">
+        <h4>Vault Settings</h4>
       </div>
-      <div className="scroll-view">
+      <div className="vault-settings padding-side standard-stack gap-10">
         {auditLogs.map((auditLog, idx) => (
           <AuditLogItem key={idx} auditLog={auditLog}></AuditLogItem>
         ))}

@@ -143,7 +143,7 @@ const AllItems = () => {
           ))}
       </div>
 
-      <div className="sub-margin-right">
+      <div className={selectedItem ? "sub-margin-right" : "sub-margin-right hide-sub-margin"}>
         <div className="scroll-view standard-stack gap-10">
           {selectedItem && (
             <>

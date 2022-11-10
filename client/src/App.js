@@ -83,7 +83,7 @@ const App = () => {
       {authUser && <Header></Header>}
       <div className="sub-body">
         {authUser && (
-          <div className="left-margin">
+          <div className="left-margin scroll-view">
             <SideNav></SideNav>
           </div>
         )}

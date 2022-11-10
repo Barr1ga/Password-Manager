@@ -20,30 +20,28 @@ const VaultSettings = () => {
 
   return (
     <div className="scroll-view-long">
-      <div className="margin-content">
-        <div className="page-header page-header-with-close padding-side">
-          <h4>Vault Settings</h4>
+      <div className="page-header page-header-with-close padding-side">
+        <h4>Vault Settings</h4>
 
-          <Link to="/">
-            <HiOutlineX className="btn-close"></HiOutlineX>
-          </Link>
-        </div>
-        <div className="vault-settings padding-side standard-stack gap-10">
-          <MyAccount></MyAccount>
-          <hr></hr>
+        <Link to="/">
+          <HiOutlineX className="btn-close"></HiOutlineX>
+        </Link>
+      </div>
+      <div className="vault-settings padding-side standard-stack gap-10">
+        <MyAccount></MyAccount>
+        <hr></hr>
 
-          {authUser.providerData[0].providerId === "password" && (
-            <>
-              <ChangeEmail></ChangeEmail>
-              <hr></hr>
+        {authUser.providerData[0].providerId === "password" && (
+          <>
+            <ChangeEmail></ChangeEmail>
+            <hr></hr>
 
-              <ChangePassword></ChangePassword>
-              <hr></hr>
-            </>
-          )}
+            <ChangePassword></ChangePassword>
+            <hr></hr>
+          </>
+        )}
 
-          <AccountRemoval></AccountRemoval>
-        </div>
+        <AccountRemoval></AccountRemoval>
       </div>
     </div>
   );

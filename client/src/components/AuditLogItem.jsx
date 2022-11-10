@@ -1,10 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import {
   formatDate,
-  formatToMonthDayYearDate,
-  formatToNowDate,
-  formatToTime,
 } from "../utils/date";
 
 const AuditLogItem = ({ auditLog }) => {
@@ -21,17 +18,15 @@ const AuditLogItem = ({ auditLog }) => {
       <div className="image">{actorMember.username.charAt(0)}</div>
       <div>
         <p>
-          <b>{actorMember.username}</b> <span>{auditLog.description}</span>{" "}
+          <b>{actorMember.username}</b>{" "}
+          <span>
+            {actorMember.email} {">"} {auditLog.description}
+          </span>{" "}
           {auditLog.benefactor}
         </p>
-        <small>
-          {/* {formatToMonthDayYearDate(auditLog.date).toString()} */}
-          {/* {formatToTime(auditLog.date).toString()} */}
-          {formatDate(auditLog.date)}
-        </small>
+        <small>{formatDate(auditLog.date)}</small>
       </div>
     </div>
   );
 };
-
 export default AuditLogItem;
