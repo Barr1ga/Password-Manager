@@ -457,6 +457,10 @@ button:disabled {
   /* padding-right: 5px; */
 }
 
+.sub-margin {
+  display: flex;
+}
+
 .right-margin .scroll-view {
   padding-right: 15px;
 }
@@ -941,17 +945,6 @@ textarea {
   flex-direction: column;
 }
 
-.margin-content {
-  height: 100%;
-  position: relative;
-  /* height: calc(100vh - 182px); */
-}
-
-.center-margin .margin-content {
-  display: flex;
-  flex-direction: column;
-}
-
 .padding-side {
   padding-left: 15px;
   padding-right: 15px;
@@ -1084,10 +1077,34 @@ textarea {
 
 .center-margin {
   height: 100vh;
-  flex: 0 1 450px;
+  flex: 0 1 900px;
   border-left: 10px solid #1a1a1a;
-  border-right: 10px solid #1a1a1a;
   padding: 55px 0 0 0;
+  display: flex;
+}
+
+.sub-margin-left {
+  flex: 0 1 450px;
+  border-right: 10px solid #1a1a1a;
+}
+
+.sub-margin-right {
+  flex: 0 1 450px;
+  padding-left: 20px;
+}
+
+.sub-margin-left .scroll-view {
+  padding-right: 2px;
+}
+
+.sub-margin-right .scroll-view {
+  padding-right: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+  .hide-sub-margin {
+    display: none;
+  }
 }
 
 .right-margin {
@@ -1688,6 +1705,7 @@ textarea {
 }
 
 .vault-members .member .name {
+  display: flex;
   position: relative;
   flex-grow: 1;
 }
@@ -1711,6 +1729,8 @@ textarea {
 }
 
 .vault-members .member .name p {
+  display: flex;
+  align-items: center;
   font-weight: 200;
   display: flex;
   gap: 5px;

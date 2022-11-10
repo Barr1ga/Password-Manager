@@ -12,24 +12,17 @@ import MyAccount from "./pages/MyAccount";
 import Members from "./pages/Members";
 import Roles from "./pages/Roles";
 import LoginRegistration from "./pages/LoginRegistration";
-import CurrentItemPage from "./pages/CurrentItem";
 import AuditLog from "./pages/AuditLog";
 import Header from "./components/Header";
 import SideNav from "./components/SideNav";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
-import SiteWarning from "./components/SiteWarning";
-import VaultMembers from "./components/members/VaultMembers";
-import CurrentItem from "./components/items/CurrentItem";
-import CurrentRole from "./components/roles/CurrentRole";
-import ResponsiveDisplay from "./components/helpers/ResponsiveDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
 import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
-import CurrentRolePage from "./pages/CurrentRole";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
@@ -119,10 +112,7 @@ const App = () => {
               path="/:uid"
               element={
                 authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<AllItems />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
+                  <AllItems></AllItems>
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
@@ -141,14 +131,7 @@ const App = () => {
             <Route
               path="/Favorites/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Favorites />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Favorites /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -164,14 +147,7 @@ const App = () => {
             <Route
               path="/Trash/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Trash />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Trash /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -188,10 +164,7 @@ const App = () => {
               path="/SharingCenter/:uid"
               element={
                 authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<SharingCenter />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
+                  <SharingCenter />
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
@@ -210,14 +183,7 @@ const App = () => {
             <Route
               path="Types/Logins/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Logins />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Logins /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -229,14 +195,7 @@ const App = () => {
             <Route
               path="Types/Cards/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Card />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Card /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -253,10 +212,7 @@ const App = () => {
               path="Types/Identifications/:uid"
               element={
                 authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Identifications />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
+                  <Identifications />
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
@@ -276,10 +232,7 @@ const App = () => {
               path="Types/SecureNotes/:uid"
               element={
                 authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<SecureNotes />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
+                  <SecureNotes />
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
@@ -299,10 +252,7 @@ const App = () => {
               path="Types/WifiPasswords/:uid"
               element={
                 authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<WifiPasswords />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
+                  <WifiPasswords />
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )
@@ -322,14 +272,7 @@ const App = () => {
             <Route
               path="Folders/:folder/"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Folder />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Folder /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -345,14 +288,7 @@ const App = () => {
             <Route
               path="/MyAccount/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<MyAccount />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <MyAccount /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -368,14 +304,7 @@ const App = () => {
             <Route
               path="/Members/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Members />}
-                    mobile={<CurrentItemPage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Members /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -391,14 +320,7 @@ const App = () => {
             <Route
               path="/Roles/:uid"
               element={
-                authUser ? (
-                  <ResponsiveDisplay
-                    nonMobile={<Roles />}
-                    mobile={<CurrentRolePage />}
-                  ></ResponsiveDisplay>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
+                authUser ? <Roles /> : <Navigate to="/LoginRegistration" />
               }
             ></Route>
             <Route
@@ -411,47 +333,35 @@ const App = () => {
                 )
               }
             ></Route>
-            <Route
-              path="/AuditLog/:uid"
-              element={
-                authUser ? (
-                  <AuditLog
-                    nonMobile={<Roles />}
-                    mobile={<CurrentItemPage />}
-                  ></AuditLog>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
-              }
-            ></Route>
           </Routes>
         </div>
         {authUser && (
-          <div className="right-margin">
-            <div className="scroll-view standard-stack gap-10">
-              {selectedItem && (
-                <>
-                  <CurrentItem></CurrentItem>
-                </>
-              )}
+          <></>
+          // <div className="right-margin">
+          //   <div className="scroll-view standard-stack gap-10">
+          //     {selectedItem && (
+          //       <>
+          //         <CurrentItem></CurrentItem>
+          //       </>
+          //     )}
 
-              {selectedRole && (
-                <>
-                  <CurrentRole></CurrentRole>
-                </>
-              )}
+          //     {selectedRole && (
+          //       <>
+          //         <CurrentRole></CurrentRole>
+          //       </>
+          //     )}
 
-              {!selectedItem && !selectedRole && (
-                <>
-                  <SiteWarning></SiteWarning>
-                  <div className="right-vault-members">
-                    <VaultMembers></VaultMembers>
-                  </div>
-                </>
-              )}
-            </div>
-            {/* <OtherLinks></OtherLinks> */}
-          </div>
+          //     {!selectedItem && !selectedRole && (
+          //       <>
+          //         <SiteWarning></SiteWarning>
+          //         <div className="right-vault-members">
+          //           <VaultMembers></VaultMembers>
+          //         </div>
+          //       </>
+          //     )}
+          //   </div>
+          //   {/* <OtherLinks></OtherLinks> */}
+          // </div>
         )}
       </div>
 

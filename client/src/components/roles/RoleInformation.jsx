@@ -29,7 +29,7 @@ const defaultColorTwo = "#b970ff";
 const colorPresetsOne = ["#88a0b8", "#e3ca3b", "#fa6328", "#e0388f", "#f2293d"];
 const colorPresetsTwo = ["#48d973", "#15a35f", "#219afc", "#667dff", "#daa3ff"];
 
-const RoleInformation = ({ method, defaultValues }) => {
+const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
   const [show, setShow] = useState(false);
   const [assignedMembers, setAssignedMembers] = useState([]);
   const [createLoading, setCreateLoading] = useState(false);
@@ -69,6 +69,7 @@ const RoleInformation = ({ method, defaultValues }) => {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
@@ -83,6 +84,12 @@ const RoleInformation = ({ method, defaultValues }) => {
       setShowFolder(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      reset();
+    };
+  }, []);
 
   const onSubmit = (data) => {
     if (data.uid) {
@@ -101,6 +108,7 @@ const RoleInformation = ({ method, defaultValues }) => {
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createRole(newData));
+      handleCloseModal();
     }
 
     if (method === "update") {
@@ -117,6 +125,7 @@ const RoleInformation = ({ method, defaultValues }) => {
 
   // audit log
   useEffect(() => {
+    const recentRoleName = roles[0].name;
     if (roleUpdatedFullfilled) {
       const auditData = {
         uid: authUser.uid,
@@ -124,21 +133,20 @@ const RoleInformation = ({ method, defaultValues }) => {
           actorUid: authUser.uid,
           action: "role/update",
           description: "updated the role",
-          benefactorUid: defaultValues.uid,
+          benefactor: recentRoleName,
         },
       };
       dispatch(createLog(auditData));
     }
-
+    
     if (roleCreatedFullfilled) {
-      const recentRoleUid = roles[roles.length - 1].uid;
       const auditData = {
         uid: authUser.uid,
         auditLogData: {
           actorUid: authUser.uid,
           action: "role/create",
           description: "created the role",
-          benefactorUid: recentRoleUid,
+          benefactor: recentRoleName,
         },
       };
       dispatch(createLog(auditData));

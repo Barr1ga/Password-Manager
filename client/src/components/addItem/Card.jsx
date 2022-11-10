@@ -118,6 +118,8 @@ const Card = ({
   }, [setCurrentImageLetter, watchName]);
 
   useEffect(() => {
+    const recentItemName = items[0].name;
+    
     if (itemUpdatedFullfilled) {
       const auditData = {
         uid: authUser.uid,
@@ -125,33 +127,34 @@ const Card = ({
           actorUid: authUser.uid,
           action: "item/update",
           description: "updated the item",
-          benefactorUid: defaultValues.uid,
+          benefactor: recentItemName,
         },
       };
+      console.log("createlog upodate")
       dispatch(createLog(auditData));
+      dispatch(resetItemQueryFulfilled());
     }
 
     if (itemCreatedFullfilled) {
-      const recentItemUid = items[0].uid;
       const auditData = {
         uid: authUser.uid,
         auditLogData: {
           actorUid: authUser.uid,
           action: "item/create",
           description: "created the item",
-          benefactorUid: recentItemUid,
+          benefactor: recentItemName,
         },
       };
       dispatch(createLog(auditData));
+      dispatch(resetItemQueryFulfilled());
     }
 
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
-      dispatch(resetItemQueryFulfilled());
       handleClose();
     }
-  }, [itemFulfilled, itemError]);
+  }, [itemFulfilled, itemError, itemUpdatedFullfilled, itemCreatedFullfilled]);
 
   useEffect(() => {
     if (defaultValues) {

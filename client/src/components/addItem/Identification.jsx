@@ -86,6 +86,8 @@ const Identifications = ({
   }, [defaultValues, reset]);
 
   useEffect(() => {
+    const recentItemName = items[0].name;
+
     if (itemUpdatedFullfilled) {
       const auditData = {
         uid: authUser.uid,
@@ -93,21 +95,20 @@ const Identifications = ({
           actorUid: authUser.uid,
           action: "item/update",
           description: "updated the item",
-          benefactorUid: defaultValues.uid,
+          benefactor: recentItemName,
         },
       };
       dispatch(createLog(auditData));
     }
 
     if (itemCreatedFullfilled) {
-      const recentItemUid = items[0].uid;
       const auditData = {
         uid: authUser.uid,
         auditLogData: {
           actorUid: authUser.uid,
           action: "item/create",
           description: "created the item",
-          benefactorUid: recentItemUid,
+          benefactor: recentItemName,
         },
       };
       dispatch(createLog(auditData));

@@ -5,16 +5,99 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
   items: [
-    // {
-    //   uid: "item1",
-    //   name: "Discord",
-    //   username: "hor.barr1ga@gmail.com",
-    //   type: "login",
-    //   image: "",
-    //   favorite: true,
-    //   folders: [],
-    //   trash: false,
-    // },
+    {
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },
+    {
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },{
+      uid: "item1",
+      name: "Discord",
+      username: "hor.barr1ga@gmail.com",
+      type: "login",
+      image: "",
+      favorite: true,
+      folders: [],
+      trash: false,
+    },
+    
   ],
   itemLoading: false,
   itemFulfilled: false,
@@ -193,7 +276,7 @@ const passwordSlice = createSlice({
       .addCase(getAllItems.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
-        state.items = action.payload;
+        // state.items = action.payload;
       })
       .addCase(getAllItems.rejected, (state, action) => {
         state.itemLoading = false;

@@ -17,9 +17,9 @@ const AuditLog = () => {
     <div className="margin-content">
       <div className="page-header page-header-long page-header-fixed padding-side">
         <h4>Audit Log</h4>{" "}
-        <div>
+        {/* <div>
           <Filters></Filters>
-        </div>
+        </div> */}
       </div>
       <div className="scroll-view">
         {auditLogs.map((auditLog, idx) => (

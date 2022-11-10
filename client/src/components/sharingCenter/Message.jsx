@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { formatToMonthDayYearDate, formatToTimeDate } from "../../utils/date";
+import { formatDate } from "../../utils/date";
 import MessageLazyLoad from "./MessageLazyLoad";
 
 const Message = ({ sameSender, message }) => {
@@ -49,14 +49,14 @@ const Message = ({ sameSender, message }) => {
               <div className="name">
                 <p>
                   <b>{sender.username}</b>{" "}
-                  <small>{formatToMonthDayYearDate(message.createdAt)}</small>
+                  {/* <small>{formatDate(message.createdAt)}</small> */}
                 </p>
               </div>
             )}
             {!message.isReply && sameSender && (
               <div className="trailing">
                 <small className="date">
-                  {formatToTimeDate(message.createdAt)}
+                  {/* {formatDate(message.createdAt)} */}
                 </small>
                 <br></br>
               </div>

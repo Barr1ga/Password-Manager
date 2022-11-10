@@ -8,7 +8,11 @@ const getAllLogs = asyncHandler(async (req, res) => {
   const { uid } = req.body;
 
   const itemLogs = await (
-    await vault.doc(uid).collection("auditLogs").get()
+    await vault
+      .doc(uid)
+      .collection("auditLogs")
+      .orderBy("date", "desc")
+      .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });

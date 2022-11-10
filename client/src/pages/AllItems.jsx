@@ -14,6 +14,10 @@ import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
 import ItemsList from "../components/items/ItemsList";
 import CardsList from "../components/items/CardsList";
 import { useParams } from "react-router-dom";
+import SiteWarning from "../components/SiteWarning";
+import CurrentItem from "../components/items/CurrentItem";
+import VaultMembers from "../components/members/VaultMembers";
+import ResponsiveDisplay from "../components/helpers/ResponsiveDisplay";
 
 const AllItems = () => {
   const route = "";
@@ -56,87 +60,108 @@ const AllItems = () => {
   };
 
   return (
-    <div className="margin-content">
-      <div
-        className={
-          searchStatus
-            ? "search-show page-header page-header-long page-header-fixed padding-side"
-            : "page-header page-header-long page-header-fixed padding-side"
-        }
-      >
-        {!searchStatus && <h4>All Items</h4>}{" "}
-        <div>
-          {searchStatus && (
-            <>
-              <div className="form-search">
-                <input
-                  placeholder="Search Items"
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  className="form-control"
-                ></input>
-                <HiOutlineSearch className="icon"></HiOutlineSearch>
+    <>
+      <div className={selectedItem ? "sub-margin-left hide-sub-margin" : "sub-margin-left"}>
+        <div
+          className={
+            searchStatus
+              ? "search-show page-header page-header-long page-header-fixed padding-side"
+              : "page-header page-header-long page-header-fixed padding-side"
+          }
+        >
+          {!searchStatus && <h4>All Items</h4>}{" "}
+          <div>
+            {searchStatus && (
+              <>
+                <div className="form-search">
+                  <input
+                    placeholder="Search Items"
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    className="form-control"
+                  ></input>
+                  <HiOutlineSearch className="icon"></HiOutlineSearch>
+                </div>
+              </>
+            )}
+            {searchStatus && (
+              <div>
+                <HiOutlineX
+                  onClick={handleResetSearch}
+                  className="btn-close"
+                ></HiOutlineX>
               </div>
+            )}
+            {!searchStatus && (
+              <Button
+                onClick={handleSearch}
+                className="btn-secondary list-view-btn"
+              >
+                <HiOutlineSearch></HiOutlineSearch>
+              </Button>
+            )}
+            {!searchStatus && (
+              <>
+                <Button
+                  onClick={() => setListView(false)}
+                  className="btn-secondary list-view-btn"
+                >
+                  <HiOutlineViewGrid></HiOutlineViewGrid>
+                </Button>
+                <Button
+                  onClick={() => setListView(true)}
+                  className="btn-secondary list-view-btn"
+                >
+                  <HiOutlineServer></HiOutlineServer>
+                </Button>
+                <AddItemButton></AddItemButton>
+              </>
+            )}
+          </div>
+        </div>
+        {itemLoading &&
+          (listView ? (
+            <ItemsListLazyLoad></ItemsListLazyLoad>
+          ) : (
+            <CardsListLazyLoad></CardsListLazyLoad>
+          ))}
+
+        {!itemLoading &&
+          (listView ? (
+            <ItemsList
+              filteredItems={filteredItems}
+              route={route}
+              searchValue={searchValue}
+              count={count}
+            ></ItemsList>
+          ) : (
+            <CardsList
+              filteredItems={filteredItems}
+              route={route}
+              searchValue={searchValue}
+              count={count}
+            ></CardsList>
+          ))}
+      </div>
+
+      <div className="sub-margin-right">
+        <div className="scroll-view standard-stack gap-10">
+          {selectedItem && (
+            <>
+              <CurrentItem></CurrentItem>
             </>
           )}
-          {searchStatus && (
-            <div>
-              <HiOutlineX
-                onClick={handleResetSearch}
-                className="btn-close"
-              ></HiOutlineX>
-            </div>
-          )}
-          {!searchStatus && (
-            <Button
-              onClick={handleSearch}
-              className="btn-secondary list-view-btn"
-            >
-              <HiOutlineSearch></HiOutlineSearch>
-            </Button>
-          )}
-          {!searchStatus && (
+
+          {!selectedItem && (
             <>
-              <Button
-                onClick={() => setListView(false)}
-                className="btn-secondary list-view-btn"
-              >
-                <HiOutlineViewGrid></HiOutlineViewGrid>
-              </Button>
-              <Button
-                onClick={() => setListView(true)}
-                className="btn-secondary list-view-btn"
-              >
-                <HiOutlineServer></HiOutlineServer>
-              </Button>
-              <AddItemButton></AddItemButton>
+              <SiteWarning></SiteWarning>
+              <div className="right-vault-members">
+                <VaultMembers></VaultMembers>
+              </div>
             </>
           )}
         </div>
       </div>
-      {itemLoading &&
-        (listView ? (
-          <ItemsListLazyLoad></ItemsListLazyLoad>
-        ) : (
-          <CardsListLazyLoad></CardsListLazyLoad>
-        ))}
-
-      {!itemLoading &&
-        (listView ? (
-          <ItemsList
-            filteredItems={filteredItems}
-            route={route}
-            searchValue={searchValue}
-            count={count}
-          ></ItemsList>
-        ) : (
-          <CardsList
-            filteredItems={filteredItems}
-            route={route}
-            searchValue={searchValue}
-            count={count}
-          ></CardsList>
-        ))}
-    </div>
+    </>
   );
 };
 

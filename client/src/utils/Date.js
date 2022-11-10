@@ -3,6 +3,7 @@ import {
   formatDistanceToNow,
   differenceInDays,
   differenceInCalendarWeeks,
+  isToday,
   isYesterday,
   isThisWeek,
   toDate,
@@ -12,13 +13,17 @@ const formatDateTimeFromFirebase = (firebaseDate) => {
   const exactDate = new Date(
     firebaseDate._seconds * 1000 + firebaseDate._nanoseconds / 1000000
   );
-  return toDate(firebaseDate);
+  return toDate(exactDate);
 };
 
 export const formatDate = (firebaseDate) => {
   const date = formatDateTimeFromFirebase(firebaseDate);
 
   if (isThisWeek(date)) {
+    if (isToday(date)) {
+      return format(date, "'Today at' p").toString();
+    }
+
     if (isYesterday(date)) {
       return format(date, "'Yesterday at' p").toString();
     }

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/sharingCenter/Message";
-import { formatToMonthDayYearDate, daysDifference } from "../utils/date";
+import { formatDate, daysDifference } from "../utils/date";
 import EnterMessage from "../components/sharingCenter/EnterMessage";
 import EmptyList from "../assets/empty-list.svg";
 import MessageLazyLoad from "../components/sharingCenter/MessageLazyLoad";
@@ -58,7 +58,7 @@ const SharingCenter = () => {
                   <div className="date-separator">
                     <hr></hr>
                     <small>
-                      <b>{formatToMonthDayYearDate(message.createdAt)}</b>
+                      {/* <b>{formatDate(message.createdAt)}</b> */}
                     </small>
                     <hr></hr>
                   </div>
@@ -67,7 +67,7 @@ const SharingCenter = () => {
                     <div className="date-separator">
                       <hr></hr>
                       <small>
-                        <b>{formatToMonthDayYearDate(message.createdAt)}</b>
+                        {/* <b>{formatDate(message.createdAt)}</b> */}
                       </small>
                       <hr></hr>
                     </div>
