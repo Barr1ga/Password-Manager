@@ -8,7 +8,7 @@ const LIMIT_QUERY = 1;
 const getAllFolders = asyncHandler(async (req, res) => {
   const { uid } = req.body;
   const folder = await (
-    await vault.doc(uid).collection("folder").get()
+    await vault.doc(uid).collection("folders").get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -19,7 +19,7 @@ const getAllFolders = asyncHandler(async (req, res) => {
 const createFolder = asyncHandler(async (req, res) => {
   const { uid, folderData } = req.body;
 
-  const result = await vault.doc(uid).collection("folder").add(folderData);
+  const result = await vault.doc(uid).collection("folders").add(folderData);
 
   if (result.empty) {
     res.status(400);
@@ -29,7 +29,7 @@ const createFolder = asyncHandler(async (req, res) => {
   const createdFolderUid = result.id;
 
   const folder = await (
-    await vault.doc(uid).collection("folder").doc(createdFolderUid).get()
+    await vault.doc(uid).collection("folders").doc(createdFolderUid).get()
   ).data();
 
   if (folder.empty) {
@@ -46,7 +46,7 @@ const updateFolder = asyncHandler(async (req, res) => {
   const { uid, folderUid, folderData } = req.body;
 
   const result = await vault.doc(uid)
-    .collection("folder")
+    .collection("folders")
     .doc(folderUid)
     .update(folderData);
 
@@ -56,7 +56,7 @@ const updateFolder = asyncHandler(async (req, res) => {
   }
 
   const folder = await (
-    await vault.doc(uid).collection("folder").doc(folderUid).get()
+    await vault.doc(uid).collection("folders").doc(folderUid).get()
   ).data();
 
   if (folder.empty) {
@@ -72,7 +72,7 @@ const updateFolder = asyncHandler(async (req, res) => {
 const deleteFolder = asyncHandler(async (req, res) => {
   const { uid, folderUid } = req.body;
   
-  const result = await vault.doc(uid).collection("folder").doc(folderUid).delete();
+  const result = await vault.doc(uid).collection("folders").doc(folderUid).delete();
 
   if (result.empty) {
     res.status(400);

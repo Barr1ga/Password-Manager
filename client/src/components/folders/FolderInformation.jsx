@@ -144,10 +144,10 @@ const FolderInformation = ({
         </label>
         <input
           type="text"
-          {...register("folderName", {
+          {...register("name", {
             required: {
               value: true,
-              message: "Folder Name is required",
+              message: "Name is required",
             },
           })}
           className={

@@ -4,10 +4,11 @@ import SideNavFolderContent from "./SideNavFolderContent";
 import AddFolderModal from "./folders/AddFolderModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllFolders } from "../features/slice/folderSlice";
+import FolderListLazyLoad from "./folders/FolderListLazyLoad";
 
 const SideNavFolders = () => {
   const [showNavFolders, setShowNavFolders] = useState(true);
-  const { folders } = useSelector((state) => state.folders);
+  const { folders, folderLoading } = useSelector((state) => state.folders);
 
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -32,13 +33,16 @@ const SideNavFolders = () => {
           <AddFolderModal></AddFolderModal>
         </span>
         <div className="standard-stack">
-          {showNavFolders &&
+          {showNavFolders && !folderLoading ? (
             folders.map((folder, idx) => (
               <SideNavFolderContent
                 key={idx}
                 folder={folder}
               ></SideNavFolderContent>
-            ))}
+            ))
+          ) : (
+            <FolderListLazyLoad></FolderListLazyLoad>
+          )}
         </div>
       </div>
     </>
