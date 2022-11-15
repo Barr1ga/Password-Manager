@@ -5,11 +5,8 @@ import folderService from "../services/folderService";
 const initialState = {
   folders: ["familyFriendly", "School", "friends", "Cousins", "Teachers", "Me"],
   folderLoading: false,
-  folderUpdatedFullfilled: false,
-  folderCreatedFullfilled: false,
-  folderDeletedFullfilled: false,
   folderFulfilled: false,
-  folderfolderError: false,
+  folderError: false,
   folderMessage: "",
   folderErrorMessage: "",
   folderErrorCode: "",
@@ -52,7 +49,7 @@ export const updateFolder = createAsyncThunk(
 );
 
 export const deleteFolder = createAsyncThunk(
-  "role/deleteFolder",
+  "folder/deleteFolder",
   async (data, ThunkAPI) => {
     try {
       return await folderService.deleteFolder(data);
@@ -68,6 +65,14 @@ const folderSlice = createSlice({
   initialState,
   reducers: {
     resetFolders: (state) => initialState,
+    resetFolderQueryFulfilled: (state) => {
+      state.folderLoading = initialState.folderLoading;
+      state.folderFulfilled = initialState.folderFulfilled;
+      state.folderError = initialState.folderError;
+      state.folderMessage = initialState.folderMessage;
+      state.folderErrorMessage = initialState.folderErrorMessage;
+      state.folderErrorCode = initialState.folderErrorCode;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -99,7 +104,6 @@ const folderSlice = createSlice({
       .addCase(createFolder.fulfilled, (state, action) => {
         state.folderLoading = false;
         state.folderFulfilled = true;
-        state.folderCreatedFullfilled = true;
         state.folders = [...state.folders, action.payload];
       })
       .addCase(createFolder.rejected, (state, action) => {
@@ -114,7 +118,6 @@ const folderSlice = createSlice({
       .addCase(updateFolder.fulfilled, (state, action) => {
         state.folderLoading = false;
         state.folderFulfilled = true;
-        state.folderUpdatedFullfilled = true;
         const idx = state.folders.findIndex(
           (folder) => folder.uid === action.payload.uid
         );
@@ -136,7 +139,6 @@ const folderSlice = createSlice({
       .addCase(deleteFolder.fulfilled, (state, action) => {
         state.folderLoading = false;
         state.folderFulfilled = true;
-        state.folderDeletedFullfilled = true;
         state.folders = state.folders.filter(
           (folder) => folder.uid !== action.payload
         );
@@ -152,5 +154,5 @@ const folderSlice = createSlice({
   },
 });
 
-export const { resetFolders } = folderSlice.actions;
+export const { resetFolders, resetFolderQueryFulfilled } = folderSlice.actions;
 export default folderSlice.reducer;

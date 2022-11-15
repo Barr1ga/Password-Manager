@@ -7,24 +7,13 @@ import {
 } from "react-icons/hi";
 import ConfirmModal from "../helpers/ConfirmModal";
 import { useForm } from "react-hook-form";
+import RoleInformation from "../roles/RoleInformation";
+import FolderInformation from "./FolderInformation";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
   const handleCloseModal = () => {
     setModalShow(false);
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    mode: "all",
-    defaultValues: {},
-  });
-
-  const onSubmit = (data) => {
-    console.log(data);
   };
 
   return (
@@ -68,38 +57,7 @@ const AddItemModal = () => {
           </div>
         </Modal.Header>
         <Modal.Body className="add-item-modal standard-stack gap-10">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-group">
-              <label>
-                Folder Name<span className="error-message">*</span>
-              </label>
-              <input
-                type="text"
-                {...register("folderName", {
-                  required: {
-                    value: true,
-                    message: "Folder Name is required",
-                  },
-                })}
-                className={
-                  errors.folderName
-                    ? "form-control form-error"
-                    : "form-control "
-                }
-              />
-              {errors.folderName && (
-                <small className="error-message">
-                  {errors.folderName.message}
-                  <br></br>
-                </small>
-              )}
-            </div>
-            <div className="form-group">
-              <Button type="submit" className="btn-dark btn-long btn-with-icon">
-                <HiPlus></HiPlus>Add Item
-              </Button>
-            </div>
-          </form>
+          <FolderInformation method={"create"} handleCloseModal={handleCloseModal}></FolderInformation>
         </Modal.Body>
       </Modal>
     </>

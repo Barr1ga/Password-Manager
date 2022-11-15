@@ -28,13 +28,11 @@ const CurrentRolePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!roleDeletedFullfilled) {
-      currentRole = selectedRole
-        ? roles.find((role) => role.uid === selectedRole)
-        : null;
-    }
+    currentRole = selectedRole
+      ? roles.find((role) => role.uid === selectedRole)
+      : null;
   }, [selectedRole]);
-  console.log(currentRole);
+
   const handleCloseMobile = () => {
     dispatch(resetSelectedRole());
     navigate(-1);
@@ -45,21 +43,6 @@ const CurrentRolePage = () => {
   };
 
   useEffect(() => {
-    if (roleDeletedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "role/delete",
-          description: "deleted the role",
-          benefactor: currentRole.name,
-        },
-      };
-      dispatch(createLog(auditData));
-      dispatch(resetSelectedRole());
-      dispatch(resetRoleQueryFulfilled());
-    }
-
     return () => {
       dispatch(resetSelectedRole());
     };

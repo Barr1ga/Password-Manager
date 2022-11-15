@@ -41,14 +41,9 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
-  const {
-    roles,
-    roleUpdatedFullfilled,
-    roleCreatedFullfilled,
-    roleDeletedFullfilled,
-    roleFulfilled,
-    roleError,
-  } = useSelector((state) => state.roles);
+  const { roles, roleFulfilled, roleError } = useSelector(
+    (state) => state.roles
+  );
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
   const folderRef = useRef();
@@ -87,13 +82,12 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
 
   useEffect(() => {
     setSelectedColor(defaultValues?.color);
-  }, [defaultValues]);
+    reset();
 
-  useEffect(() => {
     return () => {
       reset();
     };
-  }, []);
+  }, [defaultValues]);
 
   const onSubmit = (data) => {
     if (data.uid) {
@@ -112,6 +106,18 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createRole(newData));
+
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "role/create",
+          description: "created the role",
+          benefactor: newData.roleData.name,
+          date: new Date(),
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (method === "update") {
@@ -124,43 +130,28 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
   const handleUpdateRoleData = () => {
     setUpdateLoading(true);
     dispatch(updateRole(formData));
+
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "role/update",
+        description: "updated the role",
+        benefactor: formData.roleData.name,
+      },
+    };
+    dispatch(createLog(auditData));
   };
 
   // audit log
   useEffect(() => {
-    const recentRoleName = roles[roles.length - 1].name;
-    if (roleUpdatedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "role/update",
-          description: "updated the role",
-          benefactor: recentRoleName,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
-    if (roleCreatedFullfilled) {
-      handleCloseModal();
-
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "role/create",
-          description: "created the role",
-          benefactor: recentRoleName,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
     if (roleFulfilled || roleError) {
       setUpdateLoading(false);
       setCreateLoading(false);
       handleCloseConfirmation();
+      if (handleCloseModal) {
+        handleCloseModal();
+      }
       dispatch(resetRoleQueryFulfilled());
     }
   }, [roleFulfilled, roleError]);
@@ -191,6 +182,18 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
   const handleDeleteRole = () => {
     setDeleteLoading(true);
     dispatch(deleteRole({ uid: authUser.uid, roleUid: defaultValues.uid }));
+
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "role/hardDelete",
+        description: "permanently deleted the role",
+        benefactor: defaultValues.name,
+        date: new Date(),
+      },
+    };
+    dispatch(createLog(auditData));
   };
 
   return (

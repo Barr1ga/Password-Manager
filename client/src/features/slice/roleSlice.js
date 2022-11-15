@@ -15,12 +15,11 @@ const initialState = {
   ],
   selectedRole: null,
   roleLoading: false,
-  roleUpdatedFullfilled: false,
-  roleCreatedFullfilled: false,
-  roleDeletedFullfilled: false,
   roleFulfilled: false,
   roleError: false,
   roleMessage: "",
+  roleErrorMessage: "",
+  roleErrorCode: "",
 };
 
 export const getAllRoles = createAsyncThunk(
@@ -85,9 +84,6 @@ const roleSlice = createSlice({
     resetRoleQueryFulfilled: (state) => {
       state.roleLoading = initialState.roleLoading;
       state.roleFulfilled = initialState.roleFulfilled;
-      state.roleCreatedFullfilled = initialState.roleCreatedFullfilled;
-      state.roleUpdatedFullfilled = initialState.roleUpdatedFullfilled;
-      state.roleDeletedFullfilled = initialState.roleDeletedFullfilled;
       state.roleError = initialState.roleError;
       state.roleMessage = initialState.roleMessage;
       state.roleErrorMessage = initialState.roleErrorMessage;
@@ -121,7 +117,6 @@ const roleSlice = createSlice({
       .addCase(createRole.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
-        state.roleCreatedFullfilled = true;
         state.roles = [...state.roles, action.payload];
       })
       .addCase(createRole.rejected, (state, action) => {
@@ -136,7 +131,6 @@ const roleSlice = createSlice({
       .addCase(updateRole.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
-        state.roleUpdatedFullfilled = true;
         const idx = state.roles.findIndex(
           (role) => role.uid === action.payload.uid
         );
@@ -160,7 +154,6 @@ const roleSlice = createSlice({
       .addCase(deleteRole.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
-        state.roleDeletedFullfilled = true;
         state.roles = state.roles.filter((role) => role.uid !== action.payload);
       })
       .addCase(deleteRole.rejected, (state, action) => {
