@@ -86,6 +86,10 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
   };
 
   useEffect(() => {
+    setSelectedColor(defaultValues?.color);
+  }, [defaultValues]);
+
+  useEffect(() => {
     return () => {
       reset();
     };
@@ -108,7 +112,6 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createRole(newData));
-      handleCloseModal();
     }
 
     if (method === "update") {
@@ -125,7 +128,7 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
 
   // audit log
   useEffect(() => {
-    const recentRoleName = roles[0].name;
+    const recentRoleName = roles[roles.length - 1].name;
     if (roleUpdatedFullfilled) {
       const auditData = {
         uid: authUser.uid,
@@ -138,8 +141,10 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
       };
       dispatch(createLog(auditData));
     }
-    
+
     if (roleCreatedFullfilled) {
+      handleCloseModal();
+
       const auditData = {
         uid: authUser.uid,
         auditLogData: {
@@ -185,16 +190,8 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
 
   const handleDeleteRole = () => {
     setDeleteLoading(true);
-    console.log(defaultValues.uid);
     dispatch(deleteRole({ uid: authUser.uid, roleUid: defaultValues.uid }));
   };
-
-  useEffect(() => {
-    if (roleDeletedFullfilled) {
-      setDeleteLoading(false);
-      dispatch(resetRoleQueryFulfilled());
-    }
-  }, [roleDeletedFullfilled]);
 
   return (
     <div className="role-information standard-stack gap-10">
@@ -245,6 +242,9 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
                           value: true,
                           message: "Name is required",
                         },
+                        validate: (value) =>
+                          value !== "Vault Owner" ||
+                          "Name must not be Vault Owner",
                       })}
                       className={
                         errors.name
@@ -271,6 +271,8 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
                           value: true,
                           message: "Abbreviation is required",
                         },
+                        validate: (value) =>
+                          value !== "VO" || "Abbreviation must not be VO",
                       })}
                       className={
                         errors.abbreviation
@@ -569,7 +571,7 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
                 onClick={handleDeleteRole}
                 className="btn-dark btn-long"
               >
-                Delete
+                {deleteLoading ? <SpinnerLoader></SpinnerLoader> : <>Delete</>}
               </Button>
             }
             component={
@@ -577,19 +579,8 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
                 <Button
                   type="button"
                   className="btn-secondary danger btn-long btn-with-icon"
-                  disabled={
-                    defaultValues && defaultValues.uid === vaultOwnerUid
-                      ? true
-                      : false
-                  }
                 >
-                  {deleteLoading ? (
-                    <SpinnerLoader></SpinnerLoader>
-                  ) : (
-                    <>
-                      <HiOutlineTrash></HiOutlineTrash>Delete Role
-                    </>
-                  )}
+                  <HiOutlineTrash></HiOutlineTrash>Delete Role
                 </Button>
               </div>
             }

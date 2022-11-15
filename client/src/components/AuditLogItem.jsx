@@ -20,7 +20,7 @@ const AuditLogItem = ({ auditLog }) => {
         <p>
           <b>{actorMember.username}</b>{" "}
           <span>
-            {actorMember.email} {">"} {auditLog.description}
+            {actorMember.email} {"—"} {auditLog.description}
           </span>{" "}
           {auditLog.benefactor}
         </p>

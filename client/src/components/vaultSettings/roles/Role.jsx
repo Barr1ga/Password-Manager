@@ -53,7 +53,7 @@ const Role = ({ role, isVaultOwner }) => {
             </small>
           ) : (
             <span className="role-tag">
-              <small>{role.abbreviation}</small>
+              <small style={{ color: role.color }}>{role.abbreviation}</small>
             </span>
           )}
           <div>
@@ -68,9 +68,11 @@ const Role = ({ role, isVaultOwner }) => {
               <div className="members-with-role">
                 {filteredMembers.map((member, idx) =>
                   member.image === "" ? (
-                    <div key={idx} className="member">
-                      {member.username.charAt(0)}
-                    </div>
+                    <>
+                      <div key={idx} className="member">
+                        {member.username.charAt(0)}
+                      </div>
+                    </>
                   ) : (
                     <img
                       key={idx}

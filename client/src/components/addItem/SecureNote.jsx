@@ -78,34 +78,6 @@ const SecureNote = ({
   }, [setCurrentImageLetter, watchName]);
 
   useEffect(() => {
-    if (itemUpdatedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "item/update",
-          description: "updated the item",
-          benefactorUid: defaultValues.uid,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
-    if (itemCreatedFullfilled) {
-      const recentItemUid = items[0].uid;
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "item/create",
-          description: "created the item",
-          benefactorUid: recentItemUid,
-          date: new Date(),
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
@@ -129,6 +101,18 @@ const SecureNote = ({
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createItem(newData));
+
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/create",
+          description: "created the item",
+          benefactor: newData.itemData.name,
+          date: new Date(),
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (method === "update") {
@@ -141,6 +125,17 @@ const SecureNote = ({
   const handleUpdateItemData = () => {
     setUpdateLoading(true);
     dispatch(updateItem(formData));
+
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "item/update",
+        description: "updated the item",
+        benefactor: formData.itemData.name,
+      },
+    };
+    dispatch(createLog(auditData));
   };
 
   const handleOnBlurFolder = () => {

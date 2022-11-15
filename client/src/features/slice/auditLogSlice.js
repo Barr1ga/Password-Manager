@@ -117,15 +117,15 @@ const auditLogSlice = createSlice({
     builder
 
       .addCase(getAllLogs.pending, (state) => {
-        state.ItemLogLoading = true;
+        state.auditLogLoading = true;
       })
       .addCase(getAllLogs.fulfilled, (state, action) => {
-        state.ItemLogLoading = false;
-        state.ItemLogFulfilled = true;
+        state.auditLogLoading = false;
+        state.auditLogFulfilled = true;
         state.auditLogs = action.payload;
       })
       .addCase(getAllLogs.rejected, (state, action) => {
-        state.ItemLogLoading = false;
+        state.auditLogLoading = false;
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;
@@ -133,16 +133,16 @@ const auditLogSlice = createSlice({
       })
 
       .addCase(createLog.pending, (state) => {
-        state.ItemLogLoading = true;
+        state.auditLogLoading = true;
       })
       .addCase(createLog.fulfilled, (state, action) => {
-        state.ItemLogLoading = false;
-        state.ItemLogFulfilled = true;
-        state.ItemLogCreatedFullfilled = true;
-        state.auditLogs = [action.payload, ...state.ItemLogs];
+        state.auditLogLoading = false;
+        state.auditLogFulfilled = true;
+        state.auditLogCreatedFullfilled = true;
+        state.auditLogs = [action.payload, ...state.auditLogs];
       })
       .addCase(createLog.rejected, (state, action) => {
-        state.ItemLogLoading = false;
+        state.auditLogLoading = false;
         const { code, message } = action.payload;
         state.authMessage = message;
         state.authErrorCode = code;

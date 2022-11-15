@@ -1,23 +1,40 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { resetSelectedRole } from "../../features/slice/roleSlice";
+import {
+  resetRoleQueryFulfilled,
+  resetSelectedRole,
+} from "../../features/slice/roleSlice";
 import ConfirmModal from "../helpers/ConfirmModal";
 import RoleInformation from "./RoleInformation";
 import Button from "react-bootstrap/Button";
 import { HiOutlineX } from "react-icons/hi";
+import { createLog } from "../../features/slice/auditLogSlice";
 
 const CurrentRolePage = () => {
-  const { roles, selectedRole } = useSelector((state) => state.roles);
-  let currentRole = roles.find((role) => role.uid === selectedRole);
+  const {
+    roles,
+    selectedRole,
+    roleDeletedFullfilled,
+    roleFulfilled,
+    roleError,
+  } = useSelector((state) => state.roles);
+  const { authUser } = useSelector((state) => state.auth);
+  let currentRole = selectedRole
+    ? roles.find((role) => role.uid === selectedRole)
+    : null;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    currentRole = roles.find((role) => role.uid === selectedRole);
+    if (!roleDeletedFullfilled) {
+      currentRole = selectedRole
+        ? roles.find((role) => role.uid === selectedRole)
+        : null;
+    }
   }, [selectedRole]);
-
+  console.log(currentRole);
   const handleCloseMobile = () => {
     dispatch(resetSelectedRole());
     navigate(-1);
@@ -28,10 +45,25 @@ const CurrentRolePage = () => {
   };
 
   useEffect(() => {
+    if (roleDeletedFullfilled) {
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "role/delete",
+          description: "deleted the role",
+          benefactor: currentRole.name,
+        },
+      };
+      dispatch(createLog(auditData));
+      dispatch(resetSelectedRole());
+      dispatch(resetRoleQueryFulfilled());
+    }
+
     return () => {
       dispatch(resetSelectedRole());
     };
-  }, []);
+  }, [roleFulfilled, roleError]);
 
   if (!currentRole) {
     return <></>;
@@ -90,10 +122,12 @@ const CurrentRolePage = () => {
             continueMessage={"Leave"}
           ></ConfirmModal>
         </div>
-        <RoleInformation
-          method={"update"}
-          defaultValues={currentRole}
-        ></RoleInformation>
+        {currentRole && (
+          <RoleInformation
+            method={"update"}
+            defaultValues={currentRole}
+          ></RoleInformation>
+        )}
       </div>
     </>
   );

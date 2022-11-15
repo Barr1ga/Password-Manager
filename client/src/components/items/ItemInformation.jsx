@@ -19,6 +19,7 @@ import ConfirmModal from "../helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteItem,
+  resetItemQueryFulfilled,
   resetSelectedItem,
   updateItem,
 } from "../../features/slice/itemSlice";
@@ -64,17 +65,7 @@ const ItemInformation = ({ currentItem }) => {
 
   useEffect(() => {
     if (itemDeletedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        itemLogData: {
-          actorUid: authUser.uid,
-          action: "item/trash",
-          description: "trashed the item",
-          benefactorUid: currentItem.uid,
-          date: new Date(),
-        },
-      };
-      dispatch(createLog(auditData));
+      dispatch(resetItemQueryFulfilled());
     }
   }, [itemDeletedFullfilled]);
 
@@ -96,6 +87,18 @@ const ItemInformation = ({ currentItem }) => {
     if (currentItem.trash) {
       setDeleteLoading(true);
       dispatch(deleteItem({ uid: authUser.uid, itemUid: currentItem.uid }));
+
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/hardDelete",
+          description: "permanently deleted the item",
+          benefactor: currentItem.name,
+          date: new Date(),
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (!currentItem.trash) {
@@ -109,6 +112,18 @@ const ItemInformation = ({ currentItem }) => {
 
       setDeleteLoading(true);
       dispatch(updateItem(newData));
+
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/softDelete",
+          description: "deleted the item",
+          benefactor: currentItem.name,
+          date: new Date(),
+        },
+      };
+      dispatch(createLog(auditData));
     }
   };
 
@@ -123,6 +138,18 @@ const ItemInformation = ({ currentItem }) => {
 
     setRestoreLoading(true);
     dispatch(updateItem(newData));
+
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "item/restore",
+        description: "restored the item",
+        benefactor: currentItem.name,
+        date: new Date(),
+      },
+    };
+    dispatch(createLog(auditData));
   };
 
   const handleCloseMobile = () => {

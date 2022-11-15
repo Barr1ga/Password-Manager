@@ -2489,6 +2489,11 @@ textarea {
   font-size: 0.8rem;
   margin-right: -5px;
   transition: 0.2s ease-out 0s;
+  outline: 2px solid var(--primary-background);
+}
+
+.role-item-selected .members-with-role .member {
+  outline: 2px solid var(--secondary-background);
 }
 
 .role-item .last-member {

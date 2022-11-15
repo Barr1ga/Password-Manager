@@ -86,34 +86,6 @@ const Identifications = ({
   }, [defaultValues, reset]);
 
   useEffect(() => {
-    const recentItemName = items[0].name;
-
-    if (itemUpdatedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "item/update",
-          description: "updated the item",
-          benefactor: recentItemName,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
-    if (itemCreatedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "item/create",
-          description: "created the item",
-          benefactor: recentItemName,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
@@ -148,6 +120,18 @@ const Identifications = ({
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createItem(newData));
+
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/create",
+          description: "created the item",
+          benefactor: newData.itemData.name,
+          date: new Date(),
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (method === "update") {
@@ -160,6 +144,17 @@ const Identifications = ({
   const handleUpdateItemData = () => {
     setUpdateLoading(true);
     dispatch(updateItem(formData));
+
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "item/update",
+        description: "updated the item",
+        benefactor: formData.itemData.name,
+      },
+    };
+    dispatch(createLog(auditData));
   };
 
   const handleOnBlurFolder = () => {

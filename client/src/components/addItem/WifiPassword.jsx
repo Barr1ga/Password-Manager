@@ -91,33 +91,6 @@ const WifiPassword = ({
   }, [setCurrentImageLetter, watchName]);
 
   useEffect(() => {
-    if (itemUpdatedFullfilled) {
-      const recentItemUid = items[0].uid;
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "item/update",
-          description: "updated the item",
-          benefactorUid: recentItemUid,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
-    if (itemCreatedFullfilled) {
-      const auditData = {
-        uid: authUser.uid,
-        auditLogData: {
-          actorUid: authUser.uid,
-          action: "item/create",
-          description: "created the item",
-          benefactorUid: defaultValues.uid,
-        },
-      };
-      dispatch(createLog(auditData));
-    }
-
     if (itemFulfilled || itemError) {
       setUpdateLoading(false);
       setCreateLoading(false);
@@ -142,6 +115,18 @@ const WifiPassword = ({
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createItem(newData));
+
+      const auditData = {
+        uid: authUser.uid,
+        auditLogData: {
+          actorUid: authUser.uid,
+          action: "item/create",
+          description: "created the item",
+          benefactor: newData.itemData.name,
+          date: new Date(),
+        },
+      };
+      dispatch(createLog(auditData));
     }
 
     if (method === "update") {
@@ -154,6 +139,17 @@ const WifiPassword = ({
   const handleUpdateItemData = () => {
     setUpdateLoading(true);
     dispatch(updateItem(formData));
+
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "item/update",
+        description: "updated the item",
+        benefactorUid: formData.name,
+      },
+    };
+    dispatch(createLog(auditData));
   };
 
   const handleOnBlurFolder = () => {

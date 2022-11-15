@@ -141,7 +141,12 @@ const roleSlice = createSlice({
           (role) => role.uid === action.payload.uid
         );
         state.roles[idx] = action.payload;
-        [state.roles[idx], state.roles[0]] = [state.roles[0], state.roles[idx]];
+        if (action.payload.name !== "Vault Owner") {
+          [state.roles[idx], state.roles[1]] = [
+            state.roles[1],
+            state.roles[idx],
+          ];
+        }
       })
       .addCase(updateRole.rejected, (state, action) => {
         state.roleLoading = false;
