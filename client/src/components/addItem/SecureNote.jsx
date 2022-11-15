@@ -19,6 +19,7 @@ const SecureNote = ({
   setCurrentImageLetter,
   method,
   defaultValues,
+  setConfirmClose,
 }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
@@ -170,6 +171,14 @@ const SecureNote = ({
           folder.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
+
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <>

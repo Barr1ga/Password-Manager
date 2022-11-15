@@ -22,6 +22,7 @@ const Identifications = ({
   setCurrentImageLetter,
   method,
   defaultValues,
+  setConfirmClose,
 }) => {
   const [showFolder, setShowFolder] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
@@ -217,6 +218,14 @@ const Identifications = ({
           folder.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
+
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <>

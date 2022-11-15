@@ -1,30 +1,32 @@
 import axios from "axios";
 
-const key = process.env.REACT_APP_BRANDFETCH_API_KEY;
+const API_URL = "api/folder";
 
-const getFolders = async (data) => {
-  const { folder } = data;
-
-  const config = {
-    headers: {
-      Authorization: `Bearer ${key}`,
-    },
-  };
-
-  const response = await axios.get(
-    "" + folder,
-    config
-  );
-
-  const returnData = {
-    data: response.data,
-  };
-
-  return returnData;
+const getAllFolders = async (data) => {
+  const response = await axios.post(API_URL + "/getAllFolders", data);
+  return response.data;
 };
 
-const foldersService = {
-  getFolders,
+const createFolder = async (data) => {
+  const response = await axios.post(API_URL + "/createFolder", data);
+  return response.data;
 };
 
-export default foldersService;
+const updateFolder = async (data) => {
+  const response = await axios.post(API_URL + "/updateFolder", data);
+  return response.data;
+};
+
+const deleteFolder = async (data) => {
+  const response = await axios.post(API_URL + "/deleteFolder", data);
+  return response.data;
+};
+
+const folderService = {
+  getAllFolders,
+  createFolder,
+  updateFolder,
+  deleteFolder,
+};
+
+export default folderService;

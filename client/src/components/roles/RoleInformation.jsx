@@ -29,7 +29,12 @@ const defaultColorTwo = "#b970ff";
 const colorPresetsOne = ["#88a0b8", "#e3ca3b", "#fa6328", "#e0388f", "#f2293d"];
 const colorPresetsTwo = ["#48d973", "#15a35f", "#219afc", "#667dff", "#daa3ff"];
 
-const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
+const RoleInformation = ({
+  method,
+  defaultValues,
+  handleCloseModal,
+  setConfirmClose,
+}) => {
   const [show, setShow] = useState(false);
   const [assignedMembers, setAssignedMembers] = useState([]);
   const [createLoading, setCreateLoading] = useState(false);
@@ -195,6 +200,14 @@ const RoleInformation = ({ method, defaultValues, handleCloseModal }) => {
     };
     dispatch(createLog(auditData));
   };
+  console.log(isDirty)
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <div className="role-information standard-stack gap-10">

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectItem } from "../../features/slice/itemSlice";
 import { Link } from "react-router-dom";
 import { resetSelectedRole } from "../../features/slice/roleSlice";
+import { resetSelectedFolder } from "../../features/slice/folderSlice";
 
 const ItemCard = ({ route, item }) => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const ItemCard = ({ route, item }) => {
 
   const handleItemClicked = () => {
     if (selectedRole !== "") {
+      dispatch(resetSelectedFolder());
       dispatch(resetSelectedRole());
     }
     dispatch(selectItem(item.id));

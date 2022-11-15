@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RiArrowRightSLine, RiArrowDownSLine } from "react-icons/ri";
 import SideNavFolderContent from "./SideNavFolderContent";
 import AddFolderModal from "./folders/AddFolderModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllFolders } from "../features/slice/folderSlice";
 
-const SideNavFolders = ({ folder, items }) => {
+const SideNavFolders = () => {
   const [showNavFolders, setShowNavFolders] = useState(true);
   const { folders } = useSelector((state) => state.folders);
+
+  const { authUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllFolders({ uid: authUser.uid }));
+  }, []);
 
   return (
     <>

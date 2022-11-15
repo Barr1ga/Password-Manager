@@ -8,6 +8,7 @@ import RoleInformation from "../../roles/RoleInformation";
 
 const AddItemModal = () => {
   const [modalShow, setModalShow] = useState(false);
+  const [confirmClose, setConfirmClose] = useState(false);
   const [tab, setTab] = useState(1);
 
   const handleCloseModal = () => {
@@ -34,26 +35,37 @@ const AddItemModal = () => {
             <div className="back-enabled">
               <h4>Add Role</h4>
             </div>
-            <ConfirmModal
-              proceedInteraction={
-                <Button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="btn-dark btn-long"
-                >
-                  Leave
-                </Button>
-              }
-              component={<HiOutlineX className="btn-close"></HiOutlineX>}
-              headerMessage={"Are you sure you want to leave this section?"}
-              bodyMessage={
-                "You have unsaved content, and will be lost unless you save it."
-              }
-            ></ConfirmModal>
+            {confirmClose ? (
+              <ConfirmModal
+                proceedInteraction={
+                  <Button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="btn-dark btn-long"
+                  >
+                    Leave
+                  </Button>
+                }
+                component={<HiOutlineX className="btn-close"></HiOutlineX>}
+                headerMessage={"Are you sure you want to leave this section?"}
+                bodyMessage={
+                  "You have unsaved content, and will be lost unless you save it."
+                }
+              ></ConfirmModal>
+            ) : (
+              <HiOutlineX
+                className="btn-close"
+                onClick={handleCloseModal}
+              ></HiOutlineX>
+            )}
           </div>
         </Modal.Header>
         <Modal.Body className="add-role-modal standard-stack gap-10">
-          <RoleInformation method={"create"} handleCloseModal={handleCloseModal}></RoleInformation>
+          <RoleInformation
+            method={"create"}
+            handleCloseModal={handleCloseModal}
+            setConfirmClose={setConfirmClose}
+          ></RoleInformation>
         </Modal.Body>
       </Modal>
     </>

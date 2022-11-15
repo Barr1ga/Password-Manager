@@ -54,6 +54,7 @@ const Card = ({
   setCurrentImageLetter,
   method,
   defaultValues,
+  setConfirmClose,
 }) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
   const [showCodeInput, setShowCodeInput] = useState(false);
@@ -183,7 +184,7 @@ const Card = ({
   const handleUpdateItemData = () => {
     setUpdateLoading(true);
     dispatch(updateItem(formData));
-    
+
     const auditData = {
       uid: authUser.uid,
       auditLogData: {
@@ -295,6 +296,14 @@ const Card = ({
       setShowExpirationMonths(false);
     }
   };
+
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <>

@@ -7,6 +7,7 @@ import { FaCrown } from "react-icons/fa";
 import { selectRole } from "../../../features/slice/roleSlice";
 import { Link } from "react-router-dom";
 import { resetSelectedItem } from "../../../features/slice/itemSlice";
+import { resetSelectedFolder } from "../../../features/slice/folderSlice";
 
 const Role = ({ role, isVaultOwner }) => {
   const { members } = useSelector((state) => state.members);
@@ -18,6 +19,7 @@ const Role = ({ role, isVaultOwner }) => {
 
   const handleRoleClicked = () => {
     if (selectedItem !== "") {
+      dispatch(resetSelectedFolder());
       dispatch(resetSelectedItem());
     }
     dispatch(selectRole(role.uid));

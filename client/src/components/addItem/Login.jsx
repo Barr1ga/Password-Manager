@@ -28,6 +28,7 @@ const Logins = ({
   showPasswordGenerator,
   setShowConfirmationModalPasswordGenerator,
   defaultValues,
+  setConfirmClose,
 }) => {
   const [showPasswordInput, setShowConfirmationModalPasswordInput] =
     useState(false);
@@ -195,6 +196,14 @@ const Logins = ({
           folder.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
+
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <>

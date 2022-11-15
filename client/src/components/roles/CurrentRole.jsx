@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,7 @@ import { HiOutlineX } from "react-icons/hi";
 import { createLog } from "../../features/slice/auditLogSlice";
 
 const CurrentRolePage = () => {
+  const [confirmClose, setConfirmClose] = useState(false);
   const {
     roles,
     selectedRole,
@@ -109,6 +110,7 @@ const CurrentRolePage = () => {
           <RoleInformation
             method={"update"}
             defaultValues={currentRole}
+            setConfirmClose={setConfirmClose}
           ></RoleInformation>
         )}
       </div>

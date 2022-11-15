@@ -29,6 +29,7 @@ const WifiPassword = ({
   showPasswordGenerator,
   setShowPasswordGenerator,
   defaultValues,
+  setConfirmClose,
 }) => {
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const [showFolder, setShowFolder] = useState(false);
@@ -190,6 +191,14 @@ const WifiPassword = ({
           folder.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
+
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <>

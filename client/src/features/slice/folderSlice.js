@@ -3,7 +3,21 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 import folderService from "../services/folderService";
 
 const initialState = {
-  folders: ["familyFriendly", "School", "friends", "Cousins", "Teachers", "Me"],
+  folders: [
+    // {
+    //   uid: "1",
+    //   name: "family",
+    // },
+    // {
+    //   uid: "2",
+    //   name: "colleague",
+    // },
+    // {
+    //   uid: "3",
+    //   name: "classmate",
+    // },
+  ],
+  selectedFolder: null,
   folderLoading: false,
   folderFulfilled: false,
   folderError: false,
@@ -73,6 +87,12 @@ const folderSlice = createSlice({
       state.folderErrorMessage = initialState.folderErrorMessage;
       state.folderErrorCode = initialState.folderErrorCode;
     },
+    resetSelectedFolder: (state) => {
+      state.selectedFolder = null;
+    },
+    selectFolder: (state, action) => {
+      state.selectedFolder = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -84,13 +104,6 @@ const folderSlice = createSlice({
         state.folderLoading = false;
         state.folderFulfilled = true;
         state.folders = action.payload;
-        const idx = state.folders.findIndex(
-          (folder) => folder.name === "Vault Owner"
-        );
-        [state.folders[0], state.folders[idx]] = [
-          state.folders[idx],
-          state.folders[0],
-        ];
       })
       .addCase(getAllFolders.rejected, (state, action) => {
         state.folderLoading = false;
@@ -154,5 +167,10 @@ const folderSlice = createSlice({
   },
 });
 
-export const { resetFolders, resetFolderQueryFulfilled } = folderSlice.actions;
+export const {
+  resetFolders,
+  resetFolderQueryFulfilled,
+  resetSelectedFolder,
+  selectFolder,
+} = folderSlice.actions;
 export default folderSlice.reducer;

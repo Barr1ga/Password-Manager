@@ -14,7 +14,12 @@ import SpinnerLoader from "../SpinnerLoader";
 import { createLog } from "../../features/slice/auditLogSlice";
 import { updateFolder } from "../../features/slice/folderSlice";
 
-const FolderInformation = ({ method, defaultValues, handleCloseModal }) => {
+const FolderInformation = ({
+  method,
+  defaultValues,
+  handleCloseModal,
+  setConfirmClose,
+}) => {
   const [createLoading, setCreateLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -24,6 +29,8 @@ const FolderInformation = ({ method, defaultValues, handleCloseModal }) => {
   const { folders, folderFulfilled, folderError } = useSelector(
     (state) => state.folders
   );
+
+  console.log("test");
 
   const handleCloseConfirmation = () => setShowConfirmationModal(false);
   const handleShowConfirmation = () => setShowConfirmationModal(true);
@@ -120,6 +127,14 @@ const FolderInformation = ({ method, defaultValues, handleCloseModal }) => {
       dispatch(resetFolderQueryFulfilled());
     }
   }, [folderFulfilled, folderError]);
+
+  if (setConfirmClose) {
+    if (isDirty) {
+      setConfirmClose(true);
+    } else {
+      setConfirmClose(false);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

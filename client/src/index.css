@@ -1192,6 +1192,7 @@ textarea {
   overflow: hidden;
   text-overflow: ellipsis;
   transition: 0.2s ease-out 0s;
+  flex: 1;
 }
 
 @media only screen and (max-width: 480px) {

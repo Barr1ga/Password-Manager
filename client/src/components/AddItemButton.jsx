@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AddItemModal = ({ currentPage }) => {
   const [modalShow, setModalShow] = useState(false);
+  const [confirmClose, setConfirmClose] = useState(false);
   const [showPasswordGenerator, setShowPasswordGenerator] = useState(false);
   const [selectedType, setSelectedType] = useState(
     currentPage ? currentPage : "login"
@@ -90,22 +91,29 @@ const AddItemModal = ({ currentPage }) => {
               )}
               <h4>Add Item</h4>
             </div>
-            <ConfirmModal
-              proceedInteraction={
-                <Button
-                  type="button"
-                  onClick={handleCloseModal}
-                  className="btn-dark btn-long"
-                >
-                  Leave
-                </Button>
-              }
-              component={<HiOutlineX className="btn-close"></HiOutlineX>}
-              headerMessage={"Are you sure you want to leave this section?"}
-              bodyMessage={
-                "You have unsaved content, and will be lost unless you save it."
-              }
-            ></ConfirmModal>
+            {confirmClose ? (
+              <ConfirmModal
+                proceedInteraction={
+                  <Button
+                    type="button"
+                    onClick={handleCloseModal}
+                    className="btn-dark btn-long"
+                  >
+                    Leave
+                  </Button>
+                }
+                component={<HiOutlineX className="btn-close"></HiOutlineX>}
+                headerMessage={"Are you sure you want to leave this section?"}
+                bodyMessage={
+                  "You have unsaved content, and will be lost unless you save it."
+                }
+              ></ConfirmModal>
+            ) : (
+              <HiOutlineX
+                className="btn-close"
+                onClick={handleCloseModal}
+              ></HiOutlineX>
+            )}
           </div>
         </Modal.Header>
         <Modal.Body className="add-item-modal standard-stack gap-10">
@@ -202,6 +210,7 @@ const AddItemModal = ({ currentPage }) => {
               method={method}
               showPasswordGenerator={showPasswordGenerator}
               setShowPasswordGenerator={setShowPasswordGenerator}
+              setConfirmClose={setConfirmClose}
             ></Login>
           )}
 
@@ -210,6 +219,7 @@ const AddItemModal = ({ currentPage }) => {
               currentImage={currentImage}
               method={method}
               setCurrentImageLetter={setCurrentImageLetter}
+              setConfirmClose={setConfirmClose}
             ></Card>
           )}
           {selectedType === "identification" && (
@@ -217,6 +227,7 @@ const AddItemModal = ({ currentPage }) => {
               currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
               method={method}
+              setConfirmClose={setConfirmClose}
             ></Identification>
           )}
 
@@ -225,6 +236,7 @@ const AddItemModal = ({ currentPage }) => {
               currentImage={currentImage}
               setCurrentImageLetter={setCurrentImageLetter}
               method={method}
+              setConfirmClose={setConfirmClose}
             ></SecureNote>
           )}
 
@@ -235,6 +247,7 @@ const AddItemModal = ({ currentPage }) => {
               setCurrentImageLetter={setCurrentImageLetter}
               showPasswordGenerator={showPasswordGenerator}
               setShowPasswordGenerator={setShowPasswordGenerator}
+              setConfirmClose={setConfirmClose}
             ></WifiPassword>
           )}
         </Modal.Body>
