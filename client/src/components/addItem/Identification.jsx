@@ -210,7 +210,7 @@ const Identifications = ({
   };
 
   let filteredFolders = folders.filter(
-    (folder) => !assignedFolders.includes(folder)
+    (folder) => !assignedFolders.includes(folder.name)
   );
   filteredFolders =
     search !== ""
@@ -723,11 +723,11 @@ const Identifications = ({
                       key={idx}
                       className="option padding-side "
                       onClick={() => {
-                        handleSelectFolder(folder);
+                        handleSelectFolder(folder.name);
                         folderRef?.current.focus();
                       }}
                     >
-                      {folder}
+                      {folder.name}
                     </div>
                   ))}
               </div>

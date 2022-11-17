@@ -18,6 +18,7 @@ app.use("/api/folder", require("./routes/folderRoutes"));
 app.use("/api/item", require("./routes/itemRoutes"));
 app.use("/Types/api/item", require("./routes/itemTypeRoutes"));
 app.use("/Folders/api/item", require("./routes/itemFolderRoutes"));
+app.use("/Folders/api/folder", require("./routes/folderRoutes"));
 app.use("/Roles/api/role", require("./routes/roleRoutes"));
 app.use("/Trash/api/item", require("./routes/itemFolderRoutes"));
 

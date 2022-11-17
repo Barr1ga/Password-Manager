@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Filters from "../components/Filters";
-import AuditLogItem from "../components/AuditLogItem";
+import AuditLogListLazyLoad from "../components/auditLogs/AuditLogListLazyLoad";
+import AuditLogItem from "../components/auditLogs/AuditLogItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllLogs } from "../features/slice/auditLogSlice";
+import { getAllMembers } from "../features/slice/memberSlice";
 
 const AuditLog = () => {
-  const { auditLogs } = useSelector((state) => state.auditLogs);
+  const { auditLogs, auditLogLoading } = useSelector(
+    (state) => state.auditLogs
+  );
+  const { memberLoading } = useSelector((state) => state.members);
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllLogs({ uid: authUser.uid }));
+    dispatch(getAllMembers({ uid: authUser.uid }));
   }, []);
 
   return (
@@ -19,9 +25,13 @@ const AuditLog = () => {
         <h4>Vault Settings</h4>
       </div>
       <div className="vault-settings padding-side standard-stack gap-10">
-        {auditLogs.map((auditLog, idx) => (
-          <AuditLogItem key={idx} auditLog={auditLog}></AuditLogItem>
-        ))}
+        {auditLogLoading || memberLoading ? (
+          <AuditLogListLazyLoad></AuditLogListLazyLoad>
+        ) : (
+          auditLogs.map((auditLog, idx) => (
+            <AuditLogItem key={idx} auditLog={auditLog}></AuditLogItem>
+          ))
+        )}
       </div>
     </div>
   );

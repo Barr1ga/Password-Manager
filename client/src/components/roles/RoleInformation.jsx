@@ -163,12 +163,12 @@ const RoleInformation = ({
 
   // folders
   let filteredFolders = folders.filter(
-    (folder) => !assignedFolders.includes(folder)
+    (folder) => !assignedFolders.includes(folder.name)
   );
   filteredFolders =
     search !== ""
       ? filteredFolders.filter((folder) =>
-          folder.toLowerCase().includes(search.toLowerCase())
+          folder.name.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
 
@@ -200,7 +200,7 @@ const RoleInformation = ({
     };
     dispatch(createLog(auditData));
   };
-  console.log(isDirty)
+  console.log(isDirty);
   if (setConfirmClose) {
     if (isDirty) {
       setConfirmClose(true);
@@ -477,11 +477,11 @@ const RoleInformation = ({
                                   key={idx}
                                   className="option padding-side "
                                   onClick={() => {
-                                    handleSelectFolder(folder);
+                                    handleSelectFolder(folder.name);
                                     folderRef?.current.focus();
                                   }}
                                 >
-                                  {folder}
+                                  {folder.name}
                                 </div>
                               ))}
                           </div>

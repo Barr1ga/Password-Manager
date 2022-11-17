@@ -257,7 +257,7 @@ const Card = ({
   };
 
   let filteredFolders = folders.filter(
-    (folder) => !assignedFolders.includes(folder)
+    (folder) => !assignedFolders.includes(folder.name)
   );
   filteredFolders =
     search !== ""
@@ -610,11 +610,11 @@ const Card = ({
                       key={idx}
                       className="option padding-side "
                       onClick={() => {
-                        handleSelectFolder(folder);
+                        handleSelectFolder(folder.name);
                         folderRef?.current.focus();
                       }}
                     >
-                      {folder}
+                      {folder.name}
                     </div>
                   ))}
               </div>

@@ -2952,6 +2952,43 @@ textarea {
   opacity: 50%;
 }
 
+.lazy-audit-log-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+}
+
+.lazy-audit-log-item .image {
+  background-color: var(--secondary-gray);
+  border-radius: 50%;
+  min-height: 40px;
+  min-width: 40px;
+}
+
+.lazy-audit-log-item > div:nth-child(2) {
+  flex: 1;
+}
+
+.lazy-audit-log-item .message {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.lazy-audit-log-item .message p,
+.lazy-audit-log-item small {
+  background-color: var(--secondary-gray);
+  height: 15px;
+  border-radius: 10px;
+}
+
+.lazy-audit-log-item .message span {
+  background-color: var(--primary-gray);
+  height: 15px;
+  border-radius: 10px;
+}
+
 /* sharingCenter css */
 .conversation-list {
   height: calc(100vh - 182px);

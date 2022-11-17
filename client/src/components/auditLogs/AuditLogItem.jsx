@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  formatDate,
-} from "../utils/date";
+import { formatDate } from "../../utils/date";
 
 const AuditLogItem = ({ auditLog }) => {
   const { members } = useSelector((state) => state.members);
