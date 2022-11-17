@@ -32,18 +32,20 @@ const SideNavFolders = () => {
           </p>
           <AddFolderModal></AddFolderModal>
         </span>
-        <div className="standard-stack">
-          {showNavFolders && !folderLoading ? (
-            folders.map((folder, idx) => (
-              <SideNavFolderContent
-                key={idx}
-                folder={folder}
-              ></SideNavFolderContent>
-            ))
-          ) : (
-            <FolderListLazyLoad></FolderListLazyLoad>
-          )}
-        </div>
+        {showNavFolders && (
+          <div className="standard-stack">
+            {!folderLoading ? (
+              folders.map((folder, idx) => (
+                <SideNavFolderContent
+                  key={idx}
+                  folder={folder}
+                ></SideNavFolderContent>
+              ))
+            ) : (
+              <FolderListLazyLoad></FolderListLazyLoad>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
