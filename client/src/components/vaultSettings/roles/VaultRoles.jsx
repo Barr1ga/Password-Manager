@@ -14,13 +14,7 @@ const VaultRoles = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!roles) {
-      dispatch(getAllRoles({ uid: authUser.uid }));
-    }
-  }, []);
-
-  const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner")?.uid;
 
   let filteredRoles =
     searchValue !== ""

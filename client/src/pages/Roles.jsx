@@ -7,20 +7,19 @@ import { useEffect } from "react";
 import { getAllRoles } from "../features/slice/roleSlice";
 import RoleInformation from "../components/roles/RoleInformation";
 import CurrentRole from "../components/roles/CurrentRole";
+import { getAllMembers } from "../features/slice/memberSlice";
 
 const Roles = () => {
   const { roles, selectedRole } = useSelector((state) => state.roles);
   const { authUser } = useSelector((state) => state.auth);
+  const { memberLoading } = useSelector((state) => state.members);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (roles.length === 0) {
-      dispatch(getAllRoles({ uid: authUser.uid }));
-    }
+    dispatch(getAllMembers({ uid: authUser.uid }));
+    dispatch(getAllRoles({ uid: authUser.uid }));
   }, []);
 
-  // const currentRole = roles.find((role) => role.uid === selectedRole);
-  console.log(selectedRole)
   return (
     <>
       <div

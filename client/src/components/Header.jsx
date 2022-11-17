@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { getUserData, logOut } from "../features/slice/authSlice";
 import { getAllMembers } from "../features/slice/memberSlice";
+import { getAllRoles } from "../features/slice/roleSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
@@ -27,6 +28,7 @@ const Header = () => {
     if (authUser && !authRegistered && !authEmailAndPasswordLoading) {
       dispatch(getUserData(authUser.uid));
       dispatch(getAllMembers({ uid: authUser.uid }));
+      dispatch(getAllRoles({ uid: authUser.uid }));
     }
   }, [authUser, authRegistered]);
 

@@ -6,6 +6,8 @@ const VaultRoles = ({ role, members }) => {
   const [showMembers, setShowMembers] = useState(true);
   let count;
 
+  console.log(members);
+
   if (role === "offline") {
     count = members.length;
   } else {

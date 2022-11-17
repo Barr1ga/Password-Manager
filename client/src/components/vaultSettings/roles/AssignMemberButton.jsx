@@ -39,27 +39,31 @@ const AssignMemberButton = ({ role }) => {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            {unassignedMembers.map((member) => (
-              <div
-                className="option"
-                onClick={() => handleAssignMember(member)}
-              >
-                {member.image === "" ? (
-                  <div className="image">{member.username.charAt(0)}</div>
-                ) : (
-                  <img
-                    src={member.image}
-                    alt={member.username}
-                    className="image"
-                  ></img>
-                )}
-                <div className="name">
-                  <p>{member.username}</p>
-                  <small>{member.email}</small>
+            {unassignedMembers.length === 0 ? (
+              <div className="disabled">No roles found</div>
+            ) : (
+              unassignedMembers.map((member) => (
+                <div
+                  className="option"
+                  onClick={() => handleAssignMember(member)}
+                >
+                  {member.image === "" ? (
+                    <div className="image">{member.username.charAt(0)}</div>
+                  ) : (
+                    <img
+                      src={member.image}
+                      alt={member.username}
+                      className="image"
+                    ></img>
+                  )}
+                  <div className="name">
+                    <p>{member.username}</p>
+                    <small>{member.email}</small>
+                  </div>
+                  {/* <p>{member.username}</p> */}
                 </div>
-                {/* <p>{member.username}</p> */}
-              </div>
-            ))}
+              ))
+            )}
           </div>
         )}
       </div>

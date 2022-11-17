@@ -20,7 +20,7 @@ const VaultMembers = () => {
   const offlineMembers = members.filter(
     (member) => member.status === "offline"
   );
-
+  console.log(onlineMembers);
   return (
     <div className="vault-members standard-stack gap-10">
       <h5>Members</h5>
@@ -30,9 +30,11 @@ const VaultMembers = () => {
       ) : (
         <>
           {roles.map((role, idx) => {
+            console.log(role)
             const filteredOnlineMembers = onlineMembers.filter(
               (member) => member.roleUids[0] === role.uid
             );
+            console.log(filteredOnlineMembers);
             if (filteredOnlineMembers.length !== 0) {
               return (
                 <VaultRoles

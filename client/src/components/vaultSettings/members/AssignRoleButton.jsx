@@ -40,14 +40,18 @@ const AssignRoleButton = ({ member }) => {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            {unassignedRoles.map((role) => (
-              <div className="option" onClick={() => handleAssignRole(role)}>
-                <span className="role-tag">
-                  <small>{role.abreviation}</small>
-                </span>
-                <div>{role.name}</div>
-              </div>
-            ))}
+            {unassignedRoles === 0 ? (
+              <div className="option disabled">No roles found</div>
+            ) : (
+              unassignedRoles.map((role) => (
+                <div className="option" onClick={() => handleAssignRole(role)}>
+                  <span className="role-tag">
+                    <small>{role.abreviation}</small>
+                  </span>
+                  <div>{role.name}</div>
+                </div>
+              ))
+            )}
           </div>
         )}
       </div>
