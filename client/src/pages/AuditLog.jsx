@@ -22,7 +22,7 @@ const AuditLog = () => {
   return (
     <div className="scroll-view-long">
       <div className="page-header page-header-with-close padding-side">
-        <h4>Vault Settings</h4>
+        <h4>Audit Log</h4>
       </div>
       <div className="vault-settings padding-side standard-stack gap-10">
         {auditLogLoading || memberLoading ? (

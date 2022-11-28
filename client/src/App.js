@@ -47,7 +47,7 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      dispatch(setUser(user));
+      // dispatch(setUser(user));
 
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;
