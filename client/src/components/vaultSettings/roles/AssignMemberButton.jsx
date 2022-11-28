@@ -1,15 +1,22 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllMembers } from "../../../features/slice/memberSlice";
 
 const AssignMemberButton = ({ role }) => {
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const { members } = useSelector((state) => state.members);
-
+  const { authUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const unassignedMembers = members.filter(
     (member) => !member.roleUids.includes(role.uid)
   );
+
+  useEffect(() => {
+    dispatch(getAllMembers({ uid: authUser.uid }));
+  }, []);
 
   const handleAssignMember = (member) => {
     console.log(member);
