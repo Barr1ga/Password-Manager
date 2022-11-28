@@ -16,6 +16,9 @@ const initialState = {
   selectedRole: null,
   roleLoading: false,
   roleFulfilled: false,
+  roleCreatedFullfilled: false,
+  roleUpdatedFullfilled: false,
+  roleDeletedFullfilled: false,
   roleError: false,
   roleMessage: "",
   roleErrorMessage: "",
@@ -117,6 +120,7 @@ const roleSlice = createSlice({
       .addCase(createRole.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
+        state.roleCreatedFullfilled = true;
         state.roles = [...state.roles, action.payload];
       })
       .addCase(createRole.rejected, (state, action) => {
@@ -131,6 +135,7 @@ const roleSlice = createSlice({
       .addCase(updateRole.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
+        state.roleUpdatedFullfilled = true;
         const idx = state.roles.findIndex(
           (role) => role.uid === action.payload.uid
         );
@@ -154,6 +159,7 @@ const roleSlice = createSlice({
       .addCase(deleteRole.fulfilled, (state, action) => {
         state.roleLoading = false;
         state.roleFulfilled = true;
+        state.roleDeletedFullfilled = true;
         state.roles = state.roles.filter((role) => role.uid !== action.payload);
       })
       .addCase(deleteRole.rejected, (state, action) => {

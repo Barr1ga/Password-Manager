@@ -27,7 +27,6 @@ const AddItemModal = () => {
         aria-labelledby="contained-modal-title-vcenter"
         backdrop="static"
         show={modalShow}
-        onHide={handleCloseModal}
       >
         <Modal.Header>
           {/* <Modal.Title>Modal heading</Modal.Title> */}

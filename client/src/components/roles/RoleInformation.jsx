@@ -46,9 +46,13 @@ const RoleInformation = ({
   const [showFolder, setShowFolder] = useState(false);
   const [hovering, setHovering] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
-  const { roles, roleFulfilled, roleError } = useSelector(
-    (state) => state.roles
-  );
+  const {
+    roles,
+    roleFulfilled,
+    roleError,
+    roleCreatedFullfilled,
+    roleUpdatedFullfilled,
+  } = useSelector((state) => state.roles);
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
   const folderRef = useRef();
@@ -63,7 +67,7 @@ const RoleInformation = ({
   const handleShowConfirmation = () => setShowConfirmationModal(true);
   const dispatch = useDispatch();
 
-  const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner")?.uid;
 
   const {
     register,
@@ -150,7 +154,7 @@ const RoleInformation = ({
 
   // audit log
   useEffect(() => {
-    if (roleFulfilled || roleError) {
+    if (roleCreatedFullfilled || roleUpdatedFullfilled) {
       setUpdateLoading(false);
       setCreateLoading(false);
       handleCloseConfirmation();
@@ -159,7 +163,7 @@ const RoleInformation = ({
       }
       dispatch(resetRoleQueryFulfilled());
     }
-  }, [roleFulfilled, roleError]);
+  }, [roleCreatedFullfilled, roleUpdatedFullfilled]);
 
   // folders
   let filteredFolders = folders.filter(
@@ -200,7 +204,7 @@ const RoleInformation = ({
     };
     dispatch(createLog(auditData));
   };
-  console.log(isDirty);
+
   if (setConfirmClose) {
     if (isDirty) {
       setConfirmClose(true);
@@ -209,6 +213,7 @@ const RoleInformation = ({
     }
   }
 
+  console.log("test");
   return (
     <div className="role-information standard-stack gap-10">
       <div>
