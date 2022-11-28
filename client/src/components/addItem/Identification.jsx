@@ -215,7 +215,7 @@ const Identifications = ({
   filteredFolders =
     search !== ""
       ? filteredFolders.filter((folder) =>
-          folder.toLowerCase().includes(search.toLowerCase())
+          folder.name.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
 

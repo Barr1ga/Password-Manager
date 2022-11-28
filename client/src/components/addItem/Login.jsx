@@ -186,14 +186,15 @@ const Logins = ({
       }
     }
   };
-
+  
   let filteredFolders = folders.filter(
     (folder) => !assignedFolders.includes(folder.name)
   );
+  console.log(filteredFolders)
   filteredFolders =
     search !== ""
       ? filteredFolders.filter((folder) =>
-          folder.toLowerCase().includes(search.toLowerCase())
+          folder.name.toLowerCase().includes(search.toLowerCase())
         )
       : filteredFolders;
 
