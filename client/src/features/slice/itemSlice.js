@@ -272,6 +272,7 @@ const passwordSlice = createSlice({
       .addCase(createItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
+        state.itemCreatedFullfilled = true;
         state.items = [action.payload, ...state.items];
       })
       .addCase(createItem.rejected, (state, action) => {
@@ -286,6 +287,7 @@ const passwordSlice = createSlice({
       .addCase(updateItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
+        state.itemUpdatedFullfilled = true;
         const idx = state.items.findIndex(
           (item) => item.uid === action.payload.uid
         );
@@ -304,6 +306,7 @@ const passwordSlice = createSlice({
       .addCase(deleteItem.fulfilled, (state, action) => {
         state.itemLoading = false;
         state.itemFulfilled = true;
+        state.itemDeletedFullfilled = true;
         state.items = state.items.filter((item) => item.uid !== action.payload);
       })
       .addCase(deleteItem.rejected, (state, action) => {
