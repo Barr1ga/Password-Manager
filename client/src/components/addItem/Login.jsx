@@ -26,7 +26,7 @@ const Logins = ({
   setCurrentImageLetter,
   method,
   showPasswordGenerator,
-  setShowConfirmationModalPasswordGenerator,
+  setShowPasswordGenerator,
   defaultValues,
   setConfirmClose,
 }) => {
@@ -166,7 +166,7 @@ const Logins = ({
   };
 
   const handleUsePassword = (password) => {
-    setShowConfirmationModalPasswordGenerator(false);
+    setShowPasswordGenerator(false);
     setValue("password", password);
   };
 
@@ -323,7 +323,7 @@ const Logins = ({
                   <HiOutlineRefresh
                     className="generate-password"
                     onClick={() =>
-                      setShowConfirmationModalPasswordGenerator(true)
+                      setShowPasswordGenerator(true)
                     }
                   ></HiOutlineRefresh>
                 </div>

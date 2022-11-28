@@ -40,7 +40,7 @@ const CurrentFolder = () => {
     <div className="margin-content">
       <div className="page-header">
         <div className="back-enabled">
-          <h4>Update Role</h4>
+          <h4>Update Folder</h4>
         </div>
         <ConfirmModal
           proceedInteraction={
