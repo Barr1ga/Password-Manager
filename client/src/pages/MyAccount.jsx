@@ -21,7 +21,7 @@ const VaultSettings = () => {
   return (
     <div className="scroll-view-long">
       <div className="page-header page-header-with-close padding-side">
-        <h4>Vault Settings</h4>
+        <h4>My Account</h4>
 
         <Link to="/">
           <HiOutlineX className="btn-close"></HiOutlineX>

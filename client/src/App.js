@@ -23,6 +23,7 @@ import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
+import ChangeVault from "./pages/ChangeVault";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
@@ -328,6 +329,16 @@ const App = () => {
               element={
                 authUser ? (
                   <AuditLog></AuditLog>
+                ) : (
+                  <Navigate to="/LoginRegistration" />
+                )
+              }
+            ></Route>
+            <Route
+              path="/ChangeVault"
+              element={
+                authUser ? (
+                  <ChangeVault></ChangeVault>
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   HiOutlineViewGrid,
   HiViewGrid,
@@ -19,6 +19,7 @@ import {
   HiOutlineClipboardList,
   HiClipboardList,
   HiOutlineLockClosed,
+  HiLockClosed,
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -49,16 +50,13 @@ const SideNav = () => {
     dispatch(logOut());
   };
 
-  const handleChangeVault = () => {
-    console.log("changeVault");
-  };
-
   return (
     <div className="side-nav standard-stack gap-10">
       {!route.includes("/MyAccount") &&
       !route.includes("/Members") &&
       !route.includes("/Roles") &&
-      !route.includes("/AuditLog") ? (
+      !route.includes("/AuditLog") &&
+      !route.includes("/ChangeVault") ? (
         <>
           <h5>My Vault</h5>
           <form>
@@ -282,27 +280,22 @@ const SideNav = () => {
             <hr className="sidenav-hr padding-side"></hr>
           </div>
           <div>
-            <ConfirmModal
-              proceedInteraction={
-                <Button
-                  type="button"
-                  className="btn-dark btn-long"
-                  onClick={handleChangeVault}
-                >
-                  Change
-                </Button>
+            <Link
+              to="/ChangeVault"
+              className={
+                route.includes("/ChangeVault")
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
               }
-              component={
-                <div className="sidenav-button">
-                  <HiOutlineLockClosed></HiOutlineLockClosed>{" "}
-                  <p>
-                    Change Vault {true && <span className="notif-ball"></span>}
-                  </p>
-                </div>
-              }
-              headerMessage={"Change Vault"}
-              bodyMessage={"Are you sure you want to change vault?"}
-            ></ConfirmModal>
+            >
+              {route.includes("/ChangeVault") ? (
+                <HiLockClosed></HiLockClosed>
+              ) : (
+                <HiOutlineLockClosed></HiOutlineLockClosed>
+              )}
+              <p>Change Vault {true && <span className="notif-ball"></span>}</p>
+            </Link>
+            {/* <ChangeVault></ChangeVault> */}
             <ConfirmModal
               proceedInteraction={
                 <Button
