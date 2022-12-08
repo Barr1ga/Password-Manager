@@ -8,6 +8,7 @@ const authProfile = JSON.parse(localStorage.getItem("authProfile"));
 const initialState = {
   authUser: authUser ? authUser : null,
   username: authProfile ? authProfile.username : "",
+  vaults: [],
   status: "",
   viewing: "",
   masterPasswordHint: authProfile ? authProfile.masterPasswordHint : "",
@@ -68,6 +69,17 @@ export const getUserData = createAsyncThunk(
   async (data, ThunkAPI) => {
     try {
       return await authService.getUserData(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getVaultOwners = createAsyncThunk(
+  "auth/getVaultOwners",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.getVaultOwners(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
     }
@@ -322,6 +334,7 @@ const userSlice = createSlice({
         state.username = action.payload.username
           ? action.payload.username
           : state.username;
+        state.vaults = action.payload.vaults;
         state.masterPasswordHint = action.payload.masterPasswordHint;
         state.status = action.payload.status;
         state.viewing = action.payload.viewing;

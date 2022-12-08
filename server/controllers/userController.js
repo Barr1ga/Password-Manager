@@ -90,7 +90,44 @@ const getUserData = asyncHandler(async (req, res) => {
     throw new Error("User not found!");
   }
 
-  res.status(200).json(result.data());
+  console.log(result.data().vaults);
+  console.log("test1");
+
+  const vaultsData = await (
+    await User.where(
+      admin.firestore.FieldPath.documentId(),
+      "in",
+      result.data().vaults
+    ).get()
+  ).docs.map((doc) => {
+    const { username } = doc.data();
+    const uid = doc.id;
+    return { username, vault: uid };
+  });
+
+  console.log("test2");
+  console.log(vaultsData);
+
+  var returnData = result.data();
+  returnData.vaults = vaultsData;
+  console.log(returnData)
+  res.status(200).json(returnData);
+});
+
+const getVaultOwners = asyncHandler(async (req, res) => {
+  const { uid } = req.body;
+
+  const vaultsData = await vaults.map((vault) => {
+    const result = User.doc(data).get();
+    if (result.empty) {
+      res.status(400);
+      throw new Error("User not found!");
+    }
+
+    return result.data()?.username;
+  });
+
+  res.status(200).json(vaultsData);
 });
 
 const getMasterPasswordHint = asyncHandler(async (req, res) => {
@@ -190,6 +227,7 @@ module.exports = {
   updateUserData,
   updateUserPasswordHint,
   getUserData,
+  getVaultOwners,
   getMasterPasswordHint,
   createUser,
   removeUser,

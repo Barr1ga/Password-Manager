@@ -27,6 +27,13 @@ const getUserData = async (data) => {
   return response.data;
 };
 
+const getVaultOwners = async (data) => {
+  const response = await axios.post(API_URL + "/getVaultOwners", {
+    data,
+  });
+  return response.data;
+};
+
 const updateUserData = async (data) => {
   const { uid, username } = data;
 
@@ -105,6 +112,7 @@ const userService = {
   updateUserData,
   updateUserPasswordHint,
   getUserData,
+  getVaultOwners,
   getMasterPasswordHint,
   createUser,
   removeUser,

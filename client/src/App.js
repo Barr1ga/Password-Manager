@@ -23,7 +23,7 @@ import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
-import ChangeVault from "./pages/ChangeVault";
+import ChangeVault from "./components/vaultSettings/ChangeVault";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);

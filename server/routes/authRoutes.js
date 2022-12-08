@@ -5,6 +5,7 @@ const {
   removeUser,
   getMasterPasswordHint,
   getUserData,
+  getVaultOwners,
   updateUserData,
   updateUserEmail,
   updateUserPasswordHint,
@@ -14,6 +15,7 @@ router.route("/createUser").post(createUser);
 router.route("/removeUser").post(removeUser);
 router.route("/getMasterPasswordHint").post(getMasterPasswordHint);
 router.route("/getUserData").post(getUserData);
+router.route("/getVaultOwners").post(getVaultOwners);
 router.route("/updateUserData").post(updateUserData);
 router.route("/updateUserEmail").post(updateUserEmail);
 router.route("/updateUserPasswordHint").post(updateUserPasswordHint);

@@ -29,6 +29,7 @@ import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/slice/authSlice";
 import Button from "react-bootstrap/Button";
+import ChangeVault from "./vaultSettings/ChangeVault";
 
 const SideNav = () => {
   const dispatch = useDispatch();
@@ -280,22 +281,7 @@ const SideNav = () => {
             <hr className="sidenav-hr padding-side"></hr>
           </div>
           <div>
-            <Link
-              to="/ChangeVault"
-              className={
-                route.includes("/ChangeVault")
-                  ? "sidenav-button selected"
-                  : "sidenav-button"
-              }
-            >
-              {route.includes("/ChangeVault") ? (
-                <HiLockClosed></HiLockClosed>
-              ) : (
-                <HiOutlineLockClosed></HiOutlineLockClosed>
-              )}
-              <p>Change Vault {true && <span className="notif-ball"></span>}</p>
-            </Link>
-            {/* <ChangeVault></ChangeVault> */}
+            <ChangeVault></ChangeVault>
             <ConfirmModal
               proceedInteraction={
                 <Button

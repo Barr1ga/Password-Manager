@@ -3277,3 +3277,24 @@ textarea {
   top: 10px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.253);
 }
+
+/* change vault  */
+.user-vaults {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-vaults .vault-item {
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.user-vaults .vault-item:hover {
+  background-color: rgb(45, 45, 45);
+  cursor: pointer;
+}
+
+.user-vaults .selected {
+  background-color: rgb(45, 45, 45);
+}
