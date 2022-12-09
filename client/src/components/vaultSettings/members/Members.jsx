@@ -1,16 +1,28 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import WarningAlert from "../../alerts/WarningAlert.jsx";
 import MembersList from "./MembersList.jsx";
 
 const Members = () => {
+  const { authUser } = useSelector((state) => state.auth);
   const {
     register,
-    formState: { errors },
+    watch,
+    handleSubmit,
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
   });
+
+  const watchEmail = watch("email");
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+  console.log(errors);
+  console.log(authUser.email);
   return (
     <div className="standard-stack gap-10">
       <div className="padding-side">
@@ -23,20 +35,28 @@ const Members = () => {
           }
         ></WarningAlert>
       </div>
-      <form className="padding-side">
+      <form className="padding-side" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-group">
           <label>Email Address</label>
 
           <input
             type="text"
-            {...register("email")}
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Email is required",
+              },
+              validate: (value) =>
+                value !== authUser.email ||
+                "You cannot invite yourself to this vault",
+            })}
             className={
-              errors.name ? "form-control form-error" : "form-control "
+              errors.email ? "form-control form-error" : "form-control "
             }
           />
-          {errors.name && (
+          {errors.email && (
             <small className="error-message">
-              {errors.name.message}
+              {errors.email.message}
               <br></br>
             </small>
           )}
@@ -47,7 +67,9 @@ const Members = () => {
         </div>
 
         <div className="form-group">
-          <Button className="btn-dark">Invite Email</Button>
+          <Button type="submit" className="btn-dark">
+            Invite Email
+          </Button>
         </div>
       </form>
       <div className="padding-side">
