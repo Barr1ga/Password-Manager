@@ -61,7 +61,11 @@ const AllItems = () => {
 
   return (
     <>
-      <div className={selectedItem ? "sub-margin-left hide-sub-margin" : "sub-margin-left"}>
+      <div
+        className={
+          selectedItem ? "sub-margin-left hide-sub-margin" : "sub-margin-left"
+        }
+      >
         <div
           className={
             searchStatus
@@ -143,7 +147,11 @@ const AllItems = () => {
           ))}
       </div>
 
-      <div className={selectedItem ? "sub-margin-right" : "sub-margin-right hide-sub-margin"}>
+      <div
+        className={
+          selectedItem ? "sub-margin-right" : "sub-margin-right hide-sub-margin"
+        }
+      >
         <div className="scroll-view standard-stack gap-10">
           {selectedItem && (
             <>

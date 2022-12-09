@@ -1,41 +1,29 @@
-import React, { useState, useEffect } from "react";
-import AddItemButton from "../components/AddItemButton";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  HiOutlineViewGrid,
-  HiOutlineServer,
-  HiOutlineSearch,
-  HiOutlineX,
-} from "react-icons/hi";
-import Button from "react-bootstrap/Button";
-import { getAllItems, getTypeSpecific } from "../features/slice/itemSlice";
-import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
-import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
-import ItemsList from "../components/items/ItemsList";
-import CardsList from "../components/items/CardsList";
+import { formatDate, daysDifference } from "../utils/date";
 import { useParams } from "react-router-dom";
-import CurrentItem from "../components/items/CurrentItem";
 import SiteWarning from "../components/SiteWarning";
 import VaultMembers from "../components/members/VaultMembers";
+import EmptyList from "../assets/empty-list.svg";
+import { getAllNotifications } from "../features/slice/notificationSlice";
+import Notification from "../components/notifications/Notification";
 
 const Notifications = () => {
-  const route = "/Types/Notifications";
-  const { items, selectedItem, itemLoading } = useSelector(
-    (state) => state.items
-  );
-  const {notifications} = useSelector((state) => state.notifications);
-  const currentPage = "Notifications";
-  let { uid } = useParams();
+  const route = "/Notifications";
+  const { notifications } = useSelector((state) => state.notifications);
+  const { selectedItem } = useSelector((state) => state.items);
 
+  let { uid } = useParams();
+  const loading = false;
   const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
+  const scrollRef = useRef();
+
   useEffect(() => {
-    if (!uid) {
-      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
-    }
-  }, []);
+    scrollRef.current?.scrollIntoView({ behavior: "auto" });
+  }, [scrollRef]);
 
   return (
     <>
@@ -49,41 +37,31 @@ const Notifications = () => {
         </div>
         <div className="conversation-section">
           <div className="conversation-list">
-            <div className="scroll-view standard-stack">
+            <div className="scroll-view standard-stack gap-10">
               {notifications.length === 0 && (
                 <div className="empty-list">
                   <img src={EmptyList} alt={"emptyList"}></img>
                   <p>No messages yet</p>
                 </div>
               )}
-              {notifications.map((message, idx) => {
-                if (loading) {
-                  return <MessageLazyLoad></MessageLazyLoad>;
-                }
-
-                let sameSender = false;
-                if (
-                  idx !== 0 &&
-                  conversations[idx - 1]?.senderID === message.senderID
-                ) {
-                  sameSender = true;
-                }
-
+              {notifications.map((notification, idx) => {
                 const difference =
                   idx !== 0
                     ? daysDifference(
-                        conversations[idx - 1]?.createdAt,
-                        message.createdAt
+                        notifications[idx - 1]?.date,
+                        notification?.date
                       )
                     : 0;
 
+                console.log(difference);
+
                 return (
                   <div key={idx}>
-                    {idx == 0 ? (
+                    {idx === 0 ? (
                       <div className="date-separator">
                         <hr></hr>
                         <small>
-                          {/* <b>{formatDate(message.createdAt)}</b> */}
+                          <b>{formatDate(notification?.date)}</b>
                         </small>
                         <hr></hr>
                       </div>
@@ -92,17 +70,14 @@ const Notifications = () => {
                         <div className="date-separator">
                           <hr></hr>
                           <small>
-                            {/* <b>{formatDate(message.createdAt)}</b> */}
+                            <b>{formatDate(notification?.date)}</b>
                           </small>
                           <hr></hr>
                         </div>
                       )
                     )}
 
-                    <Message
-                      sameSender={sameSender}
-                      message={message}
-                    ></Message>
+                    <Notification notification={notification}></Notification>
                   </div>
                 );
               })}

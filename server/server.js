@@ -21,13 +21,13 @@ app.use("/Folders/api/item", require("./routes/itemFolderRoutes"));
 app.use("/Folders/api/folder", require("./routes/folderRoutes"));
 app.use("/Roles/api/role", require("./routes/roleRoutes"));
 app.use("/Trash/api/item", require("./routes/itemFolderRoutes"));
+app.use("/api/notification", require("./routes/notificationRoutes"));
 
 // audit logs
 app.use("/Types/api/auditLog", require("./routes/auditLogRoutes"));
 app.use("/Folders/api/auditLog", require("./routes/auditLogRoutes"));
 app.use("/Roles/api/auditLog", require("./routes/auditLogRoutes"));
 app.use("/Trash/api/auditLog", require("./routes/auditLogRoutes"));
-
 
 app.use(errorHandler);
 

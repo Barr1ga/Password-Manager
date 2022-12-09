@@ -6,7 +6,7 @@ const initialState = {
   notifications: [
     {
       actorUid: "RMxRQlKMhxTVkKkLBM1obfEefsJ3",
-      action: "ItemLog/create",
+      action: "User/invite",
       description: "Invited you to a vault",
       date: new Date().toString(),
     },

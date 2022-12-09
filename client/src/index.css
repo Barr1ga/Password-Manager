@@ -3311,6 +3311,41 @@ textarea {
   height: 300px;
 }
 
+/* notification css */
+.notification-item {
+  display: flex;
+  gap: 10px;
+}
 
+.notification-item .notification-body {
+  padding: 10px;
+  border-radius: 3px;
+  background-color: rgb(45, 45, 45);
+}
 
+.notification-item .notification-body .name {
+  display: flex;
+  gap: 10px;
+}
 
+.notification-item .notification-body .name p {
+  display: flex;
+  gap: 4px;
+}
+
+.notification-item .notification-body .name span {
+  opacity: 0.5;
+}
+
+.notification-item .user .image {
+  background-color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

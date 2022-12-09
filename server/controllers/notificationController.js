@@ -1,0 +1,122 @@
+const asyncHandler = require("express-async-handler");
+const { db, admin } = require("../util/admin");
+const vault = db.collection("vaults");
+const User = db.collection("Users");
+
+const LIMIT_QUERY = 1;
+
+const getAllNotifications = asyncHandler(async (req, res) => {
+  const { uid } = req.body;
+
+  let userUids = [];
+  const notifications = await (
+    await User.doc(uid).collection("notifications").get()
+  ).docs.map((doc) => {
+    userUids = [...userUids, doc.data().actorUid];
+    console.log(doc.data().date);
+    return { ...doc.data(), uid: doc.id };
+  });
+
+  await (
+    await User.where(
+      admin.firestore.FieldPath.documentId(),
+      "in",
+      userUids
+    ).get()
+  ).docs.forEach((doc) => {
+    const { username } = doc.data();
+    const uid = doc.id;
+
+    notifications.forEach((notification) => {
+      if (notification.actorUid === uid) {
+        notification.username = username;
+      }
+    });
+  });
+
+  res.status(201).json(notifications);
+});
+
+const createNotification = asyncHandler(async (req, res) => {
+  const { uid, notificationData } = req.body;
+
+  const result = await vault
+    .doc(uid)
+    .collection("notifications")
+    .add(notificationData);
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this notification!");
+  }
+
+  const createdNotificationUid = result.id;
+
+  const notification = await (
+    await vault
+      .doc(uid)
+      .collection("notifications")
+      .doc(createdNotificationUid)
+      .get()
+  ).data();
+
+  if (notification.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created notification!");
+  }
+
+  notification.uid = createdNotificationUid;
+
+  res.status(201).json(notification);
+});
+
+const updateNotification = asyncHandler(async (req, res) => {
+  const { uid, notificationUid, notificationData } = req.body;
+
+  const result = await vault
+    .doc(uid)
+    .collection("notifications")
+    .doc(notificationUid)
+    .update(notificationData);
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this notification!");
+  }
+
+  const notification = await (
+    await vault.doc(uid).collection("notifications").doc(notificationUid).get()
+  ).data();
+
+  if (notification.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created notification!");
+  }
+
+  notification.uid = notificationUid;
+
+  res.status(201).json(notification);
+});
+
+const deleteNotification = asyncHandler(async (req, res) => {
+  const { uid, notificationUid } = req.body;
+
+  const result = await vault
+    .doc(uid)
+    .collection("notifications")
+    .doc(notificationUid)
+    .delete();
+
+  if (result.empty) {
+    res.status(400);
+    throw new Error("There was an error deleting this notification!");
+  }
+  res.status(201).json(notificationUid);
+});
+
+module.exports = {
+  getAllNotifications,
+  createNotification,
+  updateNotification,
+  deleteNotification,
+};

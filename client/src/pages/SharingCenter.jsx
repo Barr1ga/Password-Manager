@@ -64,7 +64,7 @@ const SharingCenter = () => {
 
                 return (
                   <div key={idx}>
-                    {idx == 0 ? (
+                    {idx === 0 ? (
                       <div className="date-separator">
                         <hr></hr>
                         <small>

@@ -12,6 +12,7 @@ import ConfirmModal from "./helpers/ConfirmModal";
 import { getUserData, logOut } from "../features/slice/authSlice";
 import { getAllMembers } from "../features/slice/memberSlice";
 import { getAllRoles } from "../features/slice/roleSlice";
+import { getAllNotifications } from "../features/slice/notificationSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
@@ -29,6 +30,7 @@ const Header = () => {
       dispatch(getUserData(authUser.uid));
       dispatch(getAllMembers({ uid: authUser.uid }));
       dispatch(getAllRoles({ uid: authUser.uid }));
+      dispatch(getAllNotifications({ uid: authUser.uid }));
     }
   }, [authUser, authRegistered]);
 

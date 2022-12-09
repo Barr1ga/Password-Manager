@@ -175,36 +175,38 @@ const SideNav = () => {
             <SideNavFolder></SideNavFolder>
           </div>
           <hr className="sidenav-hr padding-side"></hr>
-          <Link
-            to="/Notifications"
-            className={
-              route.includes("/Notifications")
-                ? "sidenav-button selected"
-                : "sidenav-button"
-            }
-          >
-            {route.includes("/Notifications") ? (
-              <HiBell></HiBell>
-            ) : (
-              <HiOutlineBell></HiOutlineBell>
-            )}
-            <p>Notifications</p>
-          </Link>
-          <Link
-            to="/MyAccount"
-            className={
-              route.includes("/VaultSettings")
-                ? "sidenav-button selected"
-                : "sidenav-button"
-            }
-          >
-            {route.includes("/MyAccount") ? (
-              <RiSettings2Fill></RiSettings2Fill>
-            ) : (
-              <RiSettings2Line></RiSettings2Line>
-            )}
-            <p>Vault Settings</p>
-          </Link>
+          <div className="standard-stack">
+            <Link
+              to="/Notifications"
+              className={
+                route.includes("/Notifications")
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
+              }
+            >
+              {route.includes("/Notifications") ? (
+                <HiBell></HiBell>
+              ) : (
+                <HiOutlineBell></HiOutlineBell>
+              )}
+              <p>Notifications</p>
+            </Link>
+            <Link
+              to="/MyAccount"
+              className={
+                route.includes("/VaultSettings")
+                  ? "sidenav-button selected"
+                  : "sidenav-button"
+              }
+            >
+              {route.includes("/MyAccount") ? (
+                <RiSettings2Fill></RiSettings2Fill>
+              ) : (
+                <RiSettings2Line></RiSettings2Line>
+              )}
+              <p>Vault Settings</p>
+            </Link>
+          </div>
         </>
       ) : (
         <>

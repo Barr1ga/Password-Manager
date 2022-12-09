@@ -90,9 +90,6 @@ const getUserData = asyncHandler(async (req, res) => {
     throw new Error("User not found!");
   }
 
-  console.log(result.data().vaults);
-  console.log("test1");
-
   const vaultsData = await (
     await User.where(
       admin.firestore.FieldPath.documentId(),
@@ -105,12 +102,8 @@ const getUserData = asyncHandler(async (req, res) => {
     return { username, vault: uid };
   });
 
-  console.log("test2");
-  console.log(vaultsData);
-
   var returnData = result.data();
   returnData.vaults = vaultsData;
-  console.log(returnData)
   res.status(200).json(returnData);
 });
 
