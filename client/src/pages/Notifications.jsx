@@ -1,26 +1,41 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import AddItemButton from "../components/AddItemButton";
 import { useDispatch, useSelector } from "react-redux";
-import Message from "../components/sharingCenter/Message";
-import { formatDate, daysDifference } from "../utils/date";
-import EnterMessage from "../components/sharingCenter/EnterMessage";
-import EmptyList from "../assets/empty-list.svg";
-import MessageLazyLoad from "../components/sharingCenter/MessageLazyLoad";
+import {
+  HiOutlineViewGrid,
+  HiOutlineServer,
+  HiOutlineSearch,
+  HiOutlineX,
+} from "react-icons/hi";
+import Button from "react-bootstrap/Button";
+import { getAllItems, getTypeSpecific } from "../features/slice/itemSlice";
+import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
+import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
+import ItemsList from "../components/items/ItemsList";
+import CardsList from "../components/items/CardsList";
+import { useParams } from "react-router-dom";
+import CurrentItem from "../components/items/CurrentItem";
 import SiteWarning from "../components/SiteWarning";
 import VaultMembers from "../components/members/VaultMembers";
-import CurrentItem from "../components/items/CurrentItem";
 
-const SharingCenter = () => {
-  const route = "/SharingCenter";
+const Notifications = () => {
+  const route = "/Types/Notifications";
+  const { items, selectedItem, itemLoading } = useSelector(
+    (state) => state.items
+  );
+  const {notifications} = useSelector((state) => state.notifications);
+  const currentPage = "Notifications";
+  let { uid } = useParams();
+
+  const { authUser } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
-  const { conversations } = useSelector((state) => state.sharing);
-  const { selectedItem } = useSelector((state) => state.items);
-  const loading = true;
-
-  const scrollRef = useRef();
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "auto" });
-  }, [scrollRef]);
+    if (!uid) {
+      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
+    }
+  }, []);
 
   return (
     <>
@@ -30,18 +45,18 @@ const SharingCenter = () => {
         }
       >
         <div className="page-header page-header-long page-header-fixed padding-side">
-          <h4>Sharing Center</h4>{" "}
+          <h4>Notifications</h4>
         </div>
         <div className="conversation-section">
           <div className="conversation-list">
             <div className="scroll-view standard-stack">
-              {conversations.length === 0 && (
+              {notifications.length === 0 && (
                 <div className="empty-list">
                   <img src={EmptyList} alt={"emptyList"}></img>
                   <p>No messages yet</p>
                 </div>
               )}
-              {conversations.map((message, idx) => {
+              {notifications.map((message, idx) => {
                 if (loading) {
                   return <MessageLazyLoad></MessageLazyLoad>;
                 }
@@ -100,12 +115,6 @@ const SharingCenter = () => {
 
       <div className="sub-margin-right">
         <div className="scroll-view standard-stack gap-10">
-          {selectedItem && (
-            <>
-              <CurrentItem></CurrentItem>
-            </>
-          )}
-
           {!selectedItem && (
             <>
               <SiteWarning></SiteWarning>
@@ -120,4 +129,4 @@ const SharingCenter = () => {
   );
 };
 
-export default SharingCenter;
+export default Notifications;

@@ -23,7 +23,7 @@ import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
-import ChangeVault from "./components/vaultSettings/ChangeVault";
+import Notifications from "./pages/Notifications";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
@@ -277,6 +277,16 @@ const App = () => {
               }
             ></Route>
             <Route
+              path="/Notifications"
+              element={
+                authUser ? (
+                  <Notifications></Notifications>
+                ) : (
+                  <Navigate to="/LoginRegistration" />
+                )
+              }
+            ></Route>
+            <Route
               path="/MyAccount"
               element={
                 authUser ? (
@@ -329,16 +339,6 @@ const App = () => {
               element={
                 authUser ? (
                   <AuditLog></AuditLog>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
-              }
-            ></Route>
-            <Route
-              path="/ChangeVault"
-              element={
-                authUser ? (
-                  <ChangeVault></ChangeVault>
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )

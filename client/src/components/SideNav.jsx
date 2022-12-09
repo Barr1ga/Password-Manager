@@ -20,6 +20,8 @@ import {
   HiClipboardList,
   HiOutlineLockClosed,
   HiLockClosed,
+  HiBell,
+  HiOutlineBell,
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -173,6 +175,21 @@ const SideNav = () => {
             <SideNavFolder></SideNavFolder>
           </div>
           <hr className="sidenav-hr padding-side"></hr>
+          <Link
+            to="/Notifications"
+            className={
+              route.includes("/Notifications")
+                ? "sidenav-button selected"
+                : "sidenav-button"
+            }
+          >
+            {route.includes("/Notifications") ? (
+              <HiBell></HiBell>
+            ) : (
+              <HiOutlineBell></HiOutlineBell>
+            )}
+            <p>Notifications</p>
+          </Link>
           <Link
             to="/MyAccount"
             className={

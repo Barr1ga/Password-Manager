@@ -37,9 +37,10 @@ const ChangeVault = () => {
         ) : (
           <HiOutlineLockClosed></HiOutlineLockClosed>
         )}
-        <p>Your Vaults {true && <span className="notif-ball"></span>}</p>
+        <p>Change Vault {true && <span className="notif-ball"></span>}</p>
       </div>
       <Modal
+        dialogClassName="change-vault-modal"
         scrollable
         size="sm"
         aria-labelledby="contained-modal-title-vcenter"
@@ -50,7 +51,7 @@ const ChangeVault = () => {
       >
         <Modal.Header>
           <div className="page-header-with-close">
-            <h4>Change Vault</h4>
+            <h4>Your Vaults</h4>
             {confirmClose ? (
               <ConfirmModal
                 proceedInteraction={
@@ -77,7 +78,7 @@ const ChangeVault = () => {
           </div>
         </Modal.Header>
         <Modal.Body className="add-item-modal standard-stack gap-10">
-          <div className="user-vaults">
+          <div className="user-vaults scroll-view">
             {vaults.map((vault) => (
               <div
                 className={
@@ -90,6 +91,7 @@ const ChangeVault = () => {
                 {vault.username}'s Vault
               </div>
             ))}
+            
           </div>
           <ConfirmModal
             proceedInteraction={
