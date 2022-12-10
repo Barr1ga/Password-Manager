@@ -6,6 +6,7 @@ import { createNotification } from "../../../features/slice/notificationSlice.js
 import WarningAlert from "../../alerts/WarningAlert.jsx";
 import MembersList from "./MembersList.jsx";
 import SpinnerLoader from "../../SpinnerLoader";
+import { createLog } from "../../../features/slice/auditLogSlice.js";
 
 const Members = () => {
   const [createLoading, setCreateLoading] = useState(false);
@@ -47,6 +48,18 @@ const Members = () => {
     };
 
     dispatch(createNotification(notification));
+
+    const auditData = {
+      uid: notification.actorUid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "user/invited",
+        description: "invited the email",
+        benefactor: data.email,
+        date: new Date(),
+      },
+    };
+    dispatch(createLog(auditData));
     console.log(notification);
   };
 

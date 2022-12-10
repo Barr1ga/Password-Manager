@@ -106,6 +106,11 @@ const logOut = async () => {
   return signOut(auth);
 };
 
+const joinVault = async (data) => {
+  const response = await axios.post(API_URL + "/joinVault", data);
+  return response.data;
+};
+
 const userService = {
   logInWithEmailAndPassword,
   updateUserEmail,
@@ -123,6 +128,7 @@ const userService = {
   continueWithGoogle,
   removeAccount,
   logOut,
+  joinVault,
 };
 
 export default userService;

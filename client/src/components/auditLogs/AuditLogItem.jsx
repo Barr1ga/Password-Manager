@@ -13,17 +13,33 @@ const AuditLogItem = ({ auditLog }) => {
 
   return (
     <div className="audit-log-item padding-side gap-10">
-      <div className="image">{actorMember.username.charAt(0)}</div>
-      <div>
-        <p>
-          <b>{actorMember.username}</b>{" "}
-          <span>
-            {actorMember.email} {"—"} {auditLog.description}
-          </span>{" "}
-          {auditLog.benefactor}
-        </p>
-        <small>{formatDate(auditLog.date)}</small>
-      </div>
+      {auditLog.action !== "user/joined" && (
+        <>
+          <div className="image">{actorMember.username.charAt(0)}</div>
+          <div>
+            <p>
+              <b>{actorMember.username}</b>{" "}
+              <span>
+                {actorMember.email} {"—"} {auditLog.description}
+              </span>{" "}
+              {auditLog.benefactor}
+            </p>
+            <small>{formatDate(auditLog.date)}</small>
+          </div>
+        </>
+      )}
+
+      {auditLog.action === "user/joined" && (
+        <>
+          <div className="image">{auditLog.benefactor.charAt(0)}</div>
+          <div>
+            <p>
+              {auditLog.benefactor} <span>{auditLog.description}</span>
+            </p>
+            <small>{formatDate(auditLog.date)}</small>
+          </div>
+        </>
+      )}
     </div>
   );
 };

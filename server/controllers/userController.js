@@ -214,6 +214,43 @@ const removeUser = asyncHandler(async (req, res) => {
   res.status(201).json(result);
 });
 
+const joinVault = asyncHandler(async (req, res) => {
+  const { uid, userVaults, vaultUid } = req.body;
+  console.log(req.body);
+  // add to user vaults
+  const updateUser = User.doc(uid).update({ vaults: userVaults });
+  console.log("test");
+  if (updateUser.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  const updateVault = vault
+    .doc(vaultUid)
+    .collection("members")
+    .doc(uid)
+    .set({ roleUids: [] });
+
+  if (updateVault.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  const vaultOwner = await User.doc(vaultUid).get();
+
+  if (vaultOwner.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  var returnData = {
+    username: vaultOwner.data().username,
+    vault: vaultUid,
+  };
+
+  res.status(200).json(returnData);
+});
+
 module.exports = {
   // getAllUser,
   updateUserEmail,
@@ -225,4 +262,5 @@ module.exports = {
   createUser,
   removeUser,
   updateUserData,
+  joinVault,
 };

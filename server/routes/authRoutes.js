@@ -9,6 +9,7 @@ const {
   updateUserData,
   updateUserEmail,
   updateUserPasswordHint,
+  joinVault,
 } = require("../controllers/userController");
 
 router.route("/createUser").post(createUser);
@@ -19,5 +20,6 @@ router.route("/getVaultOwners").post(getVaultOwners);
 router.route("/updateUserData").post(updateUserData);
 router.route("/updateUserEmail").post(updateUserEmail);
 router.route("/updateUserPasswordHint").post(updateUserPasswordHint);
+router.route("/joinVault").post(joinVault);
 
 module.exports = router;

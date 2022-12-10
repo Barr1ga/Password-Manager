@@ -229,6 +229,17 @@ export const removeUser = createAsyncThunk(
   }
 );
 
+export const joinVault = createAsyncThunk(
+  "auth/joinVault",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.joinVault(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const logOut = createAsyncThunk("auth/logOut", async (_, ThunkAPI) => {
   try {
     return await authService.logOut();
@@ -579,6 +590,18 @@ const userSlice = createSlice({
         state.masterPasswordHint = "";
       })
       .addCase(logOut.rejected, (state, action) => {
+        state.authLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+      })
+
+      .addCase(joinVault.fulfilled, (state, action) => {
+        state.authFulfilled = true;
+        state.vaults = [...state.vaults, action.payload];
+      })
+      .addCase(joinVault.rejected, (state, action) => {
         state.authLoading = false;
         state.authError = true;
         const { code, message } = action.payload;
