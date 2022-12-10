@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   HiOutlineViewGrid,
@@ -32,13 +32,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/slice/authSlice";
 import Button from "react-bootstrap/Button";
 import ChangeVault from "./vaultSettings/ChangeVault";
+import { useEffect } from "react";
 
 const SideNav = () => {
   const dispatch = useDispatch();
   const route = useLocation().pathname;
   const { selectedItem } = useSelector((state) => state.items);
+  const { notifications } = useSelector((state) => state.notifications);
 
-  const notifications = {
+  const [notificationBubbles, setNotificationBubbles] = useState({
     allItems: true,
     favorites: true,
     trash: false,
@@ -46,7 +48,17 @@ const SideNav = () => {
     myAccount: false,
     members: false,
     roles: false,
-  };
+    notifications: false,
+  });
+
+  useEffect(() => {
+    setNotificationBubbles({ ...notificationBubbles, notifications: false });
+    notifications?.forEach((notification) => {
+      if (notification.seen === false && !notificationBubbles.notifications) {
+        setNotificationBubbles({ ...notificationBubbles, notifications: true });
+      }
+    });
+  }, [notifications]);
 
   const handleLogout = () => {
     console.log("logouit");
@@ -74,12 +86,12 @@ const SideNav = () => {
               <Link
                 to="/"
                 className={
-                  notifications.allItems &&
+                  notificationBubbles.allItems &&
                   (route === "/" || route === `/${selectedItem}`)
                     ? "sidenav-button new-notif selected"
                     : route === "/" || route === `/${selectedItem}`
                     ? "sidenav-button selected"
-                    : notifications.allItems
+                    : notificationBubbles.allItems
                     ? "sidenav-button new-notif"
                     : "sidenav-button"
                 }
@@ -91,7 +103,7 @@ const SideNav = () => {
                 )}
                 <p>
                   All Items{" "}
-                  {notifications.allItems && (
+                  {notificationBubbles.allItems && (
                     <span className="notif-ball"></span>
                   )}
                 </p>
@@ -100,11 +112,11 @@ const SideNav = () => {
             <Link
               to="/Favorites"
               className={
-                notifications.favorites && route.includes("/Favorites")
+                notificationBubbles.favorites && route.includes("/Favorites")
                   ? "sidenav-button new-notif selected"
                   : route.includes("/Favorites")
                   ? "sidenav-button selected"
-                  : notifications.favorites
+                  : notificationBubbles.favorites
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
@@ -116,7 +128,7 @@ const SideNav = () => {
               )}
               <p>
                 Favorites{" "}
-                {notifications.favorites && (
+                {notificationBubbles.favorites && (
                   <span className="notif-ball"></span>
                 )}
               </p>
@@ -124,11 +136,11 @@ const SideNav = () => {
             <Link
               to="/Trash"
               className={
-                notifications.trash && route.includes("/Trash")
+                notificationBubbles.trash && route.includes("/Trash")
                   ? "sidenav-button new-notif selected"
                   : route.includes("/Trash")
                   ? "sidenav-button selected"
-                  : notifications.trash
+                  : notificationBubbles.trash
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
@@ -140,17 +152,20 @@ const SideNav = () => {
               )}
               <p>
                 Trash{" "}
-                {notifications.trash && <span className="notif-ball"></span>}
+                {notificationBubbles.trash && (
+                  <span className="notif-ball"></span>
+                )}
               </p>
             </Link>
             <Link
               to="/SharingCenter"
               className={
-                notifications.sharingCenter && route.includes("/SharingCenter")
+                notificationBubbles.sharingCenter &&
+                route.includes("/SharingCenter")
                   ? "sidenav-button new-notif selected"
                   : route.includes("/SharingCenter")
                   ? "sidenav-button selected"
-                  : notifications.sharingCenter
+                  : notificationBubbles.sharingCenter
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
@@ -162,7 +177,7 @@ const SideNav = () => {
               )}
               <p>
                 Sharing Center{" "}
-                {notifications.sharingCenter && (
+                {notificationBubbles.sharingCenter && (
                   <span className="notif-ball"></span>
                 )}
               </p>
@@ -179,8 +194,13 @@ const SideNav = () => {
             <Link
               to="/Notifications"
               className={
+                notificationBubbles.notifications &&
                 route.includes("/Notifications")
+                  ? "sidenav-button new-notif selected"
+                  : route.includes("/Notifications")
                   ? "sidenav-button selected"
+                  : notificationBubbles.notifications
+                  ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
@@ -189,7 +209,12 @@ const SideNav = () => {
               ) : (
                 <HiOutlineBell></HiOutlineBell>
               )}
-              <p>Notifications</p>
+              <p>
+                Notifications
+                {notificationBubbles.notifications && (
+                  <span className="notif-ball"></span>
+                )}
+              </p>
             </Link>
             <Link
               to="/MyAccount"
@@ -222,11 +247,11 @@ const SideNav = () => {
             <Link
               to="/MyAccount"
               className={
-                notifications.myAccount && route.includes("/MyAccount")
+                notificationBubbles.myAccount && route.includes("/MyAccount")
                   ? "sidenav-button new-notif selected"
                   : route.includes("/MyAccount")
                   ? "sidenav-button selected"
-                  : notifications.myAccount
+                  : notificationBubbles.myAccount
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
@@ -241,11 +266,11 @@ const SideNav = () => {
             <Link
               to="/Members"
               className={
-                notifications.members && route.includes("/Members")
+                notificationBubbles.members && route.includes("/Members")
                   ? "sidenav-button new-notif selected"
                   : route.includes("/Members")
                   ? "sidenav-button selected"
-                  : notifications.members
+                  : notificationBubbles.members
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
@@ -261,11 +286,11 @@ const SideNav = () => {
             <Link
               to="/Roles"
               className={
-                notifications.roles && route.includes("/Roles")
+                notificationBubbles.roles && route.includes("/Roles")
                   ? "sidenav-button new-notif selected"
                   : route.includes("/Roles")
                   ? "sidenav-button selected"
-                  : notifications.roles
+                  : notificationBubbles.roles
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }

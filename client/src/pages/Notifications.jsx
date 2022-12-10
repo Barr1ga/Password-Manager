@@ -5,7 +5,10 @@ import { useParams } from "react-router-dom";
 import SiteWarning from "../components/SiteWarning";
 import VaultMembers from "../components/members/VaultMembers";
 import EmptyList from "../assets/empty-list.svg";
-import { getAllNotifications } from "../features/slice/notificationSlice";
+import {
+  getAllNotifications,
+  updateNotification,
+} from "../features/slice/notificationSlice";
 import Notification from "../components/notifications/Notification";
 
 const Notifications = () => {
@@ -13,13 +16,29 @@ const Notifications = () => {
   const { notifications } = useSelector((state) => state.notifications);
   const { selectedItem } = useSelector((state) => state.items);
 
-  let { uid } = useParams();
-  const loading = false;
   const { authUser } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   const scrollRef = useRef();
+  console.log(notifications);
+
+  useEffect(() => {
+    notifications.forEach((notification) => {
+      if (notification.seen === false) {
+        dispatch(
+          updateNotification({
+            uid: authUser.uid,
+            notificationUid: notification.uid,
+            notificationData: {
+              seen: true,
+            },
+          })
+        );
+      }
+    });
+    // dispatch();
+  }, []);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "auto" });
@@ -60,18 +79,14 @@ const Notifications = () => {
                     {idx === 0 ? (
                       <div className="date-separator">
                         <hr></hr>
-                        <small>
-                          <b>{formatDate(notification?.date)}</b>
-                        </small>
+                        <small>{formatDate(notification?.date)}</small>
                         <hr></hr>
                       </div>
                     ) : (
                       difference >= 1 && (
                         <div className="date-separator">
                           <hr></hr>
-                          <small>
-                            <b>{formatDate(notification?.date)}</b>
-                          </small>
+                          <small>{formatDate(notification?.date)}</small>
                           <hr></hr>
                         </div>
                       )

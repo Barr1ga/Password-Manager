@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createNotification } from "../../../features/slice/notificationSlice.js";
 import WarningAlert from "../../alerts/WarningAlert.jsx";
 import MembersList from "./MembersList.jsx";
+import SpinnerLoader from "../../SpinnerLoader";
 
 const Members = () => {
+  const [createLoading, setCreateLoading] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
+  const { notifications, notificationFulfilled } = useSelector(
+    (state) => state.notifications
+  );
+
+  const dispatch = useDispatch();
+
   const {
     register,
     watch,
     handleSubmit,
+    reset,
     formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "all",
@@ -18,11 +28,28 @@ const Members = () => {
 
   const watchEmail = watch("email");
 
+  useEffect(() => {
+    if (notificationFulfilled) {
+      setCreateLoading(false);
+    }
+  }, [notificationFulfilled]);
+
   const onSubmit = (data) => {
-    console.log(data);
+    setCreateLoading(true);
+    const notification = {
+      benefactor: data.email,
+      notificationData: {
+        actorUid: authUser.uid,
+        action: "user/invite",
+        description: "Invited you to a vault",
+        seen: false,
+      },
+    };
+
+    dispatch(createNotification(notification));
+    console.log(notification);
   };
-  console.log(errors);
-  console.log(authUser.email);
+
   return (
     <div className="standard-stack gap-10">
       <div className="padding-side">
@@ -67,8 +94,13 @@ const Members = () => {
         </div>
 
         <div className="form-group">
-          <Button type="submit" className="btn-dark">
-            Invite Email
+          <Button
+            type="submit"
+            className="btn-dark"
+            disabled={!isDirty || !isValid}
+            style={{ width: "120px" }}
+          >
+            {createLoading ? <SpinnerLoader></SpinnerLoader> : <>Invite</>}
           </Button>
         </div>
       </form>

@@ -3,14 +3,7 @@ import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 import notificationService from "../services/notificationService";
 
 const initialState = {
-  notifications: [
-    {
-      actorUid: "RMxRQlKMhxTVkKkLBM1obfEefsJ3",
-      action: "User/invite",
-      description: "Invited you to a vault",
-      date: new Date().toString(),
-    },
-  ],
+  notifications: [],
   selectedNotification: null,
   notificationLoading: false,
   notificationFulfilled: false,
@@ -129,10 +122,6 @@ const notificationSlice = createSlice({
           (notification) => notification.uid === action.payload.uid
         );
         state.notifications[idx] = action.payload;
-        [state.notifications[idx], state.notifications[0]] = [
-          state.notifications[0],
-          state.notifications[idx],
-        ];
       })
       .addCase(updateNotification.rejected, (state, action) => {
         state.notificationLoading = false;

@@ -13,7 +13,6 @@ const getAllNotifications = asyncHandler(async (req, res) => {
     await User.doc(uid).collection("notifications").get()
   ).docs.map((doc) => {
     userUids = [...userUids, doc.data().actorUid];
-    console.log(doc.data().date);
     return { ...doc.data(), uid: doc.id };
   });
 
@@ -26,11 +25,12 @@ const getAllNotifications = asyncHandler(async (req, res) => {
   ).docs.forEach((doc) => {
     const { username } = doc.data();
     const uid = doc.id;
-
+    console.log(uid);
     notifications.forEach((notification) => {
       if (notification.actorUid === uid) {
         notification.username = username;
       }
+      console.log(notification);
     });
   });
 
@@ -38,33 +38,42 @@ const getAllNotifications = asyncHandler(async (req, res) => {
 });
 
 const createNotification = asyncHandler(async (req, res) => {
-  const { uid, notificationData } = req.body;
+  const { benefactor, notificationData } = req.body;
 
-  const result = await vault
-    .doc(uid)
-    .collection("notifications")
-    .add(notificationData);
+  const user = await User.where("email", "==", benefactor).limit(1).get();
 
-  if (result.empty) {
+  if (user.empty) {
     res.status(400);
     throw new Error("There was an error creating this notification!");
   }
 
-  const createdNotificationUid = result.id;
+  const userUid = user.docs[0].id;
+  console.log("userUid", userUid);
+  notificationData.date = new Date();
+  console.log(notificationData);
 
-  const notification = await (
-    await vault
-      .doc(uid)
-      .collection("notifications")
-      .doc(createdNotificationUid)
-      .get()
-  ).data();
+  const createResult = await User.doc(userUid)
+    .collection("notifications")
+    .add(notificationData);
+
+  if (createResult.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this notification!");
+  }
+  console.log("createResult", createResult);
+  const createdNotificationUid = createResult.id;
+
+  const notification = await vault
+    .doc(userUid)
+    .collection("notifications")
+    .doc(createdNotificationUid)
+    .get();
 
   if (notification.empty) {
     res.status(400);
     throw new Error("There was an error finding the created notification!");
   }
-
+  console.log(notification);
   notification.uid = createdNotificationUid;
 
   res.status(201).json(notification);
@@ -73,8 +82,7 @@ const createNotification = asyncHandler(async (req, res) => {
 const updateNotification = asyncHandler(async (req, res) => {
   const { uid, notificationUid, notificationData } = req.body;
 
-  const result = await vault
-    .doc(uid)
+  const result = await User.doc(uid)
     .collection("notifications")
     .doc(notificationUid)
     .update(notificationData);
@@ -85,7 +93,7 @@ const updateNotification = asyncHandler(async (req, res) => {
   }
 
   const notification = await (
-    await vault.doc(uid).collection("notifications").doc(notificationUid).get()
+    await User.doc(uid).collection("notifications").doc(notificationUid).get()
   ).data();
 
   if (notification.empty) {

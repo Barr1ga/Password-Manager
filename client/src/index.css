@@ -3333,6 +3333,10 @@ textarea {
   gap: 4px;
 }
 
+.notification-item .notification-body .name p b {
+  font-weight: 600;
+}
+
 .notification-item .notification-body .name span {
   opacity: 0.5;
 }
