@@ -16,6 +16,10 @@ const getAllNotifications = asyncHandler(async (req, res) => {
     return { ...doc.data(), uid: doc.id };
   });
 
+  if (notifications.length === 0) {
+    res.status(201).json(notifications);
+  }
+
   await (
     await User.where(
       admin.firestore.FieldPath.documentId(),
@@ -25,7 +29,7 @@ const getAllNotifications = asyncHandler(async (req, res) => {
   ).docs.forEach((doc) => {
     const { username } = doc.data();
     const uid = doc.id;
-    console.log(uid);
+
     notifications.forEach((notification) => {
       if (notification.actorUid === uid) {
         notification.username = username;

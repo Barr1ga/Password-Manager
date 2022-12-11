@@ -1745,7 +1745,7 @@ textarea {
 
 .center-margin .vault-members .member {
   cursor: default;
-  align-items: flex-start;
+  align-items: center;
   border-radius: 0 3px 3px 0;
 }
 
@@ -1764,6 +1764,7 @@ textarea {
 
 .vault-members .member .name {
   display: flex;
+  flex-direction: column;
   position: relative;
   flex-grow: 1;
 }
@@ -1922,18 +1923,25 @@ textarea {
   z-index: 2;
 }
 
+.assign-role .locked,
 .assign-role .assign-role-popup .option {
   padding: 10px 15px;
   color: #ffffff;
   cursor: pointer;
   transition: 0.2s ease-in 0s;
   display: flex;
+  align-items: center;
   gap: 10px;
 }
 
 .assign-role .assign-role-popup .option:hover {
   background-color: var(--secondary-gray);
   transition: 0.2s ease-in 0s;
+}
+
+.assign-role .locked {
+  opacity: 0.3;
+  cursor: not-allowed !important;
 }
 
 .assign-member .assign-member-popup {

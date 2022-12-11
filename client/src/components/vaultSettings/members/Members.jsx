@@ -31,10 +31,10 @@ const Members = () => {
 
   useEffect(() => {
     if (notificationFulfilled) {
+      reset();
       setCreateLoading(false);
     }
   }, [notificationFulfilled]);
-
   const onSubmit = (data) => {
     setCreateLoading(true);
     const notification = {
@@ -50,7 +50,7 @@ const Members = () => {
     dispatch(createNotification(notification));
 
     const auditData = {
-      uid: notification.actorUid,
+      uid: notification.notificationData.actorUid,
       auditLogData: {
         actorUid: authUser.uid,
         action: "user/invited",
@@ -59,8 +59,8 @@ const Members = () => {
         date: new Date(),
       },
     };
+
     dispatch(createLog(auditData));
-    console.log(notification);
   };
 
   return (

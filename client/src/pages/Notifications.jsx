@@ -24,7 +24,7 @@ const Notifications = () => {
   console.log(notifications);
 
   useEffect(() => {
-    notifications.forEach((notification) => {
+    notifications?.forEach((notification) => {
       if (notification.seen === false) {
         dispatch(
           updateNotification({

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import { HiPlus } from "react-icons/hi";
+import { HiLockClosed, HiPlus } from "react-icons/hi";
 import { useSelector } from "react-redux";
 
 const AssignRoleButton = ({ member }) => {
@@ -13,7 +13,12 @@ const AssignRoleButton = ({ member }) => {
   );
 
   const handleAssignRole = (role) => {
-    console.log(role);
+    const assignRoleData = {
+      userUid: member.uid,
+      roleUids: [...member.roleUids, role.uid],
+    };
+
+    console.log(assignRoleData);
     setPopupShow(false);
     setIsHovering(false);
   };
@@ -43,13 +48,29 @@ const AssignRoleButton = ({ member }) => {
             {unassignedRoles === 0 ? (
               <div className="option disabled">No roles found</div>
             ) : (
-              unassignedRoles.map((role) => (
-                <div className="option" onClick={() => handleAssignRole(role)}>
-                  <span className="role-tag">
-                    <small>{role.abreviation}</small>
-                  </span>
-                  <div>{role.name}</div>
-                </div>
+              unassignedRoles.map((role, idx) => (
+                <>
+                  {role.name === "Vault Owner" ? (
+                    <div className="locked" key={idx}>
+                      <span className="role-tag">
+                        <small>{role.abbreviation}</small>
+                      </span>
+                      <div>{role.name}</div>
+                      <HiLockClosed></HiLockClosed>
+                    </div>
+                  ) : (
+                    <div
+                      className="option"
+                      key={idx}
+                      onClick={() => handleAssignRole(role)}
+                    >
+                      <span className="role-tag">
+                        <small>{role.abbreviation}</small>
+                      </span>
+                      <div>{role.name}</div>
+                    </div>
+                  )}
+                </>
               ))
             )}
           </div>

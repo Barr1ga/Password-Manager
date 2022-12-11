@@ -79,8 +79,9 @@ const ChangeVault = () => {
         </Modal.Header>
         <Modal.Body className="add-item-modal standard-stack gap-10">
           <div className="user-vaults scroll-view">
-            {vaults.map((vault) => (
+            {vaults.map((vault, idx) => (
               <div
+                key={idx}
                 className={
                   selectedVault === vault.vault
                     ? "vault-item selected"
@@ -91,7 +92,6 @@ const ChangeVault = () => {
                 {vault.username}'s Vault
               </div>
             ))}
-            
           </div>
           <ConfirmModal
             proceedInteraction={

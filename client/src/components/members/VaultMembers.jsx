@@ -16,7 +16,15 @@ const VaultMembers = () => {
     dispatch(getAllRoles({ uid: authUser.uid }));
   }, []);
 
-  const onlineMembers = members.filter((member) => member.status === "online");
+  const onlineMembersWithRoles = members.filter(
+    (member) => member.status === "online"
+  );
+  const onlineMembersWithoutRoles = members.filter((member) => {
+    if (member.status === "online" && member.roleUids.length === 0) {
+      return member;
+    }
+  });
+
   const offlineMembers = members.filter(
     (member) => member.status === "offline"
   );
@@ -29,7 +37,7 @@ const VaultMembers = () => {
       ) : (
         <>
           {roles.map((role, idx) => {
-            const filteredOnlineMembers = onlineMembers.filter(
+            const filteredOnlineMembers = onlineMembersWithRoles.filter(
               (member) => member.roleUids[0] === role.uid
             );
             if (filteredOnlineMembers.length !== 0) {
@@ -43,6 +51,10 @@ const VaultMembers = () => {
             }
           })}
 
+          <VaultRoles
+            role={"online"}
+            members={onlineMembersWithoutRoles}
+          ></VaultRoles>
           <VaultRoles role={"offline"} members={offlineMembers}></VaultRoles>
         </>
       )}

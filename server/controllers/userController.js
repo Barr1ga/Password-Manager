@@ -149,6 +149,7 @@ const createUser = asyncHandler(async (req, res) => {
       masterPasswordHint,
       email,
       image,
+      vaults: [uid],
       viewing: "",
       status: "online",
     },

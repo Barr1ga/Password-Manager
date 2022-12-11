@@ -12,11 +12,14 @@ import ConfirmModal from "./helpers/ConfirmModal";
 import { getUserData, logOut } from "../features/slice/authSlice";
 import { getAllMembers } from "../features/slice/memberSlice";
 import { getAllRoles } from "../features/slice/roleSlice";
-import { getAllNotifications } from "../features/slice/notificationSlice";
+import {
+  getAllNotifications,
+  resetNotificationQueryFulfilled,
+} from "../features/slice/notificationSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
-
+  const { notificationFulfilled } = useSelector((state) => state.notifications);
   const { authRegistered, authUser, username, authEmailAndPasswordLoading } =
     useSelector((state) => state.auth);
 
@@ -33,6 +36,12 @@ const Header = () => {
       dispatch(getAllNotifications({ uid: authUser.uid }));
     }
   }, [authUser, authRegistered]);
+
+  useEffect(() => {
+    if (notificationFulfilled) {
+      dispatch(resetNotificationQueryFulfilled());
+    }
+  });
 
   return (
     <>
