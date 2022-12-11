@@ -95,6 +95,18 @@ export const deleteMember = createAsyncThunk(
   }
 );
 
+export const updateMemberRoles = createAsyncThunk(
+  "role/updateMemberRoles",
+  async (data, ThunkAPI) => {
+    try {
+      return await memberService.updateMemberRoles(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const memberSlice = createSlice({
   name: "member",
   initialState,
@@ -144,7 +156,10 @@ const memberSlice = createSlice({
           (member) => member.uid === action.payload.uid
         );
         state.members[idx] = action.payload;
-        [state.members[idx], state.members[0]] = [state.members[0], state.members[idx]];
+        [state.members[idx], state.members[0]] = [
+          state.members[0],
+          state.members[idx],
+        ];
       })
       .addCase(updateMember.rejected, (state, action) => {
         state.memberLoading = false;
@@ -159,9 +174,29 @@ const memberSlice = createSlice({
         state.memberLoading = false;
         state.memberFulfilled = true;
         state.memberDeletedFullfilled = true;
-        state.members = state.members.filter((member) => member.uid !== action.payload);
+        state.members = state.members.filter(
+          (member) => member.uid !== action.payload
+        );
       })
       .addCase(deleteMember.rejected, (state, action) => {
+        state.memberLoading = false;
+        state.memberError = true;
+        const { code, message } = action.payload;
+        state.memberMessage = message;
+        state.memberErrorCode = code;
+        state.memberErrorMessage = firebaseErrorMessage(code);
+      })
+
+      .addCase(updateMemberRoles.fulfilled, (state, action) => {
+        state.memberLoading = false;
+        state.memberFulfilled = true;
+        state.memberUpdatedFullfilled = true;
+        const idx = state.members.findIndex(
+          (member) => member.uid === action.payload.userUid
+        );
+        state.members[idx].roleUids = action.payload.roleUids;
+      })
+      .addCase(updateMemberRoles.rejected, (state, action) => {
         state.memberLoading = false;
         state.memberError = true;
         const { code, message } = action.payload;

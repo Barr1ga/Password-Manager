@@ -22,11 +22,17 @@ const deleteMember = async (data) => {
   return response.data;
 };
 
+const updateMemberRoles = async (data) => {
+  const response = await axios.post(API_URL + "/updateMemberRoles", data);
+  return response.data;
+};
+
 const memberService = {
   getAllMembers,
   createMember,
   updateMember,
   deleteMember,
+  updateMemberRoles,
 };
 
 export default memberService;

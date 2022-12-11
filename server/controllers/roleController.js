@@ -45,7 +45,8 @@ const createRole = asyncHandler(async (req, res) => {
 const updateRole = asyncHandler(async (req, res) => {
   const { uid, roleUid, roleData } = req.body;
 
-  const result = await vault.doc(uid)
+  const result = await vault
+    .doc(uid)
     .collection("roles")
     .doc(roleUid)
     .update(roleData);
@@ -71,13 +72,14 @@ const updateRole = asyncHandler(async (req, res) => {
 
 const deleteRole = asyncHandler(async (req, res) => {
   const { uid, roleUid } = req.body;
-  
+
   const result = await vault.doc(uid).collection("roles").doc(roleUid).delete();
 
   if (result.empty) {
     res.status(400);
     throw new Error("There was an error deleting this role!");
   }
+
   res.status(201).json(roleUid);
 });
 

@@ -1,24 +1,42 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import { HiLockClosed, HiPlus } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { createLog } from "../../../features/slice/auditLogSlice";
+import { updateMemberRoles } from "../../../features/slice/memberSlice";
 
 const AssignRoleButton = ({ member }) => {
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const { roles } = useSelector((state) => state.roles);
-
+  const { authUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const unassignedRoles = roles.filter(
     (role) => !member.roleUids.includes(role.uid)
   );
 
+  console.log(member);
   const handleAssignRole = (role) => {
     const assignRoleData = {
+      vaultUid: authUser.uid,
       userUid: member.uid,
       roleUids: [...member.roleUids, role.uid],
     };
 
-    console.log(assignRoleData);
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "role/assignRole",
+        description: "assigned a role to",
+        benefactor: member.username,
+        date: new Date(),
+      },
+    };
+
+    dispatch(createLog(auditData));
+
+    dispatch(updateMemberRoles(assignRoleData));
     setPopupShow(false);
     setIsHovering(false);
   };

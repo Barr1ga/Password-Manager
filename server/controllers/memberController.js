@@ -95,9 +95,27 @@ const deleteMember = asyncHandler(async (req, res) => {
   // res.status(201).json(memberUid);
 });
 
+const updateMemberRoles = asyncHandler(async (req, res) => {
+  const { vaultUid, userUid, roleUids } = req.body;
+
+  const updateMemberRoles = await vault
+    .doc(vaultUid)
+    .collection("members")
+    .doc(userUid)
+    .update({ roleUids });
+
+  if (updateMemberRoles.empty) {
+    res.status(400);
+    throw new Error("There was an error finding the created role!");
+  }
+
+  res.status(201).json({ userUid, roleUids });
+});
+
 module.exports = {
   getAllMembers,
   createMember,
   updateMember,
   deleteMember,
+  updateMemberRoles,
 };

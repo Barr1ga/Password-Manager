@@ -1,11 +1,12 @@
 import React from "react";
 import { FaCrown } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Role from "./Role";
 import AddRoleButton from "./AssignRoleButton";
 import { HiOutlineChevronRight } from "react-icons/hi";
 
 const Member = ({ member }) => {
+  const dispatch = useDispatch();
   const { roles } = useSelector((state) => state.roles);
   const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
 
@@ -26,7 +27,7 @@ const Member = ({ member }) => {
             </small>
           )}
           {member.roleUids.map((roleUid, idx) => (
-            <Role key={idx} roleUid={roleUid}></Role>
+            <Role key={idx} member={member} roleUid={roleUid}></Role>
           ))}
           <AddRoleButton member={member}></AddRoleButton>
         </div>
