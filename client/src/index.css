@@ -590,10 +590,27 @@ button:disabled {
   align-items: center;
 }
 
+.spinner-loader-small {
+  height: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.spinner-loader-small .loader {
+  width: 10px;
+  height: 10px;
+  border: 1px solid rgb(255, 255, 255);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
 .spinner-loader .loader {
   width: 20px;
   height: 20px;
-  border: 3px solid rgb(255, 255, 255);
+  border: 2px solid rgb(255, 255, 255);
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;

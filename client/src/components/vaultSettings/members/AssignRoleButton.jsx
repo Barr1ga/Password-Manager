@@ -1,22 +1,34 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { HiLockClosed, HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { createLog } from "../../../features/slice/auditLogSlice";
 import { updateMemberRoles } from "../../../features/slice/memberSlice";
+import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 
 const AssignRoleButton = ({ member }) => {
+  const [loading, setLoading] = useState(false);
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const { roles } = useSelector((state) => state.roles);
   const { authUser } = useSelector((state) => state.auth);
+  const { memberUpdatedFullfilled } = useSelector((state) => state.members);
   const dispatch = useDispatch();
   const unassignedRoles = roles.filter(
     (role) => !member.roleUids.includes(role.uid)
   );
 
+  useEffect(() => {
+    if (memberUpdatedFullfilled) {
+      setLoading(false);
+    }
+  }, [memberUpdatedFullfilled]);
+
   console.log(member);
   const handleAssignRole = (role) => {
+    setLoading(true);
+
     const assignRoleData = {
       vaultUid: authUser.uid,
       userUid: member.uid,
@@ -50,13 +62,22 @@ const AssignRoleButton = ({ member }) => {
   return (
     <>
       <div className="assign-role">
-        <Button
-          className="btn-secondary btn-add-role"
-          onClick={() => setPopupShow(true)}
-          onBlur={handleOnBlurRoles}
-        >
-          <HiPlus></HiPlus>
-        </Button>
+        {!loading ? (
+          <Button
+            className="btn-secondary btn-add-role"
+            onClick={() => setPopupShow(true)}
+            onBlur={handleOnBlurRoles}
+          >
+            <HiPlus></HiPlus>
+          </Button>
+        ) : (
+          <Button
+            className="btn-secondary btn-add-role"
+            onClick={() => setPopupShow(true)}
+          >
+            <SpinnerLoaderSmall></SpinnerLoaderSmall>
+          </Button>
+        )}
         {popupShow && (
           <div
             className="assign-role-popup"
