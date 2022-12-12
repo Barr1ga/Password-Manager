@@ -1,29 +1,37 @@
 import React, { useState } from "react";
+import Role from "./Role";
 import { useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { HiLockClosed, HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { createLog } from "../../../features/slice/auditLogSlice";
-import { updateMemberRoles } from "../../../features/slice/memberSlice";
+import {
+  resetMemberQueryFulfilled,
+  updateMemberRoles,
+} from "../../../features/slice/memberSlice";
 import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 
-const AssignRoleButton = ({ member }) => {
+const Roles = ({ member }) => {
   const [loading, setLoading] = useState(false);
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const { roles } = useSelector((state) => state.roles);
   const { authUser } = useSelector((state) => state.auth);
-  const { memberUpdatedFullfilled } = useSelector((state) => state.members);
+  const { members, memberUpdatedFullfilled } = useSelector(
+    (state) => state.members
+  );
   const dispatch = useDispatch();
   const unassignedRoles = roles.filter(
     (role) => !member.roleUids.includes(role.uid)
   );
+  console.log(memberUpdatedFullfilled);
 
   useEffect(() => {
     if (memberUpdatedFullfilled) {
       setLoading(false);
+      dispatch(resetMemberQueryFulfilled());
     }
-  }, [memberUpdatedFullfilled]);
+  }, [memberUpdatedFullfilled, members]);
 
   console.log(member);
   const handleAssignRole = (role) => {
@@ -62,6 +70,10 @@ const AssignRoleButton = ({ member }) => {
   return (
     <>
       <div className="assign-role">
+        {member.roleUids.map((roleUid, idx) => (
+          <Role key={idx} member={member} roleUid={roleUid}></Role>
+        ))}
+        {/* <AssignRoleButton member={member}></AssignRoleButton> */}
         {!loading ? (
           <Button
             className="btn-secondary btn-add-role"
@@ -78,13 +90,14 @@ const AssignRoleButton = ({ member }) => {
             <SpinnerLoaderSmall></SpinnerLoaderSmall>
           </Button>
         )}
+
         {popupShow && (
           <div
             className="assign-role-popup"
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
           >
-            {unassignedRoles === 0 ? (
+            {unassignedRoles.length === 0 ? (
               <div className="option disabled">No roles found</div>
             ) : (
               unassignedRoles.map((role, idx) => (
@@ -119,4 +132,4 @@ const AssignRoleButton = ({ member }) => {
   );
 };
 
-export default AssignRoleButton;
+export default Roles;

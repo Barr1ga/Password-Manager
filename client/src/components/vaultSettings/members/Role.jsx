@@ -3,7 +3,10 @@ import { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { createLog } from "../../../features/slice/auditLogSlice";
-import { updateMemberRoles } from "../../../features/slice/memberSlice";
+import {
+  resetMemberQueryFulfilled,
+  updateMemberRoles,
+} from "../../../features/slice/memberSlice";
 import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 
 const Role = ({ member, roleUid }) => {
@@ -14,12 +17,6 @@ const Role = ({ member, roleUid }) => {
   const role = roles.find((role) => role.uid === roleUid);
   const { authUser } = useSelector((state) => state.auth);
   const { memberUpdatedFullfilled } = useSelector((state) => state.members);
-
-  useEffect(() => {
-    if (memberUpdatedFullfilled) {
-      setLoading(false);
-    }
-  }, [memberUpdatedFullfilled]);
 
   const handleDeleteRole = () => {
     setLoading(true);

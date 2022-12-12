@@ -112,6 +112,14 @@ const memberSlice = createSlice({
   initialState,
   reducers: {
     resetMembers: (state) => initialState,
+    resetMemberQueryFulfilled: (state) => {
+      state.memberLoading = initialState.memberLoading;
+      state.memberFulfilled = initialState.memberFulfilled;
+      state.memberError = initialState.memberError;
+      state.memberMessage = initialState.memberMessage;
+      state.memberErrorMessage = initialState.memberErrorMessage;
+      state.memberErrorCode = initialState.memberErrorCode;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -207,5 +215,5 @@ const memberSlice = createSlice({
   },
 });
 
-export const { resetMembers } = memberSlice.actions;
+export const { resetMembers, resetMemberQueryFulfilled } = memberSlice.actions;
 export default memberSlice.reducer;

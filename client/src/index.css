@@ -10,7 +10,7 @@
   --secondary-background: rgb(45, 45, 45);
 
   /* lazy loading */
-  --primary-gray: rgb(61, 61, 61);
+  --primary-gray: rgba(85, 85, 85, 0.295);
   --secondary-gray: rgb(45, 45, 45);
 
   /* forms */
@@ -469,7 +469,7 @@ button:disabled {
 }
 
 .center-margin .scroll-view {
-  /* height: 100%; */
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -1743,13 +1743,16 @@ textarea {
 
 .vault-members .member {
   display: flex;
-  align-items: center;
   cursor: pointer;
   padding-top: 10px;
   padding-bottom: 10px;
   transition: 0.2s ease-out 0s;
   margin-bottom: 2px;
   gap: 10px;
+}
+
+.right-margin .vault-members .member {
+  align-items: center;
 }
 
 .vault-members .disabled {
@@ -1762,12 +1765,12 @@ textarea {
 
 .center-margin .vault-members .member {
   cursor: default;
-  align-items: center;
   border-radius: 0 3px 3px 0;
+  position: relative;
 }
 
 .center-margin .vault-members .member:hover {
-  background-color: var(--secondary-gray);
+  background-color: var(--primary-gray);
 }
 
 .vault-members .member .vault-owner {
@@ -1797,11 +1800,18 @@ textarea {
   align-items: center;
   font-weight: 600;
   gap: 5px;
+  width: 50px;
 }
 
 .vault-owner-tag svg {
   height: 15px;
   width: 15px;
+}
+
+.vault-members .member .name {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .vault-members .member .name p {
@@ -1810,6 +1820,14 @@ textarea {
   font-weight: 200;
   display: flex;
   gap: 5px;
+  min-width: 100%;
+  width: 0;
+}
+
+.vault-members .member .name p b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .vault-members .image {
@@ -1869,6 +1887,22 @@ textarea {
   flex-wrap: wrap;
 }
 
+.vault-members .member .member-profile {
+  position: absolute;
+  flex: 1;
+  background-color: var(--primary-background);
+  border-radius: 3px;
+  padding: 15px;
+  box-shadow: 0 0 10px 5px rgb(0 0 0 / 25%);
+  z-index: 1;
+  margin-right: 15px;
+}
+
+.vault-members .member .member-profile .user {
+  display: flex;
+  gap: 10px;
+}
+
 .role-tag {
   font-weight: 600;
   display: flex;
@@ -1926,9 +1960,16 @@ textarea {
   opacity: 1;
 }
 
+.assign-role {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
 .assign-role .assign-role-popup {
   position: absolute;
-  left: 0px;
   width: 100%;
   top: calc(100% + 10px);
   background: #1a1a1a;
@@ -1956,6 +1997,7 @@ textarea {
   transition: 0.2s ease-in 0s;
 }
 
+.assign-role .disabled,
 .assign-role .locked {
   opacity: 0.3;
   cursor: not-allowed !important;

@@ -1,9 +1,7 @@
 import React from "react";
 import { FaCrown } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import Role from "./Role";
-import AddRoleButton from "./AssignRoleButton";
-import { HiOutlineChevronRight } from "react-icons/hi";
+import Roles from "./Roles";
 
 const Member = ({ member }) => {
   const dispatch = useDispatch();
@@ -17,22 +15,18 @@ const Member = ({ member }) => {
         <div>
           <p className={member.roleUids[0] === ownerUid ? "vault-owner" : ""}>
             <b>{member.username}</b>{" "}
+            {member.roleUids.includes(ownerUid) && (
+              <small className="vault-owner-tag">
+                <FaCrown></FaCrown>VO
+              </small>
+            )}
           </p>
           <small>{member.email}</small>
         </div>
         <div className="roles">
-          {member.roleUids.includes(ownerUid) && (
-            <small className="vault-owner-tag">
-              <FaCrown></FaCrown>VO
-            </small>
-          )}
-          {member.roleUids.map((roleUid, idx) => (
-            <Role key={idx} member={member} roleUid={roleUid}></Role>
-          ))}
-          <AddRoleButton member={member}></AddRoleButton>
+          <Roles member={member}></Roles>
         </div>
       </div>
-      <HiOutlineChevronRight className="three-dots"></HiOutlineChevronRight>
     </div>
   );
 };
