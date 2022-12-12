@@ -186,11 +186,11 @@ const Logins = ({
       }
     }
   };
-  
+
   let filteredFolders = folders.filter(
     (folder) => !assignedFolders.includes(folder.name)
   );
-  console.log(filteredFolders)
+  console.log(filteredFolders);
   filteredFolders =
     search !== ""
       ? filteredFolders.filter((folder) =>
@@ -323,9 +323,7 @@ const Logins = ({
 
                   <HiOutlineRefresh
                     className="generate-password"
-                    onClick={() =>
-                      setShowPasswordGenerator(true)
-                    }
+                    onClick={() => setShowPasswordGenerator(true)}
                   ></HiOutlineRefresh>
                 </div>
               </span>
@@ -480,19 +478,24 @@ const Logins = ({
                   </Modal>
                 </>
               ) : (
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                  disabled={!isDirty || !isValid}
-                >
+                <>
                   {createLoading ? (
-                    <SpinnerLoader></SpinnerLoader>
+                    <Button
+                      type="button"
+                      className="btn-dark btn-long btn-with-icon"
+                    >
+                      <SpinnerLoader></SpinnerLoader>
+                    </Button>
                   ) : (
-                    <>
+                    <Button
+                      type="submit"
+                      className="btn-dark btn-long btn-with-icon"
+                      disabled={!isDirty || !isValid}
+                    >
                       <HiPlus></HiPlus>Add Item
-                    </>
+                    </Button>
                   )}
-                </Button>
+                </>
               )}
             </div>
           </form>

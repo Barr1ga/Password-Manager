@@ -27,12 +27,18 @@ const updateMemberRoles = async (data) => {
   return response.data;
 };
 
+const kickMember = async (data) => {
+  const response = await axios.post(API_URL + "/kickMember", data);
+  return response.data;
+};
+
 const memberService = {
   getAllMembers,
   createMember,
   updateMember,
   deleteMember,
   updateMemberRoles,
+  kickMember,
 };
 
 export default memberService;

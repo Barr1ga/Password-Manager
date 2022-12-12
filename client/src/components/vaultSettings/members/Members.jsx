@@ -107,14 +107,25 @@ const Members = () => {
         </div>
 
         <div className="form-group">
-          <Button
-            type="submit"
-            className="btn-dark"
-            disabled={!isDirty || !isValid}
-            style={{ width: "120px" }}
-          >
-            {createLoading ? <SpinnerLoader></SpinnerLoader> : <>Invite</>}
-          </Button>
+          {createLoading ? (
+            <Button
+              type="button"
+              className="btn-dark"
+              disabled={!isDirty || !isValid}
+              style={{ width: "120px" }}
+            >
+              <SpinnerLoader></SpinnerLoader>
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="btn-dark"
+              disabled={!isDirty || !isValid}
+              style={{ width: "120px" }}
+            >
+              <>Invite</>
+            </Button>
+          )}
         </div>
       </form>
       <div className="padding-side">

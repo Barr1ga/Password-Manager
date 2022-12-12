@@ -107,6 +107,18 @@ export const updateMemberRoles = createAsyncThunk(
   }
 );
 
+export const kickMember = createAsyncThunk(
+  "role/kickMember",
+  async (data, ThunkAPI) => {
+    try {
+      return await memberService.kickMember(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 const memberSlice = createSlice({
   name: "member",
   initialState,
@@ -205,6 +217,23 @@ const memberSlice = createSlice({
         state.members[idx].roleUids = action.payload.roleUids;
       })
       .addCase(updateMemberRoles.rejected, (state, action) => {
+        state.memberLoading = false;
+        state.memberError = true;
+        const { code, message } = action.payload;
+        state.memberMessage = message;
+        state.memberErrorCode = code;
+        state.memberErrorMessage = firebaseErrorMessage(code);
+      })
+
+      .addCase(kickMember.fulfilled, (state, action) => {
+        state.memberLoading = false;
+        state.memberFulfilled = true;
+        state.memberUpdatedFullfilled = true;
+        state.members = state.members.filter(
+          (member) => member.uid !== action.payload.memberUid
+        );
+      })
+      .addCase(kickMember.rejected, (state, action) => {
         state.memberLoading = false;
         state.memberError = true;
         const { code, message } = action.payload;

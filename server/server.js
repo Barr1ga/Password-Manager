@@ -15,6 +15,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 
 // member
 app.use("/api/member", require("./routes/memberRoutes"));
+app.use("/api/kickMember", require("./routes/memberRoutes"));
 app.use("/Roles/api/member", require("./routes/memberRoutes"));
 
 // folder

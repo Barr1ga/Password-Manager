@@ -14,8 +14,9 @@ const MyAccount = () => {
   const handleShow = () => setShow(true);
 
   const dispatch = useDispatch();
-  const { authUser, authSaveAccountLoading, username } =
-    useSelector((state) => state.auth);
+  const { authUser, authSaveAccountLoading, username } = useSelector(
+    (state) => state.auth
+  );
 
   const {
     register,
@@ -139,17 +140,19 @@ const MyAccount = () => {
                   >
                     Cancel
                   </Button>
-                  <Button
-                    onClick={handleUpdateUserData}
-                    type="button"
-                    className="btn-dark btn-long"
-                  >
-                    {authSaveAccountLoading ? (
+                  {authSaveAccountLoading ? (
+                    <Button type="button" className="btn-dark btn-long">
                       <SpinnerLoader></SpinnerLoader>
-                    ) : (
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={handleUpdateUserData}
+                      type="button"
+                      className="btn-dark btn-long"
+                    >
                       <>Save</>
-                    )}
-                  </Button>
+                    </Button>
+                  )}
                 </div>
               </div>
             </Modal.Body>

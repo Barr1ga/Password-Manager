@@ -813,21 +813,26 @@ const Identifications = ({
               </Modal>
             </>
           ) : (
-            <Button
-              type="submit"
-              className="btn-dark btn-long btn-with-icon"
-              disabled={
-                (!isDirty || !isValid) && !isDropdownsDirty && !titleError
-              }
-            >
+            <>
               {createLoading ? (
-                <SpinnerLoader></SpinnerLoader>
+                <Button
+                  type="button"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <SpinnerLoader></SpinnerLoader>
+                </Button>
               ) : (
-                <>
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                  disabled={
+                    (!isDirty || !isValid) && !isDropdownsDirty && !titleError
+                  }
+                >
                   <HiPlus></HiPlus>Add Item
-                </>
+                </Button>
               )}
-            </Button>
+            </>
           )}
         </div>
       </form>

@@ -112,10 +112,46 @@ const updateMemberRoles = asyncHandler(async (req, res) => {
   res.status(201).json({ userUid, roleUids });
 });
 
+const kickMember = asyncHandler(async (req, res) => {
+  const { vaultUid, memberUid } = req.body;
+
+  const kick = await vault
+    .doc(vaultUid)
+    .collection("members")
+    .doc(memberUid)
+    .delete();
+
+  if (kick.empty) {
+    res.status(400);
+    throw new Error("There was an error kicking this member!");
+  }
+
+  const member = await User.doc(memberUid).get();
+
+  if (member.empty) {
+    res.status(400);
+    throw new Error("There was an error creating this notification!");
+  }
+
+  const memberData = member.data();
+  // new vaults
+  const newVaults = memberData.vaults.filter((vault) => vault !== vaultUid);
+
+  const updateUser = User.doc(memberUid).update({ vaults: newVaults });
+
+  if (updateUser.empty) {
+    res.status(400);
+    throw new Error("There was an error updating this user!");
+  }
+
+  res.status(201).json({ memberUid });
+});
+
 module.exports = {
   getAllMembers,
   createMember,
   updateMember,
   deleteMember,
   updateMemberRoles,
+  kickMember,
 };

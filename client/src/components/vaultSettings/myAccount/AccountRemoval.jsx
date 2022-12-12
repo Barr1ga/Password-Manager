@@ -169,17 +169,23 @@ const VaultSettings = () => {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={handleDeleteAccount}
-                type="button"
-                className="btn-secondary btn-long danger"
-              >
-                {authRemovedAccountLoading ? (
+              {authRemovedAccountLoading ? (
+                <Button
+                  onClick={handleDeleteAccount}
+                  type="button"
+                  className="btn-secondary btn-long danger"
+                >
                   <SpinnerLoader></SpinnerLoader>
-                ) : (
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleDeleteAccount}
+                  type="button"
+                  className="btn-secondary btn-long danger"
+                >
                   <>Delete</>
-                )}
-              </Button>
+                </Button>
+              )}
             </div>
           </div>
         </Modal.Body>

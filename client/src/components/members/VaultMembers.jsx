@@ -28,6 +28,7 @@ const VaultMembers = () => {
   const offlineMembers = members.filter(
     (member) => member.status === "offline"
   );
+  
   return (
     <div className="vault-members standard-stack gap-10">
       <h5>Members</h5>

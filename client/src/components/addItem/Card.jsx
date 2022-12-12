@@ -700,24 +700,29 @@ const Card = ({
               </Modal>
             </>
           ) : (
-            <Button
-              type="submit"
-              className="btn-dark btn-long btn-with-icon"
-              disabled={
-                (!isDirty || !isValid) &&
-                !isDropdownsDirty &&
-                !brandError &&
-                !expirationMonthError
-              }
-            >
+            <>
               {createLoading ? (
-                <SpinnerLoader></SpinnerLoader>
+                <Button
+                  type="button"
+                  className="btn-dark btn-long btn-with-icon"
+                >
+                  <SpinnerLoader></SpinnerLoader>
+                </Button>
               ) : (
-                <>
+                <Button
+                  type="submit"
+                  className="btn-dark btn-long btn-with-icon"
+                  disabled={
+                    (!isDirty || !isValid) &&
+                    !isDropdownsDirty &&
+                    !brandError &&
+                    !expirationMonthError
+                  }
+                >
                   <HiPlus></HiPlus>Add Item
-                </>
+                </Button>
               )}
-            </Button>
+            </>
           )}
         </div>
       </form>

@@ -300,17 +300,22 @@ const ChangePassword = () => {
                 >
                   Cancel
                 </Button>
-                <Button
-                  onClick={handleChangePassword}
-                  type="button"
-                  className="btn-secondary btn-long danger"
-                >
-                  {authChangedPasswordLoading ? (
+                {authChangedPasswordLoading ? (
+                  <Button
+                    type="button"
+                    className="btn-secondary btn-long danger"
+                  >
                     <SpinnerLoader></SpinnerLoader>
-                  ) : (
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={handleChangePassword}
+                    type="button"
+                    className="btn-secondary btn-long danger"
+                  >
                     <>Change</>
-                  )}
-                </Button>
+                  </Button>
+                )}
               </div>
             </div>
           </Modal.Body>

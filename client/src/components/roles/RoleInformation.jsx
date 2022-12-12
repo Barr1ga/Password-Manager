@@ -515,19 +515,25 @@ const RoleInformation = ({
 
           <div className="form-group">
             {method === "create" ? (
-              <Button
-                type="submit"
-                className="btn-dark btn-long btn-with-icon"
-                disabled={!isDirty || !isValid}
-              >
+              <>
                 {createLoading ? (
-                  <SpinnerLoader></SpinnerLoader>
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-long btn-with-icon"
+                    disabled={!isDirty || !isValid}
+                  >
+                    <SpinnerLoader></SpinnerLoader>
+                  </Button>
                 ) : (
-                  <>
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-long btn-with-icon"
+                    disabled={!isDirty || !isValid}
+                  >
                     <HiPlus></HiPlus>Add Role
-                  </>
+                  </Button>
                 )}
-              </Button>
+              </>
             ) : (
               <>
                 <Button
@@ -566,17 +572,19 @@ const RoleInformation = ({
                         >
                           Cancel
                         </Button>
-                        <Button
-                          onClick={handleUpdateRoleData}
-                          type="button"
-                          className="btn-dark btn-long"
-                        >
-                          {updateLoading ? (
+                        {updateLoading ? (
+                          <Button type="button" className="btn-dark btn-long">
                             <SpinnerLoader></SpinnerLoader>
-                          ) : (
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={handleUpdateRoleData}
+                            type="button"
+                            className="btn-dark btn-long"
+                          >
                             <>Save</>
-                          )}
-                        </Button>
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </Modal.Body>

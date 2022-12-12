@@ -227,17 +227,19 @@ const ChangeEmail = () => {
                     >
                       Cancel
                     </Button>
-                    <Button
-                      onClick={handleEmailChange}
-                      type="button"
-                      className="btn-dark btn-long"
-                    >
-                      {authChangedEmailLoading ? (
+                    {authChangedEmailLoading ? (
+                      <Button type="button" className="btn-dark btn-long">
                         <SpinnerLoader></SpinnerLoader>
-                      ) : (
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={handleEmailChange}
+                        type="button"
+                        className="btn-dark btn-long"
+                      >
                         <>Change</>
-                      )}
-                    </Button>
+                      </Button>
+                    )}
                   </div>
                 </div>
               </Modal.Body>
