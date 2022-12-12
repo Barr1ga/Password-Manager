@@ -2,12 +2,21 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllMembers } from "../../../features/slice/memberSlice";
+import { createLog } from "../../../features/slice/auditLogSlice";
+import {
+  getAllMembers,
+  resetMemberQueryFulfilled,
+  updateMemberRoles,
+} from "../../../features/slice/memberSlice";
+import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 
 const AssignMemberButton = ({ role }) => {
+  const [loading, setLoading] = useState(false);
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const { members } = useSelector((state) => state.members);
+  const { members, memberUpdatedFullfilled } = useSelector(
+    (state) => state.members
+  );
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const unassignedMembers = members.filter(
@@ -18,8 +27,36 @@ const AssignMemberButton = ({ role }) => {
     dispatch(getAllMembers({ uid: authUser.uid }));
   }, []);
 
+  useEffect(() => {
+    if (memberUpdatedFullfilled) {
+      setLoading(false);
+      dispatch(resetMemberQueryFulfilled());
+    }
+  }, [memberUpdatedFullfilled, members]);
+
   const handleAssignMember = (member) => {
-    console.log(member);
+    setLoading(true);
+    const assignRoleData = {
+      vaultUid: authUser.uid,
+      userUid: member.uid,
+      roleUids: [...member.roleUids, role.uid],
+    };
+    
+    console.log(assignRoleData);
+    const auditData = {
+      uid: authUser.uid,
+      auditLogData: {
+        actorUid: authUser.uid,
+        action: "role/assignRole",
+        description: "assigned a role to",
+        benefactor: member.username,
+        date: new Date(),
+      },
+    };
+
+    dispatch(createLog(auditData));
+
+    dispatch(updateMemberRoles(assignRoleData));
     setPopupShow(false);
     setIsHovering(false);
   };
@@ -33,13 +70,19 @@ const AssignMemberButton = ({ role }) => {
   return (
     <>
       <div className="assign-member">
-        <button
-          className="btn-circle"
-          onClick={() => setPopupShow(true)}
-          onBlur={handleOnBlurMembers}
-        >
-          <HiPlus></HiPlus>
-        </button>
+        {loading ? (
+          <button className="btn-circle">
+            <SpinnerLoaderSmall></SpinnerLoaderSmall>
+          </button>
+        ) : (
+          <button
+            className="btn-circle"
+            onClick={() => setPopupShow(true)}
+            onBlur={handleOnBlurMembers}
+          >
+            <HiPlus></HiPlus>
+          </button>
+        )}
         {popupShow && (
           <div
             className="assign-member-popup"
