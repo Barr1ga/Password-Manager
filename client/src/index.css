@@ -1742,16 +1742,24 @@ textarea {
 }
 
 .vault-members .member {
+  background-color: transparent;
+  border: none;
   display: flex;
+  justify-content: center;
   cursor: pointer;
   padding-top: 10px;
   padding-bottom: 10px;
   transition: 0.2s ease-out 0s;
   margin-bottom: 2px;
   gap: 10px;
+  width: 100%;
 }
 
-.right-margin .vault-members .member {
+.vault-members .member:focus {
+  box-shadow: none;
+}
+
+.sub-margin-right .vault-members .member {
   align-items: center;
 }
 
@@ -1800,7 +1808,7 @@ textarea {
   align-items: center;
   font-weight: 600;
   gap: 5px;
-  width: 50px;
+  min-width: 50px;
 }
 
 .vault-owner-tag svg {
@@ -1828,6 +1836,7 @@ textarea {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 600;
 }
 
 .vault-members .image {
@@ -1901,6 +1910,10 @@ textarea {
 .vault-members .member .member-profile .user {
   display: flex;
   gap: 10px;
+}
+
+.vault-members .member .member-profile .user .name p b {
+  font-weight: 600;
 }
 
 .role-tag {

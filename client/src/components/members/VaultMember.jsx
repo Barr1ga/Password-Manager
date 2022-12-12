@@ -28,8 +28,19 @@ const VaultMember = ({ member }) => {
   const nameColor = roles.find(
     (role) => role.uid === member.roleUids[0]
   )?.color;
+
+  const handleClose = () => {
+    if (!isHovering) {
+      setIsFocus(false);
+    }
+  };
+
   return (
-    <div className="member padding-side gap-10">
+    <Button
+      className="member padding-side gap-10"
+      onClick={() => setIsFocus(true)}
+      onBlur={handleClose}
+    >
       <div className="image">
         {member.username.charAt(0)}
         {member.status === "online" && <div className="online"></div>}
@@ -37,9 +48,7 @@ const VaultMember = ({ member }) => {
       </div>
       <div className="name">
         <p className={member.roleUids[0] === ownerUid ? "vault-owner" : ""}>
-          <b style={{ color: nameColor }}>
-            {member.username}askhgdkhasjgfkhasgdfkagsdjfaksgf
-          </b>{" "}
+          <b style={{ color: nameColor }}>{member.username}</b>{" "}
           {member.roleUids[0] === ownerUid && (
             <small className="vault-owner-tag">
               <FaCrown></FaCrown>VO
@@ -73,51 +82,67 @@ const VaultMember = ({ member }) => {
           {member.viewing === "Folder" && <HiFolder></HiFolder>}
         </small>
       </div>
-      {/* <div className="member-profile standard-stack gap-10">
-        <div className="user">
-          <div className="image">{member.username.charAt(0)}</div>
-          <div className="name">
-            <p>{member.username}</p>
-            <small>{member.email}</small>
-            <small>
-              {member.viewing !== "" && "Viewing"} <b>{member.viewing}</b>{" "}
-              {member.viewing === "All" && <HiViewGrid></HiViewGrid>}
-              {member.viewing === "Favorites" && <HiStar></HiStar>}
-              {member.viewing === "Trash" && <HiTrash></HiTrash>}
-              {member.viewing === "Sharing Center" && <HiUsers></HiUsers>}
-              {member.viewing === "Vault Settings" && (
-                <RiSettings2Line></RiSettings2Line>
-              )}
-              {member.viewing === "Members" && <HiUserGroup></HiUserGroup>}
-              {member.viewing === "Audit Log" && (
-                <HiClipboardList></HiClipboardList>
-              )}
-              {member.viewing === "Roles" && <HiShieldCheck></HiShieldCheck>}
-              {member.viewing === "Logins" && <HiGlobe></HiGlobe>}
-              {member.viewing === "Cards" && <HiCreditCard></HiCreditCard>}
-              {member.viewing === "Identifications" && (
-                <HiIdentification></HiIdentification>
-              )}
-              {member.viewing === "Secure Notes" && (
-                <HiDocumentText></HiDocumentText>
-              )}
-              {member.viewing === "Wifi Passwods" && <HiWifi></HiWifi>}
-              {member.viewing === "Sharing Center" && <HiViewGrid></HiViewGrid>}
-              {member.viewing === "Folder" && <HiFolder></HiFolder>}
-            </small>
+      {isFocus && (
+        <div
+          className="member-profile standard-stack gap-10"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          <div className="user">
+            <div className="image">{member.username.charAt(0)}</div>
+            <div className="name">
+              <p style={{ color: nameColor }}>
+                <b>{member.username}</b>{" "}
+                {member.roleUids[0] === ownerUid && (
+                  <small className="vault-owner-tag">
+                    <FaCrown></FaCrown>VO
+                  </small>
+                )}
+              </p>
+              <small>{member.email}</small>
+              <small>
+                {member.viewing !== "" && "Viewing"} <b>{member.viewing}</b>{" "}
+                {member.viewing === "All" && <HiViewGrid></HiViewGrid>}
+                {member.viewing === "Favorites" && <HiStar></HiStar>}
+                {member.viewing === "Trash" && <HiTrash></HiTrash>}
+                {member.viewing === "Sharing Center" && <HiUsers></HiUsers>}
+                {member.viewing === "Vault Settings" && (
+                  <RiSettings2Line></RiSettings2Line>
+                )}
+                {member.viewing === "Members" && <HiUserGroup></HiUserGroup>}
+                {member.viewing === "Audit Log" && (
+                  <HiClipboardList></HiClipboardList>
+                )}
+                {member.viewing === "Roles" && <HiShieldCheck></HiShieldCheck>}
+                {member.viewing === "Logins" && <HiGlobe></HiGlobe>}
+                {member.viewing === "Cards" && <HiCreditCard></HiCreditCard>}
+                {member.viewing === "Identifications" && (
+                  <HiIdentification></HiIdentification>
+                )}
+                {member.viewing === "Secure Notes" && (
+                  <HiDocumentText></HiDocumentText>
+                )}
+                {member.viewing === "Wifi Passwods" && <HiWifi></HiWifi>}
+                {member.viewing === "Sharing Center" && (
+                  <HiViewGrid></HiViewGrid>
+                )}
+                {member.viewing === "Folder" && <HiFolder></HiFolder>}
+              </small>
+            </div>
+          </div>
+          <hr></hr>
+          <div className="roles">
+            <Roles member={member}></Roles>
+          </div>
+          <hr></hr>
+          <div className="interactions">
+            <Button type="button" className="btn-secondary danger btn-long">
+              Kick Member
+            </Button>
           </div>
         </div>
-        <div className="roles">
-          <Roles member={member}></Roles>
-        </div>
-        <hr></hr>
-        <div className="interactions">
-          <Button type="button" className="btn-secondary danger btn-long">
-            Kick Member
-          </Button>
-        </div>
-      </div> */}
-    </div>
+      )}
+    </Button>
   );
 };
 
