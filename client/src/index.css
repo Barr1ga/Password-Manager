@@ -1905,6 +1905,7 @@ textarea {
   box-shadow: 0 0 10px 5px rgb(0 0 0 / 25%);
   z-index: 1;
   margin-right: 15px;
+  min-width: 230px;
 }
 
 .vault-members .member .member-profile .user {
@@ -1965,6 +1966,55 @@ textarea {
   min-height: 35px;
   min-width: 35px;
   border-radius: 50%;
+}
+
+.lazy-member-detailed {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.lazy-member-detailed .image {
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+  background-color: var(--secondary-gray);
+}
+
+.lazy-member-detailed .user span {
+  gap: 5px;
+}
+
+.lazy-member-detailed .name {
+  background-color: var(--primary-gray);
+  height: 15px;
+  border-radius: 10px;
+}
+
+.lazy-member-detailed .email {
+  background-color: var(--secondary-gray);
+  height: 15px;
+  border-radius: 10px;
+}
+
+.lazy-member-detailed .roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.lazy-member-detailed .roles .role {
+  background-color: var(--secondary-gray);
+  height: 20px;
+  border-radius: 3px;
+}
+
+.lazy-member-detailed .roles .button {
+  background-color: var(--primary-gray);
+  height: 20px;
+  width: 20px;
+  border-radius: 3px;
 }
 
 .role-tag small {
@@ -2732,6 +2782,74 @@ textarea {
   opacity: 0.5;
 }
 
+/* lazy */
+
+.lazy-role {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s ease-out 0s;
+  border-radius: 0 3px 3px 0;
+}
+
+.lazy-role .members-with-role {
+  display: flex;
+}
+
+.lazy-role span {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.lazy-role span svg {
+  height: 15px;
+  width: 15px;
+  opacity: 0.5;
+}
+
+.lazy-role .members-with-role .member {
+  height: 35px;
+  width: 35px;
+  background-color: var(--secondary-gray);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-right: -5px;
+  transition: 0.2s ease-out 0s;
+  outline: 2px solid var(--primary-background);
+}
+
+.lazy-role-selected .members-with-role .member {
+  outline: 2px solid var(--secondary-background);
+}
+
+.lazy-role .button {
+  background-color: var(--primary-gray);
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+}
+
+.lazy-role .arrow {
+  background-color: var(--primary-gray);
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.lazy-role span .name {
+  background-color: var(--primary-gray);
+  height: 15px;
+  border-radius: 10px;
+}
+
 /* filters css */
 .filters-list {
   display: flex;
@@ -3110,7 +3228,7 @@ textarea {
 }
 
 .conversation-list .date-separator small {
-  background-color: rgb(45, 45, 45);
+  background-color: var(--primary-background);
   padding: 5px;
   border-radius: 3px;
 }

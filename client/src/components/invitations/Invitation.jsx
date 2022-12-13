@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { HiOutlineLockOpen } from "react-icons/hi";
-import { formatDate } from "../../utils/date";
+import { daysDifferenceFromNow, formatDate } from "../../utils/date";
 import { useDispatch, useSelector } from "react-redux";
 import { joinVault } from "../../features/slice/authSlice";
 import { createLog } from "../../features/slice/auditLogSlice";
 import SpinnerLoader from "../SpinnerLoader";
 
-const Notification = ({ notification }) => {
+const Invitation = ({ notification }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { authUser, vaults, authFulfilled } = useSelector(
     (state) => state.auth
   );
+
+  const difference = daysDifferenceFromNow(notification.date);
+  console.log(difference);
 
   useEffect(() => {
     if (authFulfilled) {
@@ -57,22 +60,37 @@ const Notification = ({ notification }) => {
               <b>{notification.username}</b>
               <span>{notification.description}</span>
             </p>
-            <small>{formatDate(notification?.date)}</small>
+            <small>
+              {formatDate(notification?.date)}{" "}
+              {difference === 0 && (
+                <small>— This invitation is only valid for 24 hours.</small>
+              )}
+            </small>
           </div>
         </div>
         <div className="server standard-stack gap-10">
-          {vaults?.some((vault) => vault.vault === notification.actorUid) ? (
-            <Button type="button" className="btn-dark" disabled>
-              Joined
-            </Button>
-          ) : (
-            <Button
-              type="button"
-              className="btn-dark"
-              onClick={() => handleJoinVault()}
-            >
-              {loading ? <SpinnerLoader></SpinnerLoader> : <>Join Vault</>}
-            </Button>
+          {difference > 0 && (
+            <div className="error-message">Expired Invitation</div>
+          )}
+
+          {difference === 0 && (
+            <>
+              {vaults?.some(
+                (vault) => vault.vault === notification.actorUid
+              ) ? (
+                <Button type="button" className="btn-dark" disabled>
+                  Joined
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  className="btn-dark"
+                  onClick={() => handleJoinVault()}
+                >
+                  {loading ? <SpinnerLoader></SpinnerLoader> : <>Join Vault</>}
+                </Button>
+              )}
+            </>
           )}
         </div>
       </div>
@@ -80,4 +98,4 @@ const Notification = ({ notification }) => {
   );
 };
 
-export default Notification;
+export default Invitation;

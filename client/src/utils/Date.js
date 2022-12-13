@@ -62,3 +62,12 @@ export const daysDifference = (startDate, endDate) => {
 
   return difference;
 };
+
+export const daysDifferenceFromNow = (date) => {
+  const difference = differenceInDays(
+    new Date(),
+    formatDateTimeFromFirebase(date)
+  );
+
+  return difference;
+};

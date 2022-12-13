@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import AddRoleButton from "./AddRoleButton";
 import { HiOutlineSearch } from "react-icons/hi";
 import { getAllRoles } from "../../../features/slice/roleSlice";
+import RoleLazyLoad from "./RoleLazyLoad";
 
 const VaultRoles = () => {
   const [searchValue, setSearchValue] = useState("");
   const { authUser } = useSelector((state) => state.auth);
-  const { roles } = useSelector((state) => state.roles);
+  const { roles, roleLoading } = useSelector((state) => state.roles);
 
   const dispatch = useDispatch();
 
@@ -22,6 +23,8 @@ const VaultRoles = () => {
           role.name.toLowerCase().includes(searchValue.toLowerCase())
         )
       : roles;
+
+  const lazyRolesCount = 4;
 
   return (
     <div className="standard-stack">
@@ -48,21 +51,26 @@ const VaultRoles = () => {
             <AddRoleButton></AddRoleButton>
           </div>
         </form>
-
         <div className="standard-stack">
           <span className="role-count padding-side">
             {filteredRoles.length} Roles
           </span>
           <div className="form-group">
-            {filteredRoles.map((role, idx) => {
-              return (
-                <Role
-                  key={idx}
-                  role={role}
-                  isVaultOwner={vaultOwnerUid === role.uid}
-                ></Role>
-              );
-            })}
+            {roleLoading &&
+              [...Array(lazyRolesCount)].map((line) => (
+                <RoleLazyLoad></RoleLazyLoad>
+              ))}
+
+            {!roleLoading &&
+              filteredRoles.map((role, idx) => {
+                return (
+                  <Role
+                    key={idx}
+                    role={role}
+                    isVaultOwner={vaultOwnerUid === role.uid}
+                  ></Role>
+                );
+              })}
           </div>
         </div>
       </div>

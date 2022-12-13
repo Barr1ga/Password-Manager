@@ -7,7 +7,6 @@ import Card from "./pages/Card";
 import Identifications from "./pages/Identifications";
 import SecureNotes from "./pages/SecureNotes";
 import WifiPasswords from "./pages/WifiPasswords";
-import SharingCenter from "./pages/SharingCenter";
 import MyAccount from "./pages/MyAccount";
 import Members from "./pages/Members";
 import Roles from "./pages/Roles";
@@ -23,7 +22,7 @@ import { createUser, setUser, logOut } from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
-import Notifications from "./pages/Notifications";
+import Invitations from "./pages/Invitations";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
@@ -152,26 +151,6 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/SharingCenter"
-              element={
-                authUser ? (
-                  <SharingCenter></SharingCenter>
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
-              }
-            ></Route>
-            <Route
-              path="/SharingCenter/:uid"
-              element={
-                authUser ? (
-                  <SharingCenter />
-                ) : (
-                  <Navigate to="/LoginRegistration" />
-                )
-              }
-            ></Route>
-            <Route
               path="Types/Logins"
               element={
                 authUser ? (
@@ -277,10 +256,10 @@ const App = () => {
               }
             ></Route>
             <Route
-              path="/Notifications"
+              path="/Invitations"
               element={
                 authUser ? (
-                  <Notifications></Notifications>
+                  <Invitations></Invitations>
                 ) : (
                   <Navigate to="/LoginRegistration" />
                 )

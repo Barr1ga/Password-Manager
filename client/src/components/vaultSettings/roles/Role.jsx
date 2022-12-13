@@ -68,30 +68,19 @@ const Role = ({ role, isVaultOwner }) => {
           <span>
             {filteredMembers.length > 0 && (
               <div className="members-with-role">
-                {filteredMembers.map((member, idx) =>
-                  member.image === "" ? (
-                    <>
-                      <div key={idx} className="member">
-                        {member.username.charAt(0)}
-                      </div>
-                    </>
-                  ) : (
-                    <img
-                      key={idx}
-                      src={member.image}
-                      alt={member.username}
-                      className="member"
-                    ></img>
-                  )
-                )}
+                {filteredMembers.map((member, idx) => (
+                  <>
+                    <div key={idx} className="member">
+                      {member.username.charAt(0)}
+                    </div>
+                  </>
+                ))}
                 {remainingCount > 0 && (
                   <div className="member last-member">+{remainingCount}</div>
                 )}
               </div>
             )}
-            {/* <div className="btn-circle">
-              <HiPlus></HiPlus>
-            </div> */}
+
             <AssignMemberButton role={role}></AssignMemberButton>
           </span>
         </div>

@@ -22,6 +22,8 @@ import {
   HiLockClosed,
   HiBell,
   HiOutlineBell,
+  HiOutlineMail,
+  HiMail,
 } from "react-icons/hi";
 import { BsTwitter, BsFacebook, BsInstagram } from "react-icons/bs";
 import { RiSettings2Line, RiSettings2Fill } from "react-icons/ri";
@@ -157,31 +159,6 @@ const SideNav = () => {
                 )}
               </p>
             </Link>
-            <Link
-              to="/SharingCenter"
-              className={
-                notificationBubbles.sharingCenter &&
-                route.includes("/SharingCenter")
-                  ? "sidenav-button new-notif selected"
-                  : route.includes("/SharingCenter")
-                  ? "sidenav-button selected"
-                  : notificationBubbles.sharingCenter
-                  ? "sidenav-button new-notif"
-                  : "sidenav-button"
-              }
-            >
-              {route.includes("/SharingCenter") ? (
-                <HiUsers></HiUsers>
-              ) : (
-                <HiOutlineUsers></HiOutlineUsers>
-              )}
-              <p>
-                Sharing Center{" "}
-                {notificationBubbles.sharingCenter && (
-                  <span className="notif-ball"></span>
-                )}
-              </p>
-            </Link>
           </div>
           <div className="standard-stack">
             <SideNavTypes></SideNavTypes>
@@ -192,25 +169,25 @@ const SideNav = () => {
           <hr className="sidenav-hr padding-side"></hr>
           <div className="standard-stack">
             <Link
-              to="/Notifications"
+              to="/Invitations"
               className={
                 notificationBubbles.notifications &&
-                route.includes("/Notifications")
+                route.includes("/Invitations")
                   ? "sidenav-button new-notif selected"
-                  : route.includes("/Notifications")
+                  : route.includes("/Invitations")
                   ? "sidenav-button selected"
                   : notificationBubbles.notifications
                   ? "sidenav-button new-notif"
                   : "sidenav-button"
               }
             >
-              {route.includes("/Notifications") ? (
-                <HiBell></HiBell>
+              {route.includes("/Invitations") ? (
+                <HiMail></HiMail>
               ) : (
-                <HiOutlineBell></HiOutlineBell>
+                <HiOutlineMail></HiOutlineMail>
               )}
               <p>
-                Notifications
+                Invitations
                 {notificationBubbles.notifications && (
                   <span className="notif-ball"></span>
                 )}

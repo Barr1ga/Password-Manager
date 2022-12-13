@@ -3,10 +3,11 @@ import { useSelector } from "react-redux";
 import Member from "./Member";
 import { useForm } from "react-hook-form";
 import { HiOutlineSearch } from "react-icons/hi";
+import MemberLazyLoad from "./MemberLazyLoad";
 
 const MembersList = () => {
   const [searchValue, setSearchValue] = useState("");
-  const { members } = useSelector((state) => state.members);
+  const { members, memberLoading } = useSelector((state) => state.members);
 
   let filteredMembers =
     searchValue !== ""
@@ -16,6 +17,8 @@ const MembersList = () => {
             member.email.toLowerCase().includes(searchValue.toLowerCase())
         )
       : members;
+
+  const lazyMemberCount = 4;
 
   return (
     <>
@@ -35,10 +38,15 @@ const MembersList = () => {
           <span className="member-count padding-side">
             {filteredMembers.length} Members
           </span>
+          {memberLoading &&
+            [...Array(lazyMemberCount)].map((member) => (
+              <MemberLazyLoad></MemberLazyLoad>
+            ))}
 
-          {filteredMembers.map((member, idx) => (
-            <Member key={idx} member={member}></Member>
-          ))}
+          {!memberLoading &&
+            filteredMembers.map((member, idx) => (
+              <Member key={idx} member={member}></Member>
+            ))}
         </div>
       </div>
     </>
