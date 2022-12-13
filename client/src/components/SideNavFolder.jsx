@@ -10,13 +10,6 @@ const SideNavFolders = () => {
   const [showNavFolders, setShowNavFolders] = useState(true);
   const { folders, folderLoading } = useSelector((state) => state.folders);
 
-  const { authUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllFolders({ uid: authUser.uid }));
-  }, []);
-
   return (
     <>
       <div className="standard-stack gap-10">

@@ -10,12 +10,22 @@ import Logo from "../assets/vaulteer_logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "./helpers/ConfirmModal";
 import { getUserData, logOut } from "../features/slice/authSlice";
-import { getAllMembers } from "../features/slice/memberSlice";
-import { getAllRoles } from "../features/slice/roleSlice";
+import {
+  getAllMembers,
+  resetMemberQueryFulfilled,
+} from "../features/slice/memberSlice";
+import {
+  getAllRoles,
+  resetRoleQueryFulfilled,
+} from "../features/slice/roleSlice";
 import {
   getAllNotifications,
   resetNotificationQueryFulfilled,
 } from "../features/slice/notificationSlice";
+import {
+  getAllFolders,
+  resetFolderQueryFulfilled,
+} from "../features/slice/folderSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
@@ -27,6 +37,9 @@ const Header = () => {
     username,
     authEmailAndPasswordLoading,
   } = useSelector((state) => state.auth);
+  const { memberFulfilled } = useSelector((state) => state.members);
+  const { roleFulfilled } = useSelector((state) => state.roles);
+  const { folderFulfilled } = useSelector((state) => state.folders);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -39,6 +52,7 @@ const Header = () => {
       if (currentVault !== "") {
         dispatch(getAllRoles({ uid: currentVault }));
         dispatch(getAllMembers({ uid: currentVault }));
+        dispatch(getAllFolders({ uid: currentVault }));
       }
       dispatch(getAllNotifications({ uid: authUser.uid }));
     }
@@ -47,6 +61,12 @@ const Header = () => {
   useEffect(() => {
     if (notificationFulfilled) {
       dispatch(resetNotificationQueryFulfilled());
+    }
+
+    if (memberFulfilled && roleFulfilled && folderFulfilled) {
+      dispatch(resetMemberQueryFulfilled());
+      dispatch(resetRoleQueryFulfilled());
+      dispatch(resetFolderQueryFulfilled());
     }
   });
 

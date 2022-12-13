@@ -6,12 +6,13 @@ const LIMIT_QUERY = 1;
 
 const getAllItems = asyncHandler(async (req, res) => {
   const { uid, authorizedFolders } = req.body;
-
+  console.log(uid);
+  console.log(authorizedFolders);
   const items = await (
     await vault
       .doc(uid)
       .collection("items")
-      // .where("folders", "in", authorizedFolders)
+      .where("folders", "array-contains", authorizedFolders[0])
       .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };

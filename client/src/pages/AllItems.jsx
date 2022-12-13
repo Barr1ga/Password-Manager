@@ -30,10 +30,10 @@ const AllItems = () => {
   const { uid } = useParams();
 
   const { currentVault } = useSelector((state) => state.auth);
-  const { members } = useSelector((state) => state.members);
+  const { members, memberFulfilled } = useSelector((state) => state.members);
   const { authUser } = useSelector((state) => state.auth);
-  const { roles } = useSelector((state) => state.roles);
-  const { folders } = useSelector((state) => state.folders);
+  const { roles, roleFulfilled } = useSelector((state) => state.roles);
+  const { folders, folderFulfilled } = useSelector((state) => state.folders);
   const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
   const ownerUserUid = members?.find((member) =>
     member.roleUids.includes(ownerUid)
@@ -46,31 +46,56 @@ const AllItems = () => {
     if (!uid && currentVault !== "") {
       var authorizedfolders = [];
 
-      if (!isNotOwner) {
-        const currentUserRoles = members.find(
-          (member) => member.uid === authUser.uid
-        )?.roleUids;
+      console.log(isNotOwner);
 
-        currentUserRoles?.forEach((userRoleUid) => {
-          const roleFolders = roles.find(
-            (role) => role.uid === userRoleUid
-          )?.folders;
+      if (roleFulfilled && memberFulfilled && folderFulfilled) {
+        if (isNotOwner) {
+          const currentUserRoles = members.find(
+            (member) => member.uid === authUser.uid
+          )?.roleUids;
 
-          authorizedfolders = [...authorizedfolders, ...roleFolders];
-        });
+          console.log(currentUserRoles);
+          console.log(roleFulfilled && memberFulfilled && folderFulfilled);
+
+          currentUserRoles?.forEach((userRoleUid) => {
+            const roleFolders = roles.find(
+              (role) => role.uid === userRoleUid
+            )?.folders;
+
+            authorizedfolders = [...authorizedfolders, ...roleFolders];
+          });
+
+          console.log(authorizedfolders);
+          dispatch(
+            getAllItems({
+              uid: currentVault,
+              authorizedFolders: authorizedfolders,
+            })
+          );
+        }
+
+        // is owner
+        if (!isNotOwner) {
+          console.log(folders?.map((folder) => folder.name));
+          authorizedfolders = folders?.map((folder) => folder.name);
+
+          dispatch(
+            getAllItems({
+              uid: currentVault,
+              authorizedFolders: authorizedfolders,
+            })
+          );
+        }
       }
-
-      // is owner
-      if (isNotOwner) {
-        authorizedfolders = folders?.map((folder) => folder.name);
-      }
-
-      console.log(authorizedfolders);
-      dispatch(
-        getAllItems({ uid: currentVault, authorizedFolders: authorizedfolders })
-      );
     }
-  }, [currentVault, members, roles]);
+  }, [
+    currentVault,
+    members,
+    roles,
+    roleFulfilled,
+    memberFulfilled,
+    folderFulfilled,
+  ]);
 
   let filteredItems = items?.filter((item) => item.trash === false);
 
