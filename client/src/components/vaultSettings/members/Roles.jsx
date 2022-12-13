@@ -20,6 +20,11 @@ const Roles = ({ member }) => {
   const { members, memberUpdatedFullfilled } = useSelector(
     (state) => state.members
   );
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUserUid = members.find((member) =>
+    member.roleUids.includes(ownerUid)
+  ).uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const dispatch = useDispatch();
   const unassignedRoles = roles.filter(
     (role) => !member.roleUids.includes(role.uid)
@@ -72,58 +77,62 @@ const Roles = ({ member }) => {
           <Role key={idx} member={member} roleUid={roleUid}></Role>
         ))}
         {/* <AssignRoleButton member={member}></AssignRoleButton> */}
-        {!loading ? (
-          <Button
-            className="btn-secondary btn-add-role"
-            onClick={() => setPopupShow(true)}
-            onBlur={handleOnBlurRoles}
-          >
-            <HiPlus></HiPlus>
-          </Button>
-        ) : (
-          <Button
-            className="btn-secondary btn-add-role"
-            onClick={() => setPopupShow(true)}
-          >
-            <SpinnerLoaderSmall></SpinnerLoaderSmall>
-          </Button>
-        )}
-
-        {popupShow && (
-          <div
-            className="assign-role-popup"
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-            {unassignedRoles.length === 0 ? (
-              <div className="option disabled">No roles found</div>
+        {!isNotOwner && (
+          <>
+            {!loading ? (
+              <Button
+                className="btn-secondary btn-add-role"
+                onClick={() => setPopupShow(true)}
+                onBlur={handleOnBlurRoles}
+              >
+                <HiPlus></HiPlus>
+              </Button>
             ) : (
-              unassignedRoles?.map((role, idx) => (
-                <>
-                  {role.name === "Vault Owner" ? (
-                    <div className="locked" key={idx}>
-                      <span className="role-tag">
-                        <small>{role.abbreviation}</small>
-                      </span>
-                      <div>{role.name}</div>
-                      <HiLockClosed></HiLockClosed>
-                    </div>
-                  ) : (
-                    <div
-                      className="option"
-                      key={idx}
-                      onClick={() => handleAssignRole(role)}
-                    >
-                      <span className="role-tag">
-                        <small>{role.abbreviation}</small>
-                      </span>
-                      <div>{role.name}</div>
-                    </div>
-                  )}
-                </>
-              ))
+              <Button
+                className="btn-secondary btn-add-role"
+                onClick={() => setPopupShow(true)}
+              >
+                <SpinnerLoaderSmall></SpinnerLoaderSmall>
+              </Button>
             )}
-          </div>
+
+            {popupShow && (
+              <div
+                className="assign-role-popup"
+                onMouseEnter={() => setIsHovering(true)}
+                onMouseLeave={() => setIsHovering(false)}
+              >
+                {unassignedRoles.length === 0 ? (
+                  <div className="option disabled">No roles found</div>
+                ) : (
+                  unassignedRoles?.map((role, idx) => (
+                    <>
+                      {role.name === "Vault Owner" ? (
+                        <div className="locked" key={idx}>
+                          <span className="role-tag">
+                            <small>{role.abbreviation}</small>
+                          </span>
+                          <div>{role.name}</div>
+                          <HiLockClosed></HiLockClosed>
+                        </div>
+                      ) : (
+                        <div
+                          className="option"
+                          key={idx}
+                          onClick={() => handleAssignRole(role)}
+                        >
+                          <span className="role-tag">
+                            <small>{role.abbreviation}</small>
+                          </span>
+                          <div>{role.name}</div>
+                        </div>
+                      )}
+                    </>
+                  ))
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
     </>

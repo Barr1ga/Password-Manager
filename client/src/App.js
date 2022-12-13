@@ -327,37 +327,7 @@ const App = () => {
             ></Route>
           </Routes>
         </div>
-        {authUser && (
-          <></>
-          // <div className="right-margin">
-          //   <div className="scroll-view standard-stack gap-10">
-          //     {selectedItem && (
-          //       <>
-          //         <CurrentItem></CurrentItem>
-          //       </>
-          //     )}
-
-          //     {selectedRole && (
-          //       <>
-          //         <CurrentRole></CurrentRole>
-          //       </>
-          //     )}
-
-          //     {!selectedItem && !selectedRole && (
-          //       <>
-          //         <SiteWarning></SiteWarning>
-          //         <div className="right-vault-members">
-          //           <VaultMembers></VaultMembers>
-          //         </div>
-          //       </>
-          //     )}
-          //   </div>
-          //   {/* <OtherLinks></OtherLinks> */}
-          // </div>
-        )}
       </div>
-
-      {/* <Footer></Footer> */}
     </BrowserRouter>
   );
 };

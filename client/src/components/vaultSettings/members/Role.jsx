@@ -12,11 +12,17 @@ import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 const Role = ({ member, roleUid }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
   const { roles } = useSelector((state) => state.roles);
-  const role = roles.find((role) => role.uid === roleUid);
   const { authUser } = useSelector((state) => state.auth);
-  const { memberUpdatedFullfilled } = useSelector((state) => state.members);
+  const { members } = useSelector(
+    (state) => state.members
+  );
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUserUid = members.find((member) =>
+    member.roleUids.includes(ownerUid)
+  ).uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
+  const role = roles.find((role) => role.uid === roleUid);
 
   const handleDeleteRole = () => {
     setLoading(true);
@@ -46,10 +52,14 @@ const Role = ({ member, roleUid }) => {
   return (
     <div className="role-tag">
       <small style={{ color: role.color }}>{role.name} </small>
-      {loading ? (
-        <SpinnerLoaderSmall></SpinnerLoaderSmall>
-      ) : (
-        <HiPlus className="btn-delete" onClick={handleDeleteRole}></HiPlus>
+      {!isNotOwner && (
+        <>
+          {loading ? (
+            <SpinnerLoaderSmall></SpinnerLoaderSmall>
+          ) : (
+            <HiPlus className="btn-delete" onClick={handleDeleteRole}></HiPlus>
+          )}
+        </>
       )}
     </div>
   );

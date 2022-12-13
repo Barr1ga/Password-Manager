@@ -34,13 +34,17 @@ const VaultMember = ({ member }) => {
   const [isFocus, setIsFocus] = useState(false);
   const { roles } = useSelector((state) => state.roles);
   const { authUser } = useSelector((state) => state.auth);
-  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
   const nameColor = roles.find(
     (role) => role.uid === member.roleUids[0]
   )?.color;
   const { members, memberUpdatedFullfilled } = useSelector(
     (state) => state.members
   );
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUserUid = members.find((member) =>
+    member.roleUids.includes(ownerUid)
+  ).uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -177,7 +181,7 @@ const VaultMember = ({ member }) => {
           <div className="roles">
             <Roles member={member}></Roles>
           </div>
-          {authUser.uid === ownerUid && (
+          {!isNotOwner && (
             <>
               <hr></hr>
               <div className="interactions">

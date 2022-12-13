@@ -54,6 +54,7 @@ const Card = ({
   setCurrentImageLetter,
   method,
   defaultValues,
+  isNotOwner,
   setConfirmClose,
 }) => {
   const [showNumberInput, setShowNumberInput] = useState(false);
@@ -313,6 +314,7 @@ const Card = ({
             Name of the Item<span className="error-message">*</span>
           </label>
           <input
+            readOnly={isNotOwner}
             type="text"
             {...register("name", {
               required: {
@@ -337,6 +339,7 @@ const Card = ({
             Card Holder Name <span className="error-message">*</span>
           </label>
           <input
+            readOnly={isNotOwner}
             type="text"
             {...register("cardHolderName", {
               required: {
@@ -375,14 +378,18 @@ const Card = ({
               onFocus={handleFocusBrand}
               onBlur={handleOnBlurBrand}
             />
-            {showBrands ? (
-              <RiArrowUpSLine className="icon"></RiArrowUpSLine>
-            ) : (
-              <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+            {!isNotOwner && (
+              <>
+                {showBrands ? (
+                  <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                ) : (
+                  <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                )}
+              </>
             )}
           </div>
 
-          {showBrands && (
+          {!isNotOwner && showBrands && (
             <div className="select-options title-options">
               {brands.map((brand, idx) => (
                 <div
@@ -411,6 +418,7 @@ const Card = ({
           </label>
           <span className="password-input">
             <input
+              readOnly={isNotOwner}
               type={showNumberInput ? "text" : "password"}
               {...register("number", {
                 required: {
@@ -462,14 +470,18 @@ const Card = ({
                 onFocus={handleFocusExpirationMonth}
                 onBlur={handleOnBlurExpirationMonth}
               />
-              {showExpirationMonths ? (
-                <RiArrowUpSLine className="icon"></RiArrowUpSLine>
-              ) : (
-                <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+              {!isNotOwner && (
+                <>
+                  {showExpirationMonths ? (
+                    <RiArrowUpSLine className="icon"></RiArrowUpSLine>
+                  ) : (
+                    <RiArrowDownSLine className="icon"></RiArrowDownSLine>
+                  )}
+                </>
               )}
             </div>
 
-            {showExpirationMonths && (
+            {!isNotOwner && showExpirationMonths && (
               <div className="select-options title-options">
                 {expirationMonths.map((expirationMonth, idx) => (
                   <div
@@ -497,6 +509,7 @@ const Card = ({
               Expiration Year <span className="error-message">*</span>
             </label>
             <input
+              readOnly={isNotOwner}
               type="text"
               placeholder="yyyy"
               {...register("expirationYear", {
@@ -526,6 +539,7 @@ const Card = ({
           </label>
           <span className="password-input">
             <input
+              readOnly={isNotOwner}
               type={showCodeInput ? "text" : "password"}
               {...register("securityCode", {
                 required: {
@@ -559,72 +573,76 @@ const Card = ({
           )}
         </div>
 
-        <div className="form-group form-select-group">
-          <label>Folder</label>
-          <div
-            className="form-group"
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => setHovering(false)}
-          >
+        {!isNotOwner && (
+          <div className="form-group form-select-group">
+            <label>Folder</label>
             <div
-              className={
-                showFolder ? "form-pills form-pills-active" : "form-pills"
-              }
-              onBlur={handleOnBlurFolder}
+              className="form-group"
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
             >
-              {assignedFolders.map((folder, idx) => (
-                <div key={idx} className="pill">
-                  <small>{folder}</small>
-                  <HiPlus
-                    className="btn-delete"
-                    onClick={() =>
-                      setAssignedFolders(
-                        assignedFolders.filter((_, i) => i !== idx)
-                      )
-                    }
-                  ></HiPlus>
-                </div>
-              ))}
-              <input
-                ref={folderRef}
-                placeholder={
-                  assignedFolders.length === 0 ? "Select Folder" : ""
+              <div
+                className={
+                  showFolder ? "form-pills form-pills-active" : "form-pills"
                 }
-                type="text"
-                onFocus={() => setShowFolder(true)}
                 onBlur={handleOnBlurFolder}
-                onKeyDown={(e) => handleKeyDown(e)}
-                onChange={(e) => setSearch(e.target.value)}
-                className="form-control-borderless"
-                autoComplete="off"
-              />
-            </div>
-            {showFolder && (
-              <div className="select-options folder-options">
-                {filteredFolders.length === 0 && (
-                  <div className="option disabled">No folders found</div>
-                )}
-                {filteredFolders.length !== 0 &&
-                  filteredFolders.map((folder, idx) => (
-                    <div
-                      key={idx}
-                      className="option padding-side "
-                      onClick={() => {
-                        handleSelectFolder(folder.name);
-                        folderRef?.current.focus();
-                      }}
-                    >
-                      {folder.name}
-                    </div>
-                  ))}
+              >
+                {assignedFolders.map((folder, idx) => (
+                  <div key={idx} className="pill">
+                    <small>{folder}</small>
+                    <HiPlus
+                      className="btn-delete"
+                      onClick={() =>
+                        setAssignedFolders(
+                          assignedFolders.filter((_, i) => i !== idx)
+                        )
+                      }
+                    ></HiPlus>
+                  </div>
+                ))}
+                <input
+                  readOnly={isNotOwner}
+                  ref={folderRef}
+                  placeholder={
+                    assignedFolders.length === 0 ? "Select Folder" : ""
+                  }
+                  type="text"
+                  onFocus={() => setShowFolder(true)}
+                  onBlur={handleOnBlurFolder}
+                  onKeyDown={(e) => handleKeyDown(e)}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="form-control-borderless"
+                  autoComplete="off"
+                />
               </div>
-            )}
+              {showFolder && (
+                <div className="select-options folder-options">
+                  {filteredFolders.length === 0 && (
+                    <div className="option disabled">No folders found</div>
+                  )}
+                  {filteredFolders.length !== 0 &&
+                    filteredFolders.map((folder, idx) => (
+                      <div
+                        key={idx}
+                        className="option padding-side "
+                        onClick={() => {
+                          handleSelectFolder(folder.name);
+                          folderRef?.current.focus();
+                        }}
+                      >
+                        {folder.name}
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="form-group">
           <label>Notes</label>
           <TextareaAutosize
+            readOnly={isNotOwner}
             {...register("notes")}
             className="form-control"
             minRows={3}
@@ -632,99 +650,105 @@ const Card = ({
           />
         </div>
 
-        <div className="form-group form-group-horizontal">
-          <label>Mark this password as favorite</label>
-          <div type="button" onClick={handleFavorite}>
-            {favorite ? (
-              <HiStar className="form-favorited"></HiStar>
-            ) : (
-              <HiStar className="form-unfavorited"></HiStar>
-            )}
-          </div>
-        </div>
-        <div className="form-group">
-          {method === "update" ? (
-            <>
-              <Button
-                type="submit"
-                className="btn-dark btn-long btn-with-icon"
-                disabled={
-                  (!isDirty || !isValid) &&
-                  favorite === defaultValues.favorite &&
-                  !isDropdownsDirty &&
-                  assignedFolders === defaultValues.folders
-                }
-              >
-                <HiOutlinePencil></HiOutlinePencil>Update Item
-              </Button>
-              <Modal
-                size="sm"
-                show={showConfirmationModal}
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}
-                centered
-              >
-                <Modal.Body className="confirmation-modal-body">
-                  <div className="confirmation-modal">
-                    <h5>
-                      {"Are you sure you want to save and update this item?"}
-                    </h5>
-                    <small>
-                      {
-                        "This will update the information you use for this item."
-                      }
-                    </small>
-                    <div className="options gap-10">
-                      <Button
-                        type="button"
-                        className="btn-secondary btn-long"
-                        onClick={handleClose}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        onClick={handleUpdateItemData}
-                        type="button"
-                        className="btn-dark btn-long"
-                      >
-                        {updateLoading ? (
-                          <SpinnerLoader></SpinnerLoader>
-                        ) : (
-                          <>Save</>
-                        )}
-                      </Button>
-                    </div>
-                  </div>
-                </Modal.Body>
-              </Modal>
-            </>
-          ) : (
-            <>
-              {createLoading ? (
-                <Button
-                  type="button"
-                  className="btn-dark btn-long btn-with-icon"
-                >
-                  <SpinnerLoader></SpinnerLoader>
-                </Button>
+        {!isNotOwner && (
+          <>
+            <div className="form-group form-group-horizontal">
+              <label>Mark this password as favorite</label>
+              <div type="button" onClick={handleFavorite}>
+                {favorite ? (
+                  <HiStar className="form-favorited"></HiStar>
+                ) : (
+                  <HiStar className="form-unfavorited"></HiStar>
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              {method === "update" ? (
+                <>
+                  <Button
+                    type="submit"
+                    className="btn-dark btn-long btn-with-icon"
+                    disabled={
+                      (!isDirty || !isValid) &&
+                      favorite === defaultValues.favorite &&
+                      !isDropdownsDirty &&
+                      assignedFolders === defaultValues.folders
+                    }
+                  >
+                    <HiOutlinePencil></HiOutlinePencil>Update Item
+                  </Button>
+                  <Modal
+                    size="sm"
+                    show={showConfirmationModal}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                    centered
+                  >
+                    <Modal.Body className="confirmation-modal-body">
+                      <div className="confirmation-modal">
+                        <h5>
+                          {
+                            "Are you sure you want to save and update this item?"
+                          }
+                        </h5>
+                        <small>
+                          {
+                            "This will update the information you use for this item."
+                          }
+                        </small>
+                        <div className="options gap-10">
+                          <Button
+                            type="button"
+                            className="btn-secondary btn-long"
+                            onClick={handleClose}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={handleUpdateItemData}
+                            type="button"
+                            className="btn-dark btn-long"
+                          >
+                            {updateLoading ? (
+                              <SpinnerLoader></SpinnerLoader>
+                            ) : (
+                              <>Save</>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                </>
               ) : (
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                  disabled={
-                    (!isDirty || !isValid) &&
-                    !isDropdownsDirty &&
-                    !brandError &&
-                    !expirationMonthError
-                  }
-                >
-                  <HiPlus></HiPlus>Add Item
-                </Button>
+                <>
+                  {createLoading ? (
+                    <Button
+                      type="button"
+                      className="btn-dark btn-long btn-with-icon"
+                    >
+                      <SpinnerLoader></SpinnerLoader>
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      className="btn-dark btn-long btn-with-icon"
+                      disabled={
+                        (!isDirty || !isValid) &&
+                        !isDropdownsDirty &&
+                        !brandError &&
+                        !expirationMonthError
+                      }
+                    >
+                      <HiPlus></HiPlus>Add Item
+                    </Button>
+                  )}
+                </>
               )}
-            </>
-          )}
-        </div>
+            </div>
+          </>
+        )}
       </form>
     </>
   );

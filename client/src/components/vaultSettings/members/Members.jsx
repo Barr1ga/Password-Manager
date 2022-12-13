@@ -11,9 +11,16 @@ import { createLog } from "../../../features/slice/auditLogSlice.js";
 const Members = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const { authUser } = useSelector((state) => state.auth);
-  const { notifications, notificationFulfilled } = useSelector(
-    (state) => state.notifications
+  const { roles } = useSelector((state) => state.roles);
+  const { members } = useSelector(
+    (state) => state.members
   );
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUserUid = members.find((member) =>
+    member.roleUids.includes(ownerUid)
+  ).uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
+  const { notificationFulfilled } = useSelector((state) => state.notifications);
 
   const dispatch = useDispatch();
 
@@ -65,72 +72,76 @@ const Members = () => {
 
   return (
     <div className="standard-stack gap-10">
-      <div className="padding-side">
-        <h5>Invite People</h5>
-      </div>
-      <div className="form-group padding-side">
-        <WarningAlert
-          message={
-            "Please note that inviting users to this vault may lead to unauthorized access to sensitive information. Assign proper authorizations to new and existing users by giving them appropriate roles."
-          }
-        ></WarningAlert>
-      </div>
-      <form className="padding-side" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-group">
-          <label>Email Address</label>
+      {!isNotOwner && (
+        <>
+          <div className="padding-side">
+            <h5>Invite People</h5>
+          </div>
+          <div className="form-group padding-side">
+            <WarningAlert
+              message={
+                "Please note that inviting users to this vault may lead to unauthorized access to sensitive information. Assign proper authorizations to new and existing users by giving them appropriate roles."
+              }
+            ></WarningAlert>
+          </div>
+          <form className="padding-side" onSubmit={handleSubmit(onSubmit)}>
+            <div className="form-group">
+              <label>Email Address</label>
 
-          <input
-            type="text"
-            {...register("email", {
-              required: {
-                value: true,
-                message: "Email is required",
-              },
-              validate: (value) =>
-                value !== authUser.email ||
-                "You cannot invite yourself to this vault",
-            })}
-            className={
-              errors.email ? "form-control form-error" : "form-control "
-            }
-          />
-          {errors.email && (
-            <small className="error-message">
-              {errors.email.message}
-              <br></br>
-            </small>
-          )}
-          <small>
-            You may provide access to this vault by inviting other people's
-            email addresses.
-          </small>
-        </div>
+              <input
+                type="text"
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "Email is required",
+                  },
+                  validate: (value) =>
+                    value !== authUser.email ||
+                    "You cannot invite yourself to this vault",
+                })}
+                className={
+                  errors.email ? "form-control form-error" : "form-control "
+                }
+              />
+              {errors.email && (
+                <small className="error-message">
+                  {errors.email.message}
+                  <br></br>
+                </small>
+              )}
+              <small>
+                You may provide access to this vault by inviting other people's
+                email addresses.
+              </small>
+            </div>
 
-        <div className="form-group">
-          {createLoading ? (
-            <Button
-              type="button"
-              className="btn-dark"
-              disabled={!isDirty || !isValid}
-              style={{ width: "120px" }}
-            >
-              <SpinnerLoader></SpinnerLoader>
-            </Button>
-          ) : (
-            <Button
-              type="submit"
-              className="btn-dark"
-              disabled={!isDirty || !isValid}
-              style={{ width: "120px" }}
-            >
-              <>Invite</>
-            </Button>
-          )}
-        </div>
-      </form>
-      <div className="padding-side">
-        <hr></hr>
-      </div>
+            <div className="form-group">
+              {createLoading ? (
+                <Button
+                  type="button"
+                  className="btn-dark"
+                  disabled={!isDirty || !isValid}
+                  style={{ width: "120px" }}
+                >
+                  <SpinnerLoader></SpinnerLoader>
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  className="btn-dark"
+                  disabled={!isDirty || !isValid}
+                  style={{ width: "120px" }}
+                >
+                  <>Invite</>
+                </Button>
+              )}
+            </div>
+          </form>
+          <div className="padding-side">
+            <hr></hr>
+          </div>
+        </>
+      )}
 
       <MembersList></MembersList>
     </div>

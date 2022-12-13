@@ -41,6 +41,16 @@ const SideNav = () => {
   const route = useLocation().pathname;
   const { selectedItem } = useSelector((state) => state.items);
   const { notifications } = useSelector((state) => state.notifications);
+  const { roles } = useSelector((state) => state.roles);
+  const { authUser } = useSelector((state) => state.auth);
+  const { members } = useSelector(
+    (state) => state.members
+  );
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUserUid = members.find((member) =>
+    member.roleUids.includes(ownerUid)
+  ).uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
 
   const [notificationBubbles, setNotificationBubbles] = useState({
     allItems: true,
@@ -214,116 +224,122 @@ const SideNav = () => {
         </>
       ) : (
         <>
-          <h5>Vault Settings</h5>
-          
-          <div className="standard-stack">
-            <Link
-              to="/MyAccount"
-              className={
-                notificationBubbles.myAccount && route.includes("/MyAccount")
-                  ? "sidenav-button new-notif selected"
-                  : route.includes("/MyAccount")
-                  ? "sidenav-button selected"
-                  : notificationBubbles.myAccount
-                  ? "sidenav-button new-notif"
-                  : "sidenav-button"
-              }
-            >
-              {route.includes("/MyAccount") ? (
-                <HiUser></HiUser>
-              ) : (
-                <HiOutlineUser></HiOutlineUser>
-              )}
-              <p>My Account {true && <span className="notif-ball"></span>}</p>
-            </Link>
-            <hr></hr>
-            <Link
-              to="/Members"
-              className={
-                notificationBubbles.members && route.includes("/Members")
-                  ? "sidenav-button new-notif selected"
-                  : route.includes("/Members")
-                  ? "sidenav-button selected"
-                  : notificationBubbles.members
-                  ? "sidenav-button new-notif"
-                  : "sidenav-button"
-              }
-            >
-              {route.includes("/Members") ? (
-                <HiUserGroup></HiUserGroup>
-              ) : (
-                <HiOutlineUserGroup></HiOutlineUserGroup>
-              )}
-              <p>Members {true && <span className="notif-ball"></span>}</p>
-            </Link>
-
-            <Link
-              to="/Roles"
-              className={
-                notificationBubbles.roles && route.includes("/Roles")
-                  ? "sidenav-button new-notif selected"
-                  : route.includes("/Roles")
-                  ? "sidenav-button selected"
-                  : notificationBubbles.roles
-                  ? "sidenav-button new-notif"
-                  : "sidenav-button"
-              }
-            >
-              {route.includes("/Roles") ? (
-                <HiShieldCheck></HiShieldCheck>
-              ) : (
-                <HiOutlineShieldCheck></HiOutlineShieldCheck>
-              )}
-              <p>Roles {true && <span className="notif-ball"></span>}</p>
-            </Link>
-
-            <Link
-              to="/AuditLog"
-              className={
-                true
-                  ? "sidenav-button new-notif"
-                  : route.includes("/AuditLog")
-                  ? "sidenav-button selected"
-                  : "sidenav-button"
-              }
-            >
-              {route.includes("/AuditLog") ? (
-                <HiClipboardList></HiClipboardList>
-              ) : (
-                <HiOutlineClipboardList></HiOutlineClipboardList>
-              )}
-              <p>Audit Log {true && <span className="notif-ball"></span>}</p>
-            </Link>
-          </div>
           <div>
-            <hr></hr>
-          </div>
-          <div>
-            <ConfirmModal
-              proceedInteraction={
-                <Button
-                  type="button"
-                  className="btn-dark btn-long"
-                  onClick={handleLogout}
+            <h5>Vault Settings</h5>
+
+            <div className="standard-stack">
+              <Link
+                to="/MyAccount"
+                className={
+                  notificationBubbles.myAccount && route.includes("/MyAccount")
+                    ? "sidenav-button new-notif selected"
+                    : route.includes("/MyAccount")
+                    ? "sidenav-button selected"
+                    : notificationBubbles.myAccount
+                    ? "sidenav-button new-notif"
+                    : "sidenav-button"
+                }
+              >
+                {route.includes("/MyAccount") ? (
+                  <HiUser></HiUser>
+                ) : (
+                  <HiOutlineUser></HiOutlineUser>
+                )}
+                <p>My Account {true && <span className="notif-ball"></span>}</p>
+              </Link>
+              <hr></hr>
+              <Link
+                to="/Members"
+                className={
+                  notificationBubbles.members && route.includes("/Members")
+                    ? "sidenav-button new-notif selected"
+                    : route.includes("/Members")
+                    ? "sidenav-button selected"
+                    : notificationBubbles.members
+                    ? "sidenav-button new-notif"
+                    : "sidenav-button"
+                }
+              >
+                {route.includes("/Members") ? (
+                  <HiUserGroup></HiUserGroup>
+                ) : (
+                  <HiOutlineUserGroup></HiOutlineUserGroup>
+                )}
+                <p>Members {true && <span className="notif-ball"></span>}</p>
+              </Link>
+
+              <Link
+                to="/Roles"
+                className={
+                  notificationBubbles.roles && route.includes("/Roles")
+                    ? "sidenav-button new-notif selected"
+                    : route.includes("/Roles")
+                    ? "sidenav-button selected"
+                    : notificationBubbles.roles
+                    ? "sidenav-button new-notif"
+                    : "sidenav-button"
+                }
+              >
+                {route.includes("/Roles") ? (
+                  <HiShieldCheck></HiShieldCheck>
+                ) : (
+                  <HiOutlineShieldCheck></HiOutlineShieldCheck>
+                )}
+                <p>Roles {true && <span className="notif-ball"></span>}</p>
+              </Link>
+
+              {!isNotOwner && (
+                <Link
+                  to="/AuditLog"
+                  className={
+                    true
+                      ? "sidenav-button new-notif"
+                      : route.includes("/AuditLog")
+                      ? "sidenav-button selected"
+                      : "sidenav-button"
+                  }
                 >
-                  Log Out
-                </Button>
-              }
-              component={
-                <div className="sidenav-button">
-                  <HiOutlineLogout></HiOutlineLogout>{" "}
-                  <p>Log Out {true && <span className="notif-ball"></span>}</p>
-                </div>
-              }
-              headerMessage={"Log out"}
-              bodyMessage={"Are you sure you want to logout?"}
-            ></ConfirmModal>
-          </div>
-          <hr></hr>
-          <div className="socials padding-side gap-10">
-            <BsTwitter></BsTwitter>
-            <BsFacebook></BsFacebook>
-            <BsInstagram></BsInstagram>
+                  {route.includes("/AuditLog") ? (
+                    <HiClipboardList></HiClipboardList>
+                  ) : (
+                    <HiOutlineClipboardList></HiOutlineClipboardList>
+                  )}
+                  <p>
+                    Audit Log {true && <span className="notif-ball"></span>}
+                  </p>
+                </Link>
+              )}
+            </div>
+            <hr></hr>
+            <div>
+              <ConfirmModal
+                proceedInteraction={
+                  <Button
+                    type="button"
+                    className="btn-dark btn-long"
+                    onClick={handleLogout}
+                  >
+                    Log Out
+                  </Button>
+                }
+                component={
+                  <div className="sidenav-button">
+                    <HiOutlineLogout></HiOutlineLogout>{" "}
+                    <p>
+                      Log Out {true && <span className="notif-ball"></span>}
+                    </p>
+                  </div>
+                }
+                headerMessage={"Log out"}
+                bodyMessage={"Are you sure you want to logout?"}
+              ></ConfirmModal>
+            </div>
+            <hr></hr>
+            <div className="socials padding-side gap-10">
+              <BsTwitter></BsTwitter>
+              <BsFacebook></BsFacebook>
+              <BsInstagram></BsInstagram>
+            </div>
           </div>
         </>
       )}

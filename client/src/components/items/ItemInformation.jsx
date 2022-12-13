@@ -45,16 +45,23 @@ const ItemInformation = ({ currentItem }) => {
   const [currentImageLetter, setCurrentImageLetter] = useState(
     currentItem.name.charAt(0)
   );
+  const { roles } = useSelector((state) => state.roles);
   const { authUser } = useSelector((state) => state.auth);
   const { itemFulfilled, itemError, itemDeletedFullfilled } = useSelector(
     (state) => state.items
   );
+  const { members } = useSelector((state) => state.members);
+  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUserUid = members.find((member) =>
+    member.roleUids.includes(ownerUid)
+  ).uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const method = "update";
 
   const [show, setShow] = useState(false);
 
   const handleCloseConfirmation = () => setShow(false);
-  const handleShowConfirmation = () => setShow(true);
+  console.log(authUser.uid, ownerUserUid);
 
   const selectedTypeFormatted =
     selectedType === "wifiPassword"
@@ -186,51 +193,30 @@ const ItemInformation = ({ currentItem }) => {
             )}
             <h4>Update Item</h4>
           </div>
-          <ConfirmModal
-            proceedInteraction={
-              <Button
-                type="button"
-                onClick={handleCloseMobile}
-                className="btn-dark btn-long"
-              >
-                Leave
-              </Button>
-            }
-            component={
-              <div className="screen-version">
-                <div className="mobile">
-                  <HiOutlineX className="btn-close"></HiOutlineX>
-                </div>
-              </div>
-            }
-            headerMessage={"Are you sure you want to leave this section?"}
-            bodyMessage={
-              "You have unsaved content, and will be lost unless you save it."
-            }
-          ></ConfirmModal>
-          <ConfirmModal
-            proceedInteraction={
-              <Button
-                type="button"
-                onClick={handleClose}
-                className="btn-dark btn-long"
-              >
-                Leave
-              </Button>
-            }
-            component={
-              <div className="screen-version">
-                <div className="non-mobile">
-                  <HiOutlineX className="btn-close"></HiOutlineX>
-                </div>
-              </div>
-            }
-            headerMessage={"Are you sure you want to leave this section?"}
-            bodyMessage={
-              "You have unsaved content, and will be lost unless you save it."
-            }
-            continueMessage={"Leave"}
-          ></ConfirmModal>
+          <></>
+          {isNotOwner ? (
+            <HiOutlineX
+              className="btn-close"
+              onClick={handleCloseMobile}
+            ></HiOutlineX>
+          ) : (
+            <ConfirmModal
+              proceedInteraction={
+                <Button
+                  type="button"
+                  onClick={handleCloseMobile}
+                  className="btn-dark btn-long"
+                >
+                  Leave
+                </Button>
+              }
+              component={<HiOutlineX className="btn-close"></HiOutlineX>}
+              headerMessage={"Are you sure you want to leave this section?"}
+              bodyMessage={
+                "You have unsaved content, and will be lost unless you save it."
+              }
+            ></ConfirmModal>
+          )}
         </div>
       </div>
       <div className="add-item-modal standard-stack gap-10">
@@ -242,13 +228,15 @@ const ItemInformation = ({ currentItem }) => {
             ) : (
               <div className="default">{currentImageLetter}</div>
             )}
-            <div className="btn-circle update-image" htmlFor="upload-photo">
-              <UploadImage
-                currentImage={currentImage}
-                setCurrentImage={setCurrentImage}
-                mode={"item"}
-              ></UploadImage>
-            </div>
+            {!isNotOwner && (
+              <div className="btn-circle update-image" htmlFor="upload-photo">
+                <UploadImage
+                  currentImage={currentImage}
+                  setCurrentImage={setCurrentImage}
+                  mode={"item"}
+                ></UploadImage>
+              </div>
+            )}
           </div>
         </div>
         <div className="item-type">
@@ -256,7 +244,7 @@ const ItemInformation = ({ currentItem }) => {
             Item Type <span className="error-message">*</span>
           </label>
 
-          {showTypeOptions ? (
+          {!isNotOwner && showTypeOptions ? (
             <div className="types standard-stack gap-10">
               <small>Select the type of this item.</small>
               <div className="options">
@@ -328,6 +316,7 @@ const ItemInformation = ({ currentItem }) => {
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
             defaultValues={currentItem}
+            isNotOwner={isNotOwner}
           ></Login>
         )}
 
@@ -337,6 +326,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
+            isNotOwner={isNotOwner}
           ></Card>
         )}
 
@@ -346,6 +336,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
+            isNotOwner={isNotOwner}
           ></Identification>
         )}
 
@@ -355,6 +346,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
+            isNotOwner={isNotOwner}
           ></SecureNote>
         )}
 
@@ -364,6 +356,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
+            isNotOwner={isNotOwner}
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
           ></WifiPassword>
@@ -385,71 +378,61 @@ const ItemInformation = ({ currentItem }) => {
             </Button>
           </div>
         )}
-        <div className="form-group">
-          {currentItem.trash ? (
-            <>
-              <ConfirmModal
-                proceedInteraction={
-                  <Button
-                    type="button"
-                    onClick={handleDeleteItem}
-                    className="btn-dark btn-long"
-                  >
-                    {deleteLoading ? (
-                      <SpinnerLoader></SpinnerLoader>
-                    ) : (
-                      <>Delete</>
-                    )}
-                  </Button>
-                }
-                component={
-                  <div className="form-group">
+        {!isNotOwner && (
+          <div className="form-group">
+            {currentItem.trash ? (
+              <>
+                <ConfirmModal
+                  proceedInteraction={
                     <Button
                       type="button"
-                      className="btn-secondary danger btn-long btn-with-icon"
+                      onClick={handleDeleteItem}
+                      className="btn-dark btn-long"
                     >
-                      <HiOutlineTrash></HiOutlineTrash>Delete Role Permanently
+                      {deleteLoading ? (
+                        <SpinnerLoader></SpinnerLoader>
+                      ) : (
+                        <>Delete</>
+                      )}
                     </Button>
-                  </div>
-                }
-                headerMessage={
-                  "Are you sure you want to permanently delete this item?"
-                }
-                bodyMessage={
-                  "This item will be deleted immediately. You can't undo this action."
-                }
-              ></ConfirmModal>
-            </>
-          ) : (
-            <>
-              <Button
-                type="submit"
-                className="btn-secondary danger btn-long btn-with-icon"
-                onClick={handleDeleteItem}
-              >
-                {deleteLoading ? (
-                  <SpinnerLoader></SpinnerLoader>
-                ) : (
-                  <>
-                    <HiOutlineTrash></HiOutlineTrash>Delete Item
-                  </>
-                )}
-              </Button>
-            </>
-          )}
-        </div>
-        <hr></hr>
-        <div className="last-updated">
-          <div>
-            <Link to="/AuditLog" type="button">
-              <HiOutlineClipboardList></HiOutlineClipboardList>
-            </Link>
+                  }
+                  component={
+                    <div className="form-group">
+                      <Button
+                        type="button"
+                        className="btn-secondary danger btn-long btn-with-icon"
+                      >
+                        <HiOutlineTrash></HiOutlineTrash>Delete Role Permanently
+                      </Button>
+                    </div>
+                  }
+                  headerMessage={
+                    "Are you sure you want to permanently delete this item?"
+                  }
+                  bodyMessage={
+                    "This item will be deleted immediately. You can't undo this action."
+                  }
+                ></ConfirmModal>
+              </>
+            ) : (
+              <>
+                <Button
+                  type="submit"
+                  className="btn-secondary danger btn-long btn-with-icon"
+                  onClick={handleDeleteItem}
+                >
+                  {deleteLoading ? (
+                    <SpinnerLoader></SpinnerLoader>
+                  ) : (
+                    <>
+                      <HiOutlineTrash></HiOutlineTrash>Delete Item
+                    </>
+                  )}
+                </Button>
+              </>
+            )}
           </div>
-          <small>
-            Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine Standard
-            Time)
-          </small>
-        </div>
+        )}
       </div>
     </>
   );

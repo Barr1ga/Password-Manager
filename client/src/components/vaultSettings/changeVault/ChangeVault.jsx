@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import ConfirmModal from "../../helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import { changeVault } from "../../../features/slice/authSlice";
+import { resetSelectedItem } from "../../../features/slice/itemSlice";
+import { resetSelectedFolder } from "../../../features/slice/folderSlice";
+import { resetSelectedRole } from "../../../features/slice/roleSlice";
+import { useNavigate } from "react-router-dom";
 
 const ChangeVault = () => {
   const [loading, setLoading] = useState(false);
   const [showVaults, setShowVaults] = useState(false);
   const dispatch = useDispatch();
   const { authUser, vaults, currentVault } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(false);
@@ -16,7 +21,11 @@ const ChangeVault = () => {
   const handleChangeVault = (vault) => {
     setShowVaults(false);
     setLoading(true);
+    dispatch(resetSelectedItem());
+    dispatch(resetSelectedFolder());
+    dispatch(resetSelectedRole());
     dispatch(changeVault({ vaultUid: vault.vault }));
+    navigate("/");
   };
 
   const openedVault = vaults.find((vault) => vault.vault === currentVault);

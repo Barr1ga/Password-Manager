@@ -34,7 +34,7 @@ const SecureNote = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!uid) {
+    if (!uid && currentVault !== "") {
       dispatch(getTypeSpecific({ uid: currentVault, type: currentPage }));
     }
   }, [currentVault]);
