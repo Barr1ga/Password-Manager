@@ -23,6 +23,7 @@ import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
 import Invitations from "./pages/Invitations";
+import { changeVault } from "./features/slice/authSlice";
 
 const App = () => {
   const [loggedOutInactive, setLoggedOutInactive] = useState(false);
@@ -47,7 +48,8 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      // dispatch(setUser(user));
+      dispatch(setUser(user));
+      dispatch(changeVault({ vaultUid: user.uid }));
 
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;

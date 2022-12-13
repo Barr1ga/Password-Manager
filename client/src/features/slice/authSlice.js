@@ -9,6 +9,7 @@ const initialState = {
   authUser: authUser ? authUser : null,
   username: authProfile ? authProfile.username : "",
   vaults: [],
+  currentVault: "",
   status: "",
   viewing: "",
   masterPasswordHint: authProfile ? authProfile.masterPasswordHint : "",
@@ -272,6 +273,9 @@ const userSlice = createSlice({
       state.username = action.payload.username;
       state.masterPasswordHint = action.payload.masterPasswordHint;
     },
+    changeVault: (state, action) => {
+      state.currentVault = action.payload.vaultUid;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -611,6 +615,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, resetUser, resetAuthErrors, setUserInformation } =
+export const { setUser, resetUser, resetAuthErrors, setUserInformation, changeVault } =
   userSlice.actions;
 export default userSlice.reducer;

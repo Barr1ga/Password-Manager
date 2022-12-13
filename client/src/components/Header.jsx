@@ -20,7 +20,7 @@ import {
 const Header = () => {
   const route = useLocation().pathname;
   const { notificationFulfilled } = useSelector((state) => state.notifications);
-  const { authRegistered, authUser, username, authEmailAndPasswordLoading } =
+  const { authRegistered, currentVault, authUser, username, authEmailAndPasswordLoading } =
     useSelector((state) => state.auth);
 
   const dispatch = useDispatch();

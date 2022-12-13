@@ -206,7 +206,7 @@ button:disabled {
   background: none;
   background-color: rgb(66, 66, 66);
   border: 1px solid transparent;
-  border-radius: 50%;
+  border-radius: 30%;
   height: 35px;
   width: 35px;
   padding: 5px;
@@ -231,7 +231,7 @@ button:disabled {
   background: none;
   background-color: rgb(61, 61, 61);
   border: 1px solid transparent;
-  border-radius: 50%;
+  border-radius: 30%;
   height: 23px;
   width: 23px;
   padding: 5px;
@@ -289,7 +289,7 @@ button:disabled {
   padding: 0;
   height: 35px;
   width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -560,7 +560,7 @@ button:disabled {
 .round-loader {
   height: 40px;
   width: 40px;
-  border-radius: 50%;
+  border-radius: 30%;
   box-shadow: 0 0 5px 5px rgb(51 51 51 / 25%);
   background-color: rgb(56, 56, 56);
   position: absolute;
@@ -578,7 +578,7 @@ button:disabled {
   height: 25px;
   border: 3px solid #b970ff;
   border-bottom-color: transparent;
-  border-radius: 50%;
+  border-radius: 30%;
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
@@ -630,7 +630,7 @@ button:disabled {
 /* three dot css */
 
 .three-dots {
-  border-radius: 50%;
+  border-radius: 30%;
   height: 30px;
   width: 30px;
   padding: 7px;
@@ -1091,7 +1091,7 @@ textarea {
 
 .left-margin {
   height: 100vh;
-  /* flex: 0 1 200px; */
+  flex: 0 1 220px;
   padding: 55px 0 40px 0;
 }
 
@@ -1114,7 +1114,7 @@ textarea {
 }
 
 .sub-margin-left .scroll-view {
-  padding-right: 2px;
+  padding-right: 5px;
 }
 
 .sub-margin-right .scroll-view {
@@ -1174,14 +1174,6 @@ textarea {
 
 .side-nav .standard-stack {
   gap: 2px;
-}
-
-.sidenav-hr {
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 0px 12px;
 }
 
 .sidenav-button {
@@ -1258,7 +1250,7 @@ textarea {
 .side-nav .new-notif p .notif-ball {
   height: 7px;
   width: 7px;
-  border-radius: 50%;
+  border-radius: 30%;
   background-color: #ffffff;
   opacity: 0.5;
 }
@@ -1389,7 +1381,7 @@ textarea {
   width: 20px;
   min-height: 20px;
   min-width: 20px;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .lazy-folder .name {
@@ -1428,7 +1420,7 @@ textarea {
   align-items: center;
   transition: 0.2s ease-out 0s;
   border-radius: 3px;
-  border-radius: 50%;
+  border-radius: 30%;
   background-color: rgb(61, 61, 61);
 }
 
@@ -1441,7 +1433,7 @@ textarea {
   background-color: #1a1a1a;
   height: 20px;
   width: 20px;
-  border-radius: 50%;
+  border-radius: 30%;
   font-weight: 400;
   font-size: 10px !important;
 }
@@ -1848,7 +1840,7 @@ textarea {
   height: 35px;
   width: 35px;
   min-width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
   position: relative;
 }
 
@@ -1857,7 +1849,7 @@ textarea {
 .vault-members .image .idle {
   height: 10px;
   width: 10px;
-  border-radius: 50%;
+  border-radius: 30%;
   outline: 2px solid rgb(37, 37, 37);
   position: absolute;
   bottom: 0px;
@@ -1965,7 +1957,7 @@ textarea {
   width: 35px;
   min-height: 35px;
   min-width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .lazy-member-detailed {
@@ -1976,7 +1968,7 @@ textarea {
 }
 
 .lazy-member-detailed .image {
-  border-radius: 50%;
+  border-radius: 30%;
   height: 35px;
   width: 35px;
   background-color: var(--secondary-gray);
@@ -2116,7 +2108,7 @@ textarea {
   height: 35px;
   width: 35px;
   min-width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
   position: relative;
 }
 
@@ -2483,7 +2475,7 @@ textarea {
   background-color: var(--secondary-gray);
   height: 30px;
   width: 30px;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .lazy-grid .count,
@@ -2520,7 +2512,7 @@ textarea {
   border: none;
   min-height: 35px;
   min-width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
   color: #ffffff;
   background-color: rgb(61, 61, 61);
   display: flex;
@@ -2672,7 +2664,7 @@ textarea {
   width: 35px;
   background-color: var(--primary-dark);
   color: #ffffff;
-  border-radius: 50%;
+  border-radius: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2715,7 +2707,7 @@ textarea {
 
 .role-preview .image {
   background-color: var(--primary-dark);
-  border-radius: 50%;
+  border-radius: 30%;
   height: 35px;
   width: 35px;
   display: flex;
@@ -2816,7 +2808,7 @@ textarea {
   width: 35px;
   background-color: var(--secondary-gray);
   color: #ffffff;
-  border-radius: 50%;
+  border-radius: 30%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2834,14 +2826,14 @@ textarea {
   background-color: var(--primary-gray);
   height: 35px;
   width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .lazy-role .arrow {
   background-color: var(--primary-gray);
   height: 30px;
   width: 30px;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .lazy-role span .name {
@@ -2948,7 +2940,7 @@ textarea {
 
 .add-item-modal .item-image .image .update-image {
   position: absolute;
-  border-radius: 50%;
+  border-radius: 30%;
   bottom: -10px;
   right: -10px;
   border: 3px solid rgb(34, 34, 34);
@@ -3143,7 +3135,7 @@ textarea {
 
 .audit-log-item .image {
   background-color: #1a1a1a;
-  border-radius: 50%;
+  border-radius: 30%;
   min-height: 40px;
   min-width: 40px;
   display: flex;
@@ -3170,7 +3162,7 @@ textarea {
 
 .lazy-audit-log-item .image {
   background-color: var(--secondary-gray);
-  border-radius: 50%;
+  border-radius: 30%;
   min-height: 40px;
   min-width: 40px;
 }
@@ -3284,7 +3276,7 @@ textarea {
 
 .message .user .image {
   background-color: #1a1a1a;
-  border-radius: 50%;
+  border-radius: 30%;
   height: 40px;
   width: 40px;
   color: #ffffff;
@@ -3338,7 +3330,7 @@ textarea {
 
 .message .reply .image {
   background-color: #1a1a1a;
-  border-radius: 50%;
+  border-radius: 30%;
   height: 20px;
   width: 20px;
   color: #ffffff;
@@ -3366,7 +3358,7 @@ textarea {
   height: 35px;
   width: 35px;
   padding: 5px;
-  border-radius: 50%;
+  border-radius: 30%;
   color: #b970ff;
   transform: rotate(90deg);
   transition: 0.2s ease-out 0s;
@@ -3398,7 +3390,7 @@ textarea {
   background-color: rgb(45, 45, 45);
   height: 40px;
   min-width: 40px;
-  border-radius: 50%;
+  border-radius: 30%;
 }
 
 .message-lazy .message-text {
@@ -3441,7 +3433,7 @@ textarea {
 .my-account .user .image {
   height: 100px;
   width: 100px;
-  border-radius: 50%;
+  border-radius: 30%;
   background-color: #1a1a1a;
   display: flex;
   justify-content: center;
@@ -3483,25 +3475,61 @@ textarea {
 }
 
 /* change vault  */
+.sidenav-vaults {
+  background-color: var(--primary-dark);
+  overflow-y: auto;
+  max-height: 400px;
+  padding: 5px;
+}
+
+.current-vault {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.current-vault .image {
+  background-color: var(--primary-dark);
+  height: 45px;
+  width: 45px;
+  border-radius: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
 .user-vaults {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding-right: 2px;
-  height: 300px;
 }
 
-.user-vaults .vault-item {
+.sidenav-vaults .vault-item {
   padding: 10px;
   border-radius: 3px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.user-vaults .vault-item:hover {
+.sidenav-vaults .vault-item:hover {
   background-color: rgb(45, 45, 45);
   cursor: pointer;
 }
 
-.user-vaults .selected {
+.sidenav-vaults .vault-item .image {
+  background-color: var(--primary-dark);
+  height: 45px;
+  width: 45px;
+  border-radius: 30%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.sidenav-vaults .selected {
   background-color: rgb(45, 45, 45);
 }
 
@@ -3546,7 +3574,7 @@ textarea {
   padding: 0;
   height: 35px;
   width: 35px;
-  border-radius: 50%;
+  border-radius: 30%;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -33,7 +33,7 @@ import ConfirmModal from "./helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/slice/authSlice";
 import Button from "react-bootstrap/Button";
-import ChangeVault from "./vaultSettings/ChangeVault";
+import ChangeVault from "./vaultSettings/changeVault/ChangeVault";
 import { useEffect } from "react";
 
 const SideNav = () => {
@@ -75,14 +75,10 @@ const SideNav = () => {
       !route.includes("/AuditLog") &&
       !route.includes("/ChangeVault") ? (
         <>
-          <h5>My Vault</h5>
-          <form>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Vault"
-            ></input>
-          </form>
+          <div className="vault">
+            <ChangeVault></ChangeVault>
+          </div>
+          <hr></hr>
           <div className="standard-stack">
             {
               <Link
@@ -160,13 +156,19 @@ const SideNav = () => {
               </p>
             </Link>
           </div>
+
+          <hr></hr>
+
           <div className="standard-stack">
             <SideNavTypes></SideNavTypes>
           </div>
+
+          <hr></hr>
+
           <div className="standard-stack">
             <SideNavFolder></SideNavFolder>
           </div>
-          <hr className="sidenav-hr padding-side"></hr>
+          <hr></hr>
           <div className="standard-stack">
             <Link
               to="/Invitations"
@@ -299,10 +301,9 @@ const SideNav = () => {
             </Link>
           </div>
           <div>
-            <hr className="sidenav-hr padding-side"></hr>
+            <hr></hr>
           </div>
           <div>
-            <ChangeVault></ChangeVault>
             <ConfirmModal
               proceedInteraction={
                 <Button
@@ -323,9 +324,7 @@ const SideNav = () => {
               bodyMessage={"Are you sure you want to logout?"}
             ></ConfirmModal>
           </div>
-          <div>
-            <hr className="sidenav-hr padding-side"></hr>
-          </div>
+          <hr></hr>
           <div className="socials padding-side gap-10">
             <BsTwitter></BsTwitter>
             <BsFacebook></BsFacebook>

@@ -3,16 +3,6 @@ const { db, admin } = require("../util/admin");
 const User = db.collection("Users");
 const vault = db.collection("vaults");
 
-// const getAllUser = asyncHandler(async (req, res) => {
-//   const user = await User.get();
-//   User.onSnapshot((snapshot) => {
-//     console.log("this is a test");
-//     snapshot.docs.map((doc) => {
-//       console.log(doc.data());
-//     });
-//   });
-// });
-
 const updateUserEmail = asyncHandler(async (req, res) => {
   const { uid, email } = req.body;
   const result = await User.doc(uid).update({
