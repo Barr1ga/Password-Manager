@@ -12,7 +12,7 @@ import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 const Role = ({ member, roleUid }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  console.log(member);
+
   const { roles } = useSelector((state) => state.roles);
   const role = roles.find((role) => role.uid === roleUid);
   const { authUser } = useSelector((state) => state.auth);
@@ -20,8 +20,6 @@ const Role = ({ member, roleUid }) => {
 
   const handleDeleteRole = () => {
     setLoading(true);
-    console.log(member);
-    console.log(role);
 
     const assignRoleData = {
       vaultUid: authUser.uid,

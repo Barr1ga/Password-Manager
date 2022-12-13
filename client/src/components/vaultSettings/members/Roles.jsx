@@ -24,7 +24,6 @@ const Roles = ({ member }) => {
   const unassignedRoles = roles.filter(
     (role) => !member.roleUids.includes(role.uid)
   );
-  console.log(memberUpdatedFullfilled);
 
   useEffect(() => {
     if (memberUpdatedFullfilled) {
@@ -33,7 +32,6 @@ const Roles = ({ member }) => {
     }
   }, [memberUpdatedFullfilled, members]);
 
-  console.log(member);
   const handleAssignRole = (role) => {
     setLoading(true);
 

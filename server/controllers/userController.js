@@ -220,7 +220,7 @@ const joinVault = asyncHandler(async (req, res) => {
   console.log(req.body);
   // add to user vaults
   const updateUser = User.doc(uid).update({ vaults: userVaults });
-  console.log("test");
+  
   if (updateUser.empty) {
     res.status(400);
     throw new Error("There was an error updating this user!");
