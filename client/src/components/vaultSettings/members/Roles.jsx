@@ -110,7 +110,9 @@ const Roles = ({ member }) => {
                       {role.name === "Vault Owner" ? (
                         <div className="locked" key={idx}>
                           <span className="role-tag">
-                            <small>{role.abbreviation}</small>
+                            <small style={{ color: role.color }}>
+                              {role.abbreviation}
+                            </small>
                           </span>
                           <div>{role.name}</div>
                           <HiLockClosed></HiLockClosed>
@@ -122,7 +124,7 @@ const Roles = ({ member }) => {
                           onClick={() => handleAssignRole(role)}
                         >
                           <span className="role-tag">
-                            <small>{role.abbreviation}</small>
+                            <small style={{ color: role.color }}>{role.abbreviation}</small>
                           </span>
                           <div>{role.name}</div>
                         </div>

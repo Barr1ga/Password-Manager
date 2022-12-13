@@ -207,7 +207,7 @@ const removeUser = asyncHandler(async (req, res) => {
 
 const joinVault = asyncHandler(async (req, res) => {
   const { uid, userVaults, vaultUid } = req.body;
-  console.log(req.body);
+
   // add to user vaults
   const updateUser = User.doc(uid).update({ vaults: userVaults });
   

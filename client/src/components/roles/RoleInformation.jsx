@@ -80,6 +80,7 @@ const RoleInformation = ({
     defaultValues: defaultValues,
   });
 
+  console.log(defaultValues);
   const watchName = watch("name");
   const watchAbbreviation = watch("abbreviation");
 
@@ -91,11 +92,8 @@ const RoleInformation = ({
 
   useEffect(() => {
     setSelectedColor(defaultValues?.color);
-    reset();
-
-    return () => {
-      reset();
-    };
+    setAssignedFolders(defaultValues.folders);
+    reset(defaultValues);
   }, [defaultValues]);
 
   const onSubmit = (data) => {
@@ -357,8 +355,9 @@ const RoleInformation = ({
                     </button>
                     <span className="standard-stack gap-10">
                       <div className="preset-row">
-                        {colorPresetsOne.map((color) => (
+                        {colorPresetsOne.map((color, idx) => (
                           <button
+                            key={idx}
                             type="button"
                             className="color"
                             onClick={() => setSelectedColor(color)}
@@ -371,8 +370,9 @@ const RoleInformation = ({
                         ))}
                       </div>
                       <div className="preset-row">
-                        {colorPresetsTwo.map((color) => (
+                        {colorPresetsTwo.map((color, idx) => (
                           <button
+                            key={idx}
                             type="button"
                             className="color"
                             onClick={() => setSelectedColor(color)}
@@ -541,7 +541,8 @@ const RoleInformation = ({
                   className="btn-dark btn-long btn-with-icon"
                   disabled={
                     (!isDirty || !isValid) &&
-                    selectedColor === defaultValues?.color
+                    selectedColor === defaultValues?.color &&
+                    assignedFolders === defaultValues.folders
                   }
                 >
                   <HiOutlinePencil></HiOutlinePencil>Update Role
@@ -622,24 +623,6 @@ const RoleInformation = ({
           ></ConfirmModal>
         </form>
       </div>
-
-      {method === "update" && (
-        <>
-          <hr></hr>
-          <div className="last-updated">
-            <div>
-              <Link to="/AuditLog" type="button">
-                <HiOutlineClipboardList></HiOutlineClipboardList>
-              </Link>
-            </div>
-
-            <small>
-              Last updated: Thu Sep 01 2022 21:01:16 GMT+0800 (Philippine
-              Standard Time)
-            </small>
-          </div>
-        </>
-      )}
     </div>
   );
 };

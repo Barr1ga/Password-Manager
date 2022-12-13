@@ -42,23 +42,6 @@ const createLog = asyncHandler(async (req, res) => {
   res.status(201).json(log);
 });
 
-// const deleteItemLog = asyncHandler(async (req, res) => {
-//   const { uid, itemLogUid } = req.body;
-//   console.log("itemLogUid", itemLogUid);
-//   const result = await vault
-//     .doc(uid)
-//     .collection("auditLogs")
-//     .doc(itemLogUid)
-//     .delete();
-
-//   if (result.empty) {
-//     res.status(400);
-//     throw new Error("There was an error deleting this item log!");
-//   }
-
-//   res.status(201).json(itemLogUid);
-// });
-
 module.exports = {
   getAllLogs,
   createLog,

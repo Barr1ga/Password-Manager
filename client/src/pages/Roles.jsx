@@ -13,10 +13,10 @@ const Roles = () => {
   const { roles, selectedRole } = useSelector((state) => state.roles);
   const { authUser, currentVault } = useSelector((state) => state.auth);
   const { members } = useSelector((state) => state.members);
-  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
+  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
   const ownerUserUid = members.find((member) =>
     member.roleUids.includes(ownerUid)
-  ).uid;
+  )?.uid;
   const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const dispatch = useDispatch();
 

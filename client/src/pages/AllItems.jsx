@@ -30,20 +30,53 @@ const AllItems = () => {
   const { uid } = useParams();
 
   const { currentVault } = useSelector((state) => state.auth);
+  const { members } = useSelector((state) => state.members);
+  const { authUser } = useSelector((state) => state.auth);
+  const { roles } = useSelector((state) => state.roles);
+  const { folders } = useSelector((state) => state.folders);
+  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
+  const ownerUserUid = members?.find((member) =>
+    member.roleUids.includes(ownerUid)
+  )?.uid;
+  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      dispatch(getAllItems({ uid: currentVault }));
-    }
-  }, [currentVault]);
+      var authorizedfolders = [];
 
-  let filteredItems = items.filter((item) => item.trash === false);
+      if (!isNotOwner) {
+        const currentUserRoles = members.find(
+          (member) => member.uid === authUser.uid
+        )?.roleUids;
+
+        currentUserRoles?.forEach((userRoleUid) => {
+          const roleFolders = roles.find(
+            (role) => role.uid === userRoleUid
+          )?.folders;
+
+          authorizedfolders = [...authorizedfolders, ...roleFolders];
+        });
+      }
+
+      // is owner
+      if (isNotOwner) {
+        authorizedfolders = folders?.map((folder) => folder.name);
+      }
+
+      console.log(authorizedfolders);
+      dispatch(
+        getAllItems({ uid: currentVault, authorizedFolders: authorizedfolders })
+      );
+    }
+  }, [currentVault, members, roles]);
+
+  let filteredItems = items?.filter((item) => item.trash === false);
 
   filteredItems =
     searchValue !== ""
-      ? filteredItems.filter((item) =>
+      ? filteredItems?.filter((item) =>
           item.name.toLowerCase().includes(searchValue.toLowerCase())
         )
       : filteredItems;

@@ -46,10 +46,10 @@ const SideNav = () => {
   const { members } = useSelector(
     (state) => state.members
   );
-  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
-  const ownerUserUid = members.find((member) =>
+  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
+  const ownerUserUid = members?.find((member) =>
     member.roleUids.includes(ownerUid)
-  ).uid;
+  )?.uid;
   const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
 
   const [notificationBubbles, setNotificationBubbles] = useState({
