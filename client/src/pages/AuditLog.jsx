@@ -11,13 +11,13 @@ const AuditLog = () => {
     (state) => state.auditLogs
   );
   const { memberLoading } = useSelector((state) => state.members);
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllLogs({ uid: authUser.uid }));
-    dispatch(getAllMembers({ uid: authUser.uid }));
-  }, []);
+    dispatch(getAllLogs({ uid: currentVault }));
+    dispatch(getAllMembers({ uid: currentVault }));
+  }, [currentVault]);
 
   return (
     <div className="scroll-view-long">

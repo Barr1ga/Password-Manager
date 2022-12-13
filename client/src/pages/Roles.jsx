@@ -10,15 +10,14 @@ import CurrentRole from "../components/roles/CurrentRole";
 import { getAllMembers } from "../features/slice/memberSlice";
 
 const Roles = () => {
-  const { roles, selectedRole } = useSelector((state) => state.roles);
-  const { authUser } = useSelector((state) => state.auth);
-  const { memberLoading } = useSelector((state) => state.members);
+  const { selectedRole } = useSelector((state) => state.roles);
+  const { currentVault } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllMembers({ uid: authUser.uid }));
-    dispatch(getAllRoles({ uid: authUser.uid }));
-  }, []);
+    dispatch(getAllMembers({ uid: currentVault }));
+    dispatch(getAllRoles({ uid: currentVault }));
+  }, [currentVault]);
 
   return (
     <>

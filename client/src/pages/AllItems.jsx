@@ -29,15 +29,15 @@ const AllItems = () => {
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getAllItems({ uid: authUser.uid }));
+      dispatch(getAllItems({ uid: currentVault }));
     }
-  }, []);
+  }, [currentVault]);
 
   let filteredItems = items.filter((item) => item.trash === false);
 

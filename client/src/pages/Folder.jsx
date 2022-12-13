@@ -32,14 +32,14 @@ const Folder = () => {
   const location = useLocation();
   const route = "/Folders/" + folder;
 
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getFolderSpecific({ uid: authUser.uid, folder }));
+      dispatch(getFolderSpecific({ uid: currentVault, folder }));
     }
-  }, [folder]);
+  }, [folder, currentVault]);
 
   let filteredItems = items.filter((item) => item.trash === false);
 

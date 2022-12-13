@@ -31,11 +31,11 @@ const Header = () => {
   useEffect(() => {
     if (authUser && !authRegistered && !authEmailAndPasswordLoading) {
       dispatch(getUserData(authUser.uid));
-      dispatch(getAllMembers({ uid: authUser.uid }));
-      dispatch(getAllRoles({ uid: authUser.uid }));
+      dispatch(getAllMembers({ uid: currentVault }));
+      dispatch(getAllRoles({ uid: currentVault }));
       dispatch(getAllNotifications({ uid: authUser.uid }));
     }
-  }, [authUser, authRegistered]);
+  }, [authUser, authRegistered, currentVault]);
 
   useEffect(() => {
     if (notificationFulfilled) {

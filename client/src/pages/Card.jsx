@@ -29,15 +29,15 @@ const Card = () => {
   const currentPage = "card";
   const { uid } = useParams();
 
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getTypeSpecific({ uid: authUser.uid, type: currentPage }));
+      dispatch(getTypeSpecific({ uid: currentVault, type: currentPage }));
     }
-  }, []);
+  }, [currentVault]);
 
   let filteredItems = items
     .filter((password) => password.trash === false)

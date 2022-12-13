@@ -26,15 +26,15 @@ const Favorites = () => {
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getFavorites({ uid: authUser.uid }));
+      dispatch(getFavorites({ uid: currentVault }));
     }
-  }, []);
+  }, [currentVault]);
 
   let filteredItems = items
     .filter((password) => password.trash === false)

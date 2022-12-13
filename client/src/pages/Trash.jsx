@@ -26,15 +26,15 @@ const Trash = () => {
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid) {
-      dispatch(getTrash({ uid: authUser.uid }));
+      dispatch(getTrash({ uid: currentVault }));
     }
-  }, []);
+  }, [currentVault]);
 
   let filteredItems = items.filter((password) => password.trash === true);
 
