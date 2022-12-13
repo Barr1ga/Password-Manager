@@ -15,8 +15,10 @@ const Roles = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllMembers({ uid: currentVault }));
-    dispatch(getAllRoles({ uid: currentVault }));
+    if (currentVault !== "") {
+      dispatch(getAllMembers({ uid: currentVault }));
+      dispatch(getAllRoles({ uid: currentVault }));
+    }
   }, [currentVault]);
 
   return (

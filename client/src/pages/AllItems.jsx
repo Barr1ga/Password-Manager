@@ -34,7 +34,7 @@ const AllItems = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!uid) {
+    if (!uid && currentVault !== "") {
       dispatch(getAllItems({ uid: currentVault }));
     }
   }, [currentVault]);

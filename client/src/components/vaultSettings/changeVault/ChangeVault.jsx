@@ -39,7 +39,11 @@ const ChangeVault = () => {
               {vaults.map((vault, idx) => (
                 <div
                   key={idx}
-                  className="vault-item"
+                  className={
+                    currentVault === vault?.vault
+                      ? "vault-item selected"
+                      : "vault-item"
+                  }
                   onClick={() => handleChangeVault(vault)}
                 >
                   <div className="image">{vault.username?.charAt(0)}</div>

@@ -8,27 +8,29 @@ import VaultMembersLazyLoad from "./VaultMembersLazyLoad";
 const VaultMembers = () => {
   const { members } = useSelector((state) => state.members);
   const { roles, roleLoading } = useSelector((state) => state.roles);
-  const { authUser } = useSelector((state) => state.auth);
+  const { currentVault } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllRoles({ uid: authUser.uid }));
-  }, []);
+    if (currentVault !== "") {
+      dispatch(getAllRoles({ uid: currentVault }));
+    }
+  }, [currentVault]);
 
-  const onlineMembersWithRoles = members.filter(
+  const onlineMembersWithRoles = members?.filter(
     (member) => member.status === "online"
   );
-  const onlineMembersWithoutRoles = members.filter((member) => {
+  const onlineMembersWithoutRoles = members?.filter((member) => {
     if (member.status === "online" && member.roleUids.length === 0) {
       return member;
     }
   });
 
-  const offlineMembers = members.filter(
+  const offlineMembers = members?.filter(
     (member) => member.status === "offline"
   );
-  
+
   return (
     <div className="vault-members standard-stack gap-10">
       <h5>Members</h5>
@@ -37,7 +39,7 @@ const VaultMembers = () => {
         <VaultMembersLazyLoad></VaultMembersLazyLoad>
       ) : (
         <>
-          {roles.map((role, idx) => {
+          {roles?.map((role, idx) => {
             const filteredOnlineMembers = onlineMembersWithRoles.filter(
               (member) => member.roleUids[0] === role.uid
             );

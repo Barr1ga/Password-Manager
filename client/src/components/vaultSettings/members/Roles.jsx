@@ -98,7 +98,7 @@ const Roles = ({ member }) => {
             {unassignedRoles.length === 0 ? (
               <div className="option disabled">No roles found</div>
             ) : (
-              unassignedRoles.map((role, idx) => (
+              unassignedRoles?.map((role, idx) => (
                 <>
                   {role.name === "Vault Owner" ? (
                     <div className="locked" key={idx}>

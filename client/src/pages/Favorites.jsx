@@ -31,7 +31,7 @@ const Favorites = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!uid) {
+    if (!uid && currentVault !== "") {
       dispatch(getFavorites({ uid: currentVault }));
     }
   }, [currentVault]);

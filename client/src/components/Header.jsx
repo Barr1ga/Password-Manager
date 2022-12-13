@@ -20,8 +20,13 @@ import {
 const Header = () => {
   const route = useLocation().pathname;
   const { notificationFulfilled } = useSelector((state) => state.notifications);
-  const { authRegistered, currentVault, authUser, username, authEmailAndPasswordLoading } =
-    useSelector((state) => state.auth);
+  const {
+    authRegistered,
+    currentVault,
+    authUser,
+    username,
+    authEmailAndPasswordLoading,
+  } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -31,8 +36,10 @@ const Header = () => {
   useEffect(() => {
     if (authUser && !authRegistered && !authEmailAndPasswordLoading) {
       dispatch(getUserData(authUser.uid));
-      dispatch(getAllMembers({ uid: currentVault }));
-      dispatch(getAllRoles({ uid: currentVault }));
+      if (currentVault !== "") {
+        dispatch(getAllRoles({ uid: currentVault }));
+        dispatch(getAllMembers({ uid: currentVault }));
+      }
       dispatch(getAllNotifications({ uid: authUser.uid }));
     }
   }, [authUser, authRegistered, currentVault]);

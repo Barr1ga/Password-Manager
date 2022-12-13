@@ -15,8 +15,10 @@ const AuditLog = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllLogs({ uid: currentVault }));
-    dispatch(getAllMembers({ uid: currentVault }));
+    if (currentVault !== "") {
+      dispatch(getAllLogs({ uid: currentVault }));
+      dispatch(getAllMembers({ uid: currentVault }));
+    }
   }, [currentVault]);
 
   return (

@@ -215,13 +215,7 @@ const SideNav = () => {
       ) : (
         <>
           <h5>Vault Settings</h5>
-          <form>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Vault"
-            ></input>
-          </form>
+          
           <div className="standard-stack">
             <Link
               to="/MyAccount"
@@ -242,6 +236,7 @@ const SideNav = () => {
               )}
               <p>My Account {true && <span className="notif-ball"></span>}</p>
             </Link>
+            <hr></hr>
             <Link
               to="/Members"
               className={

@@ -25,8 +25,8 @@ const Role = ({ role, isVaultOwner }) => {
     dispatch(selectRole(role.uid));
   };
 
-  let filteredMembers = members.filter((member) => {
-    if (member.roleUids.includes(role.uid)) {
+  let filteredMembers = members?.filter((member) => {
+    if (member?.roleUids?.includes(role.uid)) {
       return member;
     }
   });

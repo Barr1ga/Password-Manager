@@ -36,7 +36,7 @@ const Folder = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!uid) {
+    if (!uid && currentVault !== "") {
       dispatch(getFolderSpecific({ uid: currentVault, folder }));
     }
   }, [folder, currentVault]);

@@ -31,7 +31,7 @@ const Trash = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!uid) {
+    if (!uid && currentVault !== "") {
       dispatch(getTrash({ uid: currentVault }));
     }
   }, [currentVault]);

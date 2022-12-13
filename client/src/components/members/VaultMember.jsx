@@ -177,16 +177,20 @@ const VaultMember = ({ member }) => {
           <div className="roles">
             <Roles member={member}></Roles>
           </div>
-          <hr></hr>
-          <div className="interactions">
-            <Button
-              type="button"
-              className="btn-secondary danger btn-long"
-              onClick={() => setShow(true)}
-            >
-              Kick Member
-            </Button>
-          </div>
+          {authUser.uid === ownerUid && (
+            <>
+              <hr></hr>
+              <div className="interactions">
+                <Button
+                  type="button"
+                  className="btn-secondary danger btn-long"
+                  onClick={() => setShow(true)}
+                >
+                  Kick Member
+                </Button>
+              </div>
+            </>
+          )}
           <Modal
             size="sm"
             show={show}

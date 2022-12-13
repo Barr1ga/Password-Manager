@@ -24,7 +24,7 @@ const Role = ({ member, roleUid }) => {
     const assignRoleData = {
       vaultUid: authUser.uid,
       userUid: member.uid,
-      roleUids: member.roleUids.filter((roleUid) => roleUid !== role.uid),
+      roleUids: member?.roleUids?.filter((roleUid) => roleUid !== role.uid),
     };
 
     const auditData = {

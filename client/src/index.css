@@ -1765,8 +1765,9 @@ textarea {
 
 .center-margin .vault-members .member {
   cursor: default;
-  border-radius: 0 3px 3px 0;
+  border-radius: 3px;
   position: relative;
+  padding: 10px;
 }
 
 .center-margin .vault-members .member:hover {
@@ -1787,6 +1788,16 @@ textarea {
   flex-direction: column;
   position: relative;
   flex-grow: 1;
+}
+
+.add-role-modal .vault-members .member {
+  padding: 10px;
+  border-radius: 3px;
+  align-items: center;
+}
+
+.add-role-modal .vault-members .member:hover {
+  background-color: var(--primary-gray);
 }
 
 .vault-owner-tag {
@@ -3511,11 +3522,17 @@ textarea {
   display: flex;
   gap: 10px;
   align-items: center;
+  transition: 0.2s ease-in 0s;
+}
+
+.sidenav-vaults .selected {
+  background-color: var(--primary-gray);
 }
 
 .sidenav-vaults .vault-item:hover {
   background-color: rgb(45, 45, 45);
   cursor: pointer;
+  transition: 0.1s ease-in 0s;
 }
 
 .sidenav-vaults .vault-item .image {
