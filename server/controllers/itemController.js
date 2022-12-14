@@ -6,13 +6,13 @@ const LIMIT_QUERY = 1;
 
 const getAllItems = asyncHandler(async (req, res) => {
   const { uid, authorizedFolders } = req.body;
-  console.log(uid);
-  console.log(authorizedFolders);
+
   const items = await (
     await vault
       .doc(uid)
       .collection("items")
-      .where("folders", "array-contains", authorizedFolders[0])
+      .where("folders", "array-contains-any", authorizedFolders)
+      .where("trash", "==", false)
       .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
@@ -22,9 +22,15 @@ const getAllItems = asyncHandler(async (req, res) => {
 });
 
 const getFavorites = asyncHandler(async (req, res) => {
-  const { uid } = req.body;
+  const { uid, authorizedFolders } = req.body;
   const items = await (
-    await vault.doc(uid).collection("items").where("favorite", "==", true).get()
+    await vault
+      .doc(uid)
+      .collection("items")
+      .where("folders", "array-contains-any", authorizedFolders)
+      .where("favorite", "==", true)
+      .where("trash", "==", false)
+      .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -33,9 +39,14 @@ const getFavorites = asyncHandler(async (req, res) => {
 });
 
 const getTrash = asyncHandler(async (req, res) => {
-  const { uid } = req.body;
+  const { uid, authorizedFolders } = req.body;
   const items = await (
-    await vault.doc(uid).collection("items").where("trash", "==", true).get()
+    await vault
+      .doc(uid)
+      .collection("items")
+      .where("folders", "array-contains-any", authorizedFolders)
+      .where("trash", "==", true)
+      .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -44,9 +55,15 @@ const getTrash = asyncHandler(async (req, res) => {
 });
 
 const getTypeSpecific = asyncHandler(async (req, res) => {
-  const { uid, type } = req.body;
+  const { uid, type, authorizedFolders } = req.body;
   const items = await (
-    await vault.doc(uid).collection("items").where("type", "==", type).get()
+    await vault
+      .doc(uid)
+      .collection("items")
+      .where("folders", "array-contains-any", authorizedFolders)
+      .where("type", "==", type)
+      .where("trash", "==", false)
+      .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };
   });
@@ -61,6 +78,7 @@ const getFolderSpecific = asyncHandler(async (req, res) => {
       .doc(uid)
       .collection("items")
       .where("folders", "array-contains", folder)
+      .where("trash", "==", false)
       .get()
   ).docs.map((doc) => {
     return { ...doc.data(), uid: doc.id };

@@ -12,11 +12,11 @@ const VaultMembers = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (currentVault !== "") {
-      dispatch(getAllRoles({ uid: currentVault }));
-    }
-  }, [currentVault]);
+  // useEffect(() => {
+  //   if (currentVault !== "") {
+  //     dispatch(getAllRoles({ uid: currentVault }));
+  //   }
+  // }, [currentVault]);
 
   const onlineMembersWithRoles = members?.filter(
     (member) => member.status === "online"

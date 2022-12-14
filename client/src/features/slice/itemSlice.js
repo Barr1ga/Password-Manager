@@ -4,20 +4,11 @@ import itemService from "../services/itemService";
 import firebaseErrorMessage from "../utils/firebaseErrorMessage";
 
 const initialState = {
-  items: [
-    // {
-    //   uid: "item1",
-    //   name: "Discord",
-    //   username: "hor.barr1ga@gmail.com",
-    //   type: "login",
-    //   image: "",
-    //   favorite: true,
-    //   folders: [],
-    //   trash: false,
-    // },
-  ],
+  items: [],
   itemLoading: false,
   itemFulfilled: false,
+  itemGetFlag: false,
+  itemFetchedOnce: false,
   itemCreatedFullfilled: false,
   itemUpdatedFullfilled: false,
   itemDeletedFullfilled: false,
@@ -164,6 +155,9 @@ const passwordSlice = createSlice({
     resetBrandPhotoLink: (state) => {
       state.brandPhotoLink = "";
     },
+    setItemGetFlag: (state, action) => {
+      state.itemGetFlag = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -191,6 +185,9 @@ const passwordSlice = createSlice({
         state.itemLoading = false;
         state.itemFulfilled = true;
         state.items = action.payload;
+        if (!state.itemFetchedOnce) {
+          state.itemFetchedOnce = true;
+        }
       })
       .addCase(getAllItems.rejected, (state, action) => {
         state.itemLoading = false;
@@ -208,6 +205,9 @@ const passwordSlice = createSlice({
         state.itemLoading = false;
         state.itemFulfilled = true;
         state.items = action.payload;
+        if (!state.itemFetchedOnce) {
+          state.itemFetchedOnce = true;
+        }
       })
       .addCase(getFavorites.rejected, (state, action) => {
         state.itemLoading = false;
@@ -326,5 +326,6 @@ export const {
   resetSelectedItem,
   selectItem,
   resetBrandPhotoLink,
+  setItemGetFlag,
 } = passwordSlice.actions;
 export default passwordSlice.reducer;

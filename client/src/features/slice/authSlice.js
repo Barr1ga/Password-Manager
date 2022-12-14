@@ -22,6 +22,8 @@ const initialState = {
   authMessage: "",
   authErrorMessage: "",
   authErrorCode: "",
+  authorizedFolders: [],
+  isUserOwner: false,
 
   // registration
   authRegistered: false,
@@ -275,7 +277,13 @@ const userSlice = createSlice({
     },
     changeVault: (state, action) => {
       state.currentVault = action.payload.vaultUid;
-    }
+    },
+    setAuthorizedFolders: (state, action) => {
+      state.authorizedFolders = action.payload;
+    },
+    setIsUserOwner: (state, action) => {
+      state.isUserOwner = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -615,6 +623,13 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, resetUser, resetAuthErrors, setUserInformation, changeVault } =
-  userSlice.actions;
+export const {
+  setUser,
+  resetUser,
+  resetAuthErrors,
+  setUserInformation,
+  changeVault,
+  setAuthorizedFolders,
+  setIsUserOwner,
+} = userSlice.actions;
 export default userSlice.reducer;

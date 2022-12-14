@@ -8,7 +8,11 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems, getFolderSpecific } from "../features/slice/itemSlice";
+import {
+  getAllItems,
+  getFolderSpecific,
+  setItemGetFlag,
+} from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
 import ItemsList from "../components/items/ItemsList";
@@ -22,33 +26,40 @@ import CurrentFolder from "../components/folders/CurrentFolder";
 const Folder = () => {
   const [listView, setListView] = useState(true);
   const { selectedFolder } = useSelector((state) => state.folders);
-  const { items, selectedItem, itemLoading } = useSelector(
-    (state) => state.items
-  );
-  const { selectedRole } = useSelector((state) => state.roles);
+  const { folder, uid } = useParams();
+  const route = "/Folders/" + folder;
+  const { items, selectedItem, itemLoading, itemGetFlag, itemFetchedOnce } =
+    useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const { folder, uid } = useParams();
-  const location = useLocation();
-  const route = "/Folders/" + folder;
 
   const { currentVault } = useSelector((state) => state.auth);
+  const { members, memberLoading } = useSelector((state) => state.members);
+  const { roles, roleLoading } = useSelector((state) => state.roles);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      dispatch(getFolderSpecific({ uid: currentVault, folder }));
+      if (itemGetFlag || itemFetchedOnce) {
+        dispatch(
+          getFolderSpecific({
+            uid: currentVault,
+            folder,
+          })
+        );
+
+        dispatch(setItemGetFlag(false));
+      }
     }
-  }, [folder, currentVault]);
+  }, [currentVault, members, roles, itemGetFlag, folder]);
 
-  let filteredItems = items.filter((item) => item.trash === false);
-
-  filteredItems =
+  const filteredItems =
     searchValue !== ""
-      ? filteredItems.filter((item) =>
+      ? items?.filter((item) =>
           item.name.toLowerCase().includes(searchValue.toLowerCase())
         )
-      : filteredItems;
+      : items;
 
   const count = filteredItems.length;
 
@@ -124,7 +135,7 @@ const Folder = () => {
             )}
           </div>
         </div>
-        {itemLoading &&
+        {(itemLoading || memberLoading || roleLoading) &&
           (listView ? (
             <ItemsListLazyLoad></ItemsListLazyLoad>
           ) : (
@@ -132,6 +143,8 @@ const Folder = () => {
           ))}
 
         {!itemLoading &&
+          !memberLoading &&
+          !roleLoading &&
           (listView ? (
             <ItemsList
               filteredItems={filteredItems}
@@ -162,7 +175,7 @@ const Folder = () => {
 
           {selectedFolder && <CurrentFolder></CurrentFolder>}
 
-          {!selectedItem && !selectedRole && !selectedFolder && (
+          {!selectedItem && !selectedFolder && (
             <>
               <SiteWarning></SiteWarning>
               <div className="right-vault-members">

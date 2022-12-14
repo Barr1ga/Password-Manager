@@ -8,7 +8,11 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems, getTrash } from "../features/slice/itemSlice";
+import {
+  getAllItems,
+  getTrash,
+  setItemGetFlag,
+} from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
 import ItemsList from "../components/items/ItemsList";
@@ -21,26 +25,39 @@ import VaultMembers from "../components/members/VaultMembers";
 const Trash = () => {
   const route = "/Trash";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading, itemGetFlag, itemFetchedOnce } =
+    useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
   const { currentVault } = useSelector((state) => state.auth);
+  const { authorizedFolders } = useSelector((state) => state.auth);
+  const { members, memberLoading } = useSelector((state) => state.members);
+  const { roles, roleLoading } = useSelector((state) => state.roles);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      dispatch(getTrash({ uid: currentVault }));
-    }
-  }, [currentVault]);
+      if (itemGetFlag || itemFetchedOnce) {
+        dispatch(
+          getTrash({
+            uid: currentVault,
+            authorizedFolders: authorizedFolders,
+          })
+        );
 
-  let filteredItems = items.filter((password) => password.trash === true);
+        dispatch(setItemGetFlag(false));
+      }
+    }
+  }, [currentVault, members, roles, itemGetFlag]);
+
+  let filteredItems = items?.filter((password) => password.trash === true);
 
   filteredItems =
     searchValue !== ""
-      ? filteredItems.filter((password) =>
+      ? filteredItems?.filter((password) =>
           password.name.toLowerCase().includes(searchValue.toLowerCase())
         )
       : filteredItems;
@@ -119,7 +136,7 @@ const Trash = () => {
             )}
           </div>
         </div>
-        {itemLoading &&
+        {(itemLoading || memberLoading || roleLoading) &&
           (listView ? (
             <ItemsListLazyLoad></ItemsListLazyLoad>
           ) : (
@@ -127,6 +144,8 @@ const Trash = () => {
           ))}
 
         {!itemLoading &&
+          !memberLoading &&
+          !roleLoading &&
           (listView ? (
             <ItemsList
               filteredItems={filteredItems}

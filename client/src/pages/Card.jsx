@@ -8,7 +8,11 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems, getTypeSpecific } from "../features/slice/itemSlice";
+import {
+  getAllItems,
+  getTypeSpecific,
+  setItemGetFlag,
+} from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
 import ItemsList from "../components/items/ItemsList";
@@ -21,34 +25,43 @@ import VaultMembers from "../components/members/VaultMembers";
 const Card = () => {
   const route = "/Types/Cards";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector(
-    (state) => state.items
-  );
+  const currentPage = "card";
+  const { items, selectedItem, itemLoading, itemGetFlag, itemFetchedOnce } =
+    useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const currentPage = "card";
   const { uid } = useParams();
 
-  const { currentVault } = useSelector((state) => state.auth);
+  const { currentVault, authorizedFolders } = useSelector(
+    (state) => state.auth
+  );
+  const { members, memberLoading } = useSelector((state) => state.members);
+  const { roles, roleLoading } = useSelector((state) => state.roles);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      dispatch(getTypeSpecific({ uid: currentVault, type: currentPage }));
+      if (itemGetFlag || itemFetchedOnce) {
+        dispatch(
+          getTypeSpecific({
+            uid: currentVault,
+            authorizedFolders: authorizedFolders,
+            type: currentPage,
+          })
+        );
+
+        dispatch(setItemGetFlag(false));
+      }
     }
-  }, [currentVault]);
+  }, [currentVault, members, roles, itemGetFlag]);
 
-  let filteredItems = items
-    .filter((password) => password.trash === false)
-    .filter((password) => password.type === currentPage);
-
-  filteredItems =
+  const filteredItems =
     searchValue !== ""
-      ? filteredItems.filter((password) =>
-          password.name.toLowerCase().includes(searchValue.toLowerCase())
+      ? items?.filter((item) =>
+          item.name.toLowerCase().includes(searchValue.toLowerCase())
         )
-      : filteredItems;
+      : items;
 
   const count = filteredItems.length;
 
@@ -124,7 +137,7 @@ const Card = () => {
             )}
           </div>
         </div>
-        {itemLoading &&
+        {(itemLoading || memberLoading || roleLoading) &&
           (listView ? (
             <ItemsListLazyLoad></ItemsListLazyLoad>
           ) : (
@@ -132,6 +145,8 @@ const Card = () => {
           ))}
 
         {!itemLoading &&
+          !memberLoading &&
+          !roleLoading &&
           (listView ? (
             <ItemsList
               filteredItems={filteredItems}

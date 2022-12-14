@@ -8,7 +8,7 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems } from "../features/slice/itemSlice";
+import { getAllItems, setItemGetFlag } from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
 import ItemsList from "../components/items/ItemsList";
@@ -17,88 +17,40 @@ import { useParams } from "react-router-dom";
 import SiteWarning from "../components/SiteWarning";
 import CurrentItem from "../components/items/CurrentItem";
 import VaultMembers from "../components/members/VaultMembers";
-import ResponsiveDisplay from "../components/helpers/ResponsiveDisplay";
 
 const AllItems = () => {
   const route = "";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector(
-    (state) => state.items
-  );
+  const { items, selectedItem, itemLoading, itemGetFlag, itemFetchedOnce } =
+    useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { currentVault } = useSelector((state) => state.auth);
-  const { members, memberFulfilled } = useSelector((state) => state.members);
-  const { authUser } = useSelector((state) => state.auth);
-  const { roles, roleFulfilled } = useSelector((state) => state.roles);
-  const { folders, folderFulfilled } = useSelector((state) => state.folders);
-  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
-  const ownerUserUid = members?.find((member) =>
-    member.roleUids.includes(ownerUid)
-  )?.uid;
-  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
+  const { currentVault, authorizedFolders } = useSelector(
+    (state) => state.auth
+  );
+  const { members, memberLoading } = useSelector((state) => state.members);
+  const { roles, roleLoading } = useSelector((state) => state.roles);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      var authorizedfolders = [];
+      if (itemGetFlag || itemFetchedOnce) {
+        dispatch(
+          getAllItems({
+            uid: currentVault,
+            authorizedFolders: authorizedFolders,
+          })
+        );
 
-      console.log(isNotOwner);
-
-      if (roleFulfilled && memberFulfilled && folderFulfilled) {
-        if (isNotOwner) {
-          const currentUserRoles = members.find(
-            (member) => member.uid === authUser.uid
-          )?.roleUids;
-
-          console.log(currentUserRoles);
-          console.log(roleFulfilled && memberFulfilled && folderFulfilled);
-
-          currentUserRoles?.forEach((userRoleUid) => {
-            const roleFolders = roles.find(
-              (role) => role.uid === userRoleUid
-            )?.folders;
-
-            authorizedfolders = [...authorizedfolders, ...roleFolders];
-          });
-
-          console.log(authorizedfolders);
-          dispatch(
-            getAllItems({
-              uid: currentVault,
-              authorizedFolders: authorizedfolders,
-            })
-          );
-        }
-
-        // is owner
-        if (!isNotOwner) {
-          console.log(folders?.map((folder) => folder.name));
-          authorizedfolders = folders?.map((folder) => folder.name);
-
-          dispatch(
-            getAllItems({
-              uid: currentVault,
-              authorizedFolders: authorizedfolders,
-            })
-          );
-        }
+        dispatch(setItemGetFlag(false));
       }
     }
-  }, [
-    currentVault,
-    members,
-    roles,
-    roleFulfilled,
-    memberFulfilled,
-    folderFulfilled,
-  ]);
+  }, [currentVault, members, roles, itemGetFlag]);
 
   let filteredItems = items?.filter((item) => item.trash === false);
-
   filteredItems =
     searchValue !== ""
       ? filteredItems?.filter((item) =>
@@ -180,7 +132,7 @@ const AllItems = () => {
             )}
           </div>
         </div>
-        {itemLoading &&
+        {(itemLoading || memberLoading || roleLoading) &&
           (listView ? (
             <ItemsListLazyLoad></ItemsListLazyLoad>
           ) : (
@@ -188,6 +140,8 @@ const AllItems = () => {
           ))}
 
         {!itemLoading &&
+          !memberLoading &&
+          !roleLoading &&
           (listView ? (
             <ItemsList
               filteredItems={filteredItems}

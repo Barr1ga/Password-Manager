@@ -9,7 +9,12 @@ import {
 import Logo from "../assets/vaulteer_logo.svg";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "./helpers/ConfirmModal";
-import { getUserData, logOut } from "../features/slice/authSlice";
+import {
+  getUserData,
+  logOut,
+  setAuthorizedFolders,
+  setIsUserOwner,
+} from "../features/slice/authSlice";
 import {
   getAllMembers,
   resetMemberQueryFulfilled,
@@ -26,6 +31,7 @@ import {
   getAllFolders,
   resetFolderQueryFulfilled,
 } from "../features/slice/folderSlice";
+import { setItemGetFlag } from "../features/slice/itemSlice";
 
 const Header = () => {
   const route = useLocation().pathname;
@@ -37,10 +43,14 @@ const Header = () => {
     username,
     authEmailAndPasswordLoading,
   } = useSelector((state) => state.auth);
-  const { memberFulfilled } = useSelector((state) => state.members);
-  const { roleFulfilled } = useSelector((state) => state.roles);
-  const { folderFulfilled } = useSelector((state) => state.folders);
+  const { members, memberFulfilled } = useSelector((state) => state.members);
+  const { roles, roleFulfilled } = useSelector((state) => state.roles);
+  const { folders, folderFulfilled } = useSelector((state) => state.folders);
 
+  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
+  const ownerUserUid = members?.find((member) =>
+    member.roleUids.includes(ownerUid)
+  )?.uid;
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logOut());
@@ -64,11 +74,38 @@ const Header = () => {
     }
 
     if (memberFulfilled && roleFulfilled && folderFulfilled) {
+      dispatch(setItemGetFlag(true));
       dispatch(resetMemberQueryFulfilled());
       dispatch(resetRoleQueryFulfilled());
       dispatch(resetFolderQueryFulfilled());
     }
   });
+
+  useEffect(() => {
+    var authorizedfolders = [];
+
+    if (authUser.uid !== ownerUserUid) {
+      const currentUserRoles = members.find(
+        (member) => member.uid === authUser.uid
+      )?.roleUids;
+
+      currentUserRoles?.forEach((userRoleUid) => {
+        const roleFolders = roles.find(
+          (role) => role.uid === userRoleUid
+        )?.folders;
+
+        authorizedfolders = [...authorizedfolders, ...roleFolders];
+      });
+    }
+
+    // is owner
+    if (authUser.uid === ownerUserUid) {
+      authorizedfolders = folders?.map((folder) => folder.name);
+    }
+
+    dispatch(setIsUserOwner(authUser.uid === ownerUserUid));
+    dispatch(setAuthorizedFolders(authorizedfolders));
+  }, [roles, members, folders, currentVault]);
 
   return (
     <>

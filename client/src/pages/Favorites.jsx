@@ -8,7 +8,11 @@ import {
   HiOutlineX,
 } from "react-icons/hi";
 import Button from "react-bootstrap/Button";
-import { getAllItems, getFavorites } from "../features/slice/itemSlice";
+import {
+  getAllItems,
+  getFavorites,
+  setItemGetFlag,
+} from "../features/slice/itemSlice";
 import ItemsListLazyLoad from "../components/items/ItemsListLazyLoad";
 import CardsListLazyLoad from "../components/items/CardsListLazyLoad";
 import ItemsList from "../components/items/ItemsList";
@@ -21,20 +25,35 @@ import VaultMembers from "../components/members/VaultMembers";
 const Favorites = () => {
   const route = "/Favorites";
   const [listView, setListView] = useState(true);
-  const { items, selectedItem, itemLoading } = useSelector((state) => state.items);
+  const { items, selectedItem, itemLoading, itemGetFlag, itemFetchedOnce } =
+    useSelector((state) => state.items);
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { currentVault } = useSelector((state) => state.auth);
+  const { currentVault, authorizedFolders } = useSelector(
+    (state) => state.auth
+  );
+  const { members, memberLoading } = useSelector((state) => state.members);
+  const { roles, roleLoading } = useSelector((state) => state.roles);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      dispatch(getFavorites({ uid: currentVault }));
+      if (itemGetFlag || itemFetchedOnce) {
+        console.log(authorizedFolders);
+        dispatch(
+          getFavorites({
+            uid: currentVault,
+            authorizedFolders: authorizedFolders,
+          })
+        );
+
+        dispatch(setItemGetFlag(false));
+      }
     }
-  }, [currentVault]);
+  }, [currentVault, members, roles, itemGetFlag]);
 
   let filteredItems = items
     .filter((password) => password.trash === false)
@@ -42,7 +61,7 @@ const Favorites = () => {
 
   filteredItems =
     searchValue !== ""
-      ? filteredItems.filter((password) =>
+      ? filteredItems?.filter((password) =>
           password.name.toLowerCase().includes(searchValue.toLowerCase())
         )
       : filteredItems;
@@ -121,7 +140,7 @@ const Favorites = () => {
             )}
           </div>
         </div>
-        {itemLoading &&
+        {(itemLoading || memberLoading || roleLoading) &&
           (listView ? (
             <ItemsListLazyLoad></ItemsListLazyLoad>
           ) : (
@@ -129,6 +148,8 @@ const Favorites = () => {
           ))}
 
         {!itemLoading &&
+          !memberLoading &&
+          !roleLoading &&
           (listView ? (
             <ItemsList
               filteredItems={filteredItems}
