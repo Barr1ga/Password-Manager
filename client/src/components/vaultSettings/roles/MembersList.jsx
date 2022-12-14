@@ -8,6 +8,8 @@ const MembersList = ({ assignedMembers, setAssignedMembers }) => {
   const { members } = useSelector((state) => state.members);
   const [focused, setFocused] = useState(false);
 
+  // const preSelectedMembers = members.map((member) => member.folders.includes());
+  console.log(assignedMembers);
   const handleSelectMember = (member) => {
     if (!assignedMembers.includes(member)) {
       setAssignedMembers([...assignedMembers, member]);

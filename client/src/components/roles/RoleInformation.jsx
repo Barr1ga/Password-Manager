@@ -97,6 +97,7 @@ const RoleInformation = ({
   }, [defaultValues]);
 
   const onSubmit = (data) => {
+    console.log(assignedMembers);
     if (data.uid) {
       delete data.uid;
     }

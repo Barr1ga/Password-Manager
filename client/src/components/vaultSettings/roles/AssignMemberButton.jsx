@@ -3,36 +3,19 @@ import { useEffect } from "react";
 import { HiPlus } from "react-icons/hi";
 import { useDispatch, useSelector } from "react-redux";
 import { createLog } from "../../../features/slice/auditLogSlice";
-import {
-  getAllMembers,
-  resetMemberQueryFulfilled,
-  updateMemberRoles,
-} from "../../../features/slice/memberSlice";
+import { updateMemberRoles } from "../../../features/slice/memberSlice";
 import SpinnerLoaderSmall from "../../SpinnerLoaderSmall";
 
 const AssignMemberButton = ({ role }) => {
   const [loading, setLoading] = useState(false);
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const { members, memberUpdatedFullfilled } = useSelector(
-    (state) => state.members
-  );
+  const { members } = useSelector((state) => state.members);
   const { authUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const unassignedMembers = members.filter(
     (member) => !member.roleUids.includes(role.uid)
   );
-
-  useEffect(() => {
-    dispatch(getAllMembers({ uid: authUser.uid }));
-  }, []);
-
-  useEffect(() => {
-    if (memberUpdatedFullfilled) {
-      setLoading(false);
-      dispatch(resetMemberQueryFulfilled());
-    }
-  }, [memberUpdatedFullfilled, members]);
 
   const handleAssignMember = (member) => {
     setLoading(true);
@@ -41,7 +24,7 @@ const AssignMemberButton = ({ role }) => {
       userUid: member.uid,
       roleUids: [...member.roleUids, role.uid],
     };
-    
+
     console.log(assignRoleData);
     const auditData = {
       uid: authUser.uid,

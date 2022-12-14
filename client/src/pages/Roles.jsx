@@ -3,26 +3,13 @@ import { HiOutlineX } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import VaultRoles from "../components/vaultSettings/roles/VaultRoles";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getAllRoles } from "../features/slice/roleSlice";
-import RoleInformation from "../components/roles/RoleInformation";
 import CurrentRole from "../components/roles/CurrentRole";
-import { getAllMembers } from "../features/slice/memberSlice";
 
 const Roles = () => {
-  const { roles, selectedRole } = useSelector((state) => state.roles);
-  const { authUser, currentVault, isUserOwner } = useSelector(
-    (state) => state.auth
-  );
+  const { selectedRole } = useSelector((state) => state.roles);
+  const { isUserOwner } = useSelector((state) => state.auth);
   const { members } = useSelector((state) => state.members);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (currentVault !== "") {
-      dispatch(getAllMembers({ uid: currentVault }));
-      dispatch(getAllRoles({ uid: currentVault }));
-    }
-  }, [currentVault]);
 
   return (
     <>
