@@ -82,29 +82,31 @@ const Header = () => {
   });
 
   useEffect(() => {
-    var authorizedfolders = [];
+    if (memberFulfilled && roleFulfilled && folderFulfilled) {
+      var authorizedfolders = [];
 
-    if (authUser.uid !== ownerUserUid) {
-      const currentUserRoles = members.find(
-        (member) => member.uid === authUser.uid
-      )?.roleUids;
+      if (authUser.uid !== ownerUserUid) {
+        const currentUserRoles = members.find(
+          (member) => member.uid === authUser.uid
+        )?.roleUids;
 
-      currentUserRoles?.forEach((userRoleUid) => {
-        const roleFolders = roles.find(
-          (role) => role.uid === userRoleUid
-        )?.folders;
+        currentUserRoles?.forEach((userRoleUid) => {
+          const roleFolders = roles.find(
+            (role) => role.uid === userRoleUid
+          )?.folders;
 
-        authorizedfolders = [...authorizedfolders, ...roleFolders];
-      });
+          authorizedfolders = [...authorizedfolders, ...roleFolders];
+        });
+      }
+
+      // is owner
+      if (authUser.uid === ownerUserUid) {
+        authorizedfolders = folders?.map((folder) => folder.name);
+      }
+
+      dispatch(setIsUserOwner(authUser.uid === ownerUserUid));
+      dispatch(setAuthorizedFolders(authorizedfolders));
     }
-
-    // is owner
-    if (authUser.uid === ownerUserUid) {
-      authorizedfolders = folders?.map((folder) => folder.name);
-    }
-
-    dispatch(setIsUserOwner(authUser.uid === ownerUserUid));
-    dispatch(setAuthorizedFolders(authorizedfolders));
   }, [roles, members, folders, currentVault]);
 
   return (

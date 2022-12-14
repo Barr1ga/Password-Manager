@@ -137,7 +137,9 @@ const passwordSlice = createSlice({
   name: "item",
   initialState,
   reducers: {
-    resetItems: (state) => initialState,
+    resetItems: (state) => {
+      state.items = initialState.items;
+    },
     resetItemQueryFulfilled: (state) => {
       state.itemLoading = initialState.itemLoading;
       state.itemFulfilled = initialState.itemFulfilled;
@@ -157,6 +159,9 @@ const passwordSlice = createSlice({
     },
     setItemGetFlag: (state, action) => {
       state.itemGetFlag = action.payload;
+    },
+    setItemFetchedOnce: (state, action) => {
+      state.itemFetchedOnce = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -327,5 +332,6 @@ export const {
   selectItem,
   resetBrandPhotoLink,
   setItemGetFlag,
+  setItemFetchedOnce,
 } = passwordSlice.actions;
 export default passwordSlice.reducer;

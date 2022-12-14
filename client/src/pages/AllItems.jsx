@@ -37,7 +37,9 @@ const AllItems = () => {
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      if (itemGetFlag || itemFetchedOnce) {
+      if ((itemGetFlag || itemFetchedOnce) && authorizedFolders.length !== 0) {
+        console.log(authorizedFolders);
+
         dispatch(
           getAllItems({
             uid: currentVault,
@@ -48,7 +50,7 @@ const AllItems = () => {
         dispatch(setItemGetFlag(false));
       }
     }
-  }, [currentVault, members, roles, itemGetFlag]);
+  }, [currentVault, members, roles, itemGetFlag, authorizedFolders]);
 
   let filteredItems = items?.filter((item) => item.trash === false);
   filteredItems =

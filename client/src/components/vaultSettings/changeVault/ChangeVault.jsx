@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import ConfirmModal from "../../helpers/ConfirmModal";
 import { useDispatch, useSelector } from "react-redux";
 import { changeVault } from "../../../features/slice/authSlice";
-import { resetSelectedItem } from "../../../features/slice/itemSlice";
+import {
+  resetItems,
+  resetSelectedItem,
+  setItemFetchedOnce,
+  setItemGetFlag,
+} from "../../../features/slice/itemSlice";
 import { resetSelectedFolder } from "../../../features/slice/folderSlice";
 import { resetSelectedRole } from "../../../features/slice/roleSlice";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +26,12 @@ const ChangeVault = () => {
   const handleChangeVault = (vault) => {
     setShowVaults(false);
     setLoading(true);
+    dispatch(setItemFetchedOnce(false));
     dispatch(resetSelectedItem());
     dispatch(resetSelectedFolder());
     dispatch(resetSelectedRole());
     dispatch(changeVault({ vaultUid: vault.vault }));
+    dispatch(resetItems());
     navigate("/");
   };
 

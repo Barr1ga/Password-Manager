@@ -23,6 +23,7 @@ const initialState = {
   authErrorMessage: "",
   authErrorCode: "",
   authorizedFolders: [],
+  authorizedFoldersFulfilled: false,
   isUserOwner: false,
 
   // registration
@@ -277,9 +278,11 @@ const userSlice = createSlice({
     },
     changeVault: (state, action) => {
       state.currentVault = action.payload.vaultUid;
+      state.authorizedFoldersFulfilled = false;
     },
     setAuthorizedFolders: (state, action) => {
       state.authorizedFolders = action.payload;
+      state.authorizedFoldersFulfilled = true;
     },
     setIsUserOwner: (state, action) => {
       state.isUserOwner = action.payload;
