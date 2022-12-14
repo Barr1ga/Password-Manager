@@ -32,7 +32,7 @@ const Identifications = () => {
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { currentVault, authorizedFolders } = useSelector(
+  const { currentVault, authorizedFolders, isUserOwner } = useSelector(
     (state) => state.auth
   );
   const { members, memberLoading } = useSelector((state) => state.members);
@@ -42,7 +42,7 @@ const Identifications = () => {
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      if (itemGetFlag || itemFetchedOnce) {
+      if ((itemGetFlag || itemFetchedOnce) && authorizedFolders.length !== 0) {
         dispatch(
           getTypeSpecific({
             uid: currentVault,
@@ -132,7 +132,9 @@ const Identifications = () => {
                 >
                   <HiOutlineServer></HiOutlineServer>
                 </Button>
-                <AddItemButton currentPage={currentPage}></AddItemButton>
+                {isUserOwner && (
+                  <AddItemButton currentPage={currentPage}></AddItemButton>
+                )}
               </>
             )}
           </div>

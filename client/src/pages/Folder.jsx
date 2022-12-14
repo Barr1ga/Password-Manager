@@ -33,7 +33,7 @@ const Folder = () => {
   const [searchStatus, setSearchStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const { currentVault } = useSelector((state) => state.auth);
+  const { currentVault, isUserOwner } = useSelector((state) => state.auth);
   const { members, memberLoading } = useSelector((state) => state.members);
   const { roles, roleLoading } = useSelector((state) => state.roles);
 
@@ -130,7 +130,7 @@ const Folder = () => {
                 >
                   <HiOutlineServer></HiOutlineServer>
                 </Button>
-                <AddItemButton></AddItemButton>
+                {isUserOwner && <AddItemButton></AddItemButton>}
               </>
             )}
           </div>

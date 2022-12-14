@@ -11,13 +11,10 @@ import { getAllMembers } from "../features/slice/memberSlice";
 
 const Roles = () => {
   const { roles, selectedRole } = useSelector((state) => state.roles);
-  const { authUser, currentVault } = useSelector((state) => state.auth);
+  const { authUser, currentVault, isUserOwner } = useSelector(
+    (state) => state.auth
+  );
   const { members } = useSelector((state) => state.members);
-  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
-  const ownerUserUid = members.find((member) =>
-    member.roleUids.includes(ownerUid)
-  )?.uid;
-  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -31,7 +28,7 @@ const Roles = () => {
     <>
       <div
         className={
-          !isNotOwner && selectedRole
+          isUserOwner && selectedRole
             ? "sub-margin-left scroll-view-long"
             : "scroll-view-long"
         }
@@ -46,7 +43,7 @@ const Roles = () => {
           <VaultRoles></VaultRoles>
         </div>
       </div>
-      {!isNotOwner && selectedRole && (
+      {isUserOwner && selectedRole && (
         <div
           className={
             selectedRole

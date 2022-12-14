@@ -45,23 +45,15 @@ const ItemInformation = ({ currentItem }) => {
   const [currentImageLetter, setCurrentImageLetter] = useState(
     currentItem.name.charAt(0)
   );
-  const { roles } = useSelector((state) => state.roles);
-  const { authUser } = useSelector((state) => state.auth);
+  const { authUser, isUserOwner } = useSelector((state) => state.auth);
   const { itemFulfilled, itemError, itemDeletedFullfilled } = useSelector(
     (state) => state.items
   );
-  const { members } = useSelector((state) => state.members);
-  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
-  const ownerUserUid = members.find((member) =>
-    member.roleUids.includes(ownerUid)
-  ).uid;
-  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const method = "update";
 
   const [show, setShow] = useState(false);
 
   const handleCloseConfirmation = () => setShow(false);
-  console.log(authUser.uid, ownerUserUid);
 
   const selectedTypeFormatted =
     selectedType === "wifiPassword"
@@ -165,11 +157,6 @@ const ItemInformation = ({ currentItem }) => {
     navigate(-1);
   };
 
-  const handleClose = () => {
-    setShowPasswordGenerator(false);
-    dispatch(resetSelectedItem());
-  };
-
   const handleBack = () => {
     setShowPasswordGenerator(false);
   };
@@ -194,7 +181,7 @@ const ItemInformation = ({ currentItem }) => {
             <h4>Update Item</h4>
           </div>
           <></>
-          {isNotOwner ? (
+          {!isUserOwner ? (
             <HiOutlineX
               className="btn-close"
               onClick={handleCloseMobile}
@@ -228,7 +215,7 @@ const ItemInformation = ({ currentItem }) => {
             ) : (
               <div className="default">{currentImageLetter}</div>
             )}
-            {!isNotOwner && (
+            {isUserOwner && (
               <div className="btn-circle update-image" htmlFor="upload-photo">
                 <UploadImage
                   currentImage={currentImage}
@@ -244,7 +231,7 @@ const ItemInformation = ({ currentItem }) => {
             Item Type <span className="error-message">*</span>
           </label>
 
-          {!isNotOwner && showTypeOptions ? (
+          {isUserOwner && showTypeOptions ? (
             <div className="types standard-stack gap-10">
               <small>Select the type of this item.</small>
               <div className="options">
@@ -316,7 +303,7 @@ const ItemInformation = ({ currentItem }) => {
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
             defaultValues={currentItem}
-            isNotOwner={isNotOwner}
+            isNotOwner={!isUserOwner}
           ></Login>
         )}
 
@@ -326,7 +313,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
-            isNotOwner={isNotOwner}
+            isNotOwner={!isUserOwner}
           ></Card>
         )}
 
@@ -336,7 +323,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
-            isNotOwner={isNotOwner}
+            isNotOwner={!isUserOwner}
           ></Identification>
         )}
 
@@ -346,7 +333,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
-            isNotOwner={isNotOwner}
+            isNotOwner={!isUserOwner}
           ></SecureNote>
         )}
 
@@ -356,7 +343,7 @@ const ItemInformation = ({ currentItem }) => {
             method={method}
             setCurrentImageLetter={setCurrentImageLetter}
             defaultValues={currentItem}
-            isNotOwner={isNotOwner}
+            isNotOwner={!isUserOwner}
             showPasswordGenerator={showPasswordGenerator}
             setShowPasswordGenerator={setShowPasswordGenerator}
           ></WifiPassword>
@@ -378,7 +365,7 @@ const ItemInformation = ({ currentItem }) => {
             </Button>
           </div>
         )}
-        {!isNotOwner && (
+        {isUserOwner && (
           <div className="form-group">
             {currentItem.trash ? (
               <>

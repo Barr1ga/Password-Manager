@@ -18,10 +18,6 @@ import {
   HiOutlineLogout,
   HiOutlineClipboardList,
   HiClipboardList,
-  HiOutlineLockClosed,
-  HiLockClosed,
-  HiBell,
-  HiOutlineBell,
   HiOutlineMail,
   HiMail,
 } from "react-icons/hi";
@@ -41,16 +37,7 @@ const SideNav = () => {
   const route = useLocation().pathname;
   const { selectedItem } = useSelector((state) => state.items);
   const { notifications } = useSelector((state) => state.notifications);
-  const { roles } = useSelector((state) => state.roles);
-  const { authUser } = useSelector((state) => state.auth);
-  const { members } = useSelector(
-    (state) => state.members
-  );
-  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
-  const ownerUserUid = members?.find((member) =>
-    member.roleUids.includes(ownerUid)
-  )?.uid;
-  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
+  const { isUserOwner } = useSelector((state) => state.auth);
 
   const [notificationBubbles, setNotificationBubbles] = useState({
     allItems: true,
@@ -288,7 +275,7 @@ const SideNav = () => {
                 <p>Roles {true && <span className="notif-ball"></span>}</p>
               </Link>
 
-              {!isNotOwner && (
+              {isUserOwner && (
                 <Link
                   to="/AuditLog"
                   className={

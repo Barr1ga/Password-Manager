@@ -47,10 +47,6 @@ const Header = () => {
   const { roles, roleFulfilled } = useSelector((state) => state.roles);
   const { folders, folderFulfilled } = useSelector((state) => state.folders);
 
-  const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
-  const ownerUserUid = members?.find((member) =>
-    member.roleUids.includes(ownerUid)
-  )?.uid;
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logOut());
@@ -84,6 +80,10 @@ const Header = () => {
   useEffect(() => {
     if (memberFulfilled && roleFulfilled && folderFulfilled) {
       var authorizedfolders = [];
+      const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
+      const ownerUserUid = members?.find((member) =>
+        member.roleUids.includes(ownerUid)
+      )?.uid;
 
       if (authUser.uid !== ownerUserUid) {
         const currentUserRoles = members.find(

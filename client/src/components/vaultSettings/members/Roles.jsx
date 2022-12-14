@@ -16,15 +16,10 @@ const Roles = ({ member }) => {
   const [popupShow, setPopupShow] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const { roles } = useSelector((state) => state.roles);
-  const { authUser } = useSelector((state) => state.auth);
+  const { authUser, isUserOwner } = useSelector((state) => state.auth);
   const { members, memberUpdatedFullfilled } = useSelector(
     (state) => state.members
   );
-  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
-  const ownerUserUid = members.find((member) =>
-    member.roleUids.includes(ownerUid)
-  ).uid;
-  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
   const dispatch = useDispatch();
   const unassignedRoles = roles.filter(
     (role) => !member.roleUids.includes(role.uid)
@@ -77,7 +72,7 @@ const Roles = ({ member }) => {
           <Role key={idx} member={member} roleUid={roleUid}></Role>
         ))}
         {/* <AssignRoleButton member={member}></AssignRoleButton> */}
-        {!isNotOwner && (
+        {isUserOwner && (
           <>
             {!loading ? (
               <Button
@@ -124,7 +119,9 @@ const Roles = ({ member }) => {
                           onClick={() => handleAssignRole(role)}
                         >
                           <span className="role-tag">
-                            <small style={{ color: role.color }}>{role.abbreviation}</small>
+                            <small style={{ color: role.color }}>
+                              {role.abbreviation}
+                            </small>
                           </span>
                           <div>{role.name}</div>
                         </div>

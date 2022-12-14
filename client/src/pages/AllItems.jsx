@@ -27,7 +27,7 @@ const AllItems = () => {
   const [searchValue, setSearchValue] = useState("");
   const { uid } = useParams();
 
-  const { currentVault, authorizedFolders } = useSelector(
+  const { currentVault, authorizedFolders, isUserOwner } = useSelector(
     (state) => state.auth
   );
   const { members, memberLoading } = useSelector((state) => state.members);
@@ -129,7 +129,8 @@ const AllItems = () => {
                 >
                   <HiOutlineServer></HiOutlineServer>
                 </Button>
-                <AddItemButton></AddItemButton>
+
+                {isUserOwner && <AddItemButton></AddItemButton>}
               </>
             )}
           </div>

@@ -10,16 +10,7 @@ import { createLog } from "../../../features/slice/auditLogSlice.js";
 
 const Members = () => {
   const [createLoading, setCreateLoading] = useState(false);
-  const { authUser } = useSelector((state) => state.auth);
-  const { roles } = useSelector((state) => state.roles);
-  const { members } = useSelector(
-    (state) => state.members
-  );
-  const ownerUid = roles.find((role) => role.name === "Vault Owner").uid;
-  const ownerUserUid = members.find((member) =>
-    member.roleUids.includes(ownerUid)
-  ).uid;
-  const isNotOwner = authUser.uid !== ownerUserUid ? true : false;
+  const { authUser, isUserOwner } = useSelector((state) => state.auth);
   const { notificationFulfilled } = useSelector((state) => state.notifications);
 
   const dispatch = useDispatch();
@@ -72,7 +63,7 @@ const Members = () => {
 
   return (
     <div className="standard-stack gap-10">
-      {!isNotOwner && (
+      {isUserOwner && (
         <>
           <div className="padding-side">
             <h5>Invite People</h5>

@@ -32,7 +32,7 @@ const Trash = () => {
   const { uid } = useParams();
 
   const { currentVault } = useSelector((state) => state.auth);
-  const { authorizedFolders } = useSelector((state) => state.auth);
+  const { authorizedFolders, isUserOwner } = useSelector((state) => state.auth);
   const { members, memberLoading } = useSelector((state) => state.members);
   const { roles, roleLoading } = useSelector((state) => state.roles);
 
@@ -40,7 +40,7 @@ const Trash = () => {
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      if (itemGetFlag || itemFetchedOnce) {
+      if ((itemGetFlag || itemFetchedOnce) && authorizedFolders.length !== 0) {
         dispatch(
           getTrash({
             uid: currentVault,
@@ -131,7 +131,7 @@ const Trash = () => {
                 >
                   <HiOutlineServer></HiOutlineServer>
                 </Button>
-                <AddItemButton></AddItemButton>
+                {isUserOwner && <AddItemButton></AddItemButton>}
               </>
             )}
           </div>
