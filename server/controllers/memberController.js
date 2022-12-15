@@ -105,7 +105,7 @@ const assignMultipleMemberRole = asyncHandler(async (req, res) => {
 
 const unAssignMultipleMemberRole = asyncHandler(async (req, res) => {
   const { uid, roleUid, unAssignedMembers } = req.body;
-
+  console.log(unAssignedMembers)
   unAssignedMembers.forEach((member) => {
     vault
       .doc(uid)

@@ -244,13 +244,13 @@ const RoleInformation = ({
     setDeleteLoading(true);
     dispatch(deleteRole({ uid: authUser.uid, roleUid: defaultValues.uid }));
 
-    // dispatch(
-    //   unAssignMultipleMemberRole({
-    //     uid: authUser.uid,
-    //     roleUid: formData.roleUid,
-    //     unAssignedMembers: unAssignedMembers.map((member) => member.uid),
-    //   })
-    // );
+    dispatch(
+      unAssignMultipleMemberRole({
+        uid: authUser.uid,
+        roleUid: defaultValues.uid,
+        unAssignedMembers: preAssignedMembers.map((member) => member.uid),
+      })
+    );
 
     const auditData = {
       uid: authUser.uid,
