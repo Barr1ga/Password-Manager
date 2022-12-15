@@ -23,6 +23,10 @@ import {
 import { Link } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
 import { createLog } from "../../features/slice/auditLogSlice";
+import {
+  assignMultipleMemberRole,
+  unAssignMultipleMemberRole,
+} from "../../features/slice/memberSlice";
 
 const defaultColorOne = "#ffffff";
 const defaultColorTwo = "#b970ff";
@@ -36,7 +40,6 @@ const RoleInformation = ({
   setConfirmClose,
 }) => {
   const [show, setShow] = useState(false);
-  const [assignedMembers, setAssignedMembers] = useState([]);
   const [createLoading, setCreateLoading] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -53,6 +56,7 @@ const RoleInformation = ({
     roleCreatedFullfilled,
     roleUpdatedFullfilled,
   } = useSelector((state) => state.roles);
+  const { members } = useSelector((state) => state.members);
   const [search, setSearch] = useState("");
   const { folders } = useSelector((state) => state.folders);
   const folderRef = useRef();
@@ -62,12 +66,26 @@ const RoleInformation = ({
   const [tab, setTab] = useState(1);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [formData, setFormData] = useState("");
-
+  const [assignedMembers, setAssignedMembers] = useState([]);
+  const [preAssignedMembers, setPreassignedMembers] = useState([]);
+  const [unAssignedMembers, setUnAssignedMembers] = useState([]);
   const handleCloseConfirmation = () => setShowConfirmationModal(false);
   const handleShowConfirmation = () => setShowConfirmationModal(true);
   const dispatch = useDispatch();
 
   const vaultOwnerUid = roles.find((role) => role.name === "Vault Owner")?.uid;
+
+  useEffect(() => {
+    if (method === "update") {
+      const membersWithCurrentRole = members.filter((member) =>
+        member.roleUids.includes(defaultValues?.uid)
+      );
+
+      setPreassignedMembers(membersWithCurrentRole);
+      setUnAssignedMembers([]);
+      setAssignedMembers(membersWithCurrentRole);
+    }
+  }, [defaultValues, members]);
 
   const {
     register,
@@ -80,7 +98,6 @@ const RoleInformation = ({
     defaultValues: defaultValues,
   });
 
-  console.log(defaultValues);
   const watchName = watch("name");
   const watchAbbreviation = watch("abbreviation");
 
@@ -91,13 +108,16 @@ const RoleInformation = ({
   };
 
   useEffect(() => {
-    setSelectedColor(defaultValues?.color);
-    setAssignedFolders(defaultValues.folders);
-    reset(defaultValues);
+    if (method === "update") {
+      setSelectedColor(defaultValues?.color);
+      setAssignedFolders(defaultValues?.folders);
+      reset(defaultValues);
+    }
   }, [defaultValues]);
 
   const onSubmit = (data) => {
-    console.log(assignedMembers);
+    const roleUid = data.uid;
+    console.log(roleUid);
     if (data.uid) {
       delete data.uid;
     }
@@ -107,12 +127,20 @@ const RoleInformation = ({
         ...data,
         color: selectedColor,
         folders: assignedFolders,
-        // membersUids: assignedMembers.map((member) => member.uid),
       },
     };
 
     if (method === "create") {
       setCreateLoading(true);
+
+      dispatch(
+        assignMultipleMemberRole({
+          uid: authUser.uid,
+          roleUid: roleUid,
+          assignedMembers: assignedMembers.map((member) => member.uid),
+        })
+      );
+
       dispatch(createRole(newData));
 
       const auditData = {
@@ -137,6 +165,24 @@ const RoleInformation = ({
 
   const handleUpdateRoleData = () => {
     setUpdateLoading(true);
+    formData.unAssignedMembers = unAssignedMembers.map((member) => member.uid);
+
+    dispatch(
+      assignMultipleMemberRole({
+        uid: authUser.uid,
+        roleUid: formData.roleUid,
+        assignedMembers: assignedMembers.map((member) => member.uid),
+      })
+    );
+
+    dispatch(
+      unAssignMultipleMemberRole({
+        uid: authUser.uid,
+        roleUid: formData.roleUid,
+        unAssignedMembers: unAssignedMembers.map((member) => member.uid),
+      })
+    );
+
     dispatch(updateRole(formData));
 
     const auditData = {
@@ -165,7 +211,7 @@ const RoleInformation = ({
   }, [roleCreatedFullfilled, roleUpdatedFullfilled]);
 
   // folders
-  let filteredFolders = folders.filter(
+  let filteredFolders = folders?.filter(
     (folder) => !assignedFolders.includes(folder.name)
   );
   filteredFolders =
@@ -191,6 +237,14 @@ const RoleInformation = ({
     setDeleteLoading(true);
     dispatch(deleteRole({ uid: authUser.uid, roleUid: defaultValues.uid }));
 
+    // dispatch(
+    //   unAssignMultipleMemberRole({
+    //     uid: authUser.uid,
+    //     roleUid: formData.roleUid,
+    //     unAssignedMembers: unAssignedMembers.map((member) => member.uid),
+    //   })
+    // );
+
     const auditData = {
       uid: authUser.uid,
       auditLogData: {
@@ -212,7 +266,6 @@ const RoleInformation = ({
     }
   }
 
-  console.log("test");
   return (
     <div className="role-information standard-stack gap-10">
       <div>
@@ -505,7 +558,10 @@ const RoleInformation = ({
               <div className="form-group">
                 <div className="vault-members">
                   <MembersList
-                    methor={"create"}
+                    method={method}
+                    preAssignedMembers={preAssignedMembers}
+                    unAssignedMembers={unAssignedMembers}
+                    setUnAssignedMembers={setUnAssignedMembers}
                     assignedMembers={assignedMembers}
                     setAssignedMembers={setAssignedMembers}
                   ></MembersList>
@@ -543,7 +599,8 @@ const RoleInformation = ({
                   disabled={
                     (!isDirty || !isValid) &&
                     selectedColor === defaultValues?.color &&
-                    assignedFolders === defaultValues.folders
+                    assignedFolders === defaultValues?.folders &&
+                    assignedMembers === preAssignedMembers
                   }
                 >
                   <HiOutlinePencil></HiOutlinePencil>Update Role
@@ -595,33 +652,39 @@ const RoleInformation = ({
             )}
           </div>
 
-          <ConfirmModal
-            proceedInteraction={
-              <Button
-                type="button"
-                onClick={handleDeleteRole}
-                className="btn-dark btn-long"
-              >
-                {deleteLoading ? <SpinnerLoader></SpinnerLoader> : <>Delete</>}
-              </Button>
-            }
-            component={
-              <div className="form-group">
+          {method === "update" && (
+            <ConfirmModal
+              proceedInteraction={
                 <Button
                   type="button"
-                  className="btn-secondary danger btn-long btn-with-icon"
+                  onClick={handleDeleteRole}
+                  className="btn-dark btn-long"
                 >
-                  <HiOutlineTrash></HiOutlineTrash>Delete Role
+                  {deleteLoading ? (
+                    <SpinnerLoader></SpinnerLoader>
+                  ) : (
+                    <>Delete</>
+                  )}
                 </Button>
-              </div>
-            }
-            headerMessage={
-              "Are you sure you want to permanently delete this role?"
-            }
-            bodyMessage={
-              "This role will be deleted immediately, which cannot be undone. Please be certain."
-            }
-          ></ConfirmModal>
+              }
+              component={
+                <div className="form-group">
+                  <Button
+                    type="button"
+                    className="btn-secondary danger btn-long btn-with-icon"
+                  >
+                    <HiOutlineTrash></HiOutlineTrash>Delete Role
+                  </Button>
+                </div>
+              }
+              headerMessage={
+                "Are you sure you want to permanently delete this role?"
+              }
+              bodyMessage={
+                "This role will be deleted immediately, which cannot be undone. Please be certain."
+              }
+            ></ConfirmModal>
+          )}
         </form>
       </div>
     </div>

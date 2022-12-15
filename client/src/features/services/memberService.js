@@ -27,6 +27,22 @@ const updateMemberRoles = async (data) => {
   return response.data;
 };
 
+const assignMultipleMemberRole = async (data) => {
+  const response = await axios.post(
+    API_URL + "/assignMultipleMemberRole",
+    data
+  );
+  return response.data;
+};
+
+const unAssignMultipleMemberRole = async (data) => {
+  const response = await axios.post(
+    API_URL + "/unAssignMultipleMemberRole",
+    data
+  );
+  return response.data;
+};
+
 const kickMember = async (data) => {
   const response = await axios.post(API_URL + "/kickMember", data);
   return response.data;
@@ -38,6 +54,8 @@ const memberService = {
   updateMember,
   deleteMember,
   updateMemberRoles,
+  assignMultipleMemberRole,
+  unAssignMultipleMemberRole,
   kickMember,
 };
 

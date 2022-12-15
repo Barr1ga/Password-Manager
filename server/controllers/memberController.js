@@ -84,8 +84,48 @@ const kickMember = asyncHandler(async (req, res) => {
   res.status(201).json({ memberUid });
 });
 
+const assignMultipleMemberRole = asyncHandler(async (req, res) => {
+  const { uid, roleUid, assignedMembers } = req.body;
+
+  assignedMembers.forEach((member) => {
+    vault
+      .doc(uid)
+      .collection("members")
+      .doc(member)
+      .set(
+        {
+          roleUids: admin.firestore.FieldValue.arrayUnion(roleUid),
+        },
+        { merge: true }
+      );
+  });
+
+  res.status(201).json({ roleUid, assignedMembers });
+});
+
+const unAssignMultipleMemberRole = asyncHandler(async (req, res) => {
+  const { uid, roleUid, unAssignedMembers } = req.body;
+
+  unAssignedMembers.forEach((member) => {
+    vault
+      .doc(uid)
+      .collection("members")
+      .doc(member)
+      .set(
+        {
+          roleUids: admin.firestore.FieldValue.arrayRemove(roleUid),
+        },
+        { merge: true }
+      );
+  });
+
+  res.status(201).json({ roleUid, unAssignedMembers });
+});
+
 module.exports = {
   getAllMembers,
   updateMemberRoles,
+  assignMultipleMemberRole,
+  unAssignMultipleMemberRole,
   kickMember,
 };

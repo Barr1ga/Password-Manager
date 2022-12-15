@@ -2,18 +2,64 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { HiPlus } from "react-icons/hi";
 
-const MembersList = ({ assignedMembers, setAssignedMembers }) => {
+const MembersList = ({
+  method,
+  preAssignedMembers,
+  unAssignedMembers,
+  setUnAssignedMembers,
+  assignedMembers,
+  setAssignedMembers,
+}) => {
   // const [assignedMembers, setAssignedMembers] = useState([]);
   const [search, setSearch] = useState("");
   const { members } = useSelector((state) => state.members);
   const [focused, setFocused] = useState(false);
 
-  // const preSelectedMembers = members.map((member) => member.folders.includes());
-  console.log(assignedMembers);
+  // P = 1,2,3
+  // A = 1,2,3
+  // U =
+  // console.log("test");
+  // console.log(
+  //   "P",
+  //   preAssignedMembers.map((x) => x.uid)
+  // );
+  // console.log(
+  //   "A",
+  //   assignedMembers.map((x) => x.uid)
+  // );
+  // console.log(
+  //   "U",
+  //   unAssignedMembers.map((x) => x.uid)
+  // );
   const handleSelectMember = (member) => {
+    // add
     if (!assignedMembers.includes(member)) {
+      if (
+        unAssignedMembers &&
+        setUnAssignedMembers &&
+        unAssignedMembers.indexOf(member) !== -1
+      ) {
+        setUnAssignedMembers(
+          unAssignedMembers.filter(
+            (unAssignedMember) => unAssignedMember.uid !== member.uid
+          )
+        );
+      }
+
       setAssignedMembers([...assignedMembers, member]);
+
+      // delete
     } else {
+      // if exists in preassigned
+      if (
+        preAssignedMembers &&
+        unAssignedMembers &&
+        setUnAssignedMembers &&
+        preAssignedMembers.indexOf(member) !== -1
+      ) {
+        setUnAssignedMembers([...unAssignedMembers, member]);
+      }
+
       setAssignedMembers(
         assignedMembers.filter(
           (assignedMember) => assignedMember.uid !== member.uid

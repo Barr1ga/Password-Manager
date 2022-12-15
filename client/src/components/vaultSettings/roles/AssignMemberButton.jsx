@@ -25,7 +25,6 @@ const AssignMemberButton = ({ role }) => {
       roleUids: [...member.roleUids, role.uid],
     };
 
-    console.log(assignRoleData);
     const auditData = {
       uid: authUser.uid,
       auditLogData: {

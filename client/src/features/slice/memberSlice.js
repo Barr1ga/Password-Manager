@@ -34,6 +34,30 @@ export const updateMemberRoles = createAsyncThunk(
   }
 );
 
+export const assignMultipleMemberRole = createAsyncThunk(
+  "role/assignMultipleMemberRole",
+  async (data, ThunkAPI) => {
+    try {
+      return await memberService.assignMultipleMemberRole(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const unAssignMultipleMemberRole = createAsyncThunk(
+  "role/unAssignMultipleMemberRole",
+  async (data, ThunkAPI) => {
+    try {
+      return await memberService.unAssignMultipleMemberRole(data);
+    } catch (error) {
+      const message = error.toString();
+      return ThunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const kickMember = createAsyncThunk(
   "role/kickMember",
   async (data, ThunkAPI) => {
@@ -90,6 +114,53 @@ const memberSlice = createSlice({
         state.members[idx].roleUids = action.payload.roleUids;
       })
       .addCase(updateMemberRoles.rejected, (state, action) => {
+        state.memberLoading = false;
+        state.memberError = true;
+        const { code, message } = action.payload;
+        state.memberMessage = message;
+        state.memberErrorCode = code;
+        state.memberErrorMessage = firebaseErrorMessage(code);
+      })
+
+      .addCase(assignMultipleMemberRole.fulfilled, (state, action) => {
+        state.memberLoading = false;
+        state.memberFulfilled = true;
+        state.memberUpdatedFullfilled = true;
+        const { roleUid, assignedMembers } = action.payload;
+        assignedMembers.forEach((member) => {
+          const idx = state.members.findIndex(
+            (stateMember) => stateMember.uid === member
+          );
+          state.members[idx].roleUids = [
+            ...state.members[idx]?.roleUids,
+            roleUid,
+          ];
+        });
+      })
+      .addCase(assignMultipleMemberRole.rejected, (state, action) => {
+        state.memberLoading = false;
+        state.memberError = true;
+        const { code, message } = action.payload;
+        state.memberMessage = message;
+        state.memberErrorCode = code;
+        state.memberErrorMessage = firebaseErrorMessage(code);
+      })
+
+      .addCase(unAssignMultipleMemberRole.fulfilled, (state, action) => {
+        state.memberLoading = false;
+        state.memberFulfilled = true;
+        state.memberUpdatedFullfilled = true;
+        const { roleUid, unAssignedMembers } = action.payload;
+        unAssignedMembers.forEach((member) => {
+          const idx = state.members.findIndex(
+            (stateMember) => stateMember.uid === member
+          );
+          state.members[idx].roleUids = state.members[idx].roleUids.filter(
+            (role) => role !== roleUid
+          );
+        });
+      })
+      .addCase(unAssignMultipleMemberRole.rejected, (state, action) => {
         state.memberLoading = false;
         state.memberError = true;
         const { code, message } = action.payload;

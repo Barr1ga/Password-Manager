@@ -1,4 +1,5 @@
 const admin = require("firebase-admin");
+const { ArrayUnion, ArrayRemove } = require("firebase-admin");
 const dotenv = require("dotenv");
 
 admin.initializeApp({
@@ -21,4 +22,4 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
-module.exports = { db, admin };
+module.exports = { db, admin, ArrayUnion, ArrayRemove };

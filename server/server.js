@@ -21,6 +21,7 @@ app.use("/Roles/api/member", require("./routes/memberRoutes"));
 // folder
 app.use("/api/folder", require("./routes/folderRoutes"));
 app.use("/Folders/api/folder", require("./routes/folderRoutes"));
+app.use("/Roles/api/folder", require("./routes/folderRoutes"));
 
 // role
 app.use("/api/role", require("./routes/roleRoutes"));
@@ -34,6 +35,7 @@ app.use("/Trash/api/item", require("./routes/itemFolderRoutes"));
 
 // notification
 app.use("/api/notification", require("./routes/notificationRoutes"));
+app.use("/Roles/api/notification", require("./routes/notificationRoutes"));
 
 // audit logs
 app.use("/api/auditLog", require("./routes/auditLogRoutes"));

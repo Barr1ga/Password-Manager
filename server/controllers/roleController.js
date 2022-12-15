@@ -71,7 +71,7 @@ const updateRole = asyncHandler(async (req, res) => {
 });
 
 const deleteRole = asyncHandler(async (req, res) => {
-  const { uid, roleUid } = req.body;
+  const { uid, roleUid, unAssignedMembers } = req.body;
 
   const result = await vault.doc(uid).collection("roles").doc(roleUid).delete();
 
