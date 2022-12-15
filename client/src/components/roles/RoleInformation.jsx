@@ -115,6 +115,20 @@ const RoleInformation = ({
     }
   }, [defaultValues]);
 
+  useEffect(() => {
+    if (roleCreatedFullfilled && method === "create") {
+      const roleUid = roles[roles.length - 1]?.uid;
+      console.log({ roleUid, assignedMembers });
+      dispatch(
+        assignMultipleMemberRole({
+          uid: authUser.uid,
+          roleUid: roleUid,
+          assignedMembers: assignedMembers.map((member) => member.uid),
+        })
+      );
+    }
+  }, [roleCreatedFullfilled]);
+
   const onSubmit = (data) => {
     const roleUid = data.uid;
     console.log(roleUid);
@@ -132,14 +146,7 @@ const RoleInformation = ({
 
     if (method === "create") {
       setCreateLoading(true);
-
-      dispatch(
-        assignMultipleMemberRole({
-          uid: authUser.uid,
-          roleUid: roleUid,
-          assignedMembers: assignedMembers.map((member) => member.uid),
-        })
-      );
+      console.log(assignedMembers.map((member) => member.uid));
 
       dispatch(createRole(newData));
 
