@@ -1,3 +1,5 @@
+import firebase from "firebase";
+import { EThree } from "@virgilsecurity/e3kit-node";
 import {
   EmailAuthProvider,
   reauthenticateWithCredential,
@@ -12,8 +14,16 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import axios from "axios";
-
 const API_URL = "/api/auth";
+
+const getToken = firebase.functions().httpsCallable("getVirgilJwt");
+
+const initializeFunction = async () => {
+  const result = await getToken();
+  return result.data.token;
+};
+
+const eThree = await EThree.initialize(tokenCallback);
 
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
@@ -65,6 +75,10 @@ const getMasterPasswordHint = async (data) => {
   return response.data;
 };
 
+const getVirgilToken = async () => {
+  return EThree.initialize(initializeFunction);
+};
+
 const createUser = async (data) => {
   const response = await axios.post(API_URL + "/createUser", data);
   return response.data;
@@ -72,6 +86,7 @@ const createUser = async (data) => {
 
 const registerWithEmailAndPassword = async (data) => {
   const { email, password } = data;
+  await eThree.register();
   return createUserWithEmailAndPassword(auth, email, password);
 };
 
@@ -94,6 +109,7 @@ const continueWithGoogle = async (data) => {
 };
 
 const removeAccount = async () => {
+  await eThree.unregister();
   return deleteUser(auth.currentUser);
 };
 
@@ -103,6 +119,7 @@ const removeUser = async (uid) => {
 };
 
 const logOut = async () => {
+  await eThree.cleanup();
   return signOut(auth);
 };
 

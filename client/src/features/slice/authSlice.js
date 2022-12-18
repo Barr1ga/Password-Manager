@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../services/authService";
 import firebaseErrorMessage from "../utils/firebaseErrorMessage";
-
 const authUser = JSON.parse(localStorage.getItem("authUser"));
 const authProfile = JSON.parse(localStorage.getItem("authProfile"));
 
@@ -130,6 +129,19 @@ export const getMasterPasswordHint = createAsyncThunk(
       return await authService.getMasterPasswordHint(data);
     } catch (error) {
       return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getVirgilToken = createAsyncThunk(
+  "auth/getVirgilToken",
+  async (_, ThunkAPI) => {
+    try {
+      return await authService.getVirgilToken();
+    } catch (error) {
+      // Error handling
+      return ThunkAPI.rejectWithValue(error.code);
+      // code === 'unauthenticated' if user not authenticated
     }
   }
 );

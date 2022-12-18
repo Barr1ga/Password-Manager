@@ -81,6 +81,7 @@ const Header = () => {
     if (memberFulfilled && roleFulfilled && folderFulfilled) {
       var authorizedfolders = [];
       const ownerUid = roles?.find((role) => role.name === "Vault Owner")?.uid;
+
       const ownerUserUid = members?.find((member) =>
         member.roleUids.includes(ownerUid)
       )?.uid;
@@ -94,6 +95,7 @@ const Header = () => {
           const roleFolders = roles.find(
             (role) => role.uid === userRoleUid
           )?.folders;
+          console.log(roleFolders);
 
           authorizedfolders = [...authorizedfolders, ...roleFolders];
         });

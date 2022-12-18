@@ -8,6 +8,8 @@
     "@emotion/styled": "^11.10.0",
     "@mui/material": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.5",
+    "@virgilsecurity/e3kit-browser": "^2.5.1",
+    "@virgilsecurity/e3kit-node": "^2.5.1",
     "bootstrap": "^5.2.0",
     "cra-template-redux": "2.0.0",
     "date-fns": "^2.29.3",

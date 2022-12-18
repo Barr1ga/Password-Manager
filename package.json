@@ -30,7 +30,9 @@
     "express-async-handler": "^1.2.0",
     "firebase": "^9.9.4",
     "firebase-admin": "^11.0.1",
-    "node-rsa": "^1.1.1"
+    "node-rsa": "^1.1.1",
+    "virgil-crypto": "^4.2.2",
+    "virgil-sdk": "^6.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

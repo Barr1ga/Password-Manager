@@ -1,4 +1,10 @@
 const asyncHandler = require("express-async-handler");
+const {
+  initCrypto,
+  VirgilCrypto,
+  VirgilAccessTokenSigner,
+} = require("virgil-crypto");
+const { JwtGenerator } = require("virgil-sdk");
 const { db, admin } = require("../util/admin");
 const User = db.collection("Users");
 const vault = db.collection("vaults");
@@ -210,7 +216,7 @@ const joinVault = asyncHandler(async (req, res) => {
 
   // add to user vaults
   const updateUser = User.doc(uid).update({ vaults: userVaults });
-  
+
   if (updateUser.empty) {
     res.status(400);
     throw new Error("There was an error updating this user!");
@@ -242,6 +248,34 @@ const joinVault = asyncHandler(async (req, res) => {
   res.status(200).json(returnData);
 });
 
+const getJwtGenerator = async () => {
+  await initCrypto();
+
+  const virgilCrypto = new VirgilCrypto();
+  // initialize JWT generator with your App ID and App Key ID you got in
+  // Virgil Dashboard.
+  return new JwtGenerator({
+    appId: process.env.APP_ID,
+    apiKeyId: process.env.APP_KEY_ID,
+    // import your App Key that you got in Virgil Dashboard from string.
+    apiKey: virgilCrypto.importPrivateKey(process.env.APP_KEY),
+    // initialize accessTokenSigner that signs users JWTs
+    accessTokenSigner: new VirgilAccessTokenSigner(virgilCrypto),
+    // JWT lifetime - 20 minutes (default)
+    millisecondsToLive: 20 * 60 * 1000,
+  });
+};
+
+const virgilJwt = asyncHandler(async (req, res) => {
+  const generator = await generatorPromise;
+  // Get the identity of the user making the request (this assumes the request
+  // is authenticated and there is middleware in place that populates the
+  // `req.user` property with the user record).
+  const virgilJwtToken = generator.generateToken(req.user.identity);
+  // Send it to the authorized user
+  res.json({ virgilToken: virgilJwtToken.toString() });
+});
+
 module.exports = {
   // getAllUser,
   updateUserEmail,
@@ -254,4 +288,5 @@ module.exports = {
   removeUser,
   updateUserData,
   joinVault,
+  getJwtGenerator,
 };
