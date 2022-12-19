@@ -257,23 +257,22 @@ const getJwtGenerator = async () => {
   return new JwtGenerator({
     appId: process.env.APP_ID,
     apiKeyId: process.env.APP_KEY_ID,
-    // import your App Key that you got in Virgil Dashboard from string.
     apiKey: virgilCrypto.importPrivateKey(process.env.APP_KEY),
-    // initialize accessTokenSigner that signs users JWTs
     accessTokenSigner: new VirgilAccessTokenSigner(virgilCrypto),
-    // JWT lifetime - 20 minutes (default)
     millisecondsToLive: 20 * 60 * 1000,
   });
 };
 
-const virgilJwt = asyncHandler(async (req, res) => {
+const generatorPromise = getJwtGenerator();
+
+const generateVirgilJwt = asyncHandler(async (req, res) => {
   const generator = await generatorPromise;
   // Get the identity of the user making the request (this assumes the request
   // is authenticated and there is middleware in place that populates the
   // `req.user` property with the user record).
   const virgilJwtToken = generator.generateToken(req.user.identity);
   // Send it to the authorized user
-  res.json({ virgilToken: virgilJwtToken.toString() });
+  res.status(200).json({ virgilToken: virgilJwtToken.toString() });
 });
 
 module.exports = {
@@ -288,5 +287,5 @@ module.exports = {
   removeUser,
   updateUserData,
   joinVault,
-  getJwtGenerator,
+  generateVirgilJwt,
 };

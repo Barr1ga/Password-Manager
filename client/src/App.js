@@ -18,7 +18,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/css/bootstrap.css";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "./features/firebase/firebase";
-import { createUser, setUser, logOut } from "./features/slice/authSlice";
+import {
+  createUser,
+  setUser,
+  logOut,
+  initializeE3Kit,
+} from "./features/slice/authSlice";
 import Logins from "./pages/Logins";
 import { useIdleTimer } from "react-idle-timer";
 import Folder from "./pages/Folder";
@@ -50,6 +55,7 @@ const App = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       dispatch(setUser(user));
       dispatch(changeVault({ vaultUid: user.uid }));
+      dispatch(initializeE3Kit());
 
       if (user?.providerData[0]?.providerId === "google.com") {
         const uid = user.uid;

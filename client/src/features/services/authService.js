@@ -23,8 +23,6 @@ const initializeFunction = async () => {
   return result.data.token;
 };
 
-const eThree = await EThree.initialize(tokenCallback);
-
 const logInWithEmailAndPassword = async (data) => {
   const { email, password } = data;
   return signInWithEmailAndPassword(auth, email, password);
@@ -75,6 +73,18 @@ const getMasterPasswordHint = async (data) => {
   return response.data;
 };
 
+const initializeVirgilJwt = async () => {
+  const eThree = await EThree.initialize(
+    await axios.post(API_URL + "/generateVirgilJwt")
+  );
+  return eThree;
+};
+
+// const generateVirgilJwt = async () => {
+//   const response = await axios.post(API_URL + "/generateVirgilJwt");
+//   return response.data;
+// };
+
 const getVirgilToken = async () => {
   return EThree.initialize(initializeFunction);
 };
@@ -85,7 +95,7 @@ const createUser = async (data) => {
 };
 
 const registerWithEmailAndPassword = async (data) => {
-  const { email, password } = data;
+  const { email, password, eThree } = data;
   await eThree.register();
   return createUserWithEmailAndPassword(auth, email, password);
 };
@@ -108,7 +118,8 @@ const continueWithGoogle = async (data) => {
   return signInWithRedirect(auth, provider);
 };
 
-const removeAccount = async () => {
+const removeAccount = async (data) => {
+  const { eThree } = data;
   await eThree.unregister();
   return deleteUser(auth.currentUser);
 };
@@ -118,7 +129,8 @@ const removeUser = async (uid) => {
   return response.data;
 };
 
-const logOut = async () => {
+const logOut = async (data) => {
+  const { eThree } = data;
   await eThree.cleanup();
   return signOut(auth);
 };
@@ -146,6 +158,8 @@ const userService = {
   removeAccount,
   logOut,
   joinVault,
+  initializeVirgilJwt,
+  // generateVirgilJwt,
 };
 
 export default userService;

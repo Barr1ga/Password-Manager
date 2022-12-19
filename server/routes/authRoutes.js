@@ -10,6 +10,7 @@ const {
   updateUserEmail,
   updateUserPasswordHint,
   joinVault,
+  generateVirgilJwt,
 } = require("../controllers/userController");
 
 router.route("/createUser").post(createUser);
@@ -21,5 +22,6 @@ router.route("/updateUserData").post(updateUserData);
 router.route("/updateUserEmail").post(updateUserEmail);
 router.route("/updateUserPasswordHint").post(updateUserPasswordHint);
 router.route("/joinVault").post(joinVault);
+router.route("/virgil-jwt").post(generateVirgilJwt);
 
 module.exports = router;

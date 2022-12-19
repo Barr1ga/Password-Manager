@@ -43,6 +43,10 @@ const initialState = {
   authRemovedAccountReauthFulfilled: false,
   authRemovedAccountFulfilled: false,
   authRemovedAccountLoading: false,
+
+  // virgil
+  eThree: null,
+  e3KitFulfilled: false,
 };
 
 export const logInWithEmailAndPassword = createAsyncThunk(
@@ -263,6 +267,28 @@ export const logOut = createAsyncThunk("auth/logOut", async (_, ThunkAPI) => {
     return ThunkAPI.rejectWithValue(error);
   }
 });
+
+export const generateVirgilJwt = createAsyncThunk(
+  "auth/generateVirgilJwt",
+  async (data, ThunkAPI) => {
+    try {
+      return await authService.generateVirgilJwt(data);
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const initializeE3Kit = createAsyncThunk(
+  "auth/initializeE3kit",
+  async (_, ThunkAPI) => {
+    try {
+      return await authService.initializeVirgilJwt();
+    } catch (error) {
+      return ThunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 const userSlice = createSlice({
   name: "auth",
@@ -630,6 +656,18 @@ const userSlice = createSlice({
       })
       .addCase(joinVault.rejected, (state, action) => {
         state.authLoading = false;
+        state.authError = true;
+        const { code, message } = action.payload;
+        state.authMessage = message;
+        state.authErrorCode = code;
+      })
+
+      .addCase(initializeE3Kit.fulfilled, (state, action) => {
+        state.eThree = action.payload;
+        state.e3KitFulfilled = true;
+      })
+      .addCase(initializeE3Kit.rejected, (state, action) => {
+        state.authEmailAndPasswordLoading = false;
         state.authError = true;
         const { code, message } = action.payload;
         state.authMessage = message;
