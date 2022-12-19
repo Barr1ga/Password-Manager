@@ -48,6 +48,7 @@ const SecureNote = () => {
             uid: currentVault,
             authorizedFolders: authorizedFolders,
             type: currentPage,
+            isUserOwner
           })
         );
 

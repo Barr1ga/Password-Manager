@@ -47,6 +47,7 @@ const Favorites = () => {
           getFavorites({
             uid: currentVault,
             authorizedFolders: authorizedFolders,
+            isUserOwner,
           })
         );
 

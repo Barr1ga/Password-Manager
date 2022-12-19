@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { createNotification } from "../../../features/slice/notificationSlice.js";
+import { createNotification, resetNotificationQueryFulfilled } from "../../../features/slice/notificationSlice.js";
 import WarningAlert from "../../alerts/WarningAlert.jsx";
 import MembersList from "./MembersList.jsx";
 import SpinnerLoader from "../../SpinnerLoader";
@@ -11,7 +11,7 @@ import { createLog } from "../../../features/slice/auditLogSlice.js";
 const Members = () => {
   const [createLoading, setCreateLoading] = useState(false);
   const { authUser, isUserOwner } = useSelector((state) => state.auth);
-  const { notificationFulfilled } = useSelector((state) => state.notifications);
+  const { notificationFulfilled, notificationError } = useSelector((state) => state.notifications);
 
   const dispatch = useDispatch();
 
@@ -28,11 +28,13 @@ const Members = () => {
   const watchEmail = watch("email");
 
   useEffect(() => {
-    if (notificationFulfilled) {
+    if (notificationFulfilled || notificationError) {
       reset();
       setCreateLoading(false);
+      dispatch(resetNotificationQueryFulfilled());
     }
-  }, [notificationFulfilled]);
+  }, [notificationFulfilled, notificationError]);
+
   const onSubmit = (data) => {
     setCreateLoading(true);
     const notification = {

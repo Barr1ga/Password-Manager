@@ -45,6 +45,7 @@ const Trash = () => {
           getTrash({
             uid: currentVault,
             authorizedFolders: authorizedFolders,
+            isUserOwner,
           })
         );
 

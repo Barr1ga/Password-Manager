@@ -4,54 +4,64 @@ import { selectItem } from "../../features/slice/itemSlice";
 import { Link } from "react-router-dom";
 import { resetSelectedRole } from "../../features/slice/roleSlice";
 import { resetSelectedFolder } from "../../features/slice/folderSlice";
+const CryptoJS = require("crypto-js");
 
 const ItemCard = ({ route, item }) => {
   const dispatch = useDispatch();
   const { selectedItem } = useSelector((state) => state.items);
   const { selectedRole } = useSelector((state) => state.roles);
+  const { currentVault } = useSelector((state) => state.auth);
+
+  var decryptedItem = JSON.parse(JSON.stringify(item));
+  // decrypt
+  for (const key in decryptedItem) {
+    if (key !== 'favorite' && key !== 'trash' && key !== 'folders' && key !== 'type' && key !== 'image') {
+      decryptedItem[key] = CryptoJS.AES.decrypt(decryptedItem[key], currentVault).toString(CryptoJS.enc.Utf8);
+    }
+  }
 
   const handleItemClicked = () => {
     if (selectedRole !== "") {
       dispatch(resetSelectedFolder());
       dispatch(resetSelectedRole());
     }
-    dispatch(selectItem(item.id));
+    dispatch(selectItem(decryptedItem.id));
   };
 
   const handleLinkClicked = () => {
-    window.open(item.domain, "_blank");
+    window.open(decryptedItem.domain, "_blank");
   };
 
   return (
     <Link
-      to={`${route}/${item.id}`}
+      to={`${route}/${decryptedItem.id}`}
       onClick={handleItemClicked}
       className={
-        selectedItem === item.id
+        selectedItem === decryptedItem.id
           ? "password-card password-card-selected"
           : "password-card"
       }
     >
       <div className="head">
-        {item.image !== "" ? (
-          <img src={item.image} alt={item.name} className="icon"></img>
+        {decryptedItem.image !== "" ? (
+          <img src={decryptedItem.image} alt={decryptedItem.name} className="icon"></img>
         ) : (
-          <div className="empty-icon">{item.name.charAt(0)}</div>
+          <div className="empty-icon">{decryptedItem.name.charAt(0)}</div>
         )}
       </div>
       <span className="name">
-        {item.type === "login" ? (
+        {decryptedItem.type === "login" ? (
           <a
-            className={item.trash ? "trashed" : "siteName"}
-            href={item.domain}
+            className={decryptedItem.trash ? "trashed" : "siteName"}
+            href={decryptedItem.domain}
             onClick={handleLinkClicked}
             target="_blank"
             rel="noreferrer"
           >
-            {item.name}
+            {decryptedItem.name}
           </a>
         ) : (
-          <div className={item.trash ? "trashed" : "siteName"}>{item.name}</div>
+          <div className={decryptedItem.trash ? "trashed" : "siteName"}>{decryptedItem.name}</div>
         )}
       </span>
     </Link>

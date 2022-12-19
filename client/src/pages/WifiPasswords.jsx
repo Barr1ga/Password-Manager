@@ -48,6 +48,7 @@ const WifiPasswords = () => {
             uid: currentVault,
             authorizedFolders: authorizedFolders,
             type: currentPage,
+            isUserOwner
           })
         );
 

@@ -42,12 +42,13 @@ const Logins = () => {
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      if (itemGetFlag || itemFetchedOnce) {
+      if ((itemGetFlag || itemFetchedOnce) && authorizedFolders.length !== 0) {
         dispatch(
           getTypeSpecific({
             uid: currentVault,
             authorizedFolders: authorizedFolders,
             type: currentPage,
+            isUserOwner,
           })
         );
 
