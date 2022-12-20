@@ -5,84 +5,148 @@ const vault = db.collection("vaults");
 const LIMIT_QUERY = 1;
 
 const getAllItems = asyncHandler(async (req, res) => {
-  const { uid, authorizedFolders } = req.body;
+  const { uid, authorizedFolders, isUserOwner } = req.body;
 
-  const items = await (
-    await vault
-      .doc(uid)
-      .collection("items")
-      .where("folders", "array-contains-any", authorizedFolders)
-      .where("trash", "==", false)
-      .get()
-  ).docs.map((doc) => {
-    return { ...doc.data(), uid: doc.id };
-  });
+  var items = [];
+
+  if (isUserOwner) {
+    items = await (
+      await vault.doc(uid).collection("items").where("trash", "==", false).get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  } else {
+    items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("folders", "array-contains-any", authorizedFolders)
+        .where("trash", "==", false)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  }
 
   res.status(201).json(items);
 });
 
 const getFavorites = asyncHandler(async (req, res) => {
-  const { uid, authorizedFolders } = req.body;
-  const items = await (
-    await vault
-      .doc(uid)
-      .collection("items")
-      .where("folders", "array-contains-any", authorizedFolders)
-      .where("favorite", "==", true)
-      .where("trash", "==", false)
-      .get()
-  ).docs.map((doc) => {
-    return { ...doc.data(), uid: doc.id };
-  });
+  const { uid, authorizedFolders, isUserOwner } = req.body;
+
+  var items = [];
+
+  if (isUserOwner) {
+    const items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("favorite", "==", true)
+        .where("trash", "==", false)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  } else {
+    const items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("folders", "array-contains-any", authorizedFolders)
+        .where("favorite", "==", true)
+        .where("trash", "==", false)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  }
 
   res.status(201).json(items);
 });
 
 const getTrash = asyncHandler(async (req, res) => {
-  const { uid, authorizedFolders } = req.body;
-  const items = await (
-    await vault
-      .doc(uid)
-      .collection("items")
-      .where("folders", "array-contains-any", authorizedFolders)
-      .where("trash", "==", true)
-      .get()
-  ).docs.map((doc) => {
-    return { ...doc.data(), uid: doc.id };
-  });
+  const { uid, authorizedFolders, isUserOwner } = req.body;
+
+  var items = [];
+
+  if (isUserOwner) {
+    const items = await (
+      await vault.doc(uid).collection("items").where("trash", "==", true).get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  } else {
+    const items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("folders", "array-contains-any", authorizedFolders)
+        .where("trash", "==", true)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  }
 
   res.status(201).json(items);
 });
 
 const getTypeSpecific = asyncHandler(async (req, res) => {
-  const { uid, type, authorizedFolders } = req.body;
-  const items = await (
-    await vault
-      .doc(uid)
-      .collection("items")
-      .where("folders", "array-contains-any", authorizedFolders)
-      .where("type", "==", type)
-      .where("trash", "==", false)
-      .get()
-  ).docs.map((doc) => {
-    return { ...doc.data(), uid: doc.id };
-  });
+  const { uid, type, authorizedFolders, isUserOwner } = req.body;
+
+  var items = [];
+
+  if (isUserOwner) {
+    const items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("type", "==", type)
+        .where("trash", "==", false)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  } else {
+    const items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("folders", "array-contains-any", authorizedFolders)
+        .where("type", "==", type)
+        .where("trash", "==", false)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  }
 
   res.status(201).json(items);
 });
 
 const getFolderSpecific = asyncHandler(async (req, res) => {
-  const { uid, folder } = req.body;
-  const items = await (
-    await vault
-      .doc(uid)
-      .collection("items")
-      .where("folders", "array-contains", folder)
-      .where("trash", "==", false)
-      .get()
-  ).docs.map((doc) => {
-    return { ...doc.data(), uid: doc.id };
-  });
+  const { uid, folder, isUserOwner } = req.body;
+
+  var items = [];
+
+  if (isUserOwner) {
+    const items = await (
+      await vault.doc(uid).collection("items").where("trash", "==", false).get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  } else {
+    const items = await (
+      await vault
+        .doc(uid)
+        .collection("items")
+        .where("folders", "array-contains", folder)
+        .where("trash", "==", false)
+        .get()
+    ).docs.map((doc) => {
+      return { ...doc.data(), uid: doc.id };
+    });
+  }
 
   res.status(201).json(items);
 });

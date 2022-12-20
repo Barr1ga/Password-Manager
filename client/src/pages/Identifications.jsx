@@ -48,6 +48,7 @@ const Identifications = () => {
             uid: currentVault,
             authorizedFolders: authorizedFolders,
             type: currentPage,
+            isUserOwner,
           })
         );
 

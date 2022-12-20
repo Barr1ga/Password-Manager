@@ -45,7 +45,8 @@ const createFolder = asyncHandler(async (req, res) => {
 const updateFolder = asyncHandler(async (req, res) => {
   const { uid, folderUid, folderData } = req.body;
 
-  const result = await vault.doc(uid)
+  const result = await vault
+    .doc(uid)
     .collection("folders")
     .doc(folderUid)
     .update(folderData);
@@ -71,8 +72,12 @@ const updateFolder = asyncHandler(async (req, res) => {
 
 const deleteFolder = asyncHandler(async (req, res) => {
   const { uid, folderUid } = req.body;
-  
-  const result = await vault.doc(uid).collection("folders").doc(folderUid).delete();
+
+  const result = await vault
+    .doc(uid)
+    .collection("folders")
+    .doc(folderUid)
+    .delete();
 
   if (result.empty) {
     res.status(400);

@@ -37,13 +37,15 @@ const AllItems = () => {
 
   useEffect(() => {
     if (!uid && currentVault !== "") {
-      if ((itemGetFlag || itemFetchedOnce) && authorizedFolders.length !== 0) {
-        console.log(authorizedFolders);
-
+      if (
+        (itemGetFlag || itemFetchedOnce) &&
+        (isUserOwner || authorizedFolders.length !== 0)
+      ) {
         dispatch(
           getAllItems({
             uid: currentVault,
             authorizedFolders: authorizedFolders,
+            isUserOwner,
           })
         );
 

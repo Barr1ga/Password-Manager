@@ -48,6 +48,7 @@ const Card = () => {
             uid: currentVault,
             authorizedFolders: authorizedFolders,
             type: currentPage,
+            isUserOwner,
           })
         );
 

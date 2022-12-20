@@ -20,6 +20,7 @@ import {
 } from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
 import { createLog } from "../../features/slice/auditLogSlice";
+const CryptoJS = require("crypto-js");
 
 const Logins = ({
   currentImage,
@@ -108,6 +109,7 @@ const Logins = ({
     if (data.uid) {
       delete data.uid;
     }
+
     let newData = {
       uid: authUser.uid,
       itemData: {
@@ -119,6 +121,24 @@ const Logins = ({
         trash: false,
       },
     };
+
+    // encrypt
+    for (const key in newData.itemData) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image"
+      ) {
+        newData.itemData[key] = CryptoJS.AES.encrypt(
+          newData.itemData[key],
+          authUser.uid
+        ).toString();
+      }
+    }
+
+    console.log(newData);
 
     if (method === "create") {
       setCreateLoading(true);
@@ -146,6 +166,7 @@ const Logins = ({
 
   const handleUpdateItemData = () => {
     setUpdateLoading(true);
+
     dispatch(updateItem(formData));
 
     const auditData = {
@@ -206,7 +227,7 @@ const Logins = ({
       setConfirmClose(false);
     }
   }
-console.log(isNotOwner)
+  console.log(isNotOwner);
   return (
     <>
       {!showPasswordGenerator && (
@@ -326,10 +347,12 @@ console.log(isNotOwner)
                     ></HiOutlineEyeOff>
                   )}
 
-                  {!isNotOwner && <HiOutlineRefresh
-                    className="generate-password"
-                    onClick={() => setShowPasswordGenerator(true)}
-                  ></HiOutlineRefresh>}
+                  {!isNotOwner && (
+                    <HiOutlineRefresh
+                      className="generate-password"
+                      onClick={() => setShowPasswordGenerator(true)}
+                    ></HiOutlineRefresh>
+                  )}
                 </div>
               </span>
               {errors.password && (

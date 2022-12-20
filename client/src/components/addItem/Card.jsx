@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RiArrowDownSLine, RiArrowUpSLine } from "react-icons/ri";
 import SpinnerLoader from "../SpinnerLoader";
 import { createLog } from "../../features/slice/auditLogSlice";
+const CryptoJS = require("crypto-js");
 
 const expirationMonths = [
   "01 - January",
@@ -158,6 +159,22 @@ const Card = ({
       },
     };
 
+    // encrypt
+    for (const key in newData.itemData) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image"
+      ) {
+        newData.itemData[key] = CryptoJS.AES.encrypt(
+          newData.itemData[key],
+          authUser.uid
+        ).toString();
+      }
+    }
+
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createItem(newData));
@@ -168,7 +185,7 @@ const Card = ({
           actorUid: authUser.uid,
           action: "item/create",
           description: "created the item",
-          benefactor: newData.itemData.name,
+          benefactor: data.name,
           date: new Date(),
         },
       };

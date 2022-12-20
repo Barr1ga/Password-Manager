@@ -46,6 +46,7 @@ const Folder = () => {
           getFolderSpecific({
             uid: currentVault,
             folder,
+            isUserOwner,
           })
         );
 

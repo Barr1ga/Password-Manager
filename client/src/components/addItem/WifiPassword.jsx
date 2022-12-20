@@ -21,6 +21,7 @@ import {
 } from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
 import { createLog } from "../../features/slice/auditLogSlice";
+const CryptoJS = require("crypto-js");
 
 const WifiPassword = ({
   currentImage,
@@ -113,6 +114,22 @@ const WifiPassword = ({
         trash: false,
       },
     };
+
+    // encrypt
+    for (const key in newData.itemData) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image"
+      ) {
+        newData.itemData[key] = CryptoJS.AES.encrypt(
+          newData.itemData[key],
+          authUser.uid
+        ).toString();
+      }
+    }
 
     if (method === "create") {
       setCreateLoading(true);

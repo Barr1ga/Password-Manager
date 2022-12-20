@@ -13,6 +13,7 @@ import {
 } from "../../features/slice/itemSlice";
 import SpinnerLoader from "../SpinnerLoader";
 import { createLog } from "../../features/slice/auditLogSlice";
+const CryptoJS = require("crypto-js");
 
 const SecureNote = ({
   currentImage,
@@ -100,6 +101,23 @@ const SecureNote = ({
         trash: false,
       },
     };
+
+    // encrypt
+    for (const key in newData.itemData) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image"
+      ) {
+        newData.itemData[key] = CryptoJS.AES.encrypt(
+          newData.itemData[key],
+          authUser.uid
+        ).toString();
+      }
+    }
+
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createItem(newData));
@@ -110,7 +128,7 @@ const SecureNote = ({
           actorUid: authUser.uid,
           action: "item/create",
           description: "created the item",
-          benefactor: newData.itemData.name,
+          benefactor: data.name,
           date: new Date(),
         },
       };
@@ -283,95 +301,99 @@ const SecureNote = ({
             maxRows={5}
           />
         </div>
-        {!isNotOwner && <>
-          <div className="form-group form-group-horizontal">
-            <label>Mark this password as favorite</label>
-            <div type="button" onClick={handleFavorite}>
-              {favorite ? (
-                <HiStar className="form-favorited"></HiStar>
-              ) : (
-                <HiStar className="form-unfavorited"></HiStar>
-              )}
-            </div>
-          </div>
-          <div className="form-group">
-            {method === "update" ? (
-              <>
-                <Button
-                  type="submit"
-                  className="btn-dark btn-long btn-with-icon"
-                  disabled={
-                    (!isDirty || !isValid) &&
-                    favorite === defaultValues.favorite &&
-                    assignedFolders === defaultValues.folders
-                  }
-                >
-                  <HiOutlinePencil></HiOutlinePencil>Update Item
-                </Button>
-                <Modal
-                  size="sm"
-                  show={showConfirmationModal}
-                  onHide={handleClose}
-                  backdrop="static"
-                  keyboard={false}
-                  centered
-                >
-                  <Modal.Body className="confirmation-modal-body">
-                    <div className="confirmation-modal">
-                      <h5>
-                        {"Are you sure you want to save and update this item?"}
-                      </h5>
-                      <small>
-                        {
-                          "This will update the information you use for this item."
-                        }
-                      </small>
-                      <div className="options gap-10">
-                        <Button
-                          type="button"
-                          className="btn-secondary btn-long"
-                          onClick={handleClose}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          onClick={handleUpdateItemData}
-                          type="button"
-                          className="btn-dark btn-long"
-                        >
-                          {updateLoading ? (
-                            <SpinnerLoader></SpinnerLoader>
-                          ) : (
-                            <>Save</>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </Modal.Body>
-                </Modal>
-              </>
-            ) : (
-              <>
-                {createLoading ? (
-                  <Button
-                    type="button"
-                    className="btn-dark btn-long btn-with-icon"
-                  >
-                    <SpinnerLoader></SpinnerLoader>
-                  </Button>
+        {!isNotOwner && (
+          <>
+            <div className="form-group form-group-horizontal">
+              <label>Mark this password as favorite</label>
+              <div type="button" onClick={handleFavorite}>
+                {favorite ? (
+                  <HiStar className="form-favorited"></HiStar>
                 ) : (
+                  <HiStar className="form-unfavorited"></HiStar>
+                )}
+              </div>
+            </div>
+            <div className="form-group">
+              {method === "update" ? (
+                <>
                   <Button
                     type="submit"
                     className="btn-dark btn-long btn-with-icon"
-                    disabled={!isDirty || !isValid}
+                    disabled={
+                      (!isDirty || !isValid) &&
+                      favorite === defaultValues.favorite &&
+                      assignedFolders === defaultValues.folders
+                    }
                   >
-                    <HiPlus></HiPlus>Add Item
+                    <HiOutlinePencil></HiOutlinePencil>Update Item
                   </Button>
-                )}
-              </>
-            )}
-          </div>
-        </>}
+                  <Modal
+                    size="sm"
+                    show={showConfirmationModal}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                    centered
+                  >
+                    <Modal.Body className="confirmation-modal-body">
+                      <div className="confirmation-modal">
+                        <h5>
+                          {
+                            "Are you sure you want to save and update this item?"
+                          }
+                        </h5>
+                        <small>
+                          {
+                            "This will update the information you use for this item."
+                          }
+                        </small>
+                        <div className="options gap-10">
+                          <Button
+                            type="button"
+                            className="btn-secondary btn-long"
+                            onClick={handleClose}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            onClick={handleUpdateItemData}
+                            type="button"
+                            className="btn-dark btn-long"
+                          >
+                            {updateLoading ? (
+                              <SpinnerLoader></SpinnerLoader>
+                            ) : (
+                              <>Save</>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </Modal.Body>
+                  </Modal>
+                </>
+              ) : (
+                <>
+                  {createLoading ? (
+                    <Button
+                      type="button"
+                      className="btn-dark btn-long btn-with-icon"
+                    >
+                      <SpinnerLoader></SpinnerLoader>
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      className="btn-dark btn-long btn-with-icon"
+                      disabled={!isDirty || !isValid}
+                    >
+                      <HiPlus></HiPlus>Add Item
+                    </Button>
+                  )}
+                </>
+              )}
+            </div>
+          </>
+        )}
       </form>
     </>
   );
