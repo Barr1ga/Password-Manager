@@ -1,0 +1,53 @@
+{
+  "Users": [
+    {
+      "eail": "...",
+      "image": "...",
+      "masterPasswordHint": "...",
+      "status": "...",
+      "username": "...",
+      "vaults": ["...", "...", "..."],
+      "viewing": "..."
+    }
+  ],
+  "vaults": [
+    {
+      "auditLogs": [
+        {
+          "action": "...",
+          "actorUid": "...",
+          "benefactor": "...",
+          "date": "...",
+          "desription": "..."
+        }
+      ],
+      "folders": [
+        {
+          "name": "..."
+        }
+      ],
+      "items": [
+        {
+          "name": "...",
+          "favorite": "...",
+          "folders": ["...", "...", "..."],
+          "image": "...",
+          "trash": "...",
+          "type": "..."
+        }
+      ],
+      "members": [
+        {
+          "roleUids": ["...", "...", "..."]
+        }
+      ],
+      "roles": [
+        {
+          "abbreviation": "...",
+          "color": "...",
+          "name": "..."
+        }
+      ]
+    }
+  ]
+}
