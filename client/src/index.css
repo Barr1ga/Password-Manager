@@ -802,7 +802,7 @@ input:placeholder-shown {
 .form-pills {
   display: flex;
   flex-wrap: wrap;
-  align-items: start;
+  align-items: flex-start;
   gap: 5px;
   color: #ffffff;
   border: 1px solid transparent;
@@ -2240,7 +2240,7 @@ textarea {
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  align-items: start;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 2px;
   /* margin: 10px 0; */
@@ -3266,7 +3266,7 @@ textarea {
   min-width: 40px;
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   transition: 0.2s ease-out 0s;
 }
 
