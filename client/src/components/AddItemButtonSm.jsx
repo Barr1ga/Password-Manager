@@ -55,7 +55,6 @@ const AddItemModal = () => {
     }
   }, [itemCreatedFullfilled]);
 
-
   return (
     <>
       <div onClick={() => setModalShow(true)}>

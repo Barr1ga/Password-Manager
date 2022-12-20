@@ -1,11 +1,7 @@
 import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
-import {
-  HiOutlineDuplicate,
-  HiMinusSm,
-  HiPlusSm,
-} from "react-icons/hi";
+import { HiOutlineDuplicate, HiMinusSm, HiPlusSm } from "react-icons/hi";
 import Tooltip from "react-bootstrap/Tooltip";
 import Overlay from "react-bootstrap/Overlay";
 import WarningAlert from "./alerts/WarningAlert";
@@ -18,12 +14,7 @@ const PasswordGenerator = ({ method, watchPassword, handleUsePassword }) => {
   const [generatedEmpty, setGeneratedEmpty] = useState(false);
   const clipBoard = useRef(null);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-  } = useForm({
+  const { register, handleSubmit, setValue, watch } = useForm({
     mode: "all",
     defaultValues: {
       password: watchPassword,

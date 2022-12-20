@@ -17,9 +17,7 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState(currentImage);
 
-  const { brandLoading, brandPhotoLink } = useSelector(
-    (state) => state.items
-  );
+  const { brandLoading, brandPhotoLink } = useSelector((state) => state.items);
 
   const {
     register,
@@ -222,7 +220,9 @@ const UploadImage = ({ setCurrentImage, mode, currentImage }) => {
               }
             ></ConfirmModal>
           ) : (
-            <Button onClick={handleUseImage} className="btn-dark btn-long">Save Changes</Button>
+            <Button onClick={handleUseImage} className="btn-dark btn-long">
+              Save Changes
+            </Button>
           )}
         </Modal.Body>
       </Modal>
