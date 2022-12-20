@@ -138,8 +138,6 @@ const Logins = ({
       }
     }
 
-    console.log(newData);
-
     if (method === "create") {
       setCreateLoading(true);
       dispatch(createItem(newData));
@@ -212,7 +210,7 @@ const Logins = ({
   let filteredFolders = folders.filter(
     (folder) => !assignedFolders.includes(folder.name)
   );
-  console.log(filteredFolders);
+
   filteredFolders =
     search !== ""
       ? filteredFolders.filter((folder) =>
@@ -227,7 +225,7 @@ const Logins = ({
       setConfirmClose(false);
     }
   }
-  console.log(isNotOwner);
+
   return (
     <>
       {!showPasswordGenerator && (

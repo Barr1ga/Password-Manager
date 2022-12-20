@@ -15,22 +15,6 @@ const MembersList = ({
   const { members } = useSelector((state) => state.members);
   const [focused, setFocused] = useState(false);
 
-  // P = 1,2,3
-  // A = 1,2,3
-  // U =
-  // console.log("test");
-  // console.log(
-  //   "P",
-  //   preAssignedMembers.map((x) => x.uid)
-  // );
-  // console.log(
-  //   "A",
-  //   assignedMembers.map((x) => x.uid)
-  // );
-  // console.log(
-  //   "U",
-  //   unAssignedMembers.map((x) => x.uid)
-  // );
   const handleSelectMember = (member) => {
     // add
     if (!assignedMembers.includes(member)) {
@@ -111,7 +95,7 @@ const MembersList = ({
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               className="form-control-borderless"
-              autocomplete="off"
+              autoComplete="off"
             />
           </div>
           {focused}

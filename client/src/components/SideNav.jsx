@@ -40,14 +40,15 @@ const SideNav = () => {
   const { isUserOwner } = useSelector((state) => state.auth);
 
   const [notificationBubbles, setNotificationBubbles] = useState({
-    allItems: true,
-    favorites: true,
+    allItems: false,
+    favorites: false,
     trash: false,
     sharingCenter: false,
     myAccount: false,
     members: false,
     roles: false,
     notifications: false,
+    auditLog: false,
   });
 
   useEffect(() => {
@@ -313,7 +314,10 @@ const SideNav = () => {
                   <div className="sidenav-button">
                     <HiOutlineLogout></HiOutlineLogout>{" "}
                     <p>
-                      Log Out {true && <span className="notif-ball"></span>}
+                      Log Out{" "}
+                      {notificationBubbles.auditLog && (
+                        <span className="notif-ball"></span>
+                      )}
                     </p>
                   </div>
                 }

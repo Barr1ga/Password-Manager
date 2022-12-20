@@ -41,18 +41,21 @@ const ItemInformation = ({ currentItem }) => {
 
   var decryptedItem = JSON.parse(JSON.stringify(currentItem));
   // decrypt
-  for (const key in decryptedItem) {
-    if (
-      key !== "favorite" &&
-      key !== "trash" &&
-      key !== "folders" &&
-      key !== "type" &&
-      key !== "image"
-    ) {
-      decryptedItem[key] = CryptoJS.AES.decrypt(
-        decryptedItem[key],
-        currentVault
-      ).toString(CryptoJS.enc.Utf8);
+  if (decryptedItem) {
+    for (const key in decryptedItem) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image" &&
+        key !== "uid"
+      ) {
+        decryptedItem[key] = CryptoJS.AES.decrypt(
+          decryptedItem[key],
+          currentVault
+        ).toString(CryptoJS.enc.Utf8);
+      }
     }
   }
 
@@ -61,9 +64,9 @@ const ItemInformation = ({ currentItem }) => {
   const [showTypeOptions, setShowTypeOptions] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [restoreLoading, setRestoreLoading] = useState(false);
-  const [currentImage, setCurrentImage] = useState(decryptedItem.image);
+  const [currentImage, setCurrentImage] = useState(decryptedItem?.image);
   const [currentImageLetter, setCurrentImageLetter] = useState(
-    decryptedItem.name.charAt(0)
+    decryptedItem?.name.charAt(0)
   );
   const { authUser, isUserOwner } = useSelector((state) => state.auth);
   const { itemFulfilled, itemError, itemDeletedFullfilled } = useSelector(
@@ -90,8 +93,8 @@ const ItemInformation = ({ currentItem }) => {
 
   useEffect(() => {
     setShowTypeOptions(false);
-    setSelectedType(decryptedItem.type);
-    setCurrentImage(decryptedItem.image);
+    setSelectedType(decryptedItem?.type);
+    setCurrentImage(decryptedItem?.image);
   }, [decryptedItem]);
 
   useEffect(() => {
@@ -103,9 +106,9 @@ const ItemInformation = ({ currentItem }) => {
   }, [itemFulfilled, itemError]);
 
   const handleDeleteItem = () => {
-    if (decryptedItem.trash) {
+    if (decryptedItem?.trash) {
       setDeleteLoading(true);
-      dispatch(deleteItem({ uid: authUser.uid, itemUid: decryptedItem.uid }));
+      dispatch(deleteItem({ uid: authUser.uid, itemUid: decryptedItem?.uid }));
 
       const auditData = {
         uid: authUser.uid,
@@ -113,17 +116,17 @@ const ItemInformation = ({ currentItem }) => {
           actorUid: authUser.uid,
           action: "item/hardDelete",
           description: "permanently deleted the item",
-          benefactor: decryptedItem.name,
+          benefactor: decryptedItem?.name,
           date: new Date(),
         },
       };
       dispatch(createLog(auditData));
     }
 
-    if (!decryptedItem.trash) {
+    if (!decryptedItem?.trash) {
       const newData = {
         uid: authUser.uid,
-        itemUid: decryptedItem.uid,
+        itemUid: decryptedItem?.uid,
         itemData: {
           trash: true,
         },
@@ -138,7 +141,7 @@ const ItemInformation = ({ currentItem }) => {
           actorUid: authUser.uid,
           action: "item/softDelete",
           description: "deleted the item",
-          benefactor: decryptedItem.name,
+          benefactor: decryptedItem?.name,
           date: new Date(),
         },
       };
@@ -149,7 +152,7 @@ const ItemInformation = ({ currentItem }) => {
   const handleRestoreItem = () => {
     const newData = {
       uid: authUser.uid,
-      itemUid: decryptedItem.uid,
+      itemUid: decryptedItem?.uid,
       itemData: {
         trash: false,
       },
@@ -164,7 +167,7 @@ const ItemInformation = ({ currentItem }) => {
         actorUid: authUser.uid,
         action: "item/restore",
         description: "restored the item",
-        benefactor: decryptedItem.name,
+        benefactor: decryptedItem?.name,
         date: new Date(),
       },
     };
@@ -231,7 +234,7 @@ const ItemInformation = ({ currentItem }) => {
         <div className="item-image">
           <div className="image">
             {currentImage !== "" ? (
-              <img src={currentImage} alt={decryptedItem.name}></img>
+              <img src={currentImage} alt={decryptedItem?.name}></img>
             ) : (
               <div className="default">{currentImageLetter}</div>
             )}
@@ -368,7 +371,7 @@ const ItemInformation = ({ currentItem }) => {
             setShowPasswordGenerator={setShowPasswordGenerator}
           ></WifiPassword>
         )}
-        {decryptedItem.trash && (
+        {decryptedItem?.trash && (
           <div className="form-group">
             <Button
               type="submit"
@@ -387,7 +390,7 @@ const ItemInformation = ({ currentItem }) => {
         )}
         {isUserOwner && (
           <div className="form-group">
-            {decryptedItem.trash ? (
+            {decryptedItem?.trash ? (
               <>
                 <ConfirmModal
                   proceedInteraction={

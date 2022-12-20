@@ -107,7 +107,15 @@ const Header = () => {
       dispatch(setIsUserOwner(authUser.uid === ownerUserUid));
       dispatch(setAuthorizedFolders(authorizedfolders));
     }
-  }, [roles, members, folders, currentVault]);
+  }, [
+    roles,
+    members,
+    folders,
+    memberFulfilled,
+    roleFulfilled,
+    folderFulfilled,
+    currentVault,
+  ]);
 
   return (
     <>

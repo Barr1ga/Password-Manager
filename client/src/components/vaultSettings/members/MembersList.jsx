@@ -39,8 +39,8 @@ const MembersList = () => {
             {filteredMembers.length} Members
           </span>
           {memberLoading &&
-            [...Array(lazyMemberCount)].map((member) => (
-              <MemberLazyLoad></MemberLazyLoad>
+            [...Array(lazyMemberCount)].map((member, idx) => (
+              <MemberLazyLoad key={idx}></MemberLazyLoad>
             ))}
 
           {!memberLoading &&

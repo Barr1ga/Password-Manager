@@ -384,7 +384,7 @@ const Register = ({ handleShowLogin }) => {
                 </>
               )}
 
-              {!showRegistrationForms && (
+              {/* {!showRegistrationForms && (
                 <>
                   <div className="form-group">
                     <small className="login-registration-options-separator">
@@ -412,7 +412,7 @@ const Register = ({ handleShowLogin }) => {
                     </Button>
                   </div>
                 </>
-              )}
+              )} */}
               <small className="form-group">
                 Dont have an account?{" "}
                 <button className="btn-link" onClick={handleShowLogin}>

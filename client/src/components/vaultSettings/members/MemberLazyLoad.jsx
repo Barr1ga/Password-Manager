@@ -15,10 +15,14 @@ const MemberLazyLoad = () => {
           <p className="email" style={{ width: `${emailLength}px` }}></p>
         </span>
         <div className="roles">
-          {[...Array(roleCount)].map((role) => {
+          {[...Array(roleCount)].map((role, idx) => {
             const roleLength = randomIntFromInterval(30, 60);
             return (
-              <div className="role" style={{ width: `${roleLength}px` }}></div>
+              <div
+                key={idx}
+                className="role"
+                style={{ width: `${roleLength}px` }}
+              ></div>
             );
           })}
           <div className="button"></div>

@@ -48,23 +48,21 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log("test");
-      console.log(user);
       dispatch(setUser(user));
       dispatch(changeVault({ vaultUid: user.uid }));
 
-      if (user?.providerData[0]?.providerId === "google.com") {
-        const uid = user.uid;
-        dispatch(
-          createUser({
-            uid,
-            email: user.email,
-            username,
-            masterPasswordHint,
-            image: user.photoURL ? user.photoURL : "",
-          })
-        );
-      }
+      // if (user?.providerData[0]?.providerId === "google.com") {
+      //   const uid = user.uid;
+      //   dispatch(
+      //     createUser({
+      //       uid,
+      //       email: user.email,
+      //       username: user.username,
+      //       masterPasswordHint,
+      //       image: "",
+      //     })
+      //   );
+      // }
     });
 
     return unsubscribe;

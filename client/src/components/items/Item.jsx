@@ -16,18 +16,21 @@ const PasswordItem = ({ route, item }) => {
 
   var decryptedItem = JSON.parse(JSON.stringify(item));
   // decrypt
-  for (const key in decryptedItem) {
-    if (
-      key !== "favorite" &&
-      key !== "trash" &&
-      key !== "folders" &&
-      key !== "type" &&
-      key !== "image"
-    ) {
-      decryptedItem[key] = CryptoJS.AES.decrypt(
-        decryptedItem[key],
-        currentVault
-      ).toString(CryptoJS.enc.Utf8);
+  if (decryptedItem) {
+    for (const key in decryptedItem) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image" &&
+        key !== "uid"
+      ) {
+        decryptedItem[key] = CryptoJS.AES.decrypt(
+          decryptedItem[key],
+          currentVault
+        ).toString(CryptoJS.enc.Utf8);
+      }
     }
   }
 
@@ -36,21 +39,21 @@ const PasswordItem = ({ route, item }) => {
       dispatch(resetSelectedFolder());
       dispatch(resetSelectedRole());
     }
-    dispatch(selectItem(item.uid));
+    dispatch(selectItem(item?.uid));
   };
 
   const handleLinkClicked = () => {
-    window.open("https://" + decryptedItem.domain, "_blank");
+    window.open("https://" + decryptedItem?.domain, "_blank");
   };
 
-  const title = decryptedItem.name;
+  const title = decryptedItem?.name;
 
   let subTitle = "";
-  if (decryptedItem.type === "card") {
+  if (decryptedItem?.type === "card") {
     subTitle = decryptedItem?.cardHolderName;
   }
 
-  if (decryptedItem.type === "identification") {
+  if (decryptedItem?.type === "identification") {
     subTitle =
       decryptedItem?.firstName +
       " " +
@@ -59,57 +62,57 @@ const PasswordItem = ({ route, item }) => {
       decryptedItem?.lastName;
   }
 
-  if (decryptedItem.type === "login") {
-    subTitle = decryptedItem.username;
+  if (decryptedItem?.type === "login") {
+    subTitle = decryptedItem?.username;
   }
 
-  if (decryptedItem.type === "secureNote") {
+  if (decryptedItem?.type === "secureNote") {
     subTitle = "";
   }
 
-  if (decryptedItem.type === "wifiPassword") {
+  if (decryptedItem?.type === "wifiPassword") {
     subTitle = decryptedItem?.ssid;
   }
 
   return (
     <>
       <Link
-        to={`${route}/${decryptedItem.uid}`}
+        to={`${route}/${decryptedItem?.uid}`}
         onClick={handleItemClicked}
         className={
-          selectedItem === decryptedItem.uid
+          selectedItem === decryptedItem?.uid
             ? "password-item password-item-selected gap-10 padding-side"
             : "password-item gap-10 padding-side"
         }
       >
-        {decryptedItem.image !== "" ? (
+        {decryptedItem?.image !== "" ? (
           <img
-            src={decryptedItem.image}
-            alt={decryptedItem.name}
+            src={decryptedItem?.image}
+            alt={decryptedItem?.name}
             className="icon"
           ></img>
         ) : (
-          <div className="empty-icon">{decryptedItem.name.charAt(0)}</div>
+          <div className="empty-icon">{decryptedItem?.name.charAt(0)}</div>
         )}
 
         <div className="name standard-stack">
           <span>
-            {decryptedItem.type === "login" ? (
+            {decryptedItem?.type === "login" ? (
               <div
                 onClick={handleLinkClicked}
-                className={decryptedItem.trash ? "trashed" : "siteName"}
+                className={decryptedItem?.trash ? "trashed" : "siteName"}
               >
                 {title}
               </div>
             ) : (
-              <div className={decryptedItem.trash ? "trashed" : "siteName"}>
+              <div className={decryptedItem?.trash ? "trashed" : "siteName"}>
                 {title}
               </div>
             )}
-            {decryptedItem.type === "login" && (
+            {decryptedItem?.type === "login" && (
               <HiLink className="link-icon"></HiLink>
             )}
-            {decryptedItem.favorite && <HiStar className="favorited"></HiStar>}
+            {decryptedItem?.favorite && <HiStar className="favorited"></HiStar>}
           </span>
           <small>{subTitle}</small>
         </div>

@@ -37,7 +37,7 @@ const getFavorites = asyncHandler(async (req, res) => {
   var items = [];
 
   if (isUserOwner) {
-    const items = await (
+    items = await (
       await vault
         .doc(uid)
         .collection("items")
@@ -48,7 +48,7 @@ const getFavorites = asyncHandler(async (req, res) => {
       return { ...doc.data(), uid: doc.id };
     });
   } else {
-    const items = await (
+    items = await (
       await vault
         .doc(uid)
         .collection("items")
@@ -70,13 +70,13 @@ const getTrash = asyncHandler(async (req, res) => {
   var items = [];
 
   if (isUserOwner) {
-    const items = await (
+    items = await (
       await vault.doc(uid).collection("items").where("trash", "==", true).get()
     ).docs.map((doc) => {
       return { ...doc.data(), uid: doc.id };
     });
   } else {
-    const items = await (
+    items = await (
       await vault
         .doc(uid)
         .collection("items")
@@ -97,7 +97,7 @@ const getTypeSpecific = asyncHandler(async (req, res) => {
   var items = [];
 
   if (isUserOwner) {
-    const items = await (
+    items = await (
       await vault
         .doc(uid)
         .collection("items")
@@ -108,7 +108,7 @@ const getTypeSpecific = asyncHandler(async (req, res) => {
       return { ...doc.data(), uid: doc.id };
     });
   } else {
-    const items = await (
+    items = await (
       await vault
         .doc(uid)
         .collection("items")
@@ -127,26 +127,16 @@ const getTypeSpecific = asyncHandler(async (req, res) => {
 const getFolderSpecific = asyncHandler(async (req, res) => {
   const { uid, folder, isUserOwner } = req.body;
 
-  var items = [];
-
-  if (isUserOwner) {
-    const items = await (
-      await vault.doc(uid).collection("items").where("trash", "==", false).get()
-    ).docs.map((doc) => {
-      return { ...doc.data(), uid: doc.id };
-    });
-  } else {
-    const items = await (
-      await vault
-        .doc(uid)
-        .collection("items")
-        .where("folders", "array-contains", folder)
-        .where("trash", "==", false)
-        .get()
-    ).docs.map((doc) => {
-      return { ...doc.data(), uid: doc.id };
-    });
-  }
+  const items = await (
+    await vault
+      .doc(uid)
+      .collection("items")
+      .where("folders", "array-contains", folder)
+      .where("trash", "==", false)
+      .get()
+  ).docs.map((doc) => {
+    return { ...doc.data(), uid: doc.id };
+  });
 
   res.status(201).json(items);
 });

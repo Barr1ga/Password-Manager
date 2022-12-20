@@ -39,7 +39,11 @@ const LoginRegistration = ({ loggedOutInactive, setLoggedOutInactive }) => {
   return (
     <>
       {showLogin ? (
-        <Login loggedOutInactive={loggedOutInactive} setLoggedOutInactive={setLoggedOutInactive} handleShowRegistration={handleShowRegistration}></Login>
+        <Login
+          loggedOutInactive={loggedOutInactive}
+          setLoggedOutInactive={setLoggedOutInactive}
+          handleShowRegistration={handleShowRegistration}
+        ></Login>
       ) : (
         <Register handleShowLogin={handleShowLogin}></Register>
       )}

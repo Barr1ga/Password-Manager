@@ -248,7 +248,7 @@ const Login = ({
                     )}
                   </Button>
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <small className="login-registration-options-separator">
                     OR
                   </small>
@@ -272,7 +272,7 @@ const Login = ({
                       </>
                     )}
                   </Button>
-                </div>
+                </div> */}
                 <small>
                   Dont have an account?{" "}
                   <button className="btn-link" onClick={handleShowRegistration}>

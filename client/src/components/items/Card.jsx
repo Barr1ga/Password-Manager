@@ -14,18 +14,21 @@ const ItemCard = ({ route, item }) => {
 
   var decryptedItem = JSON.parse(JSON.stringify(item));
   // decrypt
-  for (const key in decryptedItem) {
-    if (
-      key !== "favorite" &&
-      key !== "trash" &&
-      key !== "folders" &&
-      key !== "type" &&
-      key !== "image"
-    ) {
-      decryptedItem[key] = CryptoJS.AES.decrypt(
-        decryptedItem[key],
-        currentVault
-      ).toString(CryptoJS.enc.Utf8);
+  if (decryptedItem) {
+    for (const key in decryptedItem) {
+      if (
+        key !== "favorite" &&
+        key !== "trash" &&
+        key !== "folders" &&
+        key !== "type" &&
+        key !== "image" &&
+        key !== "uid"
+      ) {
+        decryptedItem[key] = CryptoJS.AES.decrypt(
+          decryptedItem[key],
+          currentVault
+        ).toString(CryptoJS.enc.Utf8);
+      }
     }
   }
 
@@ -34,48 +37,48 @@ const ItemCard = ({ route, item }) => {
       dispatch(resetSelectedFolder());
       dispatch(resetSelectedRole());
     }
-    dispatch(selectItem(decryptedItem.id));
+    dispatch(selectItem(item.id));
   };
 
   const handleLinkClicked = () => {
-    window.open(decryptedItem.domain, "_blank");
+    window.open(decryptedItem?.domain, "_blank");
   };
 
   return (
     <Link
-      to={`${route}/${decryptedItem.id}`}
+      to={`${route}/${decryptedItem?.id}`}
       onClick={handleItemClicked}
       className={
-        selectedItem === decryptedItem.id
+        selectedItem === decryptedItem?.id
           ? "password-card password-card-selected"
           : "password-card"
       }
     >
       <div className="head">
-        {decryptedItem.image !== "" ? (
+        {decryptedItem?.image !== "" ? (
           <img
-            src={decryptedItem.image}
-            alt={decryptedItem.name}
+            src={decryptedItem?.image}
+            alt={decryptedItem?.name}
             className="icon"
           ></img>
         ) : (
-          <div className="empty-icon">{decryptedItem.name.charAt(0)}</div>
+          <div className="empty-icon">{decryptedItem?.name.charAt(0)}</div>
         )}
       </div>
       <span className="name">
-        {decryptedItem.type === "login" ? (
+        {decryptedItem?.type === "login" ? (
           <a
-            className={decryptedItem.trash ? "trashed" : "siteName"}
-            href={decryptedItem.domain}
+            className={decryptedItem?.trash ? "trashed" : "siteName"}
+            href={decryptedItem?.domain}
             onClick={handleLinkClicked}
             target="_blank"
             rel="noreferrer"
           >
-            {decryptedItem.name}
+            {decryptedItem?.name}
           </a>
         ) : (
-          <div className={decryptedItem.trash ? "trashed" : "siteName"}>
-            {decryptedItem.name}
+          <div className={decryptedItem?.trash ? "trashed" : "siteName"}>
+            {decryptedItem?.name}
           </div>
         )}
       </span>
