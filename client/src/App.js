@@ -48,6 +48,8 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log("test");
+      console.log(user);
       dispatch(setUser(user));
       dispatch(changeVault({ vaultUid: user.uid }));
 

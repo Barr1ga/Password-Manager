@@ -19,4 +19,8 @@ export const store = configureStore({
     folders: folderReducer,
     notifications: notificationsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
